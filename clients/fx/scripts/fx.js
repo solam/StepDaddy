@@ -6,7 +6,8 @@
     var _conn;
     var _padsAreInitialized = false;
     var container = document.getElementById('modifiers');
-    var modifiers = ['Cutoff' , 'Playback Rate'];
+    //var modifiers = ['Cutoff' , 'Playback Rate'];
+    var modifiers = ['Cutoff' , 'Playback Rate']; // , 'Tempo'  
 
     var _onModifierChange = function(data) {
       _conn.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
@@ -17,6 +18,12 @@
         var pad = new mixr.ui.FxPad(l, modifiers[l], container).initialize();
         pad.on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange);
       }
+        var input = new mixr.ui.Input(2, 'Tempo', container).initialize();
+        input.on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange);
+
+        var input2 = new mixr.ui.Input(3, 'ins 01 volume', container).initialize();
+        input2.on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange);
+
     };
 
     var _onRegistered = function(data) {

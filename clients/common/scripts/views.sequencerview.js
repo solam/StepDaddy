@@ -49,22 +49,35 @@
 
 
     this.addInstrument = function(instrument) {
-      for (var i = 0; i < instrument.tracks.length; i++) {
-        _addTrack(instrument, instrument.tracks[i]);
-      }
+
+
+    //<tr data-instrument-id="0"
+
+      $instrumentTrack = $('[data-instrument-id="' + instrument.id + '"]');
+
+      // this code introduces 'saute mouton' effect between channel notes as displayed on seq view
+      if ($instrumentTrack.length > 0) {
+
+      } else { // create instrument tracks only if seq view does not already contain instrument tracks
+
+        for (var i = 0; i < instrument.tracks.length; i++) {
+          _addTrack(instrument, instrument.tracks[i]);
+        }
+      }  
+
     };
 
     this.updateNote = function(data) {
       $track = $('[data-instrument-id="' + data.id + '"][data-track-id="' + data.trackId + '"]');
       $note = $track.find('td').eq(data.noteId + 1);
 
-      console.log('!updateNote', $note, data);
+      //console.log('!updateNote', /*$note,*/ data);
 
       $note.toggleClass('active', data.volume > 0);
     };
 
     var _addTrack = function(instrument, track) {
-      console.log('addTrack', track);
+      //console.log('addTrack', track);
 
       if (trackCount === 0) {
         noteCount = track.notes.length;

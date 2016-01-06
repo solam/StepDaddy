@@ -20,6 +20,7 @@
 
     var $item = item;
     var $table = $item.find('table');
+    //var controllers = document.getElementById('modifiers');
 
     var _onToggleNote = function() {
 
@@ -67,7 +68,7 @@
 
     this.addTrack = function (track, color) {
       console.log('addTrack', track);
-
+  
       // Check if we already have a row for that track
       if ($table.find('tr[data-id="' + track.id + '"]').length > 0) {
         return;
@@ -83,6 +84,11 @@
 
       for (var i = 0; i < track.notes.length; i++) {
         var $td = $('<td>');
+        var number = i+1;
+        var stepNumber = '0' +number;
+        var stepNumber = stepNumber.slice(-2);
+        //$td.append(i+1);
+        $td.append(stepNumber);
         if (track.notes[i] === 1) {
           $td.addClass('active');
         }

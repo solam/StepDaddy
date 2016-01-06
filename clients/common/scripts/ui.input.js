@@ -1,13 +1,13 @@
 (function() {
 
   /**
-   * The FxPad class is responsible for the search UI component
+   * The Input class is responsible for the search UI component
    *
    * @constructor
-   * @class FxPad
+   * @class Input
    * @param {Object} element The element of this specific fx panel.
    */
-  mixr.ui.FxPad = function(id, name, container) {
+  mixr.ui.Input = function(id, name, container) {
 
     /**
      * Mixins
@@ -18,7 +18,7 @@
      * A reference to this instance
      *
      * @private
-     * @type {mixr.ui.FxPad}
+     * @type {mixr.ui.Input}
      */
     var _self = this;
 
@@ -26,11 +26,11 @@
     var _name = name;
     var $container = $(container);
     var $item;
-var $itemTempo;
+/*var $itemTempo;
     var _width = 0;
     var _height = 0;
     var _xValue = 0;
-    var _yValue = 0;
+    var _yValue = 0;*/
     var _timeoutId;
 
     /**
@@ -40,7 +40,7 @@ var $itemTempo;
      * @type {Object}
      */
     var _ui = {};
-
+/*
     var _onMouseMove = function(event) {
 
       var touches = event.originalEvent.targetTouches;
@@ -71,14 +71,18 @@ var $itemTempo;
         }, 0);
       }
 
-    };
+    }; */
 
     var _onMouseDown = function() {
-      $item.on('touchmove', _onMouseMove);
-      $('body').on('touchend', _onMouseUp);
-      $('body').on('touchcancel', _onMouseUp);
+      //$item.on('touchmove', _onMouseMove);
+      //console.log('input value changed', 'input value changed');
+      console.log('input value changed', $item.find("input").val());
+      //alert($item.val());
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val()
+      /*$('body').on('touchend', _onMouseUp);
+      $('body').on('touchcancel', _onMouseUp);*/
     };
-
+/*
     var _onMouseUp = function() {
       $item.off('touchmove', _onMouseMove);
     };
@@ -94,7 +98,7 @@ var $itemTempo;
         _height = $item.height();
       }, 300);
 
-    };
+    }; */
 
     /**
      * Adds all the listeners to the elements.
@@ -103,21 +107,24 @@ var $itemTempo;
      * @function
      */
     var _addEventListeners = function() {
-      $item.on('touchstart', _onMouseDown);
-      $(window).on('resize', _onResize);
+      $item.on('change', _onMouseDown);
+      //$(window).on('resize', _onResize);
     };
 
+/*
     var _draw = function() {
       $item = $('<div>').attr('class', 'fx-panel').attr('id', 'panel_' + _id);
       $item.append('<label>' + _name + '</label>');
       $item.appendTo($container);
-    };
+    }; */
 
     
-    var _drawTempoInput = function() {
-      $itemTempo = $('<input>');
-      $itemTempo.append('<label>BPM</label>');
-      $itemTempo.appendTo($container);
+    var _drawTempoInput = function(name) {
+      $item = $('<div class="ctrlchange">'); // $itemContainer
+      //$item = $('<input>');
+      $item.append('<input>');
+      $item.append('<label>'+name+'</label>');
+      $item.appendTo($container);
     };    
 
     var _setup = function() {
@@ -132,10 +139,10 @@ var $itemTempo;
      * @return {mixr.ui.Search} A reference to this instance.
      */
     this.initialize = function() {
-      _draw();
-      //_drawTempoInput();
+      //_draw();
+      _drawTempoInput(_name);
       _setup();
-      _onResize();
+      //_onResize();
       return this;
     };
 

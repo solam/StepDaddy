@@ -71,16 +71,63 @@
   <script src="../common/scripts/net.response.js"></script>
   <script src="../common/scripts/net.proxyrequest.js"></script>
 
+
+  <script src="../sequencer/instruments/mrsynth.js"></script> <!-- tanguy -->
   <script src="../sequencer/scripts/websynth_dsp.js"></script>
+
+  <!--<script src="../sequencer/instruments/viktor-nv1-engine/src/bundle.js"></script>-->
+
+
+
   <script src="../common/scripts/models.track.js"></script>
   <script src="../common/scripts/models.instrument.js"></script>
 
   <script src="../common/scripts/views.sequencerview.js"></script>
 
+  <script src="scripts/instruments_config.js"></script>
+  
   <script src="scripts/sequencer.js"></script>
   <script src="scripts/mixer.js"></script>
+
+
+
+
   <script type="text/javascript">
 
+
+
+
+
+
+
+
+
+
+
+
+/*
+var NV1Engine = require( "viktor-nv1-engine" ),
+    AudioContext = global.AudioContext || global.webkitAudioContext,
+    store = require( "store" ),
+    dawEngine,
+    patchLibrary;
+
+NV1Engine.create( AudioContext, store, function( dEngine, pLibrary ) {
+
+    dawEngine = dEngine;
+    patchLibrary = pLibrary;
+
+} );
+
+*/
+
+
+
+
+
+
+  //_synth.filter.set_freq(128);
+  /*
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-3983098-4']);
     _gaq.push(['_setDomainName', '72lions.com']);
@@ -90,7 +137,7 @@
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+    })();*/
 
   </script>
 </body>

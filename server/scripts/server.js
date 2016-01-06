@@ -235,6 +235,21 @@ define([
     this.initialize = function() {
 
       _app = express();
+      /*
+      _app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });*/
+      /*
+      _app.get('/', function(req, res, next) {
+        // Handle the get for this route
+      });
+
+      _app.post('/', function(req, res, next) {
+       // Handle the post for this route
+      }); */     
+
       _server = http.createServer(_app);
       _io = socket.listen(_server);
       _io.set('log level', 1);

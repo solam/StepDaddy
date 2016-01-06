@@ -1,3 +1,13 @@
+/*
+* websynth_dsp.js
+*
+* This program is licensed under the MIT License.
+* Copyright 2012, aike (@aike1000)
+*
+*/
+
+
+
 var Glide = function() {
 	this.time  = 10;
 	this.delta = 1 / (this.time * 100 + 1);
@@ -252,7 +262,7 @@ EG.prototype.next = function() {
 
 ///////////// VOLUME /////////////////////
 var CTL_Volume = function(ctx) {
-	this.volume = ctx.createGainNode();
+	this.volume = ctx.createGain(); // createGainNode()
     this.volume.gain.value = 0.5;
 };
 
@@ -272,10 +282,10 @@ CTL_Volume.prototype.getnode = function() {
 var FX_Delay = function(ctx) {
 	this.wet = 0.2;
 	this.delaytime = 0.8;
-    this.delay1 = ctx.createDelayNode();
-    this.delay2 = ctx.createDelayNode();
-	this.gain1 = ctx.createGainNode();
-	this.gain2 = ctx.createGainNode();
+    this.delay1 = ctx.createDelay();
+    this.delay2 = ctx.createDelay();
+	this.gain1 = ctx.createGain();
+	this.gain2 = ctx.createGain();
 
     this.delay1.delayTime.value = this.delaytime * 0.5;
     this.delay2.delayTime.value = this.delaytime * 1.0;
@@ -353,7 +363,9 @@ CTL_Filter.prototype.getnode = function() {
 ///////////// SYNTH MAIN /////////////////////
 var WebSynth = function(context) {
     this.context = context;
-    this.root = this.context.createJavaScriptNode(stream_length, 1, 2);
+    //this.root = this.context.createJavaScriptNode(stream_length, 1, 2);
+    this.root = this.context.createScriptProcessor(stream_length, 1, 2); // 2048, 1, 1
+
 	this.vco1 = new VCO(this.context.sampleRate);
 	this.vco2 = new VCO(this.context.sampleRate);
 	this.eg = new EG();
@@ -419,3 +431,22 @@ WebSynth.prototype.stop = function() {
 WebSynth.prototype.setVolume = function(volume) {
 	this.volume.set(volume);
 };
+
+
+
+
+/*
+var Tanguy = function(context) { // TanguyGenerator
+
+    this.synth = context; //new AudioContext(); // context;
+
+    // Defaults
+    this.program_number = 0;
+    this.octave_shift= 0;
+    this.osc1_master_pitch= 440;
+    this.osc2_master_pitch= 444.18;
+    this.bend= 0;
+    this.legato= false;
+    this.playing= [];
+
+};  */

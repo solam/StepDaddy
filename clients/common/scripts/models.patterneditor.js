@@ -18,6 +18,8 @@
 
     this.instrument = null;
 
+    //this.getInstrument
+
     /**
      * The connection
      *
@@ -27,8 +29,8 @@
     var _connection = connection;
 
     var _onInstrument = function(data) {
-      console.log('Got an instrument', data);
-      _self.instrument = new mixr.models.Instrument(data.id, data.name, data.tracks, data.volume, data.type, data.color);
+      console.log('Got an instrument', data.id);
+      _self.instrument = new mixr.models.Instrument(data.id, data.name, data.tracks, data.volume, data.type, data.color, data.kitNumber, data.controls); // data.id - 1
       _self.emit(mixr.enums.Events.INSTRUMENT, _self.instrument);
     };
 
@@ -46,8 +48,12 @@
       return this;
     };
 
+ /*   var returnInstrument = function() {
+      return this.instrument;
+    };    */
+
     this.updateNote = function(volume, note, trackId) {
-      console.log('instrumentId', this.instrument);
+      console.log('instrumentId', this.instrument.id);
       _connection.execute(mixr.enums.Events.NOTE, {
         id: this.instrument.id,
         trackId: trackId,
@@ -55,6 +61,13 @@
         volume: volume
       });
     };
+
+
+
+    this.onModifierChange = function(data) {
+      _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
+    };
+
 
     /**
      * Initializes the model

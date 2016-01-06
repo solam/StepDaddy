@@ -44,14 +44,13 @@
       var _context = context;
 
       request.onload = function() {
-        _buffer = _context.createBuffer(request.response, false);
-        _context.decodeAudioData(request.response, function onSuccess(decodedBuffer) {
-          // Decoding was successful, do something useful with the audio buffer
+	_context.decodeAudioData(request.response, function onSuccess(decodedBuffer) {
+    	  // Decoding was successful, do something useful with the audio buffer
           _buffer = decodedBuffer;
           callback(_self);
-        }, function onFailure() {
-          console.error("Decoding the audio buffer failed");
-        });
+  	}, function onFailure() {
+    	  console.error("Decoding the audio buffer failed");
+  	});
       }
 
       request.send();
@@ -61,8 +60,13 @@
       this.notes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
 
+    this.setNotes = function(notes) {
+      this.notes = notes;
+    }    
+
     this.getNotes = function() {
-      return _notes;
+      //return _notes;
+      return this.notes;
     };
 
     this.getBuffer = function() {

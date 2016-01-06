@@ -131,6 +131,8 @@ button {
   #sequencer-view td {
     border: 1px solid #333333;
     background: #000;
+    text-align: center;
+    color: #fff;
     /* mark 1st beat in bars
     &:nth-child(2) {
       border-left: 1px solid #f9f9f9;
