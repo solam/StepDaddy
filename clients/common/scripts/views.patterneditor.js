@@ -20,6 +20,7 @@
 
     var $item = item;
     var $table = $item.find('table');
+    //var $itemAddClass = $item.addClass( "myClass yourClass" );
     //var controllers = document.getElementById('modifiers');
 
     var _onToggleNote = function() {

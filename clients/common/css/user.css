@@ -7,3 +7,7 @@
   top: -35px;
   left: 150px;
   }
+
+  #pattern-editor.control {
+    display:none;    
+  }

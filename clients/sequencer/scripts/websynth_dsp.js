@@ -267,7 +267,7 @@ var CTL_Volume = function(ctx) {
 };
 
 CTL_Volume.prototype.set = function(val) {
-    this.volume.gain.value = val / 100.0;
+    this.volume.gain.value = val; // val / 100.0
 };
 
 CTL_Volume.prototype.connect = function(next_node) {

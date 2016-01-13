@@ -67,6 +67,7 @@
 
       _model.on(mixr.enums.Events.INSTRUMENT, function () {
 
+      $('#pattern-editor').addClass(_model.instrument.type); // remove '#pattern-editor' div in case of cunductor role aka control only "instrument"
 
         //window.insControls = _model.instrument.controls; // var instrument
         //console.log('controls', _model.instrument.controls);

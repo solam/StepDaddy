@@ -101,89 +101,49 @@
     };
 
     var _onModifierChange = function(data) {
+    
+      console.log('_onModifierChange: ', data);
 
-      
+      // if 'program change' id
+      if (data.args.id==998) {
 
-      if (data.args.id==2) {
+        // TODO check for conductor role...
+        var instrument = _sequencer.updateInstrument(data.args, data.client);        
+        // console.log('instrument.tracks', instrument.tracks); // data
 
-        
-
-
- 
-
-var instrument = _sequencer.updateInstrument(data.args, data.client);
-
-console.log('instrument.tracks', instrument.tracks); // data
-
-      //if (instrument) {
         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
         //console.log('>>> Instrument', instrument);
-        _instruments[data.client] = instrument; // _instruments[data.id] - data.client
+        _instruments[data.client] = instrument; 
 
-      // remove old channel instrument from _sequencerView      
-      _sequencerView.removeInstrument(instrument); 
+        // remove old channel instrument from _sequencerView      
+        _sequencerView.removeInstrument(instrument); 
 
         _sequencerView.addInstrument(instrument);
 
-      // import notes from old instr to new one (so theyr are displated on seq view)  
-      for (var i = 0; i < instrument.tracks.length; i++) {
-        
-        //console.log('instrument.tracks[i]', instrument.tracks[i]);
 
-        for (var j = 0; j < instrument.tracks[i].notes.length; j++) {
+        // import notes from old instr to new one (so theyr are displayed on seq view)  
+        for (var i = 0; i < instrument.tracks.length; i++) {          
+          //console.log('instrument.tracks[i]', instrument.tracks[i]);
 
-        //var note = instrument.tracks[i].notes[j];  
+          for (var j = 0; j < instrument.tracks[i].notes.length; j++) {
+            //var note = instrument.tracks[i].notes[j];  
+            //if (instrument.tracks[i].notes[j] > 0) 
+            
+            var dataObj = { 
+            'id': instrument.id, // channel id
+            'trackId': instrument.tracks[i].id, 
+            'noteId': j , // step number 0-15 - instrument.tracks[i].note
+            'volume': instrument.tracks[i].notes[j]};  
+            //console.log('dataObj', dataObj); 
 
-
-        /*var dataObj = {};
-        dataObj['id']=j; */
-
-        //if (instrument.tracks[i].notes[j] > 0) 
-        
-        var dataObj = { 
-        'id': instrument.id, // channel id
-        'trackId': instrument.tracks[i].id, 
-        'noteId': j , // step number 0-15 - instrument.tracks[i].note
-        'volume': instrument.tracks[i].notes[j]};  
-        //console.log('dataObj', dataObj); 
-
-        _sequencerView.updateNote(dataObj);
-
-        }
-
-
-      }
-
-
-
-
-        //_sequencerView.updateNote(data.args);
-
-        //Object {id: "0", trackId: "0-0", noteId: 0, volume: 1}        
-
-
-        //$('#roomId').hide();
-        /*
-        if (typeof _instruments[data.client] === 'undefined') {
-          _totalInstruments++;
-          _sequencerView.addInstrument(instrument);
-          _instruments[data.client] = instrument;
-          $('#roomId').hide();
+            _sequencerView.updateNote(dataObj);
+          }
         }
       } else {
-        console.log('ins updated failed ?');
-      }*/
 
-      //console.log('_instruments: ', _instruments);
-//*/
-
-
-}
-
-
-
-      _sequencer.updateFxParam(data.args, data.client);
-       //console.log('_onModifierChange: ', data.client);
+        _sequencer.updateFxParam(data.args, data.client);
+         //console.log('_onModifierChange: ', data.client);
+      }
     };
     /*
     var _shortenUrl = function(url, callback) {

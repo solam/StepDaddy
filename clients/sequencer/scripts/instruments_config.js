@@ -36,12 +36,13 @@
         }, */
 
 
-/*
+//*
         { trackSet: 1, // 1 - this _self._tempo-109 - defaultKit:
           //kitName: '909 kd/sd',
           conf: [
             {            
               type: 'samples',
+              instrumentName: 'Sampler',
               color: 'hotpink', 
               name: '909 Drum', 
               kitNumber: 0,
@@ -52,10 +53,41 @@
                   }, {
                       name: '909 Snare',
                       sampleUrl: '12-TR-909/909 SD1.wav'
-                }]
+                }],
+      controls: [ // aka preset values
+        { // control
+          name: 'Change instrument',
+          id: 998,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'change ins',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: '[calc]',
+              min: 0,
+              max: '[calc]'
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }]                
             },
             {
               type: 'samples',
+              instrumentName: 'Sampler',
               color: 'red', 
               name: '909 Drum 02', 
               kitNumber: 1,
@@ -67,11 +99,42 @@
                     name: 'Snare long',
                     sampleUrl: '12-TR-909/909 SD3.wav'
                 }
-              ]
+              ],
+      controls: [ // aka preset values
+        { // control
+          name: 'Change instrument',
+          id: 998,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'change ins',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: '[calc]',
+              min: 0,
+              max: '[calc]'
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }]
             },
 
             {
                 type: 'samples',
+                instrumentName: 'Sampler',
                 color: '#deadf0',
                 name: 'Percussion',
                 kitNumber: 2,
@@ -89,7 +152,37 @@
                         name: 'Tom 2',
                         sampleUrl: '12-TR-909/909 HI.TOM2.wav'
                     }
-                ]
+                ],
+      controls: [ // aka preset values
+        { // control
+          name: 'Change instrument',
+          id: 998,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'change ins',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: '[calc]',
+              min: 0,
+              max: '[calc]'
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }]
             }
 
           ]          
@@ -98,9 +191,121 @@
 
 
 
+
+{ // channel
+  channelName: 'Conductor Role', // name
+  //channelType: 'conductor', // type
+  trackSet: 0, // defaultKit = default instrument/control kit
+
+  conf: [ // kits = kitConfiguration 
+    { // kit            
+      type: 'control', // = kitType
+      instrumentName: 'Conductor', 
+
+      name: 'Conductor Ctrl 01', // = kitName
+      kitNumber: 0, // number = kitNumber            
+      color: '#51ACBD', // = kitColor
+      
+      controls: [ // aka preset values                                    
+        { 
+          name: 'Ch1 volume',
+          id: 800,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Ch1 volume',
+              param: '_insVol0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 10,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch3 volume',
+          id: 802,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Ch3 volume',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              }, 
+
+              midicc: 0,                      
+              value: 50,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 100,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 400,
+              min: 60,
+              max: 400
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }
+
+      ] // end of controls
+    } // end of kit
+  ] // end of kits
+}, // end of channel
+
+
+
+
+
+
+
+
+
+
         { 
           channelName: 'Channel 2', // channelName = "bass, high pitch sounds etc" - insName
-          channelType: 'instrument', // conductor
+          //channelType: 'instrument', // conductor
           trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
           conf: [ // kits channelConfiguration kitConfiguration 
 
@@ -108,7 +313,7 @@
 
             {            
             type: 'samples', // instrumentType - presetType
-            instrumentName: 'sampler', //  kitName
+            instrumentName: 'Sampler', //  kitName
 
             name: 'Bass DRY synth', // preset/kitName
             kitNumber: 0, // number // preset/kitNumber            
@@ -147,7 +352,38 @@
                     name: 'A',
                     sampleUrl: 'bassdry/Bass3_1.mp3'
                 }
-            ]
+            ],
+
+      controls: [ // aka preset values
+        { // control
+          name: 'Change instrument',
+          id: 998,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'change ins',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: '[calc]',
+              min: 0,
+              max: '[calc]'
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }]            
 
           }, 
           {
@@ -201,10 +437,11 @@
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
+                      interpolate: 0, // 0: off | 1: on
                       name: 'cutoff freq',
                       param: 'filter.set_freq', // name of function or object path - AikeWebsynth01.filter.set_freq
                       midicc: 0,                      
-                      value: 70,
+                      value: 10, // 70
                       stepSize: 0, // crénelage                      
                       displayedRangeMin: 0,
                       displayedRangeMax: 100,
@@ -222,11 +459,12 @@
                 {
                  name: 'ins kit',
                  // color params
-                 id: 2,
+                 id: 998,
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
-                      name: 'Tempo', // ins kit
+                      interpolate: 0, // 0: off | 1: on
+                      name: 'Change ins', // ins kit
                       param: '[external]', // name of function or object path - eg.set_a
                       midicc: 1,                      
                       value: 0,
@@ -234,7 +472,7 @@
                       displayedRangeMin: '[calc]',
                       displayedRangeMax: '[calc]',
                       min: '[calc]',
-                      max: 'calc]'
+                      max: '[calc]'
                   }/*,
                   y: {
                       name: '',
@@ -253,6 +491,7 @@
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
+                      interpolate: 0, // 0: off | 1: on
                       name: 'vco1 gain', // ins kit
                       param: 'vco1.set_gain', // name of function or object path
                       midicc: 1,                      
@@ -278,6 +517,7 @@
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
+                      interpolate: 0, // 0: off | 1: on
                       name: 'vco2 gain', // ins kit
                       param: 'vco2.set_gain', // name of function or object path
                       midicc: 1,                      
@@ -304,10 +544,11 @@
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
+                      interpolate: 0, // 0: off | 1: on
                       name: 'env decay', // ins kit
                       param: 'eg.set_d', // name of function or object path
                       midicc: 1,                      
-                      value: 10,
+                      value: 10, // -6
                       stepSize: 0, // crénelage                      
                       displayedRangeMin: 0,
                       displayedRangeMax: 100,
@@ -385,12 +626,12 @@
                 {
                  name: 'ins kit',
                  // color params
-                 id: 2,
+                 id: 998,
                  type: 'input', // slider, dial/rotary_knob, switch_button
                  direction: 0, // 'horizontal', 'vertical' for sliders
                   x: {
-                      name: 'Tempo', // ins kit
-                      param: 'lfoNode.frequency.value', // name of function or object path
+                      name: 'Change ins', // ins kit
+                      param: '[external]', // name of function or object path // lfoNode.frequency.value
                       midicc: 1,                      
                       value: 0,
                       stepSize: 1, // crénelage                      
@@ -420,7 +661,7 @@
 
 
 
-//*
+/*
 
         { 
           channelName: 'Channel 3', // channelName = "bass, high pitch sounds etc" - insName

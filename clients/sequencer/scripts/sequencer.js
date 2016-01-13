@@ -25,6 +25,9 @@
     this._tempo = 109; // 110
 
     this._Ins01Volume = 1;
+    
+
+
     //this._synthFreq = 20;
     var _loopLength = 16;
     var _started = false;
@@ -35,10 +38,26 @@
 
     var samplesPath = '../common/resources/';
 
+
+    this.interpolate2 = function(value, outputMin, outputMax, displayedMin, displayedMax) {
+        //console.log('interpolate:', valueX);
+        return (outputMin + (outputMax - outputMin) * value) / displayedMax;
+        // (0 + (1-0) * 50)100 : 0.5
+        // what to do if outputMax is greater than displayedMax ?
+    }  
+
+
     var instrumentsConfig = window.insConf;
 
-    
+    //this._insVol0 = 0.7; // ch1 vol retrieve from window.insConf (conductor role) via trackset value
 
+    var insVol0X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
+    this._insVol0 = this.interpolate2(insVol0X.value, insVol0X.min, insVol0X.max, insVol0X.displayedRangeMin, insVol0X.displayedRangeMax);    
+
+    var insVol2X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol2 = this.interpolate2(insVol2X.value, insVol2X.min, insVol2X.max, insVol2X.displayedRangeMin, insVol2X.displayedRangeMax);
+    //this._insVol2 = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[2].x.value;
+    console.log("_insVol2", this._insVol2);
 
     var _lowpassFilter = null;
     var _compressor = null;
@@ -158,8 +177,12 @@
         for (var i = 0; i < instrumentsConfig.length; i++) {
             //var tracks = this.createTracks(i, instrumentsConfig[i].tracks, instrumentsConfig[i].type);
             // instrumentsConfig[i].tracks[instrumentsConfig[i].trackSet]
-            var tracks = this.createTracks(i, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].tracks, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type);
-            
+            var type = instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type;
+            if (type=='control') {
+              var tracks = [];
+            } else {
+              var tracks = this.createTracks(i, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].tracks, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type);
+            }
             //var instrument = new mixr.models.Instrument(i, instrumentsConfig[i].name, tracks, 1.0, instrumentsConfig[i].type, instrumentsConfig[i].color);
             var instrument = new mixr.models.Instrument(i, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].name, tracks, 1.0, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].color, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].kitNumber, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].controls, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].instrumentName); 
             _instruments.push(instrument);
@@ -229,18 +252,8 @@
 
 
     this.updateInstrument = function(data, clientId) { // changeIntrumentKit
-      /*  if (typeof _clients[clientId] !== 'undefined') {
-            return _clients[clientId];
-        } */
 
-        var fxConfig = effectsConfig[data.id];
-        paramX = fxConfig.x.param;
-
-        if (paramX=='_tempo') { // hardcoded condition
-          valueX = data.x;
-
-
-        var trackSet = valueX-109; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber
+        var trackSet = data.x; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
         var prevKit = _clients[clientId].id; // source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
 
         //console.log("_clients[clientId].id", _clients[clientId].id);
@@ -251,7 +264,6 @@
         // override source instrument with destination kit info
         var anextInstrument = new mixr.models.Instrument(prevKit, instrumentsConfig[prevKit].conf[trackSet].name, tracksUpdate, 1.0, instrumentsConfig[prevKit].conf[trackSet].type, instrumentsConfig[prevKit].conf[trackSet].color, instrumentsConfig[prevKit].conf[trackSet].kitNumber, instrumentsConfig[prevKit].conf[trackSet].controls, instrumentsConfig[prevKit].conf[trackSet].instrumentName);
     
-
         if (anextInstrument.tracks.length > _clients[clientId].tracks.length) {
           var trackNumber = _clients[clientId].tracks.length;
         } else {
@@ -260,20 +272,10 @@
 
         // use source instrument kit as pattern to feed destination kit with note info
         for (var n = 0, len = trackNumber; n < len; n += 1) {
-            //var track = _instruments[0].tracks[n];
-            var notes = _clients[clientId].tracks[n].getNotes(); // 
-            anextInstrument.tracks[n].setNotes(notes);
-
+          //var track = _instruments[0].tracks[n];
+          var notes = _clients[clientId].tracks[n].getNotes(); // 
+          anextInstrument.tracks[n].setNotes(notes);
         }
-
-//*/
-
-
-
-
-
-
-
 
         _instruments[prevKit] = anextInstrument;
 
@@ -281,17 +283,12 @@
         anextInstrument.initialize(this.start);
         // Pass the context the instrument.
         anextInstrument.setup(_context);
-
-
         //console.log("Updated instrument", anextInstrument);
 
         _clients[clientId] = anextInstrument;
-
         //console.log("_clients", _clients);
 
         return anextInstrument;
-
-      } // end if (paramX=='_tempo')
     };    
 
 
@@ -376,17 +373,17 @@
                     var volume = track.notes[_noteIndex];
                     if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
                         if (volume > 0) {
-                            _self.playNote(track, contextPlayTime, volume);
+                            _self.playNote(track, contextPlayTime, volume); // , i
                         }
                     } else if (_instruments[i].type === 'synth') {
 
-                        if (volume > 0) { // we 're sure that instrument is loaded 'cause it has somme notes associated to it
-
+                        if (volume > 0) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
+                /*          
                 if (i==1) { // only check if instrument loaded
                   _instruments[1].setParams(2,_self._Ins01Volume); // send array of param ids => values INSTEAD
-                }
+                } */
 
-                            _instruments[i].setParams(_self._tempo);
+                            //_instruments[i].setParams(_self._tempo);
                             _instruments[i].play(track.note); // track.note - track.name for mr synth
                         } else /*if (stopStep==1 && volume ==0)*/ {
                             _instruments[i].stop(track.name);
@@ -407,7 +404,7 @@
         requestAnimationFrame(_self.schedule);
     };
 
-    this.playNote = function(track, noteTime, volume) {
+    this.playNote = function(track, noteTime, volume) { /*, channelId*/
         // Create the note
         var voice = _context.createBufferSource();
         voice.buffer = track.getBuffer();
@@ -428,12 +425,17 @@
               gainNode.connect(volumeNode);
 
               // set per track volume
-              volumeNode.gain.value = this._Ins01Volume; // 0.1 use track.id[0], first char of "0-1" to route volume data to right instrument
+              //volumeNode.gain.value = this._Ins01Volume; // 0.1 use track.id[0], first char of "0-1" to route volume data to right instrument
 
+              var channelId = track.id.charAt(0);
+              volumeNode.gain.value = eval('this._insVol'+channelId); // _insVol0 
+              
+              
                 
 
         // Connect the volume node to the destination. // gain
         volumeNode.connect(_masterGainNode); // gainNode
+
 
         // Reduce the volume.
         gainNode.gain.value = volume;
@@ -477,127 +479,105 @@
 
     };
 
-    this.updateFxParam = function(data, clientId) {
-        //console.log('update fx param', data);
-
-
+    this.updateFxParam = function(data, clientId) { // updateParam
         
-
-
-
-        var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;
-        //console.log('synthInstance', window[synthInstance]);
-
+        // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
+        var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
         var synthInstance1 = window[synthInstance2];
 
+        if (typeof synthInstance1 !== 'undefined') {
 
-  if (typeof synthInstance1 !== 'undefined') {
+          var controls = window[synthInstance2]['controls']; 
+          //var input = 1;
 
-        //_clients[clientId].controls[0].x.value = 24930;  
+          // if client channel has a controls (knobs) object
+          if (_clients[clientId].controls!=0) {    
 
-        //console.log('_clients[clientId].controls: ', _clients[clientId].controls); // _instruments[clientId]
+            for (var j = 0; j < controls.length; j++) {
+
+              if (controls[j].id==data.id) {
+
+                if (/*controls[j].x.interpolate &&*/ controls[j].x.interpolate==0) {
+                  valueX = data.x;
+                } else {
+                  //valueX = this.interpolate(data.x, controls[j].x.min, controls[j].x.max);  
+                  valueX = this.interpolate2(data.x, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
+                  console.log('valueX', valueX);   
+                }
+              
+                if (controls[j].y) {
+                  valueY = this.interpolate(data.y, controls[j].y.min, controls[j].y.max);
+                }
+
+                console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
+
+                switch (_clients[clientId].instrumentName) {
+                  case 'AikeWebsynth1':
+                    // value sent as parameter to synth instance object
+                    eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')'); // data.x
+                    break;
+                  case 'MrSynth':
+                    eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                    break;
+                  case 'Conductor':
+                    
+
+                    // keep ids that correspond to channel volumes
+                    if (data.id<=900 && data.id>800) {   
+                      //var channelNumber = data.id;
+                      var channelNumber = controls[j].x.param.charAt(7);
+                      //console.log('insName', _instruments[channelNumber].instrumentName);
 
 
-        var controls = window[synthInstance2]['controls']; //_clients[clientId].controls;
-        var input = 1;
+                      // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
+                      var synthInstance2 = _instruments[channelNumber].instrumentName + '_' + channelNumber;        
+                      var synthInstance1 = window[synthInstance2];                      
 
-        if (_clients[clientId].controls!=0) {    
-
-         for (var j = 0; j < controls.length; j++) {
-
-            if (controls[j].id==data.id) {
-              //  if (typeof synthInstance1 !== 'undefined') {
-                  //AikeSynth.controls[j].x.param(data.x);
-
-
-                      switch (_clients[clientId].instrumentName) {
+                      if (typeof synthInstance1 !== 'undefined') {
+                        switch (_instruments[channelNumber].instrumentName) {
                           case 'AikeWebsynth1':
-                  // value sent as parameter to synth instance object
-                  eval(synthInstance2+'.'+controls[j].x.param+'('+data.x+')');
+                            // value sent as parameter to synth instance object
+                            eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); // data.x
+                            break;
                           case 'MrSynth':
-                        eval(synthInstance2+'.'+controls[j].x.param+'='+data.x);
-                              break;
+                            eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                            break;
+                          case 'Sampler':
+                            this[controls[j].x.param] = valueX;
+                            break; 
+                        }
+                      } /*else { // case 'Sampler'
+                        this[controls[j].x.param] = valueX;
+                      }*/
 
-                      }   
+                    } else {
+                      this[controls[j].x.param] = valueX;
 
+                      if (controls[j].y) {
+                        this[controls[j].y.param] = valueY;
+                      }     
+                    }    
 
+                    break;                    
+                }   
 
-
-          // send value to synthInstance object // channel
-          controls[j].x.value = data.x;
-
-                  //var destFunc = AikeSynth.filter.set_freq();
-                  //destFunc(data.x);
-                  //AikeSynth[filter][set_freq](1);
-
-                  //console.log('window[synthInstance2]["controls"] ', window[synthInstance2]['controls']);
-                  //console.log('data.x ', data.x);
-              // }
-            }
-            /*var input = input + j;
-            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container).initialize();
-            window[input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);*/
-
+                // send value to synthInstance object // channel
+                controls[j].x.value = data.x;
+              }
+            }         
           } 
-
-          
-
-        } 
-
-      }
-
-
-      if (typeof mrSynth !== 'undefined') { // window.
-
-        mrSynth.filterNode.frequency.value = 800;
-        console.log('mr synth cutoff freq', mrSynth.filterNode.frequency.value);
-
-      }
+        }
 
 
 
+        /*
         var fxConfig = effectsConfig[data.id];
         paramX = fxConfig.x.param;
         paramY = fxConfig.y.param;
 
         if (paramX=='_tempo' || paramX=='_Ins01Volume') { // hardcoded condition
           valueX = data.x;
-          //this.createInstruments();
-          //this.initialize();
-          //this.start();
-/*
-        //var anextInstrument = _instruments[0];
-        //console.log('curr ins tracks: ', anextInstrument.tracks);
-        // this._tempo-109
-        var trackSet = valueX-109;
-        console.log('trackSet: ', trackSet);
-        var tracksUpdate = this.createTracks(0, instrumentsConfig[0].conf[trackSet].tracks, instrumentsConfig[0].conf[trackSet].type);
-        var anextInstrument = new mixr.models.Instrument(0, instrumentsConfig[0].conf[trackSet].name, tracksUpdate, 1.0, instrumentsConfig[0].conf[trackSet].type, instrumentsConfig[0].conf[trackSet].color);
-        //anextInstrument.tracks = tracksUpdate;
 
-
-        for (var n = 0, len = _instruments[0].tracks.length; n < len; n += 1) {
-            //var track = _instruments[0].tracks[n];
-            var notes = _instruments[0].tracks[n].getNotes();
-            anextInstrument.tracks[n].setNotes(notes);
-            console.log('notes from old ins: ', _instruments[0].tracks[n].getNotes());
-            console.log('notes from new ins: ', anextInstrument.tracks[n].getNotes());
-        }
-//_instruments[data.client]
-
-        //console.log('_clients: ', data.client); // _clients
-
-        //console.log('updated ins tracks: ', anextInstrument.tracks);
-
-        //_instruments.splice(0, 1);
-
-        _availableInstruments.push(anextInstrument);
-
-        // Initialize the instrument and call start when ready.
-        anextInstrument.initialize(this.start);
-        // Pass the context the instrument.
-        anextInstrument.setup(_context);
-//*/
         } else {
           valueX = this.interpolate(data.x, fxConfig.x.min, fxConfig.x.max);
         }
@@ -607,6 +587,7 @@
 
         console.log('update', paramX, ':', valueX);
         console.log('update', paramY, ':', valueY);
+        */
 
         this.setFxValues();
     };
@@ -614,6 +595,8 @@
     this.interpolate = function(value, minimum, maximum) {
         return minimum + (maximum - minimum) * value;
     }
+
+  
 
     this.initialize();
   };

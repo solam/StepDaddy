@@ -33,6 +33,13 @@
     var _isLoaded = false;
     var _synth = null; 
 
+    this.interpolate2 = function(value, outputMin, outputMax, displayedMin, displayedMax) {
+        //console.log('interpolate:', valueX);
+        return (outputMin + (outputMax - outputMin) * value) / displayedMax;
+        // (0 + (1-0) * 50)100 : 0.5
+        // what to do if outputMax is greater than displayedMax ?
+    }      
+
     /**
      * Initializes the model
      *
@@ -46,136 +53,126 @@
     };
 
     this.setup = function(context) {
+
+
+      var synthInstanceString = this.instrumentName + '_' + this.id;
+
+      // get control data from dynamic object
+      if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
+        //console.log('window[synthInstanceString]: ', window[synthInstanceString]);
+
+        // if synthInstance already exists load control values from object attached array   
+        var usedControls = window[synthInstanceString]['controls'];
+
+      // get control data from static file (ins_config.js)
+      } else { 
+
+        // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
+        switch (this.instrumentName) {
+          case 'AikeWebsynth1':
+            window[synthInstanceString] = new WebSynth(context);
+            break;
+          case 'MrSynth':
+            window[synthInstanceString] = new MrSynth(context);
+            break;
+          case 'Conductor':
+            window[synthInstanceString] = {};
+            break;   
+          case 'Sampler':
+            window[synthInstanceString] = {};
+            break;                        
+        }  
+
+        window[synthInstanceString]['controls'] = controls;
+        var usedControls = controls;        
+      } 
+
+
+      var instrumentsConfig = window.insConf;
+
+      if (typeof window['Conductor_1'] === 'object') {
+        var conductorControls = window['Conductor_1']['controls']; 
+      } else {
+        var conductorControls = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls;        
+      }    
+
+      for (var j = 0; j < conductorControls.length; j++) {
+        if (conductorControls[j].x.param.charAt(7)==this.id) {
+          // = controls[j].x.value;
+
+          if (conductorControls[j].x.interpolate==0) {
+            var instrumentInstanceVolume = conductorControls[j].x.value;
+          } else {
+            var instrumentInstanceVolume = this.interpolate2(conductorControls[j].x.value, conductorControls[j].x.min, conductorControls[j].x.max, conductorControls[j].x.displayedRangeMin, conductorControls[j].x.displayedRangeMax);                  
+          }
+          console.log('instrumentInstanceVolume', instrumentInstanceVolume);
+        }
+       }   
+
+       
+/*
+        //console.log('window[Conductor_1]: ', window['Conductor_1']);
+        //
+      } else {
+
+    
+    var insVol2X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[2].x;
+
+      }
+*/
+
+      //console.log('window[synthInstanceString]: ', window[synthInstanceString]);
+
+      // load instrument preset for currently processed channel
+      if (usedControls.length>0) { //     usedControls!=0
+
+        for (var j = 0; j < usedControls.length; j++) {
+
+                if (usedControls[j].x.interpolate==0) {
+                  valueX = usedControls[j].x.value;
+                } else {
+                  //valueX = this.interpolate(data.x, usedControls[j].x.min, usedControls[j].x.max);  
+                  //_sequencer = new mixr.Sequencer(); // replace with local function
+                  valueX = this.interpolate2(valueX, usedControls[j].x.min, usedControls[j].x.max, usedControls[j].x.displayedRangeMin, usedControls[j].x.displayedRangeMax);  
+                  //console.log('valueX', valueX);   
+                }
+
+                if (usedControls[j].x.param!='[external]') {
+                  switch (this.instrumentName) {
+                    case 'AikeWebsynth1':
+                      // value sent as parameter to synth instance object
+                      eval(synthInstanceString+'.'+usedControls[j].x.param+'('+valueX+')'); // data.x
+                      // change instrument instance volume
+                      eval(synthInstanceString+'.volume.set('+instrumentInstanceVolume+')');                      
+                      break;
+                    case 'MrSynth':
+                      eval(synthInstanceString+'.'+usedControls[j].x.param+'='+valueX); // data.x
+                      break;
+                    case 'Sampler':
+                      break;                     
+                  }
+                }
+
+
+
+          /*if (typeof synthInstance !== 'undefined') {
+            eval(synthInstance+'.'+usedControls[j].x.param+'('+usedControls[j].x.value+')'); // this line seems to be ok only for AikeWebsynth1 ? 'switch case' statement required?
+          } */
+        }
+      } 
+
+
+
+
       if (this.type === 'samples') {
         for (var i = 0; i < tracks.length; i++) {
           tracks[i].loadSample(this.trackLoaded, context);
         };
       } else if (this.type === 'synth') {
-          console.log('>>> Create synth');
-
-     /*   controls[0].x.value = 2400; 
-        
-        console.log('controls: ', controls); */
-
-
-        var synthInstanceString = this.instrumentName + '_' + this.id;
-
-//*    
-        if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object') {
-
-        //console.log('window[synthInstanceString]: ', window[synthInstanceString]);
-
-         // if synthInstance already exists load control values from object attached array   
-         var usedControls = window[synthInstanceString]['controls'];
-
-        } else { 
-
-        // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
-
-
-
-switch (this.instrumentName) {
-    case 'AikeWebsynth1':
-        window[synthInstanceString] = new WebSynth(context);
-        break;
-    case 'MrSynth':
-        window[synthInstanceString] = new MrSynth(context);
-        break;
-
-} 
-
-
-
-
-
-        
-        window[synthInstanceString]['controls'] = controls;
-        var usedControls = controls;
-
-
-        } 
-//*/
-
-        console.log('window[synthInstanceString]: ', window[synthInstanceString]);
-
-
-        //console.log('window[synthInstanceString]: ', window[synthInstanceString]); 
-
-
-        //window[synthInstanceString] = new WebSynth(context);
-
-        //AikeSynth = new WebSynth(context);
-        //var controls = _clients[clientId].controls;
-        var input = 1;
-
-        if (usedControls!=0) {    
-
-         for (var j = 0; j < usedControls.length; j++) {
-
-
-                if (typeof synthInstance !== 'undefined') {
-                  eval(synthInstance+'.'+usedControls[j].x.param+'('+usedControls[j].x.value+')');
-                }
-
-          }
-        }   
-
-
-          /*
-          AikeSynth = new WebSynth(context);
-          AikeSynth.filter.set_freq(1); // 32
-          AikeSynth.filter.set_q(16); // 4
-          AikeSynth.vco2.set_fine(53.2); 
-          AikeSynth.vco2.set_fine(48); 
-          AikeSynth.filter.set_amount(30); 
-          AikeSynth.eg.set_d(12); 
-
-          //*/
-
-
-          // load synth default preset from synth controls
-
-          
-          //console.log('WebSynth: ', WebSynth);
-
-          //TANGUY = new TANGUY(context); // TANGUYGenerator
-
-/*
-TANGUY = {
-
-    synth: context,
-
-    // Defaults
-    program_number: 0,
-    octave_shift: 0,
-    osc1_master_pitch: 440,
-    osc2_master_pitch: 444.18,
-    bend: 0,
-    legato: false,
-    playing: []
-
-};
-
-
-
-          TANGUY.build_synth();
-          TANGUY.order_programs();*/
-
-          //console.log('Tanguy: ', TANGUY);
-
-
-
-//mrSynth = new MrSynth(context); - working code
-
-          //window.mrSynth = mrSynth; // add instance increment : window.mrSynth1...2...
-
-
-
-
-
-          console.log('Synth ready.');
-          _isLoaded = true;
-          _readyCallback();
+        //console.log('>>> Create synth');
+        console.log('Synth '+synthInstanceString+' ready.');
+        _isLoaded = true;
+        _readyCallback();
       }
     };
 
