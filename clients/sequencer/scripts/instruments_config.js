@@ -115,7 +115,7 @@
               name: 'change ins',
               param: '[external]', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 0,
+              value: 1,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -168,7 +168,7 @@
               name: 'change ins',
               param: '[external]', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 0,
+              value: 2,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -221,7 +221,7 @@
               name: 'Ch1 volume',
               param: '_insVol0', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 10,
+              value: 100,
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -287,7 +287,36 @@
               min: 0,
               max: 1
           } */                 
-        }
+        },
+
+        { // control
+          name: 'ChannelChange',
+          id: 997,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'ChannelChange',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }/*,
+          y: {
+              name: '',
+              param: '_empty',
+              min: 0,
+              max: 1
+          } */                 
+        }        
 
       ] // end of controls
     } // end of kit
@@ -467,7 +496,7 @@
                       name: 'Change ins', // ins kit
                       param: '[external]', // name of function or object path - eg.set_a
                       midicc: 1,                      
-                      value: 0,
+                      value: 1,
                       stepSize: 1, // crénelage                      
                       displayedRangeMin: '[calc]',
                       displayedRangeMax: '[calc]',
@@ -633,7 +662,7 @@
                       name: 'Change ins', // ins kit
                       param: '[external]', // name of function or object path // lfoNode.frequency.value
                       midicc: 1,                      
-                      value: 0,
+                      value: 2,
                       stepSize: 1, // crénelage                      
                       displayedRangeMin: 'calc',
                       displayedRangeMax: 'calc',

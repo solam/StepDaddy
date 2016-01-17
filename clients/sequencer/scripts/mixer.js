@@ -65,9 +65,12 @@
       var instrument = _instruments[data.client];
       if (typeof instrument !== 'undefined') {
         //_sequencerView.removeInstrument(instrument);
-        _sequencer.addInstrument(instrument); // add abandoned instrument to "availabe instruments" list
+        _sequencer.addInstrument(instrument); // add abandoned instrument to "available instruments" list
         delete _instruments[data.client];
         _totalInstruments--;
+
+        delete _clients[data.client]; // avoid having too much clients connected (window refreshs creating multiple clients)
+
         if (_totalInstruments <= 0) {
           $('#roomId').show();
         }
@@ -82,7 +85,7 @@
 
       if (instrument) {
         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
-        //console.log('>>> Instrument', instrument);
+        //console.log('>>> Instrument', instrument, _totalInstruments);
         if (typeof _instruments[data.client] === 'undefined') {
           _totalInstruments++;
           _sequencerView.addInstrument(instrument);
@@ -102,10 +105,82 @@
 
     var _onModifierChange = function(data) {
     
-      console.log('_onModifierChange: ', data);
+      //console.log('_onModifierChange: ', data);
+      //* change object before eventuellement switch channel kit
+  //_sequencer.updateFxParam(data.args, data.client); // placing this line before if (data.args.id==998) { fixes the prg change from 0 to 1 displays 0 & from 2 to 1 displays 1 bug
+      //console.log('_onModifierChange: ', data.client); */     
+
+
+      // if 'channel change' id
+      if (data.args.id==997) {
+
+       console.log('_clients before client kick', _clients);
+       //_totalInstruments 
+
+       
+       //console.log('claients + avail ins', claients, _sequencer._availableInstruments); // [_availableInstruments]
+       //
+
+       var claients = Object.keys(_clients);
+
+       if (_sequencer._availableInstruments.length==0) {
+         console.log('no channel available', _sequencer._availableInstruments.length);     
+         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[0], instrument: 'kickOut' }); //       
+         _sequencer.addInstrument(_instruments[claients[0]]); // _clients[claients[0]]
+         delete _instruments[claients[0]];
+         _totalInstruments--;
+         delete _clients[claients[0]];   
+
+
+        /*_sequencer.addInstrument(instrument); 
+        delete _instruments[data.client];
+        _totalInstruments--;
+        delete _clients[data.client];*/
+
+
+       }
+
+       console.log('_clients after client kick', _clients);
+       
+       var claients = Object.keys(_clients); 
+
+       for (var i = 0; i < claients.length; i++) {
+
+        //console.log('claients'+i, claients[i]);
+          var oldInstrument = _instruments[claients[i]];
+          _sequencer.addInstrument(oldInstrument); // add abandoned instrument to "availabe instruments" list
+          delete _instruments[claients[i]];
+          //_totalInstruments--;
+          //delete _clients[claients[i]];
+
+          //var instrument = _sequencer.getNextInstrument(claients[i]);
+          var instrument = _sequencer.changeChannel(claients[i]);          
+          //var instrument = _sequencer.getRandomInstrument(claients[i]);
+          
+
+
+          if (instrument) {
+            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument});
+            //console.log(claients[i], instrument);
+
+            //console.log('>>> Instrument', instrument, _totalInstruments);
+            if (typeof _instruments[claients[i]] === 'undefined') {
+              _totalInstruments++;
+              _sequencerView.addInstrument(instrument);
+              _instruments[claients[i]] = instrument;
+              $('#roomId').hide();
+            }
+          } else {
+            console.log('No more instruments available. YOYYOYOO');
+          }        
+
+       }
+
+       //console.log('(after channelChange) avail ins', _sequencer._availableInstruments.length);
+
 
       // if 'program change' id
-      if (data.args.id==998) {
+      } else if (data.args.id==998) {
 
         // TODO check for conductor role...
         var instrument = _sequencer.updateInstrument(data.args, data.client);        
@@ -140,10 +215,12 @@
           }
         }
       } else {
+        _sequencer.updateFxParam(data.args, data.client);        
+      } 
+      /*
+      _sequencer.updateFxParam(data.args, data.client);
+      //console.log('_onModifierChange: ', data.client); */  
 
-        _sequencer.updateFxParam(data.args, data.client);
-         //console.log('_onModifierChange: ', data.client);
-      }
     };
     /*
     var _shortenUrl = function(url, callback) {
@@ -195,6 +272,7 @@
       .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange);
 
       _sequencer = new mixr.Sequencer();
+      window['SEQ'] = _sequencer;
 
       _sequencerView = new mixr.views.SequencerView(document.getElementById('sequencer-view')).initialize();
 

@@ -67,6 +67,9 @@
 
       _model.on(mixr.enums.Events.INSTRUMENT, function () {
 
+        
+
+      $('#pattern-editor').removeClass();
       $('#pattern-editor').addClass(_model.instrument.type); // remove '#pattern-editor' div in case of cunductor role aka control only "instrument"
 
         //window.insControls = _model.instrument.controls; // var instrument
@@ -97,9 +100,10 @@
           for (var j = 0; j < controls.length; j++) {
 
             var input = input + j;
-            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container).initialize();
-            window[input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
 
+            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value).initialize();
+            window[input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
+            //console.log('input value: ', controls[j].x.value);
 
 
           } 

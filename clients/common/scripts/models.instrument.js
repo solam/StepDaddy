@@ -59,7 +59,7 @@
 
       // get control data from dynamic object
       if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
-        //console.log('window[synthInstanceString]: ', window[synthInstanceString]);
+        //console.log(synthInstanceString+' object: ', window[synthInstanceString]);
 
         // if synthInstance already exists load control values from object attached array   
         var usedControls = window[synthInstanceString]['controls'];
@@ -93,7 +93,7 @@
       if (typeof window['Conductor_1'] === 'object') {
         var conductorControls = window['Conductor_1']['controls']; 
       } else {
-        var conductorControls = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls;        
+        var conductorControls = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls; // ! beware hardcoded value */       
       }    
 
       for (var j = 0; j < conductorControls.length; j++) {
@@ -105,7 +105,7 @@
           } else {
             var instrumentInstanceVolume = this.interpolate2(conductorControls[j].x.value, conductorControls[j].x.min, conductorControls[j].x.max, conductorControls[j].x.displayedRangeMin, conductorControls[j].x.displayedRangeMax);                  
           }
-          console.log('instrumentInstanceVolume', instrumentInstanceVolume);
+          //console.log('instrumentInstanceVolume', instrumentInstanceVolume);
         }
        }   
 
@@ -142,16 +142,25 @@
                     case 'AikeWebsynth1':
                       // value sent as parameter to synth instance object
                       eval(synthInstanceString+'.'+usedControls[j].x.param+'('+valueX+')'); // data.x
+                      //console.log('usedControls', usedControls);
                       // change instrument instance volume
-                      eval(synthInstanceString+'.volume.set('+instrumentInstanceVolume+')');                      
+                      eval(synthInstanceString+'.volume.set('+instrumentInstanceVolume+')'); // this should only be triggered once not at every control process                      
                       break;
                     case 'MrSynth':
                       eval(synthInstanceString+'.'+usedControls[j].x.param+'='+valueX); // data.x
                       break;
                     case 'Sampler':
+                      // change seq object variable value                      
+                      //console.log('window[SEQ]', window['SEQ']);
                       break;                     
                   }
-                }
+                } else if (usedControls[j].x.param=='[external]' && this.instrumentName=='Sampler') {
+                  //window[synthInstanceString]
+
+                  // set channel volume to channel Sampler instance via duplicated sequencer object
+                  window['SEQ']['_insVol'+this.id] = instrumentInstanceVolume; // 0.15879999;  
+                  //console.log('window[SEQ]', window['SEQ']['_insVol0']);
+                } 
 
 
 
@@ -192,16 +201,16 @@
        
         var synthInstance = this.instrumentName + '_' + this.id;
 
-switch (this.instrumentName) {
-    case 'AikeWebsynth1':
-        window[synthInstance].play(note);
-        break;
-    case 'MrSynth':
-        window[synthInstance].updateFrequency(notes[note]*0.5);
-        window[synthInstance].startAttack();
-        break;
+        switch (this.instrumentName) {
+            case 'AikeWebsynth1':
+                window[synthInstance].play(note);
+                break;
+            case 'MrSynth':
+                window[synthInstance].updateFrequency(notes[note]*0.5);
+                window[synthInstance].startAttack();
+                break;
 
-}         
+        }         
 
                
 

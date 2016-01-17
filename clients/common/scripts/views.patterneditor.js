@@ -68,7 +68,7 @@
 
 
     this.addTrack = function (track, color) {
-      console.log('addTrack', track);
+      //console.log('addTrack', track);
   
       // Check if we already have a row for that track
       if ($table.find('tr[data-id="' + track.id + '"]').length > 0) {

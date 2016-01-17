@@ -29,6 +29,10 @@
     var _connection = connection;
 
     var _onInstrument = function(data) {
+      if (data=='kickOut') {        
+        location.reload(true); // reload channel so that it loads channel instrument if available
+        console.log('Got a kickOut instruction');
+      } 
       console.log('Got an instrument', data.id);
       _self.instrument = new mixr.models.Instrument(data.id, data.name, data.tracks, data.volume, data.type, data.color, data.kitNumber, data.controls); // data.id - 1
       _self.emit(mixr.enums.Events.INSTRUMENT, _self.instrument);

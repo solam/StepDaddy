@@ -10,6 +10,7 @@
     var _clients = {};
     var _instruments = [];
     var _availableInstruments = [];
+    this._availableInstruments = _availableInstruments;
     var _tracks = {};
 
     //var _trackSet = {}; // track kit
@@ -190,6 +191,7 @@
         };
 
         _availableInstruments = _instruments.concat(); // Join two arrays:
+        _self._availableInstruments = _instruments.concat();
         console.log('_availableInstruments: ', _availableInstruments);
     };
 
@@ -219,12 +221,16 @@
             instrument.tracks[n].resetNotes()
         } */
         _availableInstruments.push(instrument);
+        _self._availableInstruments.push(instrument);
     };
 
     this.getNextInstrument = function(clientId) {
+        //*
         if (typeof _clients[clientId] !== 'undefined') {
             return _clients[clientId];
-        }
+        } //*/
+
+        //console.log("_availableInstruments", _availableInstruments);
 
         var numAvailableInstruments = _availableInstruments.length;
         if (numAvailableInstruments === 0) {
@@ -235,7 +241,30 @@
         var nextInstrument = _availableInstruments[0]; // get first available instrument
         _availableInstruments.shift(); // and remove it from available instrument list
         // The shift() method removes the first item of an array, and returns that item.
+        _self._availableInstruments.shift();
 
+
+        if (typeof nextInstrument !== 'undefined') {
+
+          // Initialize the instrument and call start when ready.
+          nextInstrument.initialize(this.start);
+          // Pass the context the instrument.
+          nextInstrument.setup(_context);
+
+          //console.log("Released next available instrument", nextInstrument);
+
+          //console.log("_clients", _clients);
+
+          _clients[clientId] = nextInstrument;
+          return nextInstrument;
+
+        } else {
+          return;
+        }
+
+
+
+        /*
         // Initialize the instrument and call start when ready.
         nextInstrument.initialize(this.start);
         // Pass the context the instrument.
@@ -246,12 +275,56 @@
         //console.log("_clients", _clients);
 
         _clients[clientId] = nextInstrument;
-        return nextInstrument;
+        return nextInstrument; */
     };
 
 
 
-    this.updateInstrument = function(data, clientId) { // changeIntrumentKit
+
+    this.changeChannel = function(clientId) {
+        /*
+        if (typeof _clients[clientId] !== 'undefined') {
+            return _clients[clientId];
+        } //*/
+
+        //console.log("_availableInstruments", _availableInstruments);
+
+        var numAvailableInstruments = _availableInstruments.length;
+        if (numAvailableInstruments === 0) {
+            console.log("No more instruments available");
+            return;
+        }
+
+        var nextInstrument = _availableInstruments[0]; // get first available instrument
+        _availableInstruments.shift(); // and remove it from available instrument list
+        // The shift() method removes the first item of an array, and returns that item.
+        _self._availableInstruments.shift();
+
+
+        if (typeof nextInstrument !== 'undefined') {
+
+          // Initialize the instrument and call start when ready.
+          nextInstrument.initialize(this.start);
+          // Pass the context the instrument.
+          nextInstrument.setup(_context);
+
+          //console.log("Released next available instrument", nextInstrument);
+
+          //console.log("_clients", _clients);
+
+          _clients[clientId] = nextInstrument;
+          return nextInstrument;
+
+        } else {
+          return;
+        }
+
+
+    };
+
+
+
+    this.updateInstrument = function(data, clientId) { // change(Instrument)Kit
 
         var trackSet = data.x; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
         var prevKit = _clients[clientId].id; // source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
@@ -294,9 +367,10 @@
 
 
     this.getRandomInstrument = function(clientId) {
-        if (typeof _clients[clientId] !== 'undefined') {
+        // if clientId already known from system don't change instrument
+        /*if (typeof _clients[clientId] !== 'undefined') {
             return _clients[clientId];
-        }
+        } */
 
         var numAvailableInstruments = _availableInstruments.length;
         if (numAvailableInstruments === 0) {
@@ -320,7 +394,7 @@
     };
 
     this.start = function() {
-        console.log('Started!', this);
+        //console.log('Started!', this);
         if (_started) return;
         _started = true;
         _noteTime = 0.0;
@@ -428,10 +502,16 @@
               //volumeNode.gain.value = this._Ins01Volume; // 0.1 use track.id[0], first char of "0-1" to route volume data to right instrument
 
               var channelId = track.id.charAt(0);
-              volumeNode.gain.value = eval('this._insVol'+channelId); // _insVol0 
+
+
+              if (typeof window['SEQ']['_insVol'+channelId] !== 'undefined') {
+                volumeNode.gain.value = window['SEQ']['_insVol'+channelId];
+
+              } else {
+                volumeNode.gain.value = eval('this._insVol'+channelId); // _insVol0
+              }  
               
-              
-                
+
 
         // Connect the volume node to the destination. // gain
         volumeNode.connect(_masterGainNode); // gainNode
@@ -485,6 +565,8 @@
         var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
         var synthInstance1 = window[synthInstance2];
 
+        console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
+
         if (typeof synthInstance1 !== 'undefined') {
 
           var controls = window[synthInstance2]['controls']; 
@@ -498,10 +580,10 @@
               if (controls[j].id==data.id) {
 
                 if (/*controls[j].x.interpolate &&*/ controls[j].x.interpolate==0) {
-                  valueX = data.x;
+                  var valueX = data.x;
                 } else {
                   //valueX = this.interpolate(data.x, controls[j].x.min, controls[j].x.max);  
-                  valueX = this.interpolate2(data.x, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
+                  var valueX = this.interpolate2(data.x, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
                   console.log('valueX', valueX);   
                 }
               
@@ -509,18 +591,24 @@
                   valueY = this.interpolate(data.y, controls[j].y.min, controls[j].y.max);
                 }
 
-                console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
 
-                switch (_clients[clientId].instrumentName) {
-                  case 'AikeWebsynth1':
-                    // value sent as parameter to synth instance object
-                    eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')'); // data.x
-                    break;
-                  case 'MrSynth':
-                    eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
-                    break;
-                  case 'Conductor':
-                    
+                // send value to synthInstance object // channel
+                //console.log('ctrl block');
+                window[synthInstance2]['controls'][j].x.value = data.x; // data.x: get "raw" data aka participant displayed value
+                //console.log('val stored into obj '+synthInstance2, window[synthInstance2]['controls'][j].x.value);
+                //console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
+
+                if (controls[j].x.param!='[external]') {
+                  switch (_clients[clientId].instrumentName) {
+                    case 'AikeWebsynth1':
+                      // value sent as parameter to synth instance object
+                      eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')'); // data.x
+                      break;
+                    case 'MrSynth':
+                      eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                      break;
+                    case 'Conductor':
+                  }    
 
                     // keep ids that correspond to channel volumes
                     if (data.id<=900 && data.id>800) {   
@@ -533,22 +621,24 @@
                       var synthInstance2 = _instruments[channelNumber].instrumentName + '_' + channelNumber;        
                       var synthInstance1 = window[synthInstance2];                      
 
-                      if (typeof synthInstance1 !== 'undefined') {
-                        switch (_instruments[channelNumber].instrumentName) {
-                          case 'AikeWebsynth1':
-                            // value sent as parameter to synth instance object
-                            eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); // data.x
-                            break;
-                          case 'MrSynth':
-                            eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
-                            break;
-                          case 'Sampler':
-                            this[controls[j].x.param] = valueX;
-                            break; 
-                        }
-                      } /*else { // case 'Sampler'
-                        this[controls[j].x.param] = valueX;
-                      }*/
+                      //if (controls[j].x.param!='[external]') {
+                        if (typeof synthInstance1 !== 'undefined') {
+                          switch (_instruments[channelNumber].instrumentName) {
+                            case 'AikeWebsynth1':
+                              // value sent as parameter to synth instance object
+                              eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); // data.x
+                              break;
+                            case 'MrSynth':
+                              eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                              break;
+                            case 'Sampler':
+                              this[controls[j].x.param] = valueX;
+                              break; 
+                          }
+                        } /*else { // case 'Sampler'
+                          this[controls[j].x.param] = valueX;
+                        }*/
+                      //}
 
                     } else {
                       this[controls[j].x.param] = valueX;
@@ -560,15 +650,20 @@
 
                     break;                    
                 }   
-
+                /*
                 // send value to synthInstance object // channel
-                controls[j].x.value = data.x;
+                //controls[j].x.value = data.x;
+                console.log('ctrl block');
+                window[synthInstance2]['controls'][j].x.value = valueX;
+                //console.log('controls[j].x.value', controls[j].x.value);
+                console.log('controls[j].x.value', window[synthInstance2]['controls'][j].x.value);
+                */
               }
             }         
           } 
         }
-
-
+        //window[synthInstance2]['controls'][0].x.value = 44;
+        //console.log(synthInstance2+' obj AFTER change: ', window[synthInstance2]['controls']);
 
         /*
         var fxConfig = effectsConfig[data.id];

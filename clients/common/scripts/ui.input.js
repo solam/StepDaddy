@@ -7,7 +7,7 @@
    * @class Input
    * @param {Object} element The element of this specific fx panel.
    */
-  mixr.ui.Input = function(id, name, container) {
+  mixr.ui.Input = function(id, name, container, value) {
 
     /**
      * Mixins
@@ -22,6 +22,7 @@
      */
     var _self = this;
 
+    var _value = value;
     var _id = id;
     var _name = name;
     var $container = $(container);
@@ -122,7 +123,7 @@
     var _drawTempoInput = function(name) {
       $item = $('<div class="ctrlchange">'); // $itemContainer
       //$item = $('<input>');
-      $item.append('<input>');
+      $item.append('<input value="'+_value+'">');
       $item.append('<label>'+name+'</label>');
       $item.appendTo($container);
     };    

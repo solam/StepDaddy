@@ -105,7 +105,16 @@ if (!_padsAreInitialized) {
 
       setTimeout(function() {
         window.scrollTo(0, 1);
-      }, 0);
+        //window.scrollTo(0,9999); // document.body.scrollHeight
+        //document.body.scrollTop = document.body.scrollHeight - document.body.clientHeight
+      //var element_to_scroll_to = document.getElementById('modifiers');
+      //element_to_scroll_to.scrollIntoView();
+
+      }, 0); 
+
+      //window.scrollTo(0,99999);
+      //$('html').animate({ scrollTop: element.offset().top }, 'slow');
+
     };
 
   };
