@@ -57,6 +57,7 @@ var WAVE = {
 	TRI		: 0,
 	SAW		: 1,
 	SQUARE	: 2
+	//,SINE	: 3
 };
 
 var VCO = function(samplerate) {
@@ -140,7 +141,12 @@ VCO.prototype.set_fine = function(p) {
 };
 
 VCO.prototype.set_wave = function(val) {
-	this.wave = Math.floor((val + 25) / 50);
+	if (val>=2) {
+		var val =2;
+	} else if (val<=0) {
+		var val =0;
+	}	
+	this.wave = val; //Math.floor((val + 25) / 50); // val:124 aka 2.98 aka 2 max
 };
 
 VCO.prototype.set_gain = function(val) {
@@ -209,6 +215,7 @@ EG.prototype.set_d = function(val) {
 EG.prototype.set_s = function(val) {
 	this.s = val / 100.0;
 };
+
 EG.prototype.set_r = function(val) {
 	this.r = val;
 	this.r_delta = 1.0 / (this.r * 1000 + 1);;

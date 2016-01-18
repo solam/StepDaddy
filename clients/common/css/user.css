@@ -1,13 +1,44 @@
   div label {
+  /*display: block;
+  color: black;
+  font-size: 12px;
+  position: relative;
+  top: -35px;
+  left: 90px;*/
+
   display: block;
   color: black;
   font-size: 12px;
   position: relative;
-  /* z-index: 500; */
-  top: -35px;
-  left: 150px;
+  z-index: 1;
+  top: -18px;
+  left: 15px;
   }
 
   #pattern-editor.control {
     display:none;    
+  }
+
+  div.ctrlchange {
+    float:left;
+    margin-right: 10px;
+  }
+
+  div.ctrlchange input {
+
+  -webkit-appearance: none;
+  height: 50px;
+  min-width: 40px;
+  background: white;
+  border-radius: 4px;
+  border: none;
+  color: #555;
+  font-weight: bold;
+  padding: 0 5px;
+
+    position: relative;
+  /* top: -20px; */
+  padding-bottom: 10px ! important;
+  padding-left: 15px !important;
+
   }

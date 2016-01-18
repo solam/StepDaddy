@@ -76,13 +76,7 @@
               displayedRangeMax: '[calc]',
               min: 0,
               max: '[calc]'
-          }/*,
-          y: {
-              name: '',
-              param: '_empty',
-              min: 0,
-              max: 1
-          } */                 
+          }                
         }]                
             },
             {
@@ -122,13 +116,7 @@
               displayedRangeMax: '[calc]',
               min: 0,
               max: '[calc]'
-          }/*,
-          y: {
-              name: '',
-              param: '_empty',
-              min: 0,
-              max: 1
-          } */                 
+          }               
         }]
             },
 
@@ -175,13 +163,7 @@
               displayedRangeMax: '[calc]',
               min: 0,
               max: '[calc]'
-          }/*,
-          y: {
-              name: '',
-              param: '_empty',
-              min: 0,
-              max: 1
-          } */                 
+          }                 
         }]
             }
 
@@ -191,7 +173,7 @@
 
 
 
-
+//*
 { // channel
   channelName: 'Conductor Role', // name
   //channelType: 'conductor', // type
@@ -280,13 +262,7 @@
               displayedRangeMax: 400,
               min: 60,
               max: 400
-          }/*,
-          y: {
-              name: '',
-              param: '_empty',
-              min: 0,
-              max: 1
-          } */                 
+          }               
         },
 
         { // control
@@ -309,20 +285,14 @@
               displayedRangeMax: 1,
               min: 0,
               max: 1
-          }/*,
-          y: {
-              name: '',
-              param: '_empty',
-              min: 0,
-              max: 1
-          } */                 
+          }                 
         }        
 
       ] // end of controls
     } // end of kit
   ] // end of kits
 }, // end of channel
-
+//*/
 
 
 
@@ -415,7 +385,7 @@
         }]            
 
           }, 
-          {
+          { // Kit
             type: 'synth',
             instrumentName: 'AikeWebsynth1', // aike_ws_01
 
@@ -424,67 +394,44 @@
             kitNumber: 1,
 
             tracks: [
-                {
-                 name: 'A3',
-                 // color: '#c0ffee', // to differentiate percussive & pitch notes
-                 note: 0
-                }, {
-                 name: 'C3',
-                 note: 3
-                }, {
-                 name: 'D3',
-                 note: 5
-                }, {
-                 name: 'E3',
-                 note: 7
-                }, {
-                 name: 'G3',
-                 note: 10
-                }, {
-                 name: 'A4',
-                 note: 12
-                }, {
-                 name: 'C4',
-                 note: 15
-                }, {
-                 name: 'D4',
-                 note: 17
-                }, {
-                 name: 'E4',
-                 note: 19
-                }, {
-                 name: 'G4',
-                 note: 21
-                }
+              {
+               name: 'A3',
+               // color: '#c0ffee', // to differentiate percussive & pitch notes
+               note: 0
+              }, {
+               name: 'C3',
+               note: 3
+              }, {
+               name: 'D3',
+               note: 5
+              }, {
+               name: 'E3',
+               note: 7
+              }, {
+               name: 'G3',
+               note: 10
+              }, {
+               name: 'A4',
+               note: 12
+              }, {
+               name: 'C4',
+               note: 15
+              }, {
+               name: 'D4',
+               note: 17
+              }, {
+               name: 'E4',
+               note: 19
+              }, {
+               name: 'G4',
+               note: 21
+              }
             ],
 
             controls: [ // aka preset values
-                {
-                 name: 'cutoff freq',
-                 // color params
-                 id: 0,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      interpolate: 0, // 0: off | 1: on
-                      name: 'cutoff freq',
-                      param: 'filter.set_freq', // name of function or object path - AikeWebsynth01.filter.set_freq
-                      midicc: 0,                      
-                      value: 10, // 70
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0.5,
-                      max: 2
-                  }/*,
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  } */                 
-                },
-//*
+
+
+                //*
                 {
                  name: 'ins kit',
                  // color params
@@ -510,10 +457,33 @@
                       max: 1
                   }*/                 
                 },
-
                 //*/
 
-                                 {
+
+/*
+                {
+                 name: 'cutoff freq',
+                 // color params
+                 id: 0,
+                 type: 'input', // slider, dial/rotary_knob, switch_button
+                 direction: 0, // 'horizontal', 'vertical' for sliders
+                  x: {
+                      interpolate: 0, // 0: off | 1: on
+                      name: 'cutoff freq',
+                      param: 'filter.set_freq', // name of function or object path - AikeWebsynth01.filter.set_freq
+                      midicc: 0,                      
+                      value: 10, // 70
+                      stepSize: 0, // crénelage                      
+                      displayedRangeMin: 0,
+                      displayedRangeMax: 100,
+                      min: 0.5,
+                      max: 2
+                  }                 
+                },
+
+
+
+                {
                  name: 'vco1 gain',
                  // color params
                  id: 3,
@@ -539,7 +509,7 @@
                   }                 
                 },
 
-                                 {
+                {
                  name: 'vco2 gain',
                  // color params
                  id: 4,
@@ -565,8 +535,7 @@
                   }                 
                 },
 
-
-                                                     {
+                {
                  name: 'env decay',
                  // color params
                  id: 5,
@@ -590,16 +559,373 @@
                       min: 0,
                       max: 1
                   }                 
-                }   
+                },
+*/
+   
 
 
 
 
 
 
-            ]
+
+/*
+
+CTL_Volume.set
+WebSynth.setVolume  
+
+VCO.set_glide_on
+VCO.set_glide_time 
+VCO.set_goal_pitch */
+
+/*this.wet = 0.2;
+this.delaytime = 0.8; */
+
+/*
+    this.delay1.delayTime.value = this.delaytime * 0.5;
+    this.delay2.delayTime.value = this.delaytime * 1.0;
+    this.gain1.gain.value = this.wet * 0.25;
+    this.gain2.gain.value = this.wet * 0.125;
+*/    
 
 
+
+
+
+
+
+
+
+
+
+                { 
+                  name: 'osc1 vol',
+                  id: 1,
+                  type: 'input',                                    
+                  x: {
+                    name: 'osc1 vol',
+                    param: 'vco1.set_gain',                     
+                    value: 30,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },
+
+                { 
+                  name: 'osc1 waveform',
+                  id: 2,
+                  type: 'input',                                    
+                  x: {
+                    name: 'osc1 waveform',
+                    param: 'vco1.set_wave',                     
+                    value: 1,
+                    stepSize: 1, 
+                    interpolate: 0, 
+                    min: 0,
+                    max: 2 // 124                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },  
+
+                { 
+                  name: 'osc2 vol',
+                  id: 3,
+                  type: 'input',                                    
+                  x: {
+                    name: 'osc2 vol',
+                    param: 'vco2.set_gain',                     
+                    value: 80,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },
+
+                { 
+                  name: 'osc2 waveform',
+                  id: 4,
+                  type: 'input',                                    
+                  x: {
+                    name: 'osc2 waveform',
+                    param: 'vco2.set_wave',                     
+                    value: 0,
+                    stepSize: 1, 
+                    interpolate: 0, 
+                    min: 0,
+                    max: 2                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },     
+
+                { 
+                  name: 'osc2 pitch',
+                  id: 5,
+                  type: 'input',                                    
+                  x: {
+                    name: 'osc2 pitch',
+                    param: 'vco2.set_pitch',                     
+                    value: 0, // -30 for high pitcehd notes
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },  
+
+
+
+                { 
+                  name: 'env attack',
+                  id: 6,
+                  type: 'input',                                    
+                  x: {
+                    name: 'env attack',
+                    param: 'eg.set_a',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'env decay',
+                  id: 7,
+                  type: 'input',                                    
+                  x: {
+                    name: 'env decay',
+                    param: 'eg.set_d',                     
+                    value: 25,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'env sustain',
+                  id: 8,
+                  type: 'input',                                    
+                  x: {
+                    name: 'env sustain',
+                    param: 'eg.set_s',                     
+                    value: 10,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'env release',
+                  id: 9,
+                  type: 'input',                                    
+                  x: {
+                    name: 'env release',
+                    param: 'eg.set_r',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },                                                                                                             
+
+
+
+                { 
+                  name: 'filter cutoff',
+                  id: 10,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter cutoff',
+                    param: 'filter.set_freq',                     
+                    value: 65,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },  
+
+                { 
+                  name: 'filter resonance',
+                  id: 11,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter resonance',
+                    param: 'filter.set_q',                     
+                    value: 10,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },  
+                /*
+                { 
+                  name: 'filter eg',
+                  id: 12,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter eg',
+                    param: 'filter.set_eg',                     
+                    value: 50,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                }, */ 
+
+                { 
+                  name: 'filter eg amount',
+                  id: 13,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter eg amount',
+                    param: 'filter.set_amount',                     
+                    value: 30,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },  
+
+
+
+                { 
+                  name: 'filter env attack',
+                  id: 14,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter env attack',
+                    param: 'feg.set_a',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'filter env decay',
+                  id: 15,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter env decay',
+                    param: 'feg.set_d',                     
+                    value: 30,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'filter env sustain',
+                  id: 16,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter env sustain',
+                    param: 'feg.set_s',                     
+                    value: 82,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                },   
+
+                { 
+                  name: 'filter env release',
+                  id: 17,
+                  type: 'input',                                    
+                  x: {
+                    name: 'filter env release',
+                    param: 'feg.set_r',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+                  }                
+                }
+
+
+                /*
+                { 
+                  name: '',
+                  id: 6,
+
+                  type: 'input', 
+                  //direction: 0, 
+                  //colors: { 
+                  //  fg: '#51ACBD' // foregroundColor
+                  //},          
+                            
+                  x: {
+                    name: '',
+                    param: '', 
+
+                    //subParams: { 
+                    //  AikeWebsynth1: 'volume.set' 
+                    //}, 
+
+                    //midicc: 0,                      
+                    value: 50,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+                    //min: 0,
+                    //max: 100                    
+                    //displayedRangeMin: 0,
+                    //displayedRangeMax: 100,
+
+                  }                
+                }, */                    
+
+              ] // end of Kit controls              
           },
 
 
