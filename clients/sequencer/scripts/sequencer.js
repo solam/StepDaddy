@@ -23,7 +23,7 @@
     var _noteIndex = 0;
     var _startTime = 0;
     //var _tempo = 110;
-    this._tempo = 109; // 110
+    
 
     this._Ins01Volume = 1;
     
@@ -50,6 +50,8 @@
 
     var instrumentsConfig = window.insConf;
 
+    this._tempo = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
+
     //this._insVol0 = 0.7; // ch1 vol retrieve from window.insConf (conductor role) via trackset value
 
     var insVol0X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
@@ -57,8 +59,24 @@
 
     var insVol2X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol2 = this.interpolate2(insVol2X.value, insVol2X.min, insVol2X.max, insVol2X.displayedRangeMin, insVol2X.displayedRangeMax);
+
+    var insVol3X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol3 = this.interpolate2(insVol3X.value, insVol3X.min, insVol3X.max, insVol3X.displayedRangeMin, insVol3X.displayedRangeMax);
+
+    var insVol4X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol4 = this.interpolate2(insVol4X.value, insVol4X.min, insVol4X.max, insVol4X.displayedRangeMin, insVol4X.displayedRangeMax);    
+
+    var insVol5X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol5 = this.interpolate2(insVol5X.value, insVol5X.min, insVol5X.max, insVol5X.displayedRangeMin, insVol5X.displayedRangeMax);        
+
+    var insVol6X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol6 = this.interpolate2(insVol6X.value, insVol6X.min, insVol6X.max, insVol6X.displayedRangeMin, insVol6X.displayedRangeMax);    
+
+    var insVol7X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    this._insVol7 = this.interpolate2(insVol7X.value, insVol7X.min, insVol7X.max, insVol7X.displayedRangeMin, insVol7X.displayedRangeMax);                
+
     //this._insVol2 = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[2].x.value;
-    console.log("_insVol2", this._insVol2);
+    console.log("bpm", instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[7].x);
 
     var _lowpassFilter = null;
     var _compressor = null;
@@ -414,6 +432,18 @@
             // Convert noteTime to context time.
             var contextPlayTime = _noteTime + _startTime;
 
+
+            // adjust sample "click" to happen in sync with beat seq animation by advancing trigger time by 1 beat (16th bar) 
+            if (_self._tempo<60) {
+              var bpm = 60;
+            } else {
+              var bpm = _self._tempo;
+            }
+            var secondsPerBeat = 60.0 / bpm; // aka quarter note or 1/4 bar                            
+            var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;    // 2*(secondsPerBeat/16)
+            //console.log('bpm', bpm);        
+
+
             for (var i = 0; i < _instruments.length; i++) {
 
 
@@ -447,7 +477,15 @@
                     var volume = track.notes[_noteIndex];
                     if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
                         if (volume > 0) {
-                            _self.playNote(track, contextPlayTime, volume); // , i
+
+
+
+
+                            //console.log('contextPlayTime', contextPlayTime);
+                            //console.log('adjusted', contextPlayTime + (secondsPerBeat/16));
+
+
+                            _self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
                         }
                     } else if (_instruments[i].type === 'synth') {
 
@@ -522,6 +560,7 @@
 
         // voice.connect(_context.destination);
         voice.start(noteTime);
+        //console.log('noteTime: ', noteTime);
     };
 
     this.step = function() {
@@ -565,7 +604,7 @@
         var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
         var synthInstance1 = window[synthInstance2];
 
-        console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
+        //console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
 
         if (typeof synthInstance1 !== 'undefined') {
 
@@ -579,12 +618,25 @@
 
               if (controls[j].id==data.id) {
 
+                // Prevent aike synth from muting when user sends empty/void value or enters non numeric values
+                //var valueX = data.x;
+                var valueXDigitTest = /^\d+$/.test(data.x);
+
+                if (data.x=='' || valueXDigitTest==false) {
+                  var rawValueX = 0;
+                  //var data.x = 0;
+                } else {
+                  var rawValueX = data.x;
+                }
+                
+                //console.log('valueX is digit test', valueXDigitTest);                
+
                 if (/*controls[j].x.interpolate &&*/ controls[j].x.interpolate==0) {
-                  var valueX = data.x;
+                  var valueX = rawValueX; //valueX; // data.x;
                 } else {
                   //valueX = this.interpolate(data.x, controls[j].x.min, controls[j].x.max);  
-                  var valueX = this.interpolate2(data.x, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
-                  console.log('valueX', valueX);   
+                  var valueX = this.interpolate2(rawValueX, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
+                  console.log('valueX', valueX); // data.x  
                 }
               
                 if (controls[j].y) {
@@ -592,9 +644,10 @@
                 }
 
 
+
                 // send value to synthInstance object // channel
                 //console.log('ctrl block');
-                window[synthInstance2]['controls'][j].x.value = data.x; // data.x: get "raw" data aka participant displayed value
+                window[synthInstance2]['controls'][j].x.value = rawValueX; // data.x: get "raw" data aka participant displayed value
                 //console.log('val stored into obj '+synthInstance2, window[synthInstance2]['controls'][j].x.value);
                 //console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
 

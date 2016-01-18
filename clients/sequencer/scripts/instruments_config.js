@@ -37,7 +37,7 @@
 
 
 //*
-        { trackSet: 1, // 1 - this _self._tempo-109 - defaultKit:
+        { trackSet: 0, // 1 - this _self._tempo-109 - defaultKit:
           //kitName: '909 kd/sd',
           conf: [
             {            
@@ -190,7 +190,7 @@
       
       controls: [ // aka preset values                                    
         { 
-          name: 'Ch1 volume',
+          name: 'Channel 1 volume',
           id: 800,
 
           type: 'input', // slider, dial/rotary_knob, switch_button      
@@ -200,7 +200,7 @@
           },          
                     
           x: {
-              name: 'Ch1 volume',
+              name: 'Channel 1 volume',
               param: '_insVol0', // [external] = does not change timbre generator param
               midicc: 0,                      
               value: 100,
@@ -213,8 +213,10 @@
           }                
         },
 
+        // Channel 2 = conductor role
+
         { 
-          name: 'Ch3 volume',
+          name: 'Channel 3 volume',
           id: 802,
 
           type: 'input', // slider, dial/rotary_knob, switch_button      
@@ -224,7 +226,7 @@
           },          
                     
           x: {
-              name: 'Ch3 volume',
+              name: 'Channel 3 volume',
               param: '_insVol2', // [external] = does not change timbre generator param
 
               subParams: { 
@@ -242,6 +244,106 @@
           }                
         },
 
+        { 
+          name: 'Channel 4 volume',
+          id: 803,
+          type: 'input',                             
+          x: {
+              name: 'Channel 4 volume',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 50,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 5 volume',
+          id: 804,
+          type: 'input',                             
+          x: {
+              name: 'Channel 5 volume',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 50,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 6 volume',
+          id: 805,
+          type: 'input',                             
+          x: {
+              name: 'Channel 6 volume',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 50,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 7 volume',
+          id: 806,
+          type: 'input',                             
+          x: {
+              name: 'Channel 7 volume',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 50,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 8 volume',
+          id: 807,
+          type: 'input',                             
+          x: {
+              name: 'Channel 8 volume',
+              param: '_insVol7', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 50,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },                                        
+
         { // control
           name: 'Tempo',
           id: 999,
@@ -255,7 +357,7 @@
               name: 'BPM',
               param: '_tempo', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 100,
+              value: 60, // 100 - 85
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 60,
@@ -266,7 +368,7 @@
         },
 
         { // control
-          name: 'ChannelChange',
+          name: 'Channel change',
           id: 997,
 
           type: 'input', // slider, dial/rotary_knob, switch_button      
@@ -275,7 +377,7 @@
             fg: '#51ACBD' // foregroundColor
           },   
           x: {
-              name: 'ChannelChange',
+              name: 'Channel change',
               param: '[external]', // [external] = does not change timbre generator param
               midicc: 0,                      
               value: 0,
