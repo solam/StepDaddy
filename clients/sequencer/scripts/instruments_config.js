@@ -1,179 +1,4 @@
-    window.insConf = [ // channelConf
-        /*{
-            trackSet: 1,
-            type: 'samples',
-            color: 'hotpink', // should be bound to trackSet
-            name: 'Drum kit', // should be bound to trackSet
-            tracks: [
-                [{
-                    name: '909 Kick',
-                    sampleUrl: '12-TR-909/909 KIK2.wav'
-                }, {
-                    name: '909 Snare',
-                    sampleUrl: '12-TR-909/909 SD1.wav'
-                // },  {
-                //     name: 'Snare long',
-                //     sampleUrl: '12-TR-909/909 SD3.wav'
-                // }, {
-                //     name: 'HiHat',
-                //     sampleUrl: '12-TR-909/909 HHCL 1.wav'
-                // }, {
-                //     name: 'HiHat open',
-                //     sampleUrl: '12-TR-909/909 HHOP.wav'
-                // },
-                ],
-
-                [{
-                    name: 'HiHat',
-                    sampleUrl: '12-TR-909/909 HHCL 1.wav'
-                }, {
-                    name: 'Snare long',
-                    sampleUrl: '12-TR-909/909 SD3.wav'
-                }
-                ]
-
-            ]
-        }, */
-
-
-/*
-        { trackSet: 0, // 1 - this _self._tempo-109 - defaultKit:
-          //kitName: '909 kd/sd',
-          conf: [
-            {            
-              type: 'samples',
-              instrumentName: 'Sampler',
-              color: 'hotpink', 
-              name: '909 Drum', 
-              kitNumber: 0,
-              tracks: 
-                [{
-                      name: '909 Kick',
-                      sampleUrl: '12-TR-909/909 KIK2.wav'
-                  }, {
-                      name: '909 Snare',
-                      sampleUrl: '12-TR-909/909 SD1.wav'
-                }],
-      controls: [ // aka preset values
-        { // control
-          name: 'Change instrument',
-          id: 998,
-
-          type: 'input', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'change ins',
-              param: '[external]', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: '[calc]',
-              min: 0,
-              max: '[calc]'
-          }                
-        }]                
-            },
-            {
-              type: 'samples',
-              instrumentName: 'Sampler',
-              color: 'red', 
-              name: '909 Drum 02', 
-              kitNumber: 1,
-              tracks: [
-                {
-                    name: 'HiHat',
-                    sampleUrl: '12-TR-909/909 HHCL 1.wav'
-                }, {
-                    name: 'Snare long',
-                    sampleUrl: '12-TR-909/909 SD3.wav'
-                }
-              ],
-      controls: [ // aka preset values
-        { // control
-          name: 'Change instrument',
-          id: 998,
-
-          type: 'input', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'change ins',
-              param: '[external]', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 1,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: '[calc]',
-              min: 0,
-              max: '[calc]'
-          }               
-        }]
-            },
-
-            {
-                type: 'samples',
-                instrumentName: 'Sampler',
-                color: '#deadf0',
-                name: 'Percussion',
-                kitNumber: 2,
-                tracks: [
-                    {
-                        name: 'Clap',
-                        sampleUrl: '12-TR-909/909 CLAP.wav'
-                    }, {
-                        name: 'Rim',
-                        sampleUrl: '12-TR-909/909 RIM.wav'
-                    }, {
-                        name: 'Tom 1',
-                        sampleUrl: '12-TR-909/909 HI.TOM1.wav'
-                    }, {
-                        name: 'Tom 2',
-                        sampleUrl: '12-TR-909/909 HI.TOM2.wav'
-                    }
-                ],
-      controls: [ // aka preset values
-        { // control
-          name: 'Change instrument',
-          id: 998,
-
-          type: 'input', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'change ins',
-              param: '[external]', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 2,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: '[calc]',
-              min: 0,
-              max: '[calc]'
-          }                 
-        }]
-            }
-
-          ]          
-        },
-//*/
-
-
-
-
+window.insConf = [ // channelConf
 
 { channelName: 'Channel 1: drums',  
   trackSet: 0, // defaultKit
@@ -429,6 +254,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //*
 { // channel
   channelName: 'Channel 2: conductor', // name
@@ -660,12 +498,27 @@
 
 
 
-        { 
-          channelName: 'Channel 3: bass', // channelName = "bass, high pitch sounds etc" - insName
-          //channelType: 'instrument', // conductor
-          trackSet: 0, // defaultKit -   Number - // defaultInstrumentPreset
-          conf: [ // kits channelConfiguration kitConfiguration 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{ channelName: 'Channel 3: bass', // channelName = "bass, high pitch sounds etc" - insName
+  //channelType: 'instrument', // conductor
+  trackSet: 0, // defaultKit -   Number - // defaultInstrumentPreset
+  conf: [ // kits channelConfiguration kitConfiguration 
+
+  
 
 
             {            
@@ -841,116 +694,6 @@
                 },
                 //*/
 
-
-/*
-                {
-                 name: 'cutoff freq',
-                 // color params
-                 id: 0,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      interpolate: 0, // 0: off | 1: on
-                      name: 'cutoff freq',
-                      param: 'filter.set_freq', // name of function or object path - AikeWebsynth01.filter.set_freq
-                      midicc: 0,                      
-                      value: 10, // 70
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0.5,
-                      max: 2
-                  }                 
-                },
-
-
-
-                {
-                 name: 'vco1 gain',
-                 // color params
-                 id: 3,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      interpolate: 0, // 0: off | 1: on
-                      name: 'vco1 gain', // ins kit
-                      param: 'vco1.set_gain', // name of function or object path
-                      midicc: 1,                      
-                      value: 70,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-                {
-                 name: 'vco2 gain',
-                 // color params
-                 id: 4,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      interpolate: 0, // 0: off | 1: on
-                      name: 'vco2 gain', // ins kit
-                      param: 'vco2.set_gain', // name of function or object path
-                      midicc: 1,                      
-                      value: 50,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-                {
-                 name: 'env decay',
-                 // color params
-                 id: 5,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      interpolate: 0, // 0: off | 1: on
-                      name: 'env decay', // ins kit
-                      param: 'eg.set_d', // name of function or object path
-                      midicc: 1,                      
-                      value: 10, // -6
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-*/
-   
-
-
-
-
-
-
-
 /*
 
 CTL_Volume.set
@@ -969,16 +712,6 @@ this.delaytime = 0.8; */
     this.gain1.gain.value = this.wet * 0.25;
     this.gain2.gain.value = this.wet * 0.125;
 */    
-
-
-
-
-
-
-
-
-
-
 
                 { 
                   name: 'osc1 vol',
@@ -1311,88 +1044,23 @@ this.delaytime = 0.8; */
           },
 
 
-/*
 
-          {
-            type: 'synth',
-            instrumentName: 'MrSynth', // aike_ws_01
-
-            color: '#c0ffee',
-            name: 'MrSynth preset 01', // preset name
-            kitNumber: 2,
-
-            tracks: [
-                {
-                 name: 'A3',
-                 // color: '#c0ffee', // to differentiate percussive & pitch notes
-                 note: 'A3'
-                }, {
-                 name: 'C3',
-                 note: 'C3'
-                }, {
-                 name: 'D3',
-                 note: 'D3'
-                }
-            ],
-
-            controls: [ // aka preset values
-                {
-                 name: 'cutoff freq',
-                 // color params
-                 id: 0,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'cutoff freq',
-                      param: 'filterNode.frequency.value', // name of function or object path - AikeWebsynth01.filter.set_freq
-                      midicc: 0,                      
-                      value: 43,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0.5,
-                      max: 2
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-                {
-                 name: 'ins kit',
-                 // color params
-                 id: 998,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'Change ins', // ins kit
-                      param: '[external]', // name of function or object path // lfoNode.frequency.value
-                      midicc: 1,                      
-                      value: 2,
-                      stepSize: 1, // crénelage                      
-                      displayedRangeMin: 'calc',
-                      displayedRangeMax: 'calc',
-                      min: 'calc',
-                      max: 'calc'
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                }                       
-
-              ]
-
-        } //*/
 
   ] // close channel conf
 
 }, // close channel
 //*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1707,6 +1375,16 @@ name: '',
     } // end of kit
   ] // end of kits
 }, // end of channel
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2033,14 +1711,234 @@ name: '',
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 { channelName: 'Channel 6: c4>c5',  
   trackSet: 0, 
   conf: [ 
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Spacedrum: chromatic', 
+      kitNumber: 0, 
+      color: 'rgba(253, 206, 31, 1)', 
+      tracks: [
+        { name: 'C5',
+          sampleUrl: 'spacedrum/Chro13C5.mp3'
+        },  
+        { name: 'B4',
+          sampleUrl: 'spacedrum/Chro12B4.mp3'
+        }, 
+        { name: 'A4',
+          sampleUrl: 'spacedrum/Chro10A4.mp3'
+        }, 
+        { name: 'G4',
+          sampleUrl: 'spacedrum/Chro8G4.mp3'
+        }, 
+        { name: 'F4',
+          sampleUrl: 'spacedrum/Chro6F4.mp3'
+        },   
+        { name: 'E4',
+          sampleUrl: 'spacedrum/Chro5E4.mp3'   
+        }, 
+        { name: 'D4',
+          sampleUrl: 'spacedrum/Chro3D4.mp3'
+        },  
+        { name: 'C4',
+          sampleUrl: 'spacedrum/Chro1C4.mp3'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Spacedrum: 8notesDiatoAm', 
+      kitNumber: 1, 
+      color: 'rgba(253, 206, 31, 0.95)',
+      tracks: [
+        { name: 'A4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4A4.mp3'
+        }, 
+        { name: 'G4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4G4.mp3'
+        }, 
+        { name: 'F4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4F4.mp3'
+        },   
+        { name: 'E4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4E4.mp3'   
+        }, 
+        { name: 'D4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4D4.mp3'
+        },  
+        { name: 'C4',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4C4.mp3'
+        },   
+        { name: 'B3',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4B3.mp3'
+        },  
+        { name: 'A3',
+          sampleUrl: 'spacedrum/8notesDiatoAmV4A3.mp3'
+        },                           
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    },     
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      color: 'rgba(253, 206, 31, 0.9)', //color: '#AADB53',
+      name: 'Lead synth',
+      kitNumber: 2, 
+      //color: 'rgba(253, 118, 8, 1)', 
+      tracks: [
+        { name: 'Bb4',
+          sampleUrl: 'spacedrum/6notesBb4V4.mp3'
+        }, 
+        { name: 'G4',
+          sampleUrl: 'spacedrum/6notesG4V4.mp3'
+        }, 
+        { name: 'F4',
+          sampleUrl: 'spacedrum/6notesF4V4.mp3'
+        },   
+        { name: 'D4',
+          sampleUrl: 'spacedrum/6notesD4V4.mp3'
+        },  
+        { name: 'C4',
+          sampleUrl: 'spacedrum/6notesC4V4.mp3'
+        },   
+        { name: 'Bb3',
+          sampleUrl: 'spacedrum/6notesBb3V4.mp3'
+        },                          
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 2,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    },      
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Lead synth', 
+      kitNumber: 3, 
+      color: 'rgba(253, 118, 8, 0.85)', 
+      tracks: [
+        {
+            name: 'A',
+            sampleUrl: 'lead1/Synth1_8.mp3'
+        }, {
+            name: 'H',
+            sampleUrl: 'lead1/Synth1_7.mp3'
+        },
+        {
+            name: 'C#',
+            sampleUrl: 'lead1/Synth1_6.mp3'
+        },
+        {
+            name: 'E',
+            sampleUrl: 'lead1/Synth1_5.mp3'
+        },
+        {
+            name: 'F#',
+            sampleUrl: 'lead1/Synth1_4.mp3'
+        },
+        {
+            name: 'A',
+            sampleUrl: 'lead1/Synth1_3.mp3'
+        },
+        {
+            name: 'H',
+            sampleUrl: 'lead1/Synth1_2.mp3'
+        },
+        {
+            name: 'C#',
+            sampleUrl: 'lead1/Synth1_1.mp3'
+        }                        
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 3,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    },
+
+
+
+
     { type: 'synth',
       instrumentName: 'AikeWebsynth1', 
-      color: 'rgba(253, 206, 31, 1)',
+      color: 'rgba(253, 206, 31, 0.8)',
 name: '', 
-      kitNumber: 0,
+      kitNumber: 4,
       tracks: [
         { name: 'C5',
           note:  27
@@ -2074,7 +1972,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 0,
+            value: 4,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2344,6 +2242,19 @@ name: '',
     } // end of kit
   ] // end of kits
 }, // end of channel
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2669,6 +2580,16 @@ name: '',
 
 
 
+
+
+
+
+
+
+
+
+
+
 { channelName: 'Channel 8: c6>c7',  
   trackSet: 0, 
   conf: [ 
@@ -2982,492 +2903,7 @@ name: '',
 } // end of channel
 
 
-
-
-
-/*
-
-        { 
-          channelName: 'Channel 3', // channelName = "bass, high pitch sounds etc" - insName
-          trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
-          conf: [ // kits channelConfiguration kitConfiguration 
-
-          {
-            type: 'synth',
-            instrumentName: 'AikeWebsynth1', // aike_ws_01
-
-            color: '#c0ffee',
-            name: 'Nordic Lead', // preset name
-            kitNumber: 0,
-
-            tracks: [
-                {
-                 name: 'A3',
-                 // color: '#c0ffee', // to differentiate percussive & pitch notes
-                 note: 0
-                }, {
-                 name: 'C3',
-                 note: 3
-                }, {
-                 name: 'D3',
-                 note: 5
-                }, {
-                 name: 'E3',
-                 note: 7
-                }, {
-                 name: 'G3',
-                 note: 10
-                }, {
-                 name: 'A4',
-                 note: 12
-                }, {
-                 name: 'C4',
-                 note: 15
-                }, {
-                 name: 'D4',
-                 note: 17
-                }, {
-                 name: 'E4',
-                 note: 19
-                }, {
-                 name: 'G4',
-                 note: 21
-                }
-            ],
-
-            controls: [ // aka preset values
-                {
-                 name: 'cutoff freq',
-                 // color params
-                 id: 0,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'cutoff freq',
-                      param: 'filter.set_freq', // name of function or object path - AikeWebsynth01.filter.set_freq
-                      midicc: 0,                      
-                      value: 10,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0.5,
-                      max: 2
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-                {
-                 name: 'ins kit',
-                 // color params
-                 id: 2,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'Tempo', // ins kit
-                      param: 'eg.set_a', // name of function or object path
-                      midicc: 1,                      
-                      value: 0,
-                      stepSize: 1, // crénelage                      
-                      displayedRangeMin: 'calc',
-                      displayedRangeMax: 'calc',
-                      min: 'calc',
-                      max: 'calc'
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-                
-
-                                 {
-                 name: 'vco1 gain',
-                 // color params
-                 id: 3,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'vco1 gain', // ins kit
-                      param: 'vco1.set_gain', // name of function or object path
-                      midicc: 1,                      
-                      value: 30,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-                                 {
-                 name: 'vco2 gain',
-                 // color params
-                 id: 4,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'vco2 gain', // ins kit
-                      param: 'vco2.set_gain', // name of function or object path
-                      midicc: 1,                      
-                      value: 20,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-
-
-                                                     {
-                 name: 'env decay',
-                 // color params
-                 id: 5,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'env decay', // ins kit
-                      param: 'eg.set_d', // name of function or object path
-                      midicc: 1,                      
-                      value: 10,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0,
-                      max: 100
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                }   
-
-
-
-
-
-
-            ]
-
-
-          },
-
-
-
-         {
-            type: 'synth',
-            instrumentName: 'MrSynth', // aike_ws_01
-
-            color: '#c0ffee',
-            name: 'MrSynth preset 01', // preset name
-            kitNumber: 1,
-
-            tracks: [
-                {
-                 name: 'A3',
-                 // color: '#c0ffee', // to differentiate percussive & pitch notes
-                 note: 'A3'
-                }, {
-                 name: 'C3',
-                 note: 'C3'
-                }, {
-                 name: 'D3',
-                 note: 'D3'
-                }
-            ],
-
-            controls: [ // aka preset values
-                {
-                 name: 'cutoff freq',
-                 // color params
-                 id: 0,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'cutoff freq',
-                      param: 'filterNode.frequency.value', // name of function or object path - AikeWebsynth01.filter.set_freq
-                      midicc: 0,                      
-                      value: 89,
-                      stepSize: 0, // crénelage                      
-                      displayedRangeMin: 0,
-                      displayedRangeMax: 100,
-                      min: 0.5,
-                      max: 2
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                },
-                {
-                 name: 'ins kit',
-                 // color params
-                 id: 2,
-                 type: 'input', // slider, dial/rotary_knob, switch_button
-                 direction: 0, // 'horizontal', 'vertical' for sliders
-                  x: {
-                      name: 'Tempo', // ins kit
-                      param: 'lfoNode.frequency.value', // name of function or object path
-                      midicc: 1,                      
-                      value: 0,
-                      stepSize: 1, // crénelage                      
-                      displayedRangeMin: 'calc',
-                      displayedRangeMax: 'calc',
-                      min: 'calc',
-                      max: 'calc'
-                  },
-                  y: {
-                      name: '',
-                      param: '_empty',
-                      min: 0,
-                      max: 1
-                  }                 
-                }                                      
-
-              ]
-
-        }          
-
-
-
-          ]    
-
-        } 
-
-
-
-
-
-
-
-
-
-        /*,
-        {
-            type: 'samples',
-            color: '#AADB53',
-            name: 'Lead synth',
-            tracks: [
-                {
-                    name: 'A',
-                    sampleUrl: 'lead1/Synth1_8.mp3'
-                }, {
-                    name: 'H',
-                    sampleUrl: 'lead1/Synth1_7.mp3'
-                },
-                {
-                    name: 'C#',
-                    sampleUrl: 'lead1/Synth1_6.mp3'
-                },
-                {
-                    name: 'E',
-                    sampleUrl: 'lead1/Synth1_5.mp3'
-                },
-                {
-                    name: 'F#',
-                    sampleUrl: 'lead1/Synth1_4.mp3'
-                },
-                {
-                    name: 'A',
-                    sampleUrl: 'lead1/Synth1_3.mp3'
-                },
-                {
-                    name: 'H',
-                    sampleUrl: 'lead1/Synth1_2.mp3'
-                },
-                {
-                    name: 'C#',
-                    sampleUrl: 'lead1/Synth1_1.mp3'
-                }
-            ]
-        },*/
-        /*
-        {
-            type: 'samples',
-            color: '#517CBD',
-            name: 'Bass synth',
-            tracks: [
-                {
-                    name: 'C#',
-                    sampleUrl: 'bass/Bass1_8.mp3'
-                },
-                {
-                    name: 'H',
-                    sampleUrl: 'bass/Bass1_7.mp3'
-                },
-                {
-                    name: 'A',
-                    sampleUrl: 'bass/Bass1_6.mp3'
-                },
-                {
-                    name: 'F#',
-                    sampleUrl: 'bass/Bass1_5.mp3'
-                },
-                {
-                    name: 'E',
-                    sampleUrl: 'bass/Bass1_4.mp3'
-                },
-                {
-                    name: 'C#',
-                    sampleUrl: 'bass/Bass1_3.mp3'
-                },
-                {
-                    name: 'H',
-                    sampleUrl: 'bass/Bass1_2.mp3'
-                },
-                {
-                    name: 'A',
-                    sampleUrl: 'bass/Bass1_1.mp3'
-                }
-
-            ]
-        },
-        */
-        /*{
-            type: 'samples',
-            color: '#BD5181',
-            name: 'Voice',
-            tracks: [
-                {
-                    name: 'Music',
-                    sampleUrl: 'voice/Voice1_1.mp3'
-                }, {
-                    name: 'Hack',
-                    sampleUrl: 'voice/Voice1_2.mp3'
-                }, {
-                    name: 'Day',
-                    sampleUrl: 'voice/Voice1_3.mp3'
-                }, {
-                    name: 'At',
-                    sampleUrl: 'voice/Voice1_4.mp3'
-                }, {
-                    name: 'Spotify',
-                    sampleUrl: 'voice/Voice1_5.mp3'
-                }
-            ]
-        },*/
-/*        {
-            type: 'synth',
-            color: '#c0ffee',
-            name: 'Nordic Lead',
-            tracks: [
-                {
-                 name: 'A2',
-                 note: 0
-                }, {
-                 name: 'C2',
-                 note: 3
-                }, {
-                 name: 'D2',
-                 note: 5
-                }, {
-                 name: 'E2',
-                 note: 7
-                }, {
-                 name: 'G2',
-                 note: 10
-                }, {
-                 name: 'A3',
-                 note: 12
-                }, {
-                 name: 'C3',
-                 note: 15
-                }, {
-                 name: 'D3',
-                 note: 17
-                }, {
-                 name: 'E3',
-                 note: 19
-                }, {
-                 name: 'G3',
-                 note: 21
-                }
-            ]
-          } */
-          //,
-        // {
-        //     type: 'samples',
-        //     color: '#deadf0',
-        //     name: 'Percussion',
-        //     tracks: [
-        //         {
-        //             name: 'Clap',
-        //             sampleUrl: '12-TR-909/909 CLAP.wav'
-        //         }, {
-        //             name: 'Rim',
-        //             sampleUrl: '12-TR-909/909 RIM.wav'
-        //         }, {
-        //             name: 'Tom 1',
-        //             sampleUrl: '12-TR-909/909 HI.TOM1.wav'
-        //         }, {
-        //             name: 'Tom 2',
-        //             sampleUrl: '12-TR-909/909 HI.TOM2.wav'
-        //         }
-        //     ]
-        // }
-/*,{
-            type: 'synth',
-            color: '#c0ffee',
-            name: 'Nordic Lead',
-            tracks: [
-                {
-                 name: 'A2',
-                 note: 0
-                }, {
-                 name: 'C2',
-                 note: 3
-                }, {
-                 name: 'D2',
-                 note: 5
-                }, {
-                 name: 'E2',
-                 note: 7
-                }, {
-                 name: 'G2',
-                 note: 10
-                }, {
-                 name: 'A3',
-                 note: 12
-                }, {
-                 name: 'C3',
-                 note: 15
-                }, {
-                 name: 'D3',
-                 note: 17
-                }, {
-                 name: 'E3',
-                 note: 19
-                }, {
-                 name: 'G3',
-                 note: 21
-                }
-            ]
-          } */        
-    ];
+];
 
 
 
