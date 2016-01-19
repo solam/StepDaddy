@@ -7,7 +7,7 @@
    * @class Input
    * @param {Object} element The element of this specific fx panel.
    */
-  mixr.ui.Input = function(id, name, container, value) {
+  mixr.ui.Input = function(id, name, container, value, controlObject, channelId) {
 
     /**
      * Mixins
@@ -22,9 +22,11 @@
      */
     var _self = this;
 
+    var _ctrlObj = controlObject;
     var _value = value;
     var _id = id;
     var _name = name;
+    var _channelId = channelId;
     var $container = $(container);
     var $item;
 /*var $itemTempo;
@@ -123,8 +125,31 @@
     var _drawTempoInput = function(name) {
       $item = $('<div class="ctrlchange">'); // $itemContainer
       //$item = $('<input>');
-      $item.append('<input value="'+_value+'">');
-      $item.append('<label>'+name+'</label>');
+
+      var instrumentsConfig = window.insConf;
+
+      // following value calculation code should be out of INPUT !!!!
+      if (_id>=800 && _id<809) {
+        var instrumentsConfig = window.insConf;
+        
+        var channelId = _id.toString();//"'"+_id+"'";
+        var channelId = channelId.charAt(channelId.length-1); // channelId.charAt(2);
+
+        
+        console.log('instrumentsConfig: ', instrumentsConfig);
+        var bgColor = instrumentsConfig[channelId].conf[instrumentsConfig[channelId].trackSet].color;
+        $item.append('<input value="'+_value+'" style="background:'+bgColor+';">');
+      } else {
+        $item.append('<input value="'+_value+'">');  
+      }
+
+      if (_id==998) {      
+        var channelKitNumber = instrumentsConfig[_channelId].conf.length-1;
+        $item.append('<label>'+name+' (0>'+channelKitNumber+')</label>');
+      } else {
+        $item.append('<label>'+name+'</label>');
+      }  
+      
       $item.appendTo($container);
     };    
 

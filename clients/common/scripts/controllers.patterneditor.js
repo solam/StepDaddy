@@ -89,11 +89,12 @@
 
         // draw controllers
 
-     //   console.log('controls', _model.instrument.controls);
+        //console.log('_model.ins:', _model.instrument.id);
 //*
         var container = document.getElementById('modifiers');    
         var controls = _model.instrument.controls;
         var input = 1;
+        var channelId = _model.instrument.id;
 
         if (_model.instrument.controls!=0) {    
 //*
@@ -101,7 +102,7 @@
 
             var input = input + j;
 
-            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value).initialize();
+            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
             window[input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
             //console.log('input value: ', controls[j].x.value);
 
