@@ -246,7 +246,107 @@ window.insConf = [ // channelConf
           }                 
         }
       ]            
-    }              
+    },     
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Drums', 
+      kitNumber: 5, 
+      color: 'rgba(253, 118, 8, 0.75)', // (kitColor)
+      tracks: [
+        /*{ name: 'Cymbal',
+          sampleUrl: 'Drums/Ah1 Ride.wav'            
+        },
+        { name: 'Rimshot',
+          sampleUrl: 'Drums/Ch1 RimShot.wav'            
+        },*/      
+        { name: 'Tom 3',
+          sampleUrl: 'Drums/B1 TomHigh.wav'            
+        },
+        { name: 'Tom 2',
+          sampleUrl: 'Drums/A1 TomMedium.wav'            
+        },
+        { name: 'Tom 1',
+          sampleUrl: 'Drums/G1 TomLow.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: 'Drums/D1 Snare.wav'            
+        },
+        { name: 'Hihat',
+          sampleUrl: 'Drums/Fh1 HiHat.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: 'Drums/C1 Kick.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', // slider, dial/rotary_knob, switch_button                                  
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 5,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, // close kit 
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: '909', 
+      kitNumber: 6, 
+      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
+      tracks: [
+        /*{ name: 'Cymbal',
+          sampleUrl: 'Drums/Ah1 Ride.wav'            
+        },
+        { name: 'Rimshot',
+          sampleUrl: 'Drums/Ch1 RimShot.wav'            
+        },*/      
+        { name: 'Rimshot',
+          sampleUrl: '12-TR-909/909 RIM.wav'            
+        },
+        { name: 'Opened hihat',
+          sampleUrl: '12-TR-909/909 HHOP.wav'            
+        },
+        { name: 'Clap',
+          sampleUrl: '12-TR-909/909 CLAP.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: '12-TR-909/909 SD10.wav'            
+        },
+        { name: 'Closed hihat',
+          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
+        }                      
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 6,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }
 
   ] // close kits
 }, // close channel
@@ -1046,10 +1146,198 @@ this.delaytime = 0.8; */
 
 
 
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Brass', 
+      kitNumber: 2, 
+      color: 'rgba(0, 171, 157, 0.9)',
+      tracks: [
+        { name: 'C2',
+          sampleUrl: 'Brass/C2.wav'
+        },  
+        { name: 'B1',
+          sampleUrl: 'Brass/B1.wav'
+        }, 
+        { name: 'A1',
+          sampleUrl: 'Brass/A1.wav'
+        }, 
+        { name: 'G1',
+          sampleUrl: 'Brass/G1.wav'
+        }, 
+        { name: 'F1',
+          sampleUrl: 'Brass/F1.wav'
+        },   
+        { name: 'E1',
+          sampleUrl: 'Brass/E1.wav'   
+        }, 
+        { name: 'D1',
+          sampleUrl: 'Brass/D1.wav'
+        },  
+        { name: 'C1',
+          sampleUrl: 'Brass/C1.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 2,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Basse', 
+      kitNumber: 3, 
+      color: 'rgba(0, 171, 157, 0.85)',
+      tracks: [
+        { name: 'C2',
+          sampleUrl: 'Basse/C2.wav'
+        },  
+        { name: 'B1',
+          sampleUrl: 'Basse/B1.wav'
+        }, 
+        { name: 'A1',
+          sampleUrl: 'Basse/A1.wav'
+        }, 
+        { name: 'G1',
+          sampleUrl: 'Basse/G1.wav'
+        }, 
+        { name: 'F1',
+          sampleUrl: 'Basse/F1.wav'
+        },   
+        { name: 'E1',
+          sampleUrl: 'Basse/E1.wav'   
+        }, 
+        { name: 'D1',
+          sampleUrl: 'Basse/D1.wav'
+        },  
+        { name: 'C1',
+          sampleUrl: 'Basse/C1.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 3,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Strings', 
+      kitNumber: 4, 
+      color: 'rgba(0, 171, 157, 0.8)',
+      tracks: [
+        { name: 'C2',
+          sampleUrl: 'Strings/C2.wav'
+        },  
+        { name: 'B1',
+          sampleUrl: 'Strings/B1.wav'
+        }, 
+        { name: 'A1',
+          sampleUrl: 'Strings/A1.wav'
+        }, 
+        { name: 'G1',
+          sampleUrl: 'Strings/G1.wav'
+        }, 
+        { name: 'F1',
+          sampleUrl: 'Strings/F1.wav'
+        },   
+        { name: 'E1',
+          sampleUrl: 'Strings/E1.wav'   
+        }, 
+        { name: 'D1',
+          sampleUrl: 'Strings/D1.wav'
+        },  
+        { name: 'C1',
+          sampleUrl: 'Strings/C1.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 4,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    } 
+
+
+
+
   ] // close channel conf
 
 }, // close channel
 //*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1701,7 +1989,120 @@ name: '',
           }                
         }
       ] // end of kit controls
-    } // end of kit
+    }, // end of kit
+
+
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Marimba', 
+      kitNumber: 1, 
+      color: 'rgba(237, 49, 104, 0.95)',
+      tracks: [
+        { name: 'C4',
+          sampleUrl: 'Marimba/C4.wav'
+        },  
+        { name: 'B3',
+          sampleUrl: 'Marimba/B3.wav'
+        }, 
+        { name: 'A3',
+          sampleUrl: 'Marimba/A3.wav'
+        }, 
+        { name: 'G3',
+          sampleUrl: 'Marimba/G3.wav'
+        }, 
+        { name: 'F3',
+          sampleUrl: 'Marimba/F3.wav'
+        },   
+        { name: 'E3',
+          sampleUrl: 'Marimba/E3.wav'   
+        }, 
+        { name: 'D3',
+          sampleUrl: 'Marimba/D3.wav'
+        },  
+        { name: 'C3',
+          sampleUrl: 'Marimba/C3.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Guitar', 
+      kitNumber: 2, 
+      color: 'rgba(237, 49, 104, 0.9)',
+      tracks: [
+        { name: 'C4',
+          sampleUrl: 'Guitar/C4.wav'
+        },  
+        { name: 'B3',
+          sampleUrl: 'Guitar/B3.wav'
+        }, 
+        { name: 'A3',
+          sampleUrl: 'Guitar/A3.wav'
+        }, 
+        { name: 'G3',
+          sampleUrl: 'Guitar/G3.wav'
+        }, 
+        { name: 'F3',
+          sampleUrl: 'Guitar/F3.wav'
+        },   
+        { name: 'E3',
+          sampleUrl: 'Guitar/E3.wav'   
+        }, 
+        { name: 'D3',
+          sampleUrl: 'Guitar/D3.wav'
+        },  
+        { name: 'C3',
+          sampleUrl: 'Guitar/C3.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 2,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+
+
+
+
+
   ] // end of kits
 }, // end of channel
 
@@ -1852,7 +2253,14 @@ name: '',
         },   
         { name: 'Bb3',
           sampleUrl: 'spacedrum/6notesBb3V4.mp3'
-        },                          
+        },  
+        // 2 random redondant notes added for 8 note pattern compatibility
+        { name: 'G4',
+          sampleUrl: 'spacedrum/6notesG4V4.mp3'
+        },  
+        { name: 'D4',
+          sampleUrl: 'spacedrum/6notesD4V4.mp3'
+        }                                         
       ],
       controls: [ 
         { name: '[Kit change]',
@@ -2239,7 +2647,115 @@ name: '',
           }                
         }
       ] // end of kit controls
-    } // end of kit
+    }, // end of kit
+
+
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Piano', 
+      kitNumber: 5, 
+      color: 'rgba(253, 206, 31, 0.75)',
+      tracks: [
+        { name: 'C5',
+          sampleUrl: 'Piano/C5.wav'
+        },  
+        { name: 'B4',
+          sampleUrl: 'Piano/B4.wav'
+        }, 
+        { name: 'A4',
+          sampleUrl: 'Piano/A4.wav'
+        }, 
+        { name: 'G4',
+          sampleUrl: 'Piano/G4.wav'
+        }, 
+        { name: 'F4',
+          sampleUrl: 'Piano/F4.wav'
+        },   
+        { name: 'E4',
+          sampleUrl: 'Piano/E4.wav'   
+        }, 
+        { name: 'D4',
+          sampleUrl: 'Piano/D4.wav'
+        },  
+        { name: 'C4',
+          sampleUrl: 'Piano/C4.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 5,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    }, 
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Flute', 
+      kitNumber: 6, 
+      color: 'rgba(253, 206, 31, 0.7)',
+      tracks: [
+        { name: 'C5',
+          sampleUrl: 'Flute/C5.wav'
+        },  
+        { name: 'B4',
+          sampleUrl: 'Flute/B4.wav'
+        }, 
+        { name: 'A4',
+          sampleUrl: 'Flute/A4.wav'
+        }, 
+        { name: 'G4',
+          sampleUrl: 'Flute/G4.wav'
+        }, 
+        { name: 'F4',
+          sampleUrl: 'Flute/F4.wav'
+        },   
+        { name: 'E4',
+          sampleUrl: 'Flute/E4.wav'   
+        }, 
+        { name: 'D4',
+          sampleUrl: 'Flute/D4.wav'
+        },  
+        { name: 'C4',
+          sampleUrl: 'Flute/C4.wav'
+        }                     
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 6,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    },
+
+
   ] // end of kits
 }, // end of channel
 
