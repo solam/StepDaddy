@@ -252,9 +252,9 @@ window.insConf = [ // channelConf
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Drums', 
+      name: '909', 
       kitNumber: 5, 
-      color: 'rgba(253, 118, 8, 0.75)', // (kitColor)
+      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
       tracks: [
         /*{ name: 'Cymbal',
           sampleUrl: 'Drums/Ah1 Ride.wav'            
@@ -262,6 +262,58 @@ window.insConf = [ // channelConf
         { name: 'Rimshot',
           sampleUrl: 'Drums/Ch1 RimShot.wav'            
         },*/      
+        { name: 'Rimshot',
+          sampleUrl: '12-TR-909/909 RIM.wav'            
+        },
+        { name: 'Opened hihat',
+          sampleUrl: '12-TR-909/909 HHOP.wav'            
+        },
+        { name: 'Clap',
+          sampleUrl: '12-TR-909/909 CLAP.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: '12-TR-909/909 SD10.wav'            
+        },
+        { name: 'Closed hihat',
+          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
+        }                      
+      ],
+      controls: [ 
+        { name: '[Kit change]',
+          id: 998,
+          type: 'input', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 5,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        }
+      ]            
+    },
+
+
+/* this kit needs sample normalizing (samples not loud enough) before requalifying to the system
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Drums', 
+      kitNumber: 5, 
+      color: 'rgba(253, 118, 8, 0.75)', // (kitColor)
+      tracks: [
+        //{ name: 'Cymbal',
+        //  sampleUrl: 'Drums/Ah1 Ride.wav'            
+        //},
+        //{ name: 'Rimshot',
+        //  sampleUrl: 'Drums/Ch1 RimShot.wav'            
+        //},      
         { name: 'Tom 3',
           sampleUrl: 'Drums/B1 TomHigh.wav'            
         },
@@ -299,56 +351,7 @@ window.insConf = [ // channelConf
         }
       ]            
     }, // close kit 
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: '909', 
-      kitNumber: 6, 
-      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
-      tracks: [
-        /*{ name: 'Cymbal',
-          sampleUrl: 'Drums/Ah1 Ride.wav'            
-        },
-        { name: 'Rimshot',
-          sampleUrl: 'Drums/Ch1 RimShot.wav'            
-        },*/      
-        { name: 'Rimshot',
-          sampleUrl: '12-TR-909/909 RIM.wav'            
-        },
-        { name: 'Opened hihat',
-          sampleUrl: '12-TR-909/909 HHOP.wav'            
-        },
-        { name: 'Clap',
-          sampleUrl: '12-TR-909/909 CLAP.wav'            
-        },  
-        { name: 'Snare',
-          sampleUrl: '12-TR-909/909 SD10.wav'            
-        },
-        { name: 'Closed hihat',
-          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
-        },
-        { name: 'Kick',
-          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
-        }                      
-      ],
-      controls: [ 
-        { name: '[Kit change]',
-          id: 998,
-          type: 'input', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 6,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        }
-      ]            
-    }
+*/    
 
   ] // close kits
 }, // close channel
@@ -450,7 +453,7 @@ window.insConf = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 30,
+              value: 25, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -470,7 +473,7 @@ window.insConf = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 23,
+              value: 18, // 23
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -490,7 +493,7 @@ window.insConf = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 30,
+              value: 22, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -530,7 +533,7 @@ window.insConf = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 40,
+              value: 35, // 40
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -617,7 +620,7 @@ window.insConf = [ // channelConf
 
 { channelName: 'Channel 3: bass', // channelName = "bass, high pitch sounds etc" - insName
   //channelType: 'instrument', // conductor
-  trackSet: 0, // defaultKit -   Number - // defaultInstrumentPreset
+  trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
   conf: [ // kits channelConfiguration kitConfiguration 
 
   
@@ -1232,7 +1235,7 @@ this.delaytime = 0.8; */
 // Green to blue channel
 
 { channelName: 'Channel 4: 2nd bass channel (c2>c3)',  
-  trackSet: 0, 
+  trackSet: 1, 
   conf: [ 
 
            {            
@@ -1620,7 +1623,7 @@ this.delaytime = 0.8; */
     }, // end of kit
 
 
-
+/* this kit needs sample normalizing (samples not loud enough) before requalifying to the system
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Strings', 
@@ -1670,7 +1673,7 @@ this.delaytime = 0.8; */
         }
       ]            
     }
-
+*/
 
   ] // end of kits
 }, // end of channel
@@ -1693,7 +1696,7 @@ this.delaytime = 0.8; */
 // Pink channel
 
 { channelName: 'Channel 5: melodic percussions (c3>c4)',  
-  trackSet: 0, 
+  trackSet: 1, 
   conf: [ 
 /*  
     { type: 'synth',
@@ -1994,7 +1997,7 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Marimba', 
-      kitNumber: 1, 
+      kitNumber: 0, 
       color: 'rgba(237, 49, 104, 0.95)',
       tracks: [
         { name: 'C4',
@@ -2029,7 +2032,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 1,
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2046,7 +2049,7 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Spacedrum: chromatic', 
-      kitNumber: 0, 
+      kitNumber: 1, 
       color: 'rgba(253, 206, 31, 1)', 
       tracks: [
         { name: 'C5',
@@ -2081,7 +2084,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 0,
+            value: 1,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2096,7 +2099,7 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Spacedrum: 8notesDiatoAm', 
-      kitNumber: 1, 
+      kitNumber: 2, 
       color: 'rgba(253, 206, 31, 0.95)',
       tracks: [
         { name: 'A4',
@@ -2131,7 +2134,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 1,
+            value: 2,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2225,7 +2228,7 @@ name: '',
 // Yellow cheesy channel: guitar, synth lead, etc
 
 { channelName: 'Channel 6: c4>c5',  
-  trackSet: 0, 
+  trackSet: 2, 
   conf: [ 
 
 
@@ -2233,7 +2236,7 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Lead synth', 
-      kitNumber: 3, 
+      kitNumber: 0, 
       color: 'rgba(253, 118, 8, 0.85)', 
       tracks: [
         {
@@ -2275,7 +2278,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 3,
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2294,7 +2297,7 @@ name: '',
       instrumentName: 'AikeWebsynth1', 
       color: 'rgba(253, 206, 31, 0.8)',
       name: 'etoufed synth', 
-      kitNumber: 4,
+      kitNumber: 1,
       tracks: [
         { name: 'C5',
           note:  27
@@ -2328,7 +2331,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 4,
+            value: 1,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2681,7 +2684,7 @@ name: '',
 // Red channel
 
 { channelName: 'Channel 7: c5>c6',  
-  trackSet: 0, 
+  trackSet: 1, 
   conf: [ 
     { type: 'synth',
       instrumentName: 'AikeWebsynth1', 
@@ -2995,8 +2998,8 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Flute', 
-      kitNumber: 6, 
-      color: 'rgba(253, 206, 31, 0.7)',
+      kitNumber: 1, 
+      color: 'rgba(226, 0, 6, 0.95)', //color: 'rgba(253, 206, 31, 0.7)',
       tracks: [
         { name: 'C5',
           sampleUrl: 'Flute/C5.wav'
@@ -3030,7 +3033,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 6,
+            value: 1,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -3062,7 +3065,7 @@ name: '',
 // Purple channel
 
 { channelName: 'Channel 8: c6>c7',  
-  trackSet: 0, 
+  trackSet: 1, 
   conf: [ 
     { type: 'synth',
       instrumentName: 'AikeWebsynth1', 
@@ -3376,8 +3379,8 @@ name: '',
     { type: 'samples', 
       instrumentName: 'Sampler', 
       name: 'Piano', 
-      kitNumber: 5, 
-      color: 'rgba(253, 206, 31, 0.75)',
+      kitNumber: 1, 
+      color: 'rgba(149, 55, 166, 0.95)', //color: 'rgba(253, 206, 31, 0.75)',
       tracks: [
         { name: 'C5',
           sampleUrl: 'Piano/C5.wav'
@@ -3411,7 +3414,7 @@ name: '',
           x: {
             name: 'Kit change',
             param: '[external]', 
-            value: 5,
+            value: 1,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,

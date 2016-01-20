@@ -133,6 +133,14 @@ VCO.prototype.next = function(p) {
 };
 
 VCO.prototype.set_pitch = function(p) {
+
+  // avoid synth (? whole system) from muting when inputted with extreme values
+  if (p <-1000) {
+    var p = -1000;
+  } else if (p >1000) {
+    var p = 1000;
+  }  
+
 	this.oct = Math.floor((p + 25) / 50) * 12;
 };
 
