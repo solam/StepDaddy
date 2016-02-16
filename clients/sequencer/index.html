@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
+  <script src="http://192.168.1.6:8080/target/target-script-min.js#anonymous"></script>
   <meta charset="UTF-8">
   <title>Sounds & visuals generator - Collective Loops</title><!-- Sequencer -->
   <link rel="stylesheet" href="css/style.css" />
@@ -18,10 +19,31 @@
       border: 1px solid black;
       margin-top: 10px;
     }
+
+    #instructions {
+      position: relative; 
+      background: black;  
+      color: lightgrey;
+      border-radius: 5px;
+      padding: 15px;
+      z-index: 50;   
+      /*width: 100%;*/
+      margin-left: auto;
+      margin-right: auto;  
+      font-size: 30px;   
+    } 
+
+    #instructions span {
+      color: white;
+      font-weight: bold;
+    }      
+
   </style>
 </head>
 <body>
-
+<div id="instructions">audio server loaded
+<!--Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1) wifi ssid: <span>jcc3</span> / pwd: <span>openframeworks</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) <span>solam.co/loops</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3) cliquer sur: <span>test application</span>-->
+</div>
   <div id="roomId">
     <!--<div>
       <h1>Welcome to Step Daddy!</h1>
