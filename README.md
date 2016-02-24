@@ -1,3 +1,19 @@
+Works with <a href="https://nodejs.org/download/release/v0.10.25/">Node.js v0.10.25</a>
+
+Added features (from <a href="https://github.com/72lions/StepDaddy">Step Daddy team (from Music Hack Day Stockholm 2013)'s version</a>):
+- ability to change kit (drum/sample kits, synth presets) within user channel, live
+- instrument controllers (knobs/parameters) to modify instrument kit timbre, live
+- persistent channel notes (users are forced to switch/share patterns at 'channel change event' during session) 
+- multi instances of same synth (1 instance per channel)
+- tempo (bpm) change, channel change (users are forced to switch channels) & channel volumes controlled by conductor role
+- merged conductor role with sounding instrument roles
+
+
+
+
+
+
+
 Who's your step daddy!!??
 =====
 
