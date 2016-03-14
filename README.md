@@ -1,7 +1,24 @@
 Works with <a href="https://nodejs.org/download/release/v0.10.25/">Node.js v0.10.25</a>
 
-Added features (from <a href="https://github.com/72lions/StepDaddy">Step Daddy team (from Music Hack Day Stockholm 2013)'s version</a>):
-- ability to change kit (drum/sample kits, synth presets) within user channel, live
+
+Windows app install procedure:
+0) copy StepDaddy app files "from Github" to a local folder (git clone git@github.com:solam/StepDaddy.git)
+1) install npm x86 v0.10.25 from https://nodejs.org/download/release/v0.10.25/node-v0.10.25-x86.msi
+2) run command "\[path to local StepDaddy folder]\server\npm install"
+3) get your device's ip address (Windows: ipconfig, Linux: ifconfig)
+4) fill namespaces.js with your ip address, that way:
+  window.SERVER = 'http://[your ip]:60000'; 
+  window.CLIENTS = 'http://[your ip]:8282/sequencer';
+
+Start app procedure:
+1) run "nodejs \[path to local StepDaddy folder]\server\main.js"
+2) make it so that the local StepDaddy folder is served by a Web server
+3) open Chrome browser, in 1 tab open: http://[your ip]:8282/[path to Web served StepDaddy folder]/sequencer (this is going to be the sound generator tab: it needs to be selected for sound to be emitted)
+4) In 2nd tab open: http://[your ip]:8282/[path to Web served StepDaddy folder]/device/?rm (this is going to be the instrument controller: notes need to be filled) 
+
+
+Added features (from <a href="https://github.com/72lions/StepDaddy">Step Daddy team (from Stockholm 2013 Music Hack Day)'s version</a>):
+- ability to change kit (sample kits, synth presets) within user channel, live
 - instrument controllers (knobs/parameters) to modify instrument kit timbre, live
 - persistent channel notes (users are forced to switch/share patterns at 'channel change event' during session) 
 - multi instances of same synth (1 instance per channel)
