@@ -102,10 +102,32 @@
 
             var input = input + j;
 
-            window[input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
-            window[input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
-            //console.log('input value: ', controls[j].x.value);
+            if (typeof input !== 'undefined') { // window[input]
 
+              if (controls[j].type=='input') {
+
+                window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
+                //console.log('input :', window['ctrl'+input], input, j);
+                window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
+                //console.log('input value: ', controls[j].x.value);
+
+              } else if (controls[j].type=='slider') {
+
+                // if mobile browser load simple inputs instead of 'fancy' sliders
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                  window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
+                } else {
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
+                }
+                
+                window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
+                //alert("slider");
+              } else if (controls[j].type=='hidden') {
+
+              } 
+
+              //i++;
+            }
 
           } 
           //*/
@@ -117,6 +139,25 @@
 
         //_conn.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
     //*/
+
+    //window.nx;
+
+/*
+  // get all canvases on the page and add them to the manager
+  var allcanvi = document.getElementsByTagName("canvas");
+  for (i=0;i<allcanvi.length;i++) nx.transform(allcanvi[i]);
+
+  if (nx.isTouchDevice) {
+    document.addEventListener("touchmove", nx.blockMove, true);
+    document.addEventListener("touchstart", nx.blockMove, true);
+  }
+  
+  nx.onload();
+
+  nx.startPulse();
+*/
+
+
 
         }
 

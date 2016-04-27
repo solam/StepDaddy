@@ -17,7 +17,7 @@
 4. In 2nd tab open: http://[your ip]:8282/[path to Web served StepDaddy folder]/device/?rm (this is going to be the instrument controller: notes need to be filled) 
 
 
-#### Added features (from <a href="https://github.com/72lions/StepDaddy">Step Daddy team (from Stockholm 2013 Music Hack Day)'s version</a>):
+#### Added features (from <a href="https://github.com/72lions/StepDaddy">Stockholm 2013 Music Hack Day Step Daddy team's version</a>):
 - ability to change kit (sample kits, synth presets) within user channel, live
 - instrument controllers (knobs/parameters) to modify instrument kit timbre, live
 - persistent channel notes (users are forced to switch/share patterns at 'channel change event' during session) 

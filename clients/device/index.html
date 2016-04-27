@@ -2,19 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Control Kit - Collective Loops</title><!-- Instrument -->
+  <title>Control Kit - ...Loops</title><!-- Instrument -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="../common/css/user.css" />
+  <script src="../common/lib/nexusUI.js"></script>
 </head>
 <body>
+
+<div id="instructions"><!--Get ready for your turn!-->
+<span id="countdown"></span>
+</div>
 
   <section id="pattern-editor">
     <table>
     </table>
   </section>
 
+  <div id="channelinfo">
+    <div id="insname"></div>
+    <div id="kitname"></div>
+    <div id="bpm"></div>
+  </div>
+
   <div id="modifiers"></div>
+
+  <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq"></canvas>-->
 
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
@@ -28,9 +41,15 @@
   <script src="../common/scripts/net.connection.js"></script>
   <script src="../common/scripts/net.response.js"></script>
   <script src="../common/scripts/net.proxyrequest.js"></script>
-  <script src="../common/scripts/ui.input.js"></script>
 
   <script src="../sequencer/scripts/instruments_config.js"></script>
+  <script src="../sequencer/scripts/instruments_config_02.js"></script>
+
+  <!--<script src="../common/lib/nexusUI.js"></script>-->
+  <script src="../common/scripts/ui.input.js"></script>
+  <script src="../common/scripts/ui.slider.js"></script>
+
+
 
   <script src="../common/scripts/models.instrument.js"></script>
   <script src="../common/scripts/models.track.js"></script>
@@ -39,6 +58,8 @@
   <script src="../common/scripts/views.patterneditor.js"></script>
 
   <script>
+    /*$("#pattern-editor").hide();
+    $("#modifiers").hide();*/
     window.addEventListener('load', function() {
       new FastClick(document.body);
     }, false);
@@ -46,7 +67,16 @@
 
   <script src="scripts/device.js"></script>
   <script type="text/javascript">
+/*
+    nx.onload = function() {
+  slider700.val.value = 15;
+  slider700.draw();
+  console.log(slider1); 
+
+}  */
   
+  //window.nx; // try to convert page canvas to useful nexus ui knobs
+
   //alert('test js');
 
   //setTimeout(function () { location.reload(true); }, 180000); // refresh page every 3 minutes

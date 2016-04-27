@@ -279,6 +279,8 @@ EG.prototype.next = function() {
 var CTL_Volume = function(ctx) {
 	this.volume = ctx.createGain(); // createGainNode()
     this.volume.gain.value = 0.5;
+    //this.volume.connect(window['audio_context']); // connect to _masterGainNode so that audio rec of samples + aike websynth channels can happen
+    // fix previous line: that connection may duplicate audible audio from aike synth...
 };
 
 CTL_Volume.prototype.set = function(val) {
@@ -392,10 +394,15 @@ var WebSynth = function(context) {
 
 	this.root.connect(this.filter.getnode());
 	this.filter.connect(this.volume.getnode());
-	this.volume.connect(this.context.destination);
+	//this.volume.connect(this.context.destination);
+  this.volume.connect(window['audio_context']); // connect to _masterGainNode so that audio rec of samples + aike websynth channels can happen
 	this.volume.connect(this.delay.getnode1());
 	this.volume.connect(this.delay.getnode2());
-	this.delay.connect(this.context.destination);
+	//this.delay.connect(this.context.destination);
+  this.delay.connect(window['audio_context']); // connect to _masterGainNode so that audio rec of samples + aike websynth channels can happen
+//this.volume.connect(window['audio_context']);
+
+
 
 
 /*

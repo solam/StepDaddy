@@ -1,4 +1,4 @@
-window.insConf = [ // channelConf
+window.insConf1 = [ // channelConf
 
 // orange channel
 
@@ -392,7 +392,7 @@ window.insConf = [ // channelConf
           name: 'Channel 1 volume',
           id: 800,
 
-          type: 'input', // slider, dial/rotary_knob, switch_button      
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
           direction: 0, // 'horizontal', 'vertical' for sliders    
           colors: { // color params
             fg: '#51ACBD' // foregroundColor
@@ -418,7 +418,7 @@ window.insConf = [ // channelConf
           name: 'Channel 3 volume',
           id: 802,
 
-          type: 'input', // slider, dial/rotary_knob, switch_button      
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
           direction: 0, // 'horizontal', 'vertical' for sliders    
           colors: { // color params
             fg: '#51ACBD' // foregroundColor
@@ -446,7 +446,7 @@ window.insConf = [ // channelConf
         { 
           name: 'Channel 4 volume',
           id: 803,
-          type: 'input',                             
+          type: 'slider',                             
           x: {
               name: 'Channel 4 volume',
               param: '_insVol3', 
@@ -466,7 +466,7 @@ window.insConf = [ // channelConf
         { 
           name: 'Channel 5 volume',
           id: 804,
-          type: 'input',                             
+          type: 'slider',                             
           x: {
               name: 'Channel 5 volume',
               param: '_insVol4', 
@@ -486,7 +486,7 @@ window.insConf = [ // channelConf
         { 
           name: 'Channel 6 volume',
           id: 805,
-          type: 'input',                             
+          type: 'slider',                             
           x: {
               name: 'Channel 6 volume',
               param: '_insVol5', 
@@ -506,7 +506,7 @@ window.insConf = [ // channelConf
         { 
           name: 'Channel 7 volume',
           id: 806,
-          type: 'input',                             
+          type: 'slider',                             
           x: {
               name: 'Channel 7 volume',
               param: '_insVol6', 
@@ -526,7 +526,7 @@ window.insConf = [ // channelConf
         { 
           name: 'Channel 8 volume',
           id: 807,
-          type: 'input',                             
+          type: 'slider',                             
           x: {
               name: 'Channel 8 volume',
               param: '_insVol7', 
@@ -556,7 +556,7 @@ window.insConf = [ // channelConf
               name: 'BPM',
               param: '_tempo', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 85, // 100 - 85
+              value: 60, // 100 - 85 - 123
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 60,
@@ -587,7 +587,253 @@ window.insConf = [ // channelConf
               min: 0,
               max: 1
           }                 
-        }        
+        },
+
+                        { // control
+          name: 'Session change',
+          id: 996,
+
+          type: 'input', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session destination',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 1,
+              stepSize: 0, 
+              interpolate: 0 
+              //displayedRangeMin: 0,
+              //displayedRangeMax: 1,
+              //min: 0,
+              //max: 1
+          }                 
+        },
+
+
+
+
+        { 
+          name: 'C1 start bar offset',
+          id: 700,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C1 start bar offset',
+              param: '_insBarOffset0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C2 start bar offset',
+          id: 701,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C2 start bar offset',
+              param: '_insBarOffset1', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },        
+
+        { 
+          name: 'C3 start bar offset',
+          id: 702,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C3 start bar offset',
+              param: '_insBarOffset2', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 8,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C4 start bar offset',
+          id: 703,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C4 start bar offset',
+              param: '_insBarOffset3', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 12,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C5 start bar offset',
+          id: 704,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C5 start bar offset',
+              param: '_insBarOffset4', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 16,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C6 start bar offset',
+          id: 705,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C6 start bar offset',
+              param: '_insBarOffset5', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 24,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C7 start bar offset',
+          id: 706,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C7 start bar offset',
+              param: '_insBarOffset6', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },  
+
+        { 
+          name: 'C8 start bar offset',
+          id: 707,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C8 start bar offset',
+              param: '_insBarOffset7', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 40,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },                                                
+
+        { 
+          name: 'General Bar kickout time',
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General kickout time (in bars)',
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 90, // 90 ? don't 
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },     
+
+
+
+        
 
       ] // end of controls
     } // end of kit

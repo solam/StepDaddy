@@ -12,6 +12,9 @@
     var _totalInstruments = 0;
     var _sequencer;
     var _sequencerView;
+    var _clientJoinedCount = 0;
+    //var _channelUsedCount = 0;
+    var _self = this;
 
     var _encode = function(i) {
       if (i == 0) {
@@ -31,10 +34,17 @@
 
     var _onRoomCreated = function(data) {
       console.log('The room was created:', data.room);
+      $("#audio-server-ready").html('1');    
+
+      //var numAvailableInstruments = _sequencer._availableInstruments.length;
+      //$("#audio-server-available-slots").html(numAvailableInstruments);    
+      //console.log('numAvailableInstruments', numAvailableInstruments);  
+
     };
 
     var _onRoomClosed = function(data) {
       console.log('The room with id', data.room, 'was closed.');
+      $("#audio-server-ready").html('0');
       _clients = {};
     };
 
@@ -56,7 +66,28 @@
         console.log('A client with id ', data.client, 'joined the room');
       }
 
+      //var numAvailableInstruments = Object.keys(_clients).length;     //_sequencer._availableInstruments.length -1; 
+      //console.log('in: win avail slots',window._availableInstruments.length);
+      //$("#audio-server-available-slots").html(_totalInstruments); //_channelUsedCount      
+
+      
+
+      if (_clientJoinedCount==0) {
+        var startDate = new Date();
+        var firstJoinTime = startDate.getTime();
+        _sequencer.updateSeqVariables('_audioServerStartTimestamp', firstJoinTime);        
+//_sequencer.createInstruments(); // Update general instruments' object
+// create updateInstruments seq class method
+          // just refresh channel data : do not re-init "audio rendering" of instrument - do not reset notes' data
+        console.log('first client joined', firstJoinTime);
+      }      
+      console.log('_clientJoinedCount', _clientJoinedCount);
+      _clientJoinedCount++;
+      //_channelUsedCount++;
+
       _clients[data.client] = true;
+      console.log('_clients', _clients);
+      //_updateChannels();
 
     };
 
@@ -68,33 +99,68 @@
         _sequencer.addInstrument(instrument); // add abandoned instrument to "available instruments" list
         delete _instruments[data.client];
         _totalInstruments--;
+        //_clientJoinedCount--; commenting this line prevents initial channel countdown to reset as "clients all leave audio server then 1 client re-joins again"
+        
 
         delete _clients[data.client]; // avoid having too much clients connected (window refreshs creating multiple clients)
+
+      
+              
 
         if (_totalInstruments <= 0) {
           $('#roomId').show();
         }
       }
+      //_channelUsedCount--;
+      //var numAvailableInstruments = Object.keys(_clients).length;     // _sequencer._availableInstruments.length;   - _instruments
+      $("#audio-server-available-slots").html(window.availSlots - Object.keys(_instruments).length); //  _channelUsedCount
+      //console.log('out: win avail slots',window._availableInstruments.length);
+      //console.log('avSlots', window.availSlots);
+      //_updateChannels();
+
     };
 
     var _onGetInstrument = function(data) {
     //*  console.log('Got a request for an instrument', data);
 
+      /*var numAvailableInstruments = _sequencer._availableInstruments.length; // - _channelUsedCount;
+      console.log('seq avail ins length', _sequencer._availableInstruments.length);
+      $("#audio-server-available-slots").html(numAvailableInstruments); */
+
       // var instrument = _sequencer.getRandomInstrument(data.client);
       var instrument = _sequencer.getNextInstrument(data.client);
+    
+      //var instrument.channelInfo = 'test !!!!';
+      //console.log("_onGetInstrument (mixer.js): ", instrument);
 
       if (instrument) {
         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+
+/*var startDate = new Date();
+var startTimestamp = startDate.getTime();
+console.log('mixer sending time:', startTimestamp);*/
+
+
+
         //console.log('>>> Instrument', instrument, _totalInstruments);
         if (typeof _instruments[data.client] === 'undefined') {
           _totalInstruments++;
           _sequencerView.addInstrument(instrument);
           _instruments[data.client] = instrument;
           $('#roomId').hide();
+
+          $("#audio-server-available-slots").html(window.availSlots - Object.keys(_instruments).length);
+
         }
       } else {
         console.log('No more instruments available.');
+        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
+
+
       } //*/
+
+      _updateChannels();
+
     };
 
     var _onNote = function(data) {
@@ -102,6 +168,40 @@
       _sequencer.updateNote(data.args);
       //console.log('_onNote: ', data.args);
     };
+
+
+    
+    var _updateChannels = function() {
+      //console.log('update channels');
+       var claients = Object.keys(_clients); 
+
+         for (var i = 0; i < claients.length; i++) {
+
+          if (i!=1) { // do not process conductor role (1) which has no track data associated to it ! Beware hardcoded value!
+          //console.log('upd ch - claients'+i, claients[i]);
+            //var oldInstrument = _instruments[claients[i]];
+            //_sequencer.addInstrument(oldInstrument); // add abandoned instrument to "availabe instruments" list
+            //delete _instruments[claients[i]];
+
+            var instrument = _sequencer.updateChannelInfo(claients[i], i);    
+
+            if (instrument) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument});
+
+              /*if (typeof _instruments[claients[i]] === 'undefined') {
+                _totalInstruments++;
+                _sequencerView.addInstrument(instrument);
+                _instruments[claients[i]] = instrument;
+                $('#roomId').hide();
+              } */
+            } else {
+              //console.log('_updateChannels : no more instruments available.');
+            }        
+
+        }      
+      }
+    };  
+
 
     var _onModifierChange = function(data) {
     
@@ -111,7 +211,7 @@
       //console.log('_onModifierChange: ', data.client); */     
 
 
-      // if 'channel change' id
+      // if 'channel change' id from conductor role
       if (data.args.id==997) {
 
        console.log('_clients before client kick', _clients);
@@ -179,7 +279,7 @@
        //console.log('(after channelChange) avail ins', _sequencer._availableInstruments.length);
 
 
-      // if 'program change' id
+      // if 'program/preset/kit change' id from any instrument channel
       } else if (data.args.id==998) {
 
         // TODO check for conductor role...
@@ -214,9 +314,48 @@
             _sequencerView.updateNote(dataObj);
           }
         }
+
+
+      } else if (data.args.id==996) {
+        _sequencer.changeSession(data.args, data.client);
+/*
+      // target channel start bar offset info  
+      } else if (data.args.id>=700 && data.args.id<799) {      
+
+        var claients = Object.keys(_clients);
+        var claientId = data.args.id.toString()[2]; // get last digit aka 0 from 700 : beware that won't work if there's more than 11 channels (id 10 vs 0)
+        //console.log('clt id', claientId);
+        //console.log('_clients before', _clients);
+        var instrument = _sequencer.updateInstrument(data.args, claients[claientId]);
+        console.log('instrument', instrument);
+        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[claientId], instrument: instrument });  // are we required to send new instrument object, not just 3 params to update?   
+*/
       } else {
-        _sequencer.updateFxParam(data.args, data.client);        
+        _sequencer.updateFxParam(data.args, data.client);   
+
+        if (data.args.id==699 || data.args.id==999) { // 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
+          _updateChannels();
+        }
+
+
       } 
+
+      // take care of channel start bar offset data : force channel to update its default instrument along with new channel data (à la bpm, etc)
+      /*if (data.args.id>=700 && data.args.id<799) {  // this is buggy !!! causes errors on this.updateInstrument = function(data, clientId) { 
+
+        var claients = Object.keys(_clients);
+        var claientId = data.args.id.toString()[2]; // get last digit aka 0 from 700 : beware that won't work if there's more than 11 channels (id 10 vs 0)
+        //console.log('clt id', claientId);
+        //console.log('_clients before', _clients);
+        var instrument = _sequencer.updateInstrument(data.args, claients[claientId]);
+        console.log('instrument', instrument);
+        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[claientId], instrument: instrument });  // are we required to send new instrument object, not just 3 params to update?   
+
+      } */
+
+
+
+
       /*
       _sequencer.updateFxParam(data.args, data.client);
       //console.log('_onModifierChange: ', data.client); */  

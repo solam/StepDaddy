@@ -6,7 +6,7 @@
    * @constructor
    * @class Instrument
    */
-  mixr.models.Instrument = function(id, name, tracks, volume, type, color, kitNumber, controls, instrumentName) {
+  mixr.models.Instrument = function(id, name, tracks, volume, type, color, kitNumber, controls, instrumentName, channelInfo) {
 
     /**
      * Mixins
@@ -19,6 +19,7 @@
     this.kitNumber = kitNumber || 0;
     this.controls = controls || 0;
     this.instrumentName =  instrumentName || '';
+    this.channelInfo = channelInfo || {}; //window['SEQ']['_channelInfo']; []
 
     this.tracks = tracks || [];
     this.volume = volume || 0;
@@ -58,14 +59,15 @@
       var synthInstanceString = this.instrumentName + '_' + this.id;
 
       // get control data from dynamic object
-      if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
+      //if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
         //console.log(synthInstanceString+' object: ', window[synthInstanceString]);
 
         // if synthInstance already exists load control values from object attached array   
-        var usedControls = window[synthInstanceString]['controls'];
+        //var usedControls = window[synthInstanceString]['controls'];
 
       // get control data from static file (ins_config.js)
-      } else { 
+      
+      //} else { 
 
         // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
         switch (this.instrumentName) {
@@ -84,8 +86,9 @@
         }  
 
         window[synthInstanceString]['controls'] = controls;
-        var usedControls = controls;        
-      } 
+        var usedControls = controls;
+
+      //} 
 
 
       var instrumentsConfig = window.insConf;

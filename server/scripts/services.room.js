@@ -63,6 +63,13 @@ define(['sys', 'mixins.wrapper'], function(sys, MixinsWrapper) {
         _self.notifyClient(id, 'room_closed', {room: _self.id});
         _self.removeClient(id);
       }
+
+      var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
+      fs.writeFile('./clients/sequencer/data.txt', 'server-not-ready', function (err) {
+        if (err) throw err;
+          console.log('audio server not ready');
+      });
+
     };
 
     /**
@@ -150,6 +157,7 @@ define(['sys', 'mixins.wrapper'], function(sys, MixinsWrapper) {
       if (!alreadyExists) {
         console.log('Adding event listeners for', client.id);
         _addEventListeners(client);
+
       }
 
       callback({room: this.id, client: client.id});

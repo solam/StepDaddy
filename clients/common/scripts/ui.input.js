@@ -136,7 +136,7 @@
         var channelId = channelId.charAt(channelId.length-1); // channelId.charAt(2);
 
         
-        console.log('instrumentsConfig: ', instrumentsConfig);
+        //console.log('instrumentsConfig: ', instrumentsConfig);
         var bgColor = instrumentsConfig[channelId].conf[instrumentsConfig[channelId].trackSet].color;
         $item.append('<input value="'+_value+'" style="background:'+bgColor+';">');
       } else {

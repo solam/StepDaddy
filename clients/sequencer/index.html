@@ -3,7 +3,7 @@
 <head>
   <script src="http://192.168.1.6:8080/target/target-script-min.js#anonymous"></script>
   <meta charset="UTF-8">
-  <title>Sounds & visuals generator - Collective Loops</title><!-- Sequencer -->
+  <title>Sounds & visuals generator - ...Loops</title><!-- Sequencer -->
   <link rel="stylesheet" href="css/style.css" />
 
   <style>
@@ -38,12 +38,63 @@
       font-weight: bold;
     }      
 
+
+button.stop_rec {
+    background: red !important;
+    padding: 5px 29px 5px 29px !important;
+}
+#start_rec {
+    float: left;
+    background: #389838;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+    position: relative;
+    top: -2px;
+    right: -20px;
+    opacity: .80;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+#audio-server-status {
+  color: white;
+  left: 45px;
+  font-size: 28px;
+  display: block;
+  position: relative;
+  top: 10px;
+  font-weight: bold;
+  float: left;
+}
+
+#audio-server-status span {
+  display: inline-block; 
+}
+
+#audio-server-status #audio-server-available-slots {
+  display: inline-block; 
+}
+
   </style>
 </head>
 <body>
 <div id="instructions">audio server loaded
-<!--Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1) wifi ssid: <span>jcc3</span> / pwd: <span>openframeworks</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) <span>solam.co/loops</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3) cliquer sur: <span>test application</span>-->
+<br/>Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1) wifi ssid: <span>ARTISTES-RESIDENTS</span> / pwd: <span>A8MN13mPde</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) <span>solam.co</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3) cliquer sur: <span>application test</span>
 </div>
+
+<button id='start_rec'>Start Rec</button>
+
+  <div id="audio-server-status">
+    <div style="display:none;" id="audio-server-ready"></div>
+    <span>Available slots: </span>
+    <div id="audio-server-available-slots"></div>
+  </div>
+
+
   <div id="roomId">
     <!--<div>
       <h1>Welcome to Step Daddy!</h1>
@@ -82,6 +133,8 @@
     </table>
   </section>
 
+
+
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
 
@@ -100,6 +153,7 @@
   <!--<script src="../sequencer/instruments/viktor-nv1-engine/src/bundle.js"></script>-->
 
   <script src="scripts/instruments_config.js"></script>
+  <script src="scripts/instruments_config_02.js"></script><!-- cumbersome to add a file for each session -->
 
   <script src="../common/scripts/models.track.js"></script>
   <script src="../common/scripts/models.instrument.js"></script>
@@ -107,9 +161,11 @@
   <script src="../common/scripts/views.sequencerview.js"></script>
 
   
-  
+  <script src="scripts/browser-polyfill.min.js"></script>
+  <script src="scripts/recorder.js"></script>
   <script src="scripts/sequencer.js"></script>
   <script src="scripts/mixer.js"></script>
+
 
 
 
@@ -117,9 +173,99 @@
   <script type="text/javascript">
 
 
+var recMode = 'manual'; // manual | auto  
+
+var audioc = window['audio_context'];
+var rec = new Recorder(audioc);
+
+
+if (recMode=='manual') {
+
+    var startDate = new Date();
+    window.startTime = startDate.getTime();
+} else {
+    window.startTime = window.SEQ._audioServerStartTimestamp;
+}  
 
 
 
+function stopRec() {
+  console.log('stop rec called');  
+  rec.stop();
+  rec.exportWAV(dlWav);
+  rec.clear(); // non contiguous mode
+  //Recorder.forceDownload(blob);
+}  
+
+function dlWav(blob) {
+  Recorder.forceDownload(blob, "rec_" + window.startTime + ".wav"); // window.SEQ._audioServerStartTimestamp
+}   
+
+
+if (recMode=='manual') {
+
+  $('#start_rec').on('click', function (e) {
+      e.preventDefault();
+      $(this).text(function (_, text) {
+          return text === 'Stop Rec' ? 'Start Rec' : 'Stop Rec';
+      }).toggleClass('stop_rec');
+
+    if ( $(this).hasClass("stop_rec") ) {    
+      rec.record();
+      var startDate = new Date();
+      window.startTime = startDate.getTime();
+      console.log("manual start rec at", window.startTime);
+    } else {
+      stopRec();
+      console.log("manual stop rec");  
+    }
+
+  });  
+
+
+} else {
+
+  $("#start_rec").hide();
+  rec.record();
+  console.log("auto start rec");
+
+}
+
+  //console.log('seq object, audio context, audio_rec_gal', window.SEQ._audioServerStartTimestamp, window['audio_context'], window['audio_rec_gal']); // seq object: window['SEQ']   
+
+
+
+
+
+  
+
+ 
+
+  //setTimeout(stopRec, 10000);
+
+
+  
+  
+
+
+//*
+  window.onbeforeunload = function(e) {
+    if (recMode=='auto') {  
+      stopRec();
+      console.log("auto stop rec");
+     } 
+  console.log('page refresh called');      
+  return 'current rec stopped - press yes to start a new recording';
+};
+
+/*
+$(window).unload(function() {
+    console.log('? back putton pressed');
+      alert('Handler for .unload() called.');
+}); 
+*/
+
+//*/
 
 
 

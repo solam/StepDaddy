@@ -9,8 +9,10 @@
 
     var _clients = {};
     var _instruments = [];
+    //this._instruments = _instruments;
     var _availableInstruments = [];
-    this._availableInstruments = _availableInstruments;
+    //this._availableInstruments = _availableInstruments;
+    //window._availableInstruments = _availableInstruments;
     var _tracks = {};
 
     //var _trackSet = {}; // track kit
@@ -26,6 +28,11 @@
     
 
     this._Ins01Volume = 1;
+
+    var startDate = new Date();
+    this._audioServerStartTimestamp = startDate.getTime();
+
+    this._countdownMode = 1; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
     
 
 
@@ -48,35 +55,69 @@
     }  
 
 
-    var instrumentsConfig = window.insConf;
+    //var this._instrumentsConfig = window.insConf02;
+    //window['insConf'] = window.insConf2;
+    this._instrumentsConfig = window.insConf;
 
-    this._tempo = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
+    this._tempo = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
 
     //this._insVol0 = 0.7; // ch1 vol retrieve from window.insConf (conductor role) via trackset value
 
-    var insVol0X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
+    var insVol0X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
     this._insVol0 = this.interpolate2(insVol0X.value, insVol0X.min, insVol0X.max, insVol0X.displayedRangeMin, insVol0X.displayedRangeMax);    
 
-    var insVol2X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol2X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol2 = this.interpolate2(insVol2X.value, insVol2X.min, insVol2X.max, insVol2X.displayedRangeMin, insVol2X.displayedRangeMax);
 
-    var insVol3X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol3X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol3 = this.interpolate2(insVol3X.value, insVol3X.min, insVol3X.max, insVol3X.displayedRangeMin, insVol3X.displayedRangeMax);
 
-    var insVol4X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol4X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol4 = this.interpolate2(insVol4X.value, insVol4X.min, insVol4X.max, insVol4X.displayedRangeMin, insVol4X.displayedRangeMax);    
 
-    var insVol5X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol5X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol5 = this.interpolate2(insVol5X.value, insVol5X.min, insVol5X.max, insVol5X.displayedRangeMin, insVol5X.displayedRangeMax);        
 
-    var insVol6X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol6X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol6 = this.interpolate2(insVol6X.value, insVol6X.min, insVol6X.max, insVol6X.displayedRangeMin, insVol6X.displayedRangeMax);    
 
-    var insVol7X = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
+    var insVol7X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
     this._insVol7 = this.interpolate2(insVol7X.value, insVol7X.min, insVol7X.max, insVol7X.displayedRangeMin, insVol7X.displayedRangeMax);                
 
-    //this._insVol2 = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[2].x.value;
-    console.log("bpm", instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls[7].x);
+    //this._insVol2 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[2].x.value;
+    console.log("bpm", this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x);
+
+    //this._insBarOffset = [];
+    this._insBarOffset0 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[10].x.value; // ! hardcoded value - this._insBarOffset[0]
+    this._insBarOffset1 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[11].x.value;
+    this._insBarOffset2 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[12].x.value;
+    this._insBarOffset3 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[13].x.value;
+    this._insBarOffset4 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[14].x.value;
+    this._insBarOffset5 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[15].x.value;  
+    this._insBarOffset6 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[16].x.value;
+    this._insBarOffset7 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[17].x.value;
+
+    //console.log(this._insBarOffset[0]);
+
+
+    this._insKickoutTime = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[18].x.value; // ! hardcoded value
+
+    this._channelInfo = [];
+    this._channelInfo['bpm']=this._tempo;
+    this._channelInfo['serverStartTime']=this._audioServerStartTimestamp;
+    this._channelInfo['kickoutTime']=this._insKickoutTime;
+
+    //window.generalChannelInfo = this._channelInfo;
+    
+    //console.log(this._channelInfo);
+
+
+
+
+
+
+
+
 
     var _lowpassFilter = null;
     var _compressor = null;
@@ -106,6 +147,9 @@
 
         // Create context.
         _context = new AudioContext();
+        //window['audio_context'] = _context;
+
+        //window['audio_rec_gal'] = new Recorder(_context);
 
 
 /*
@@ -118,6 +162,8 @@
         // Create master gain control.
         _masterGainNode = _context.createGain();
         _masterGainNode.gain.value = 0.7;
+
+        window['audio_context'] = _masterGainNode; // _context.destination
 
         //create lowpass filter
         _lowpassFilter = _context.createBiquadFilter();
@@ -180,6 +226,8 @@
         this.setFxValues();
 
         this.createInstruments();
+
+        //console.log(this._audioServerStartTimestamp);
     };
 
     this.setFxValues = function() {
@@ -193,28 +241,44 @@
 
     this.createInstruments = function() {
         _instruments = [];
-        for (var i = 0; i < instrumentsConfig.length; i++) {
-            //var tracks = this.createTracks(i, instrumentsConfig[i].tracks, instrumentsConfig[i].type);
-            // instrumentsConfig[i].tracks[instrumentsConfig[i].trackSet]
-            var type = instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type;
+        for (var i = 0; i < this._instrumentsConfig.length; i++) {
+            //var tracks = this.createTracks(i, this._instrumentsConfig[i].tracks, this._instrumentsConfig[i].type);
+            // this._instrumentsConfig[i].tracks[this._instrumentsConfig[i].trackSet]
+            var type = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type;
             if (type=='control') {
               var tracks = [];
             } else {
-              var tracks = this.createTracks(i, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].tracks, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type);
+              var tracks = this.createTracks(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].tracks, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type);
             }
-            //var instrument = new mixr.models.Instrument(i, instrumentsConfig[i].name, tracks, 1.0, instrumentsConfig[i].type, instrumentsConfig[i].color);
-            var instrument = new mixr.models.Instrument(i, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].name, tracks, 1.0, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].type, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].color, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].kitNumber, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].controls, instrumentsConfig[i].conf[instrumentsConfig[i].trackSet].instrumentName); 
+
+            /*var channelInfo = this._channelInfo;
+            channelInfo['barOffset']= this._insBarOffset[0]; //i 
+            console.log("create ins: ", channelInfo);*/
+
+            channelInfo = {};
+            channelInfo.bpm = this._tempo; //window.generalChannelInfo; 
+            channelInfo.serverStartTime = this._audioServerStartTimestamp;
+            channelInfo.kickoutTime = this._insKickoutTime;
+            channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
+            channelInfo.countdownMode = this._countdownMode;
+
+
+            //var instrument = new mixr.models.Instrument(i, this._instrumentsConfig[i].name, tracks, 1.0, this._instrumentsConfig[i].type, this._instrumentsConfig[i].color);
+            var instrument = new mixr.models.Instrument(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].name, tracks, 1.0, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].color, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].kitNumber, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].controls, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].instrumentName, channelInfo); 
             _instruments.push(instrument);
-            console.log('instrument:', instrument);
+            //_self._instruments.push(instrument);
+            //console.log('instrument:', instrument);
         };
 
+        window.availSlots = _instruments.length;
         _availableInstruments = _instruments.concat(); // Join two arrays:
         _self._availableInstruments = _instruments.concat();
-        console.log('_availableInstruments: ', _availableInstruments);
+        window._availableInstruments = _instruments.concat();
+        //console.log('_availableInstruments: ', _availableInstruments);
     };
 
     this.createTracks = function(instrumentId, tracksConfig, type) {
-        console.log('createTracks');
+        //console.log('createTracks');
         var tracks = [];
         for (var i = 0; i < tracksConfig.length; i++) {
             var config = tracksConfig[i];
@@ -240,6 +304,7 @@
         } */
         _availableInstruments.push(instrument);
         _self._availableInstruments.push(instrument);
+        window._availableInstruments.push(instrument);
     };
 
     this.getNextInstrument = function(clientId) {
@@ -260,6 +325,7 @@
         _availableInstruments.shift(); // and remove it from available instrument list
         // The shift() method removes the first item of an array, and returns that item.
         _self._availableInstruments.shift();
+        window._availableInstruments.shift();
 
 
         if (typeof nextInstrument !== 'undefined') {
@@ -274,6 +340,7 @@
           //console.log("_clients", _clients);
 
           _clients[clientId] = nextInstrument;
+          //console.log("get nxt ins: ", nextInstrument);
           return nextInstrument;
 
         } else {
@@ -317,6 +384,8 @@
         _availableInstruments.shift(); // and remove it from available instrument list
         // The shift() method removes the first item of an array, and returns that item.
         _self._availableInstruments.shift();
+        window._availableInstruments.shift();
+
 
 
         if (typeof nextInstrument !== 'undefined') {
@@ -341,19 +410,35 @@
     };
 
 
+    this.changeSession = function(data, clientId) {
+      window['insConf'] = window['insConf'+data.x];
+      this['_instrumentsConfig'] = window['insConf'];
+//this.createInstruments(); // Update general instruments' object
+    };    
+
 
     this.updateInstrument = function(data, clientId) { // change(Instrument)Kit
 
+        console.log('_clients after:', _clients);
         var trackSet = data.x; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
         var prevKit = _clients[clientId].id; // source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
 
         //console.log("_clients[clientId].id", _clients[clientId].id);
 
         // retrieve track info from destination kit and override source kit with that info
-        var tracksUpdate = this.createTracks(prevKit, instrumentsConfig[prevKit].conf[trackSet].tracks, instrumentsConfig[prevKit].conf[trackSet].type); 
+        var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type); 
+
+        //var channelInfo = this._channelInfo;
+        //channelInfo['barOffset']= this._insBarOffset[0]; // prevKit
+        channelInfo = {};
+        channelInfo.bpm = this._tempo; //window.generalChannelInfo; 
+        channelInfo.serverStartTime = this._audioServerStartTimestamp;
+        channelInfo.kickoutTime = this._insKickoutTime;
+        channelInfo.barOffset = eval('this._insBarOffset'+prevKit); //this._insBarOffset[0];  
+        channelInfo.countdownMode = this._countdownMode;    
 
         // override source instrument with destination kit info
-        var anextInstrument = new mixr.models.Instrument(prevKit, instrumentsConfig[prevKit].conf[trackSet].name, tracksUpdate, 1.0, instrumentsConfig[prevKit].conf[trackSet].type, instrumentsConfig[prevKit].conf[trackSet].color, instrumentsConfig[prevKit].conf[trackSet].kitNumber, instrumentsConfig[prevKit].conf[trackSet].controls, instrumentsConfig[prevKit].conf[trackSet].instrumentName);
+        var anextInstrument = new mixr.models.Instrument(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].name, tracksUpdate, 1.0, this._instrumentsConfig[prevKit].conf[trackSet].type, this._instrumentsConfig[prevKit].conf[trackSet].color, this._instrumentsConfig[prevKit].conf[trackSet].kitNumber, this._instrumentsConfig[prevKit].conf[trackSet].controls, this._instrumentsConfig[prevKit].conf[trackSet].instrumentName, channelInfo);
     
         if (anextInstrument.tracks.length > _clients[clientId].tracks.length) {
           var trackNumber = _clients[clientId].tracks.length;
@@ -369,6 +454,9 @@
         }
 
         _instruments[prevKit] = anextInstrument;
+        //this._instruments[prevKit] = anextInstrument;
+
+        //console.log('kit number', anextInstrument.kitNumber, this._instruments[prevKit].kitNumber);
 
         // Initialize the instrument and call start when ready.
         anextInstrument.initialize(this.start);
@@ -381,6 +469,79 @@
 
         return anextInstrument;
     };    
+
+
+
+
+
+
+
+
+
+    this.updateChannelInfo = function(clientId, order) { 
+
+      console.log('clientId + order: ',clientId, order);
+      var channelNumber = _clients[clientId].id; // ! channelNumber ! source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
+
+      if (channelNumber!=1) { // do not process conductor role which has no track data associated to it! Beware hardcoded value!
+
+        //console.log('kitNumber', this._instruments[channelNumber].kitNumber);
+
+        var kitNumber = _instruments[channelNumber].kitNumber;
+
+        
+        console.log('upd ch clt id + tracks ',channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber])
+
+        // retrieve track info from destination kit and override source kit with that info
+        var tracksUpdate = this.createTracks(channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].tracks, this._instrumentsConfig[channelNumber].conf[kitNumber].type); 
+
+        channelInfo = {};
+        channelInfo.bpm = this._tempo; //window.generalChannelInfo; 
+        channelInfo.serverStartTime = this._audioServerStartTimestamp;
+        channelInfo.kickoutTime = this._insKickoutTime;
+        channelInfo.barOffset = eval('this._insBarOffset'+channelNumber); //this._insBarOffset[0];  
+        channelInfo.countdownMode = this._countdownMode;    
+
+        console.log('start time', this._audioServerStartTimestamp);
+
+        // override source instrument with destination kit info
+        var anextInstrument = new mixr.models.Instrument(channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].name, tracksUpdate, 1.0, this._instrumentsConfig[channelNumber].conf[kitNumber].type, this._instrumentsConfig[channelNumber].conf[kitNumber].color, /*this._instrumentsConfig[channelNumber].conf[kitNumber].kitNumber*/ kitNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].controls, this._instrumentsConfig[channelNumber].conf[kitNumber].instrumentName, channelInfo);
+    
+        if (anextInstrument.tracks.length > _clients[clientId].tracks.length) {
+          var trackNumber = _clients[clientId].tracks.length;
+        } else {
+          var trackNumber = anextInstrument.tracks.length;
+        }
+
+        // use source instrument kit as pattern to feed destination kit with note info
+        for (var n = 0, len = trackNumber; n < len; n += 1) {
+          //var track = _instruments[0].tracks[n];
+          var notes = _clients[clientId].tracks[n].getNotes(); // 
+          anextInstrument.tracks[n].setNotes(notes);
+        }
+
+        _instruments[channelNumber] = anextInstrument;
+        //_self._instruments[channelNumber] = anextInstrument;
+
+        // Initialize the instrument and call start when ready.
+        anextInstrument.initialize(this.start);
+        // Pass the context the instrument.
+        anextInstrument.setup(_context);
+
+        _clients[clientId] = anextInstrument;
+
+        return anextInstrument;
+      }  
+    };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -444,7 +605,7 @@
             //console.log('bpm', bpm);        
 
 
-            for (var i = 0; i < _instruments.length; i++) {
+            for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
 
 
                 //console.log('this._Ins01Volume: ', _self._Ins01Volume);
@@ -594,6 +755,7 @@
         console.log('data.id', data.id);
 
         _instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
+        //_self._instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume;
         //_instruments[instrumentId].tracks[trackId].notes[data.noteId] = data.volume;
 
     };
@@ -664,19 +826,21 @@
                   }    
 
                     // keep ids that correspond to channel volumes
-                    if (data.id<=900 && data.id>800) {   
+                    if (data.id<=900 && data.id>800) {   // data.id>800
                       //var channelNumber = data.id;
                       var channelNumber = controls[j].x.param.charAt(7);
                       //console.log('insName', _instruments[channelNumber].instrumentName);
 
 
                       // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
-                      var synthInstance2 = _instruments[channelNumber].instrumentName + '_' + channelNumber;        
+                      var synthInstance2 = _instruments[channelNumber].instrumentName + '_' + channelNumber;  
+                      //var synthInstance2 = _self._instruments[channelNumber].instrumentName + '_' + channelNumber;      
+
                       var synthInstance1 = window[synthInstance2];                      
 
                       //if (controls[j].x.param!='[external]') {
                         if (typeof synthInstance1 !== 'undefined') {
-                          switch (_instruments[channelNumber].instrumentName) {
+                          switch (_instruments[channelNumber].instrumentName) { // _instruments
                             case 'AikeWebsynth1':
                               // value sent as parameter to synth instance object
                               eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); // data.x
@@ -695,6 +859,8 @@
 
                     } else {
                       this[controls[j].x.param] = valueX;
+
+                      console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
 
                       if (controls[j].y) {
                         this[controls[j].y.param] = valueY;
@@ -738,7 +904,13 @@
         */
 
         this.setFxValues();
+        //this.createInstruments(); // Update general instruments' object = crashes general audio       
     };
+
+
+    this.updateSeqVariables = function(varName, varValue) { 
+      this[varName] = varValue;
+    };   
 
     this.interpolate = function(value, minimum, maximum) {
         return minimum + (maximum - minimum) * value;
