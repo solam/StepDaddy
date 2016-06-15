@@ -59,6 +59,8 @@
 
     var _onClientJoined = function(data) {
 
+      //console.log('sysptns at client join room:', _sequencer._systemPatterns); 
+
       var client = _clients[data.client];
       if (typeof client !== 'undefined') {
         console.log('A client with id', data.client, 're-joined the room');
@@ -145,7 +147,7 @@ console.log('mixer sending time:', startTimestamp);*/
         //console.log('>>> Instrument', instrument, _totalInstruments);
         if (typeof _instruments[data.client] === 'undefined') {
           _totalInstruments++;
-          _sequencerView.addInstrument(instrument);
+//_sequencerView.addInstrument(instrument) // remove audio stuttering
           _instruments[data.client] = instrument;
           $('#roomId').hide();
 
@@ -164,7 +166,7 @@ console.log('mixer sending time:', startTimestamp);*/
     };
 
     var _onNote = function(data) {
-      _sequencerView.updateNote(data.args);
+//_sequencerView.updateNote(data.args); // remove audio stuttering
       _sequencer.updateNote(data.args);
       //console.log('_onNote: ', data.args);
     };
@@ -210,6 +212,8 @@ console.log('mixer sending time:', startTimestamp);*/
   //_sequencer.updateFxParam(data.args, data.client); // placing this line before if (data.args.id==998) { fixes the prg change from 0 to 1 displays 0 & from 2 to 1 displays 1 bug
       //console.log('_onModifierChange: ', data.client); */     
 
+
+      //console.log('data.args: ', data.args);
 
       // if 'channel change' id from conductor role
       if (data.args.id==997) {
@@ -266,7 +270,7 @@ console.log('mixer sending time:', startTimestamp);*/
             //console.log('>>> Instrument', instrument, _totalInstruments);
             if (typeof _instruments[claients[i]] === 'undefined') {
               _totalInstruments++;
-              _sequencerView.addInstrument(instrument);
+//_sequencerView.addInstrument(instrument); // remove audio stuttering
               _instruments[claients[i]] = instrument;
               $('#roomId').hide();
             }
@@ -282,6 +286,8 @@ console.log('mixer sending time:', startTimestamp);*/
       // if 'program/preset/kit change' id from any instrument channel
       } else if (data.args.id==998) {
 
+        //console.log(data);
+
         // TODO check for conductor role...
         var instrument = _sequencer.updateInstrument(data.args, data.client);        
         // console.log('instrument.tracks', instrument.tracks); // data
@@ -290,10 +296,12 @@ console.log('mixer sending time:', startTimestamp);*/
         //console.log('>>> Instrument', instrument);
         _instruments[data.client] = instrument; 
 
-        // remove old channel instrument from _sequencerView      
-        _sequencerView.removeInstrument(instrument); 
 
-        _sequencerView.addInstrument(instrument);
+//*
+        // remove old channel instrument from _sequencerView      
+//_sequencerView.removeInstrument(instrument); // remove audio stuttering
+
+//_sequencerView.addInstrument(instrument); // remove audio stuttering
 
 
         // import notes from old instr to new one (so theyr are displayed on seq view)  
@@ -311,10 +319,10 @@ console.log('mixer sending time:', startTimestamp);*/
             'volume': instrument.tracks[i].notes[j]};  
             //console.log('dataObj', dataObj); 
 
-            _sequencerView.updateNote(dataObj);
+//_sequencerView.updateNote(dataObj); // remove audio stuttering
           }
         }
-
+//*/
 
       } else if (data.args.id==996) {
         _sequencer.changeSession(data.args, data.client);
@@ -330,7 +338,46 @@ console.log('mixer sending time:', startTimestamp);*/
         console.log('instrument', instrument);
         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[claientId], instrument: instrument });  // are we required to send new instrument object, not just 3 params to update?   
 */
+
+      } else if (data.args.id==995) {
+        console.log('995 save ptn data', data);
+        _sequencer.addPattern(data, data.client);
+        //_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: _instruments[data.client]});
+
+
+        if (typeof data.args.triggerMode !== 'undefined') {
+          if (data.args.triggerMode == 'manual') {
+
+          data.args.x = data.args.kitNumber;
+          var instrument = _sequencer.updateInstrument(data.args, data.client);        
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          _instruments[data.client] = instrument; 
+          }
+        }
+
+        console.log('ins data clt: ', _instruments[data.client]);
+
+
+      } else if (data.args.id==994) {
+
+      //console.log('data 994:', data);   
+
+      //_sequencerView.updateNotes(data); // .args
+      var notes = _sequencer.updateNotes(data);   
+
+      /*
+      for (var a = 0; a < notes.length; a += 1) {
+        setTimeout(function () {
+          _sequencerView.updateNote(notes[a]);
+          console.log(notes[a]);  
+        }, 100);
+      } */  
+
+      console.log(notes);
+
       } else {
+        //console.log('non regular event id popped');
+
         _sequencer.updateFxParam(data.args, data.client);   
 
         if (data.args.id==699 || data.args.id==999) { // 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
@@ -414,9 +461,10 @@ console.log('mixer sending time:', startTimestamp);*/
       window['SEQ'] = _sequencer;
 
       _sequencerView = new mixr.views.SequencerView(document.getElementById('sequencer-view')).initialize();
+      window['SEQVIEW'] = _sequencerView;
 
       _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
-        _sequencerView.drawPlayhead(beat);
+//_sequencerView.drawPlayhead(beat); // remove audio stuttering
         _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat});
       });
     };

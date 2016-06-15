@@ -205,3 +205,77 @@ font-size: 7vw; /*5 - 10*/
   color: white;
   font-size: 14px;
 }
+
+option.channel {
+  /*opacity: 0.3;*/
+  background-color: blue;
+}
+
+option.user {
+  /*opacity: 0.3;*/
+  background-color: #BCEBBC;
+}
+
+option.session {
+  /*opacity: 0.3;*/
+  background-color: orange;
+}
+
+select#patterns {
+  height: 40px;
+}
+
+.ctrlchange.slider {
+
+  width: 50px; /* replace with percent of width */
+  height:150px;
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
+
+
+.ctrlchange.slider label {
+  position: relative;
+  top:1px;
+  color: white;
+}  
+
+div.ctrlchange.slider span {
+  display:block;
+  font-size: 12px;
+  color:white;
+  margin-bottom: 20px;
+  z-index: -500;
+
+}
+
+div.button.contact {
+  width: 50px;
+  height: 50px; 
+  position: relative; 
+}
+
+input#pattern-name {
+  width:220px;  
+  /*display: inline-block;
+  float: left;  */
+}
+
+div.button.contact label {
+  width:200px;
+  position: absolute;
+  top: 30px;  
+}  
+
+div.button.contact canvas {
+  /*display: inline-block;
+  float: left; */
+  border: solid 1px grey;
+  margin: 10px;
+}  
+
+div.button.contact span {
+  color:white;
+}  

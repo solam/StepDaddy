@@ -79,9 +79,28 @@
     var _onMouseDown = function() {
       //$item.on('touchmove', _onMouseMove);
       //console.log('input value changed', 'input value changed');
-      console.log('input value changed', $item.find("input").val());
+      //console.log('input value changed', $item.find("input").val());
       //alert($item.val());
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val()
+
+      var classs = $('#patterns').find(":selected").attr('class');
+
+      if (_id==995) {
+         var KitNumber = $('#kits').find(":selected").val(); 
+         window['userPattern'].name = $('#pattern-name').val();
+         window['userPattern'].id = uuid.v1();
+         var ptnString = JSON.stringify(window['userPattern']); // ptnString
+         //console.log('ptn', ); // window['userPattern'], ptnString
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual' });
+        localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
+
+      } else {
+          if( $('#patterns').length ) {
+            var ptnId = $('#patterns').find(":selected").val();            
+          } else {
+            var ptnId = 0;
+          }
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, patternId: ptnId, classs: classs}); // 2 - $item.val()
+      }
       /*$('body').on('touchend', _onMouseUp);
       $('body').on('touchcancel', _onMouseUp);*/
     };
@@ -110,7 +129,7 @@
      * @function
      */
     var _addEventListeners = function() {
-      $item.on('change', _onMouseDown);
+      $item.on('change', _onMouseDown); //  - click
       //$(window).on('resize', _onResize);
     };
 
@@ -123,10 +142,16 @@
 
     
     var _drawTempoInput = function(name) {
-      $item = $('<div class="ctrlchange">'); // $itemContainer
+      $item = $('<div class="ctrlchange" id="id'+_id+'">'); // $itemContainer
       //$item = $('<input>');
 
-      var instrumentsConfig = window.insConf;
+      if (_id==995) {      
+        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>pattern name</label>');
+        //$('#pattern-name').val(window['userPattern'].name);
+        //console.log('ptn name: ', window['userPattern'].name)
+      }      
+
+      var instrumentsConfig = window.insConf; // beware hardcoded value!
 
       // following value calculation code should be out of INPUT !!!!
       if (_id>=800 && _id<809) {

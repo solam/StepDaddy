@@ -204,6 +204,8 @@
        
         var synthInstance = this.instrumentName + '_' + this.id;
 
+      if (typeof window[synthInstance]!== 'undefined') {
+
         switch (this.instrumentName) {
             case 'AikeWebsynth1':
                 window[synthInstance].play(note);
@@ -214,7 +216,7 @@
                 break;
 
         }         
-
+      }
                
 
        //AikeSynth.play(note);

@@ -36,7 +36,7 @@
 var startTimestamp = startDate.getTime();
 console.log('model ptn editor receving time:', startTimestamp);*/
 
-      console.log('data', data.channelInfo);
+      //console.log('data', data.channelInfo);
 
       if (data=='kickOut') {        
         location.reload(true); // reload channel so that it loads channel instrument if available
@@ -44,9 +44,214 @@ console.log('model ptn editor receving time:', startTimestamp);*/
       } else if (data=='waitroom') {
         window.location.replace("waiting-room.html");  
       }
-      console.log('Got an instrument', data.id);
+      //console.log('Got instrument tracks', data.tracks); // data.id
+
+      var traacks = Object.keys(data.tracks); 
+      var traacksLength = traacks.length;
+
+
+      // send localStorage "user" patterns into session shared pattern store
+
+//
+
+
+//console.log('session patterns: ', data.channelInfo.patterns); // .length
+
+
+if (typeof window.localPatterns == 'undefined') {
+  window.localPatterns = [];
+}
+
+
+
+/*
+// count number of local patterns
+
+var patternCount = 0;  
+
+for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+  var varName = localStorage.key(i);
+  
+  if (varName !== null && varName.substring(0, 10) == "Loops-ptn_") {    
+    patternCount++;
+  }  
+}
+console.log('patternCount: ', patternCount);
+*/
+
+
+
+
+
+
+if (typeof window.channelPatterns == 'undefined' && typeof data.channelInfo.channelPatterns !== 'undefined') { 
+
+  if (data.channelInfo.channelPatterns.length>0) { // Beware window.channelPatterns might need to be refreshed across sessions !
+    window.channelPatterns = data.channelInfo.channelPatterns;
+  }  
+
+}
+
+
+//*
+for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+  var varName = localStorage.key(i);
+  //console.log('localStorage: ', varName);
+
+  var pushpattern = 0;  
+  
+  if (varName !== null && varName.substring(0, 10) == "Loops-ptn_") {
+      //var sessionRestaurée = JSON.parse(localStorage.getItem('session'));
+      var ptnString = localStorage.getItem(varName);
+      //console.log('localStorage: ', varName, ptnString);
+
+      
+      //_self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: 1, y: 0, pattern: ptnString });
+
+      _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: 1, y: 0, pattern: ptnString });
+
+      //var pushpattern = 0;  
+      var ptnObj = JSON.parse(ptnString); // objFromString
+      ptnObj['classs'] = 'user';
+
+      if (window.localPatterns.length==0) { // data.channelInfo.patterns
+        //_connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: 1, y: 0, pattern: ptnString });
+        window.localPatterns.push(ptnObj);
+        //console.log('localStorage 0: ', varName, ptnString);
+      } else if (window.localPatterns.length>0) {
+
+        //console.log('localStorage: ', varName, ptnString);
+
+        for ( var j = 0, len2 = window.localPatterns.length; j < len2; ++j ) {  // data.channelInfo.patterns  window.localPatterns.length patternCount       
+          var ptn = window.localPatterns[j]; //data.channelInfo.patterns[j];
+
+      //    /*if (ptn.id!=ptnObj.id) {
+      //      console.log('session ptns',ptn);
+      //    }          
+    
+
+          if (ptn.id==ptnObj.id) {
+
+            var ptnIndex = j;
+            var pushpattern = 1;
+            //console.log('session ptns',ptn);
+          }
+        }  
+
+     if (pushpattern == 1) {
+        //console.log('j: ',j)
+        window.localPatterns.splice(ptnIndex, 1); // remove old entry
+        window.localPatterns.push(ptnObj); // update with new entry
+
+     } else { // if (pushpattern == 2)
+        window.localPatterns.push(ptnObj); // add new pattern
+     }
+
+
+
+    }  
+
+ } 
+
+  //console.log( localStorage.getItem( localStorage.key( i ) ) );
+}
+
+//*/
+
+
+
+
+
+
+
+
+
+
+
+      window['userPattern'] = {
+          //'innfo' : [],
+          'tracks' : []
+      };
+      /*window['userPattern'] = [];
+      window['userPattern']['tracks'] = [];*/
+
+      for (var i = 0; i < traacks.length; i++) {
+        var track = data.tracks[i];  
+
+        var trackId = track.id.split('-')[1];
+        //var instrumentId = track.id.split('-')[0];
+        //console.log('ins id', instrumentId); // 
+        //window['userPattern']['tracks'][trackId] = track.notes
+        window['userPattern'].tracks[trackId] = track.notes
+      }  
+      //window['userPattern']['info'] = [];
+      //window['userPattern']['info']['id']=uuid.v1(); 
+      //window['userPattern']['info']['name']='elevator';
+      var uuidVar = uuid.v1(); // this var is only generated after 1 get instruement event
+      window['userPattern'].id=uuidVar; 
+      window['userPattern'].name=traacksLength + 'n_' + data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0);
+      window['userPattern'].classs='user';
+      //console.log('channel pattern array', window['userPattern']);
+      //$('#pattern-name').val(window['userPattern'].name);
+
+      //console.log('chInfo model ptn:', data.channelInfo);
+
+
+
+
       _self.instrument = new mixr.models.Instrument(data.id, data.name, data.tracks, data.volume, data.type, data.color, data.kitNumber, data.controls, data.instrumentName, data.channelInfo); // data.id - 1
       _self.emit(mixr.enums.Events.INSTRUMENT, _self.instrument);
+
+
+
+if( $('#patterns').length ) {
+
+  if (typeof data.channelInfo.patternId !== 'undefined') {
+    window.patternId = data.channelInfo.patternId;
+  } 
+
+  if (window.patternId==0) {
+
+      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved pattern]</option>');
+      $itemOptionUnsaved.appendTo(document.getElementById('patterns'));
+      $('#patterns option[value="0"]').prop('selected',true);
+
+  } else {    
+
+    $('#patterns option[value="' + window.patternId + '"]').prop('selected',true);
+    //$('#patterns option[value="fake-option"]').hide(); //css('visibility', 'hidden');
+    //$("#patterns").val($("#patterns option:first").click());  //.val());
+    //$('#patterns option:eq(1)').attr('selected', 'selected').trigger('change');
+
+  }
+
+  console.log('patternId: ', window.patternId, data.channelInfo.patternId);
+}
+
+
+if( $('#kits').length ) {
+
+  if (typeof data.channelInfo.presetId == 'undefined') {
+    var kiitNuumber = data.kitNumber;
+  } else {
+    var kiitNuumber = data.channelInfo.presetId ;    
+  }
+
+
+
+  $('#kits option[value="' + kiitNuumber + '"]').prop('selected',true);
+  //console.log('ch info: preset id kitNumber ', data.channelInfo.presetId, data.kitNumber, kiitNuumber);
+}
+
+
+
+
+
+
+
+
+
+
 
 /*
 js func that refreshes itself every bar/ second:
@@ -69,6 +274,11 @@ var channelBarOffset = 8; */
 var countdownMode = data.channelInfo.countdownMode;
 console.log('countdownMode', countdownMode);
 
+var bpm = data.channelInfo.bpm;
+$("#insname").html(data.instrumentName);
+$("#kitname").html(data.name );
+$("#bpm").html(bpm + ' bpm');
+
 if (countdownMode==1) {
 
 var startDate = new Date();
@@ -77,10 +287,7 @@ var userStartTime = startDate.getTime();
 var startTimestamp = data.channelInfo.serverStartTime; // session start time
      
 
-var bpm = data.channelInfo.bpm;
-$("#insname").html(data.instrumentName);
-$("#kitname").html(data.name );
-$("#bpm").html(bpm + ' bpm');
+
 
 
 var channelBarOffset = data.channelInfo.barOffset;
@@ -289,11 +496,18 @@ window.newtimer = setInterval(function () { // (e)
         noteId: note,
         volume: volume
       });
+
+      var traackId = trackId.split('-')[1];      
+      //window['userPattern']['tracks'][traackId][note] = volume;
+      window['userPattern'].tracks[traackId][note] = volume;
+      console.log('changed channel pattern', window['userPattern']); // , trackId, note, volume
+
     };
 
 
 
     this.onModifierChange = function(data) {
+       console.log('ptn editor ModifierChange: ', data); 
       _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
     };
 

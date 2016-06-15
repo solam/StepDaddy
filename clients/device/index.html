@@ -25,13 +25,19 @@
     <div id="bpm"></div>
   </div>
 
-  <div id="modifiers"></div>
+  <div id="modifiers">
+    <!--<div class="ctrlchange" id="id998">
+      <select id="kits" name="kits"></select>
+    </div>-->
+  </div>
 
   <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq"></canvas>-->
 
+  <script src="../common/scripts/additional.functions.js"></script>
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
-  <script src="../common/lib/fastclick.js"></script>
+  <script src="../common/lib/interface.min.js"></script>
+  <!--<script src="../common/lib/fastclick.js"></script>-->
 
   <script src="../common/scripts/namespaces.js"></script>
   <script src="../common/scripts/utils.js"></script>
@@ -41,6 +47,7 @@
   <script src="../common/scripts/net.connection.js"></script>
   <script src="../common/scripts/net.response.js"></script>
   <script src="../common/scripts/net.proxyrequest.js"></script>
+  <script src="../common/scripts/uuid.js"></script>
 
   <script src="../sequencer/scripts/instruments_config.js"></script>
   <script src="../sequencer/scripts/instruments_config_02.js"></script>
@@ -48,6 +55,9 @@
   <!--<script src="../common/lib/nexusUI.js"></script>-->
   <script src="../common/scripts/ui.input.js"></script>
   <script src="../common/scripts/ui.slider.js"></script>
+  <script src="../common/scripts/ui.ddmenu.js"></script>
+  <script src="../common/scripts/ui.contact.js"></script>
+  
 
 
 
@@ -58,11 +68,14 @@
   <script src="../common/scripts/views.patterneditor.js"></script>
 
   <script>
+  //window.localPatterns = [];  
     /*$("#pattern-editor").hide();
     $("#modifiers").hide();*/
+
+    //*
     window.addEventListener('load', function() {
       new FastClick(document.body);
-    }, false);
+    }, false); //*/
   </script>
 
   <script src="scripts/device.js"></script>

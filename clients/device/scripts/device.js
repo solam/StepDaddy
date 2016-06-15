@@ -69,7 +69,7 @@ var _onModifierChangeInput = function(data) {
 
     var _onRoomJoined = function(data) {
       _isJoinedToRoom = data.room;
-      console.log('Room joined!', data);
+      //console.log('Room joined!', data);
 
 
       _model = new mixr.models.PatternEditor(_conn);

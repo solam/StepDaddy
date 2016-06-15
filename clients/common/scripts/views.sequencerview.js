@@ -71,10 +71,39 @@
       $track = $('[data-instrument-id="' + data.id + '"][data-track-id="' + data.trackId + '"]');
       $note = $track.find('td').eq(data.noteId + 1);
 
-      //console.log('!updateNote', /*$note,*/ data);
+      console.log('!updateNote', /*$note,*/ data);
 
       $note.toggleClass('active', data.volume > 0);
     };
+
+
+    /*this.updateNotes = function(data) { // update various notes
+        
+        var channelId = _clients[data.client].id
+
+        //console.log('updates notes data: ', data, channelId); // _instruments
+
+        if (data.args.classs=='channel') {
+          var ptnStorage = this._systemPatterns;
+        } else {  
+          var ptnStorage = this._patterns;
+        }        
+
+        var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
+        var trackNumber = result[0].tracks.length; 
+
+        for (var n = 0, len = trackNumber; n < len; n += 1) {
+          var notesNumber = result[0].tracks[n].length;
+          var traack = result[0].tracks[n];
+
+          var notes = [];
+
+          for (var l = 0; l < notesNumber; l += 1) {
+            _instruments[channelId].tracks[n].notes[l] = traack[l];
+          }  
+        } 
+    }; */
+
 
     var _addTrack = function(instrument, track) {
       //console.log('addTrack', track);

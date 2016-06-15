@@ -15,6 +15,11 @@
     //window._availableInstruments = _availableInstruments;
     var _tracks = {};
 
+    var _patterns = [];
+    this._patterns = [];
+    this._systemPatterns = [];
+    //window.systemPatterns = [];
+
     //var _trackSet = {}; // track kit
 
     var _context = null;
@@ -32,7 +37,7 @@
     var startDate = new Date();
     this._audioServerStartTimestamp = startDate.getTime();
 
-    this._countdownMode = 1; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+    this._countdownMode = 0; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
     
 
 
@@ -85,7 +90,7 @@
     this._insVol7 = this.interpolate2(insVol7X.value, insVol7X.min, insVol7X.max, insVol7X.displayedRangeMin, insVol7X.displayedRangeMax);                
 
     //this._insVol2 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[2].x.value;
-    console.log("bpm", this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x);
+    //console.log("bpm", this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x);
 
     //this._insBarOffset = [];
     this._insBarOffset0 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[10].x.value; // ! hardcoded value - this._insBarOffset[0]
@@ -97,8 +102,43 @@
     this._insBarOffset6 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[16].x.value;
     this._insBarOffset7 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[17].x.value;
 
-    //console.log(this._insBarOffset[0]);
 
+    this._channelName = [];
+    this._channelName[0]= this._instrumentsConfig[0].channelName;
+    this._channelName[1]= this._instrumentsConfig[1].channelName;
+    this._channelName[2]= this._instrumentsConfig[2].channelName;
+    this._channelName[3]= this._instrumentsConfig[3].channelName;
+    this._channelName[4]= this._instrumentsConfig[4].channelName;
+    this._channelName[5]= this._instrumentsConfig[5].channelName;
+    this._channelName[6]= this._instrumentsConfig[6].channelName;
+    this._channelName[7]= this._instrumentsConfig[7].channelName;
+
+    this._channelPatterns = [];
+    this._channelPatterns[0]= this._instrumentsConfig[0].patterns;
+    this._channelPatterns[1]= this._instrumentsConfig[1].patterns;
+    this._channelPatterns[2]= this._instrumentsConfig[2].patterns;
+    this._channelPatterns[3]= this._instrumentsConfig[3].patterns;
+    this._channelPatterns[4]= this._instrumentsConfig[4].patterns;
+    this._channelPatterns[5]= this._instrumentsConfig[5].patterns;
+    this._channelPatterns[6]= this._instrumentsConfig[6].patterns;
+    this._channelPatterns[7]= this._instrumentsConfig[7].patterns;  
+
+    var achannelPatterns = [];
+     achannelPatterns[0]= JSON.stringify(this._instrumentsConfig[0].patterns);
+     achannelPatterns[1]= JSON.stringify(this._instrumentsConfig[1].patterns);
+     achannelPatterns[2]= JSON.stringify(this._instrumentsConfig[2].patterns);
+     achannelPatterns[3]= JSON.stringify(this._instrumentsConfig[3].patterns);
+     achannelPatterns[4]= JSON.stringify(this._instrumentsConfig[4].patterns);
+     achannelPatterns[5]= JSON.stringify(this._instrumentsConfig[5].patterns);
+     achannelPatterns[6]= JSON.stringify(this._instrumentsConfig[6].patterns);
+     achannelPatterns[7]= JSON.stringify(this._instrumentsConfig[7].patterns); 
+
+
+    //var ptns = this._channelPatterns;  
+
+    //console.log(this._insBarOffset[0]);
+    console.log(this._channelPatterns); // this._channelName
+    window.chPatternsAtStartup = achannelPatterns;
 
     this._insKickoutTime = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[18].x.value; // ! hardcoded value
 
@@ -248,7 +288,15 @@
             if (type=='control') {
               var tracks = [];
             } else {
-              var tracks = this.createTracks(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].tracks, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type);
+
+              if (typeof this._instrumentsConfig[i].patterns !== 'undefined') {
+                var pattern = this._instrumentsConfig[i].patterns[this._instrumentsConfig[i].defaultPattern].tracks;
+                //console.log('ptn', pattern, this._instrumentsConfig[i].defaultPattern);
+              } else {
+                var pattern = null;
+              }
+                                           
+              var tracks = this.createTracks(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].tracks, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type, pattern);
             }
 
             /*var channelInfo = this._channelInfo;
@@ -261,6 +309,33 @@
             channelInfo.kickoutTime = this._insKickoutTime;
             channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
             channelInfo.countdownMode = this._countdownMode;
+            channelInfo.channelName = this._channelName[i]; // 'testttt'; //
+                channelInfo.patterns = this._patterns;     
+            channelInfo.channelPatterns = this._channelPatterns[i];   
+            channelInfo.channelKits = this.getKitNames(i);
+
+
+            //console.log("_ch kits: ", channelInfo.channelKits);
+
+            //console.log("_patterns at ins crea: ", this._patterns);
+            //console.log("ch name: ", channelInfo.channelName);
+            //console.log("ch ptn: ", channelInfo.channelPatterns);
+
+
+            if (typeof this._channelPatterns[i] !== 'undefined') {
+
+              channelInfo.patternId = this._channelPatterns[i][this._instrumentsConfig[i].defaultPattern].id;
+
+              for (var k = 0; k < this._channelPatterns[i].length; k++) {
+                var chptn = this._channelPatterns[i][k];  
+                this._systemPatterns.push(chptn);
+                //window.systemPatterns.push(chptn);
+              }  
+
+              //window.systemPatterns = this._systemPatterns;
+            }
+            
+            //console.log('sys ptns @ ins creation: ', this._systemPatterns);
 
 
             //var instrument = new mixr.models.Instrument(i, this._instrumentsConfig[i].name, tracks, 1.0, this._instrumentsConfig[i].type, this._instrumentsConfig[i].color);
@@ -275,18 +350,27 @@
         _self._availableInstruments = _instruments.concat();
         window._availableInstruments = _instruments.concat();
         //console.log('_availableInstruments: ', _availableInstruments);
+
+        console.log('sys + regular ptns: ', this._systemPatterns, this._patterns);
     };
 
-    this.createTracks = function(instrumentId, tracksConfig, type) {
+    this.createTracks = function(instrumentId, tracksConfig, type, pattern) {
         //console.log('createTracks');
         var tracks = [];
         for (var i = 0; i < tracksConfig.length; i++) {
             var config = tracksConfig[i];
 
-            if (type === 'samples') {
-                var track = new mixr.models.Track(instrumentId + '-' + i, config.name, null, samplesPath + config.sampleUrl, 1.0);
+            if (pattern==null) {
+              var patternLine = null;
             } else {
-                var track = new mixr.models.Track(instrumentId + '-' + i, config.name, null, null, 1.0);
+              var patternLine = pattern[i];
+              //console.log('ptn line', patternLine);
+            }
+
+            if (type === 'samples') {
+                var track = new mixr.models.Track(instrumentId + '-' + i, config.name, patternLine, samplesPath + config.sampleUrl, 1.0); // null
+            } else {
+                var track = new mixr.models.Track(instrumentId + '-' + i, config.name, patternLine, null, 1.0); //null
                 track.note = config.note;
                 //console.log('track', track);
             };
@@ -295,6 +379,23 @@
 
         return tracks;
     };
+
+
+
+    this.getKitNames = function(channelNumber) {
+      
+        var channelKits = [];
+        for (var i = 0; i < this._instrumentsConfig[channelNumber].conf.length; i++) {
+            var kit = this._instrumentsConfig[channelNumber].conf[i];
+            var kitName = kit.name;
+            channelKits.push(kitName);
+        }
+
+        return channelKits;
+    };
+
+
+
 
     this.addInstrument = function(instrument) {
         // Reset the notes of all the tracks
@@ -306,6 +407,57 @@
         _self._availableInstruments.push(instrument);
         window._availableInstruments.push(instrument);
     };
+
+
+    this.addPattern = function(data, clientId) {
+        //console.log('data', data);
+        var pattern = JSON.parse(data.args.pattern);
+        //console.log('data from addPattern fct: ', pattern);
+        // if pattern.id does not already exist in _patterns Or replace/override old entry with new data (e.g: preset name changed)
+        //_patterns.push(pattern);
+
+      var pushpattern = 0;  
+
+      if (this._patterns.length==0) {
+         this._patterns.push(pattern);
+      } else if (this._patterns.length>0) {
+      
+        for ( var j = 0, len = this._patterns.length; j < len; ++j ) {            
+          var ptn = this._patterns[j];
+          ptn['classs'] = 'session';
+
+          //console.log('id compa:', ptn.id, pattern.id);
+
+          if (ptn.id==pattern.id) {
+
+            var ptnIndex = j;
+            var pushpattern = 1;
+            //console.log('session ptns',ptn);
+          } /*else {
+            var pushpattern = 2;
+            //this._patterns.push(pattern);
+          } */       
+        } 
+
+
+         if (pushpattern == 1) {
+            this._patterns.splice(ptnIndex, 1); // remove old entry
+            this._patterns.push(pattern); // update with new entry
+
+         } else /*if (pushpattern == 2)*/ {
+            this._patterns.push(pattern); // add new pattern
+         }
+
+
+       }
+
+
+
+
+        //console.log('_patterns length: ', this._patterns.length, Object.keys(_self._patterns).length);
+        //console.log('_patterns', this._patterns);
+
+    };    
 
     this.getNextInstrument = function(clientId) {
         //*
@@ -417,16 +569,136 @@
     };    
 
 
+
+
+// id: _id, x: $('#patterns').find(":selected").val(), y: 0, pattern: 1, classs: $('#patterns').find(":selected").attr('class'), kitNumber: $('#id998').find("input").val()  
+// data.args, data.client
+    this.updateNotes = function(data) { // update various notes
+        
+        var channelId = _clients[data.client].id;
+
+        //console.log('updates notes data: ', channelId); // _instruments - data, 
+
+        //console.log('data: ', data.args.classs, data);
+
+        if (data.args.classs=='channel') {
+
+/*
+//var tempSysPatterns = [];
+
+
+
+//for (var i = 0; i < this._instrumentsConfig.length; i++) {
+
+            if (typeof this._channelPatterns[channelId] !== 'undefined') {
+
+              for (var k = 0; k < this._channelPatterns[channelId].length; k++) {
+                var chptn = this._channelPatterns[channelId][k];  
+                //tempSysPatterns.push(chptn);
+                //console.log('channel ptn as defined in insConf: ', chptn, this._channelPatterns[channelId].length);
+              }  
+            }  
+
+//};
+           = oriChannelPatterns; 
+          //*/
+          //var ptnStorage = this._systemPatterns;
+          //var ptnStorage = window.systemPatterns;
+
+          var ptnStorage = JSON.parse(window.chPatternsAtStartup[channelId]); // oriChannelPatterns
+        } else {  
+          var ptnStorage = this._patterns;
+        }        
+
+        var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
+        var trackNumber = result[0].tracks.length; 
+
+        //console.log('sys ptns + data: ', this._systemPatterns, data, result[0], channelId);
+
+        console.log('ptn + sys ptns after: ', /*channelId, data.args.x, result[0], this._systemPatterns, data*/ window.chPatternsAtStartup); // , tempSysPatterns , window.systemPatterns
+
+        notesObject = [];
+
+        for (var n = 0, len = trackNumber; n < len; n += 1) {
+          var notesNumber = result[0].tracks[n].length;
+          var traack = result[0].tracks[n];
+          //console.log("notesNumber + traack", notesNumber, traack);
+
+          var notes = [];
+
+          for (var l = 0; l < notesNumber; l += 1) {
+            //notes[l] = traack[l];
+            _instruments[channelId].tracks[n].notes[l] = traack[l];
+            //console.log("track, note, volume: ", n, l, traack[l]);
+
+            noteInfo = {};
+            noteInfo.id = channelId;
+            noteInfo.trackId = channelId+'-'+n;
+            noteInfo.noteId = l;
+            noteInfo.volume = traack[l];
+            //window['SEQVIEW'].updateNote(noteInfo);
+            //if noteInfo.volume>0 {
+            notesObject.push(noteInfo);            
+            //}
+
+          }  
+          //var notes = result[0].tracks[n].getNotes(); // 
+          //anextInstrument.tracks[n].setNotes(notes);
+        } 
+        //console.log("notesObject: ", notesObject);
+        return notesObject;
+
+        //var trackId = data.trackId.split('-')[1];
+        //var instrumentId = data.trackId.split('-')[0];
+        //_instruments[data.client].tracks[trackId].notes[data.noteId] = data.volume; 
+    };
+
+
+
+
     this.updateInstrument = function(data, clientId) { // change(Instrument)Kit
 
-        console.log('_clients after:', _clients);
+        //if (typeof data.pattern !== 'undefined') { = do not transform old instrument to new one...
+
+        //console.log('_clients after:', _clients);
         var trackSet = data.x; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
         var prevKit = _clients[clientId].id; // source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
 
         //console.log("_clients[clientId].id", _clients[clientId].id);
+        console.log("dat ptn + data ptnId: ", data.pattern, data.patternId, data.x);
+
+        if (data.id==998) {
+          var patternId = data.patternId;
+        } else {
+          var patternId = data.x;
+        }  
+
+
+        if (typeof data.pattern !== 'undefined') { // if "change pattern only" msg received
+          var trackSet = data.kitNumber; //prevKit;
+
+
+          //var allPatterns = this._systemPatterns.concat(this._patterns);
+          //console.log('ptn sys storage: ', this._systemPatterns, this._patterns, data.classs);
+
+          if (data.classs=='channel') {
+            var ptnStorage = this._systemPatterns;
+          } else {  
+            var ptnStorage = this._patterns;
+          }
+
+          //var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type);
+          var result = $.grep(ptnStorage, function(e){ return e.id == data.x; });
+          console.log("matchin ptn object", result[0]);   // .tracks          
+
+        } //else {
 
         // retrieve track info from destination kit and override source kit with that info
         var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type); 
+
+        //}
+
+
 
         //var channelInfo = this._channelInfo;
         //channelInfo['barOffset']= this._insBarOffset[0]; // prevKit
@@ -435,7 +707,16 @@
         channelInfo.serverStartTime = this._audioServerStartTimestamp;
         channelInfo.kickoutTime = this._insKickoutTime;
         channelInfo.barOffset = eval('this._insBarOffset'+prevKit); //this._insBarOffset[0];  
-        channelInfo.countdownMode = this._countdownMode;    
+        channelInfo.countdownMode = this._countdownMode;  
+        channelInfo.channelName = this._channelName[prevKit];  
+        channelInfo.patterns = this._patterns;
+        channelInfo.channelPatterns = this._channelPatterns[prevKit];
+        channelInfo.channelKits = this.getKitNames(prevKit);
+
+        if (typeof data.kitNumber !== 'undefined') { channelInfo.presetId = data.kitNumber; }
+
+        if (typeof data.pattern !== 'undefined' && typeof data.patternId == 'undefined') { channelInfo.patternId = result[0].id; /*data.x*/ var patternRoot = result[0]; } else if (typeof data.patternId !== 'undefined') { channelInfo.patternId = data.patternId; var patternRoot = data.patternId; }
+        //console.log("_patterns at kit change: ", this._patterns);
 
         // override source instrument with destination kit info
         var anextInstrument = new mixr.models.Instrument(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].name, tracksUpdate, 1.0, this._instrumentsConfig[prevKit].conf[trackSet].type, this._instrumentsConfig[prevKit].conf[trackSet].color, this._instrumentsConfig[prevKit].conf[trackSet].kitNumber, this._instrumentsConfig[prevKit].conf[trackSet].controls, this._instrumentsConfig[prevKit].conf[trackSet].instrumentName, channelInfo);
@@ -446,12 +727,37 @@
           var trackNumber = anextInstrument.tracks.length;
         }
 
+        
+        if (typeof data.pattern !== 'undefined' && typeof data.patternId == 'undefined') {
+        //var pattern = JSON.parse(data.args.pattern);
+
+        //console.log('ptn root: ', patternRoot);
+
+        var trackNumber = patternRoot.tracks.length; // result[0]
+        for (var n = 0, len = trackNumber; n < len; n += 1) {
+          var notesNumber = patternRoot.tracks[n].length;
+          var traack = patternRoot.tracks[n];
+          //console.log("notesNumber + traack", notesNumber, traack);
+
+          var notes = [];
+
+          for (var l = 0; l < notesNumber; l += 1) {
+            notes[l] = traack[l];
+          }  
+          //var notes = result[0].tracks[n].getNotes(); // 
+          anextInstrument.tracks[n].setNotes(notes);
+        }          
+
+      } else {
+
         // use source instrument kit as pattern to feed destination kit with note info
         for (var n = 0, len = trackNumber; n < len; n += 1) {
           //var track = _instruments[0].tracks[n];
           var notes = _clients[clientId].tracks[n].getNotes(); // 
           anextInstrument.tracks[n].setNotes(notes);
         }
+
+      }  
 
         _instruments[prevKit] = anextInstrument;
         //this._instruments[prevKit] = anextInstrument;
@@ -466,6 +772,8 @@
 
         _clients[clientId] = anextInstrument;
         //console.log("_clients", _clients);
+
+        console.log("this._patterns: ", this._patterns);
 
         return anextInstrument;
     };    
@@ -490,7 +798,7 @@
         var kitNumber = _instruments[channelNumber].kitNumber;
 
         
-        console.log('upd ch clt id + tracks ',channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber])
+        //console.log('upd ch clt id + tracks ',channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber])
 
         // retrieve track info from destination kit and override source kit with that info
         var tracksUpdate = this.createTracks(channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].tracks, this._instrumentsConfig[channelNumber].conf[kitNumber].type); 
@@ -500,9 +808,11 @@
         channelInfo.serverStartTime = this._audioServerStartTimestamp;
         channelInfo.kickoutTime = this._insKickoutTime;
         channelInfo.barOffset = eval('this._insBarOffset'+channelNumber); //this._insBarOffset[0];  
-        channelInfo.countdownMode = this._countdownMode;    
+        channelInfo.countdownMode = this._countdownMode;  
+        channelInfo.channelName = this._channelName[channelNumber]; 
+        channelInfo.patterns = this._patterns;   
 
-        console.log('start time', this._audioServerStartTimestamp);
+        //console.log('start time', this._audioServerStartTimestamp);
 
         // override source instrument with destination kit info
         var anextInstrument = new mixr.models.Instrument(channelNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].name, tracksUpdate, 1.0, this._instrumentsConfig[channelNumber].conf[kitNumber].type, this._instrumentsConfig[channelNumber].conf[kitNumber].color, /*this._instrumentsConfig[channelNumber].conf[kitNumber].kitNumber*/ kitNumber, this._instrumentsConfig[channelNumber].conf[kitNumber].controls, this._instrumentsConfig[channelNumber].conf[kitNumber].instrumentName, channelInfo);
@@ -566,7 +876,7 @@
         // Pass the context the instrument.
         randomInstrument.setup(_context);
 
-        console.log("Released random instrument", randomInstrument);
+        //console.log("Released random instrument", randomInstrument);
 
         _clients[clientId] = randomInstrument;
         return randomInstrument;
@@ -759,6 +1069,11 @@
         //_instruments[instrumentId].tracks[trackId].notes[data.noteId] = data.volume;
 
     };
+
+
+
+
+
 
     this.updateFxParam = function(data, clientId) { // updateParam
         

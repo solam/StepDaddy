@@ -263,7 +263,7 @@ window.insConf2 = [ // channelConf
               }, 
 
               midicc: 0,                      
-              value: 28,
+              value: 18, // 
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -343,7 +343,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 25,
+              value: 10, //
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2339,4 +2339,4 @@ window.insConf2 = [ // channelConf
 ];
 
 
-window['insConf'] = window.insConf2; // window.insConf2 - select which session to select at app startup
+window['insConf'] = window.insConf1; // window.insConf2 - select which session to select at app startup

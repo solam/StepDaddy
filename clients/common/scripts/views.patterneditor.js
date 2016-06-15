@@ -25,6 +25,16 @@
 
     var _onToggleNote = function() {
 
+
+      if ($('#patterns option[value="0"]').length>0 ) {
+        $('#patterns option[value="0"]').remove();
+      }
+
+      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved pattern]</option>');
+      $itemOptionUnsaved.appendTo(document.getElementById('patterns'));
+      $('#patterns option[value="0"]').prop('selected',true);
+
+
       var noteIndex = $(this).index();
 
       if (noteIndex === 0) return;
@@ -49,6 +59,10 @@
     var _addEventListeners = function() {
       $table.on('click', 'td', _onToggleNote);
     };
+
+
+
+
 
 
     /*

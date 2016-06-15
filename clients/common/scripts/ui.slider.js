@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary) {
 
     /**
      * Mixins
@@ -20,6 +20,7 @@
     var _id = id;
     var _name = name;
     var _channelId = channelId;
+    var _usedLibrary = usedLibrary;
     var $container = $(container);
     var $item;
     var _timeoutId;
@@ -53,6 +54,10 @@
       //$item.on('change', _onMouseDown);
       //$(window).on('resize', _onResize);
         //$item.find("canvas")
+
+if (usedLibrary=='Interface') {
+
+} else {
         
 
         var sliderId= 'slider'+_id;
@@ -69,14 +74,100 @@
 
         //eval('slider'+_id+'.on("x", function(data){alert(data);});');
 
-
+}
 
     };
 
     
-    var _drawSlider = function(name) {
-      $item = $('<div class="ctrlchange">'); // $itemContainer
+    var _drawSlider = function(name, usedLibrary) {
+      $item = $('<div class="ctrlchange slider" id="slider'+ _id +'">'); // $itemContainer
       //$item = $('<input>');
+      $item.appendTo($container);
+
+
+if (usedLibrary=='Interface') {
+
+//eval('slider'+_id+'='+_value);  
+
+/*
+var leftShift = '.'+_id%10; //.charAt(2);
+var leftShift = Number(leftShift);
+console.log('leftShift', leftShift);
+
+window.sliderArray[_id] = new Interface.Slider({
+  label: 'vertical slider'+_id,  
+  bounds:[.05,leftShift,.1,.9] 
+});
+
+console.log('sider id: ',_id);
+
+window.interfacePanel.add(window.sliderArray[_id]);  
+*/
+
+
+
+
+window.interfacePanel[_id] = new Interface.Panel({ 
+  container:document.querySelector("#slider"+_id)//,
+  //useRelativeSizesAndPositions:true 
+});
+window.interfacePanel[_id].background = 'black';
+
+var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.sliderLabelArray[_id]
+  bounds:[0,0.7,.5,.25],
+  hAlign:'center',
+  vAlign:'bottom',
+  value: _value //' ' //
+});  
+
+ var slider = new Interface.Slider({ // window.sliderArray[_id]
+  //label: 'vertical slider'+_id,  
+  //bounds:[0,0,0.75,0.75],
+  bounds:[0,0,1,1],
+  value: _value/100,
+  //target: window.sliderLabelArray[_id], key:'setValue' // label
+
+  onvaluechange: function() { 
+  //label.setValue( (this.value*100).toFixed() );
+  var roundedValue = (this.value*100).toFixed();
+  $("#slider"+_id+" label").html( roundedValue );  
+  _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: roundedValue, y: 0});
+
+   } // window.sliderLabelArray[_id]
+
+  /*onvaluechange : function() { // value
+    window.sliderLabelArray[_id].setValue(value*100); // (value*100).toFixed()
+  } */
+
+});
+
+//window.sliderArray[_id].add(label);
+
+window.interfacePanel[_id].add(slider/*, label*/); // window.sliderArray[_id]
+
+$item.append('<label>'+_value+'</label>');
+$item.append('<span>'+name+'</span>');
+$item.css("height", 170);
+
+console.log('slider id: ',_id);
+
+  
+
+
+
+
+
+
+
+} else {
+
+
+
+
+
+
+
+
 
       var instrumentsConfig = window.insConf;
 
@@ -138,6 +229,8 @@
       //
 */
 
+}
+
     };    
 
     var _setup = function(_id) {
@@ -152,7 +245,7 @@
      * @return {mixr.ui.Search} A reference to this instance.
      */
     this.initialize = function() {
-      _drawSlider(_name);
+      _drawSlider(_name, _usedLibrary);
       _setup(_id);
       return this;
     };
