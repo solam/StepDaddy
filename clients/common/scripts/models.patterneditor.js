@@ -189,7 +189,7 @@ for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       //window['userPattern']['info']['name']='elevator';
       var uuidVar = uuid.v1(); // this var is only generated after 1 get instruement event
       window['userPattern'].id=uuidVar; 
-      window['userPattern'].name=traacksLength + 'n_' + data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0);
+      window['userPattern'].name=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0); - traacksLength + 'n_' + 
       window['userPattern'].classs='user';
       //console.log('channel pattern array', window['userPattern']);
       //$('#pattern-name').val(window['userPattern'].name);
@@ -234,7 +234,7 @@ if( $('#kits').length ) {
   if (typeof data.channelInfo.presetId == 'undefined') {
     var kiitNuumber = data.kitNumber;
   } else {
-    var kiitNuumber = data.channelInfo.presetId ;    
+    var kiitNuumber = data.channelInfo.presetId;    
   }
 
 
@@ -245,7 +245,11 @@ if( $('#kits').length ) {
 
 
 
-
+if( $('#sessions').length ) {
+  var sessOptionId =  data.channelInfo.sessionName;
+  console.log('sessOptionId: ', sessOptionId);
+  $('#sessions option[value="' + sessOptionId +'"]').prop('selected',true);
+}
 
 
 
@@ -272,12 +276,23 @@ var channelBarOffset = 8; */
 
 
 var countdownMode = data.channelInfo.countdownMode;
-console.log('countdownMode', countdownMode);
+console.log('countdownMode', countdownMode, data.channelInfo.channelName);
 
 var bpm = data.channelInfo.bpm;
-$("#insname").html(data.instrumentName);
-$("#kitname").html(data.name );
+
+$("#channelname").html(data.channelInfo.channelName);
+$("#channelname").css('background', data.channelInfo.channelColor);
+$("#insname").html('instru type: '+data.instrumentName);
+$("#sessionname").html('session: '+data.channelInfo.sessionList[data.channelInfo.sessionName]);
+
+//console.log('session name: ', data.channelInfo.sessionList);
+
+//$("#kitname").html(data.name );
 $("#bpm").html(bpm + ' bpm');
+
+
+console.log('sessionName: ', data.channelInfo.sessionName);
+document.title = data.channelInfo.channelName+ ' - ' +data.instrumentName +' - ...Loops';
 
 if (countdownMode==1) {
 
@@ -320,6 +335,9 @@ validate = function(e) {
     e.done = true;
 }
 */
+
+// mute channel = not allowed to sound
+//_connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 993, x: 0, y: 0});
 
 
 window.newtimer = setInterval(function () { // (e)
@@ -374,6 +392,8 @@ window.newtimer = setInterval(function () { // (e)
       if (navigator.vibrate) {
         navigator.vibrate(500);
       }
+      // allow channel to sound
+      _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 993, x: 1, y: 0});
 
     }
     eulowedde++; 
@@ -468,9 +488,27 @@ window.newtimer = setInterval(function () { // (e)
 
 
 
+
+
+
+
+
     };
 
     var _onSequenceBeat = function(data) {
+        //console.log('seqBeat', data);
+
+        //window.sequencerBeat = data;
+
+        if (data==15 && window.stepSeq==1) {          
+          if (typeof window.patternSequencer !== 'undefined') {
+            rotate(window.patternSequencer,1);
+            //console.log('stuff happens', window.patternSequencer);
+            $('select#patterns option[value="'+window.patternSequencer[0].id+'"]').prop('selected',true).trigger('change'); // 01627d00-3d18-11e6-bd11-650c5a0c542f
+          }          
+        } 
+
+
       _self.emit(mixr.enums.Events.SEQUENCER_BEAT, data);
     };
 

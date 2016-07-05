@@ -18,21 +18,23 @@
   }
 
   #pattern-editor.control {
-    display:none;    
+    /*display:none; */   
   }
 
   div.ctrlchange {
     float:left;
-    margin-right: 10px;
+    margin-right: 20px; /*30*/
+    position: relative;
+    margin-bottom: 20px;
   }
 
   div.ctrlchange input {
-
+  text-indent: 5px;  
   -webkit-appearance: none;
   height: 50px;
   /*min-width: 40px;*/
   background: #efefef; /*white*/
-  border-radius: 4px;
+  border-radius: 0; /* 4px*/
   border: none;
   color: #555;
   font-weight: bold;
@@ -40,8 +42,9 @@
 
   position: relative;
   /* top: -20px; */
-  padding-bottom: 10px ! important;
-  padding-left: 15px !important;
+  /*padding-bottom: 10px ! important;
+  padding-left: 15px !important;*/
+  padding: 0 !important;
 
   width:30px;
   /*min-width:30px;*/  
@@ -49,15 +52,24 @@
   }
 
   #modifiers {
-  margin-top: 10px;    
-  margin-left: 10px;  
+  /*margin-top: 10px; */   
+  /*margin-left: 10px;  */
   /*display:none; 
   opacity:0; */
+  /*height: 20%;*/
+  display:block; /* inline- */
+  clear:both;
+  /*width: 600px; /* 100% */
+  margin-left: 80px;
   }
 
   #pattern-editor {
   /*display:none !important;*/
   opacity:0;
+  margin-bottom: 20px;
+  float:left;
+  width:95%; /* 100*/
+  margin-left: 80px;
   }  
 
   #pattern-editor td/*, #sequencer-view td*/ {
@@ -81,6 +93,7 @@
   margin-right: auto;  
   font-size: 30px; 
   display:none;  
+  position: fixed;
 } 
   .roundedTwo span,
   #instructions span {
@@ -201,9 +214,17 @@ font-size: 7vw; /*5 - 10*/
 }
 
 #channelinfo {
-
   color: white;
   font-size: 14px;
+  display:block;
+  margin-left: 80px;
+
+
+}
+
+body.control #channelinfo {
+  height: 60px;
+  margin-bottom: 30px;
 }
 
 option.channel {
@@ -222,51 +243,82 @@ option.session {
 }
 
 select#patterns {
-  height: 40px;
+  /*height: 40px;*/
 }
 
-.ctrlchange.slider {
+.ctrlchange.slider.horizontal /*.vertical*/ {
 
-  width: 50px; /* replace with percent of width */
-  height:150px;
-  display: inline-block;
+  /*width: 260px;*/ /* replace with percent of width - 50px */
+  /*height: 100px;*/ /*150 - 300 - 220*/
+  display: inline; /* -block */
+  margin-bottom: 0; /* 20 */
+  margin-right: 20px;
+  margin-left: 20px;
+  padding-bottom: 20px; /* 20 */
+  position: relative;
+  margin-top: -50px; /* -40*/
+  /*overflow: hidden;*/
+}
+
+.ctrlchange.slider.horizontal.first {
+  /*margin-top: 0px;*/  
+}
+
+
+.ctrlchange.slider.vertical {
+
+  width: 60px; /* replace with percent of width - 50px - 80 */
+  height: 200px; /*150 - 300 - 220*/
+  margin-bottom: 85px; /* 80 */
+  /*display: inline;  -block 
+  */
+  /*margin-right: 20px;
+  padding-bottom: 20px;*/
+}
+
+/*
+.ctrlchange.slider.horizontal {
+  width: 120px;
+  height:50px;
+  display: inline;
   margin-bottom: 20px;
   margin-right: 20px;
   padding-bottom: 20px;
-}
-
+} 
+*/
 
 .ctrlchange.slider label {
-  position: relative;
+  /*position: relative;
   top:1px;
-  color: white;
+  color: white;*/
 }  
 
-div.ctrlchange.slider span {
-  display:block;
-  font-size: 12px;
-  color:white;
-  margin-bottom: 20px;
-  z-index: -500;
-
-}
-
 div.button.contact {
-  width: 50px;
+  /*width: 50px;
   height: 50px; 
-  position: relative; 
+  position: relative; */
+
+  /*width:100%;
+  display:inline-block;*/
+  position: relative;
+  width: 160px; 
 }
 
 input#pattern-name {
-  width:220px;  
+  /*width:220px;*/  
   /*display: inline-block;
   float: left;  */
+  width: 100%; /*200px*/
+  border-radius: 0;
+  height: 50px; /*60*/
+  font-weight: normal;
+  font-size: 15px;  
 }
 
 div.button.contact label {
-  width:200px;
+  /*width:200px;
   position: absolute;
-  top: 30px;  
+  top: 30px;  */
 }  
 
 div.button.contact canvas {
@@ -279,3 +331,329 @@ div.button.contact canvas {
 div.button.contact span {
   color:white;
 }  
+
+
+.canvas-container {
+
+  width: 100%; /*65px - 50px*/
+  height: 100%; /* 150 170 */
+  /*display: inline-block;*/
+  /*padding: 5px;*/
+}  
+
+.horizontal .canvas-container {
+  /*width: 170px;
+  height:50px;*/
+  /*width:100%;
+  height:100%;*/
+
+  width: 200px; /* 260*/
+  height: 100px;
+}  
+
+.canvas-container canvas {
+  
+  /*display:block;*/
+}
+
+
+.interfacePanel {
+    display: block;
+    float: right;
+    height: 300px;
+    left: 0;
+    /*width: 50%;*/
+    width: 180px;
+}
+
+#sliderPanel {
+  /*display:none;*/
+  /*display: block;*/
+}
+
+#pattern-editor tr {
+  /*min-height: 20px;
+  max-height: 40px;
+  height: 30px;*/
+}
+
+th#playhead { /* remove playhead from being displayed */
+  display: none;
+}
+
+
+.horizontal .infoContainer {
+position: absolute;
+  bottom: 10px; /*20 - 30*/
+  display: block;
+  width: 100%;
+  height: 80px; /* 60 */
+  background-color: black;
+}
+
+
+
+.ctrlchange.button.contact input {
+  /*float:left;*/
+  display:inline-block;
+}
+
+.ctrlchange.button.contact canvas {
+  float:left;
+  display:inline-block;
+  /*width: 30%;
+  height: 30%;*/
+}
+
+a.trigger-button {
+
+  
+  text-align: center;
+  /* vertical-align: middle; */
+  /*line-height: 29px;
+  width: 70px; */
+  /* height: 70px; */
+  background: #389838; /* greenyellow*/
+  text-decoration: none;
+  /*border: 1px solid grey;*/
+  color: black;
+  /*margin-left: 10px;*/
+  /*border-radius: 8px;*/
+  position: relative;
+  z-index: 5;
+
+  display: inline-block; /* inline
+  /*float: left;*/
+  clear:both;
+
+  /*left: 45px;*/
+  /*padding: 5px;*/
+  padding: 12px 0 12px 0;
+  width: 100%;
+  margin-top: 2px; /* 15 */  
+
+}
+
+.ctrlchange label {
+  /*position: absolute;
+  bottom: 2px;*/
+}
+
+.ctrlchange select {
+  height: 50px; /* 60*/
+  width: 130px;
+  /*background: transparent;*/
+  padding: 0;
+  cursor: pointer;
+}
+
+.ctrlchange select option {
+/*padding-bottom: 15px;*/
+}  
+
+.input-container {
+  /*float: left;
+  display: inline-block;*/
+  margin-right: 10px;
+  line-height: 0;
+  position: relative;
+  width: 215px;
+  margin-right: 20px;
+  margin-bottom: 10px;  
+}
+
+.input-container input {
+  position: relative;
+  /*z-index:500;*/
+}
+
+.input-container label {
+  /*z-index:-5;*/
+  /*display: inline-block;
+  width: 100%;*/
+  height: 0;
+  /*position: absolute;*/
+  bottom: 10px;
+}
+
+div#channelinfo *,
+div.ctrlchange.slider span,
+.ctrlchange label {
+  display: block;
+  background: darkgrey; /* #EEE */
+  color: black;
+  font-size: 12px;
+  position: relative;
+  z-index: 1;
+  bottom: -1px;
+  left: 0;
+  padding: 2px;
+}
+
+div.ctrlchange.slider span {
+  /*display:block;
+  font-size: 12px;
+  color:white;
+  margin-bottom: 20px;
+  z-index: -500;*/
+  border-top: 1px solid black;
+}
+
+
+div.ctrlchange.slider.horizontal .infoContainer span {
+  padding: 3px 0 3px 0;
+  bottom: 0px;
+}
+
+.ctrlchange.button.contact label {
+  /*width: 200px;*/
+}
+
+.infoContainer label {
+    background-color: #EEE;  
+    color: #666666;
+    text-align: center;
+    font-size: 14px;
+}
+
+.ctrlchange.slider.horizontal label { 
+  /*float: left; right 
+  position: relative;
+  z-index: 2;
+  margin-right: 5px;*/
+
+  float: left;
+  left: -24px;
+  width: 20px;
+  height: 26px;
+  bottom: 30px;  
+  vertical-align: middle;
+  line-height: 26px;
+}
+
+.ctrlchange.slider.horizontal input {
+  float:left;
+  display: inline-block;
+  position: relative;
+  z-index:-1;
+}
+
+.ctrlchange.slider.vertical label {
+  /*height:60px;*/
+  vertical-align: middle;
+  line-height: 30px;
+  text-align: center;
+}
+
+#pattern-editor table thead {
+  display:none;
+}
+
+ul.menu  {
+  margin: 0;
+  /*margin-bottom: 20px;*/
+  padding: 0;
+  /*position: fixed;*/
+  z-index: 50;
+  position: relative;
+  height: 70px;
+  /*clear:both;*/  
+  float:left;
+}
+
+ul.menu li {
+  display: inline-block;
+  float:left;
+  margin-right: 5px;
+}
+
+ul.menu li a {
+  display: inline-block;
+  /*float:left;*/
+  /*color: white;*/
+  text-decoration: none;
+  background: #EEE;
+  color: #555;
+  padding: 0px 5px 0 5px;
+  height: 50px;
+  vertical-align: middle;
+  line-height: 50px;
+}
+
+.menu-location {
+  height: 60px;
+  display:block;
+  width: 100%;
+  clear: both;
+}
+
+#menu-at-modulation {
+  display: none;
+}
+
+ul.menu#fixed {
+  position:fixed;
+}
+
+ul.menu#fixed li {
+  float:none;  
+  display:block;
+  margin: 8px 0 8px 0;
+}
+
+div#channelinfo * {
+  display: inline;
+}
+
+.waiting #instructions {
+  position: relative;
+}
+
+
+#bpm {
+  float:right;
+  width: 37px;
+  height: 37px;
+  vertical-align: middle;
+  line-height: 18.5px;
+  text-align: center;
+}
+
+div#channelinfo div#channelname {
+  font-size: 30px;
+}
+
+#slider1, .ctrlchange.id1 {
+  clear:both;
+}
+
+select.multi {
+  /*height: 200px;*/
+  width: 100px; /*115*/
+}
+
+#pattern-sequencer {
+  width: 200px; /*289 - 230*/
+  margin-right: 0;
+}
+
+#pattern-sequencer a.trigger-button {
+  /*width: 50%;
+  display: inline;*/
+}
+
+#pattern-sequencer .select-container {
+  /*width: 100%;
+  float:left;*/
+  margin-right: 5px; /*10*/
+  display: inline-block;
+  width: 43%;  
+}
+
+#pattern-sequencer .select-container.played {
+  /*float:right;*/
+}
+
+.off {
+  background: red !important;
+}

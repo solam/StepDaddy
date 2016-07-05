@@ -3,29 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <title>Control Kit - ...Loops</title><!-- Instrument -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- height=device-height , user-scalable=no , maximum-scale=1.0 : in portrait mode will adjust to maximum avail screen width -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="../common/css/user.css" />
   <script src="../common/lib/nexusUI.js"></script>
 </head>
-<body>
+<body id="bodey">
+
+<ul class="menu" id="fixed">
+    <li><a href="#notes" class="scrolltop" id="menu-notes">ch info</a></li>
+    <li><a href="#pattern-editor">notes</a></li>
+    <li><a href="#modifiers">ctrl</a></li><!-- snd & ptn -->
+    <li><a href="#id1">tweak</a></li><!-- #slider1 -->
+    <!--<li><a href="#modulation">mod</a></li> instrument modulation-->
+</ul>
+
 
 <div id="instructions"><!--Get ready for your turn!-->
 <span id="countdown"></span>
 </div>
+
+    <div id="channelinfo">      
+      <!--<div id="kitname"></div>-->
+      <div id="channelname"></div>   
+      <div id="insname"></div>
+      <div id="sessionname"></div>   
+      <div id="bpm"></div>
+    </div>
+
+  <!--<ul class="menu" id="menu-at-notes">
+    <li><a href="#notes" class="scrolltop" id="menu-notes">notes</a></li>
+    <li><a href="#menu-at-modulation">sound & pattern switch</a></li>
+    <li><a href="#modulation">instrument modulation</a></li>
+    <div id="channelinfoCANCEL">
+      <div id="insnameCANCEL"></div>
+      <div id="kitnameCANCEL"></div>
+      <div id="bpmCANCEL"></div>
+    </div>
+  </ul>-->  
+
+  <!--<div id="notes" class="menu-location">&nbsp;</div>-->
 
   <section id="pattern-editor">
     <table>
     </table>
   </section>
 
-  <div id="channelinfo">
-    <div id="insname"></div>
-    <div id="kitname"></div>
-    <div id="bpm"></div>
-  </div>
 
+  <!--<ul class="menu" id="menu-at-modulation">
+    <li><a href="#notes" class="scrolltop" id="menu-notes">notes</a></li>
+    <li><a href="#menu-at-modulation">sound & pattern switch</a></li>
+    <li><a href="#modulation">instrument modulation</a></li>
+    <div id="channelinfo">
+      <div id="insname"></div>
+      <div id="kitname"></div>
+      <div id="bpm"></div>
+    </div>
+  </ul>-->
+
+  <!--<div id="modulation" class="menu-location">&nbsp;</div>-->
   <div id="modifiers">
+    <!--<div class="interfacePanel" id="sliderPanel"></div>-->
     <!--<div class="ctrlchange" id="id998">
       <select id="kits" name="kits"></select>
     </div>-->
@@ -37,7 +75,7 @@
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
   <script src="../common/lib/interface.min.js"></script>
-  <!--<script src="../common/lib/fastclick.js"></script>-->
+  <script src="../common/lib/fastclick.js"></script>
 
   <script src="../common/scripts/namespaces.js"></script>
   <script src="../common/scripts/utils.js"></script>
@@ -51,6 +89,7 @@
 
   <script src="../sequencer/scripts/instruments_config.js"></script>
   <script src="../sequencer/scripts/instruments_config_02.js"></script>
+  <script src="../sequencer/scripts/instruments_config_03.js"></script>
 
   <!--<script src="../common/lib/nexusUI.js"></script>-->
   <script src="../common/scripts/ui.input.js"></script>
@@ -74,12 +113,80 @@
 
     //*
     window.addEventListener('load', function() {
-      new FastClick(document.body);
+      new FastClick( document.getElementById('pattern-editor') ); // document.body - document.getElementById('pattern-editor')
     }, false); //*/
+
+/*$(function() {
+    FastClick.attach(document.getElementById('pattern-editor')); 
+}); */
+
+
+
+
+/*
+var modifiers = document.getElementById('bodey');
+
+    $intPanel = $('<div class="interfacePanel" id="sliderPanel">'); 
+    $intPanel.appendTo(modifiers);
+
+var a = new Interface.Panel({ 
+  container:document.querySelector("#sliderPanel") 
+});
+var b = new Interface.Slider({
+  label: 'vertical slider',  
+  bounds:[.05,.05,.3,.9] 
+});
+var c = new Interface.Slider({ 
+  bounds:[.4,.35,.55,.3], 
+  label: 'horizontal slider',  
+  isVertical:false, 
+  value:.5,
+});
+
+a.background = 'black';
+a.add(b); // ,c
+*/
+
+
+
+
+
   </script>
 
   <script src="scripts/device.js"></script>
   <script type="text/javascript">
+
+var windowHeight = $(window).height();
+
+var ptnHeight = 0.7*windowHeight;
+
+console.log('heights: ', windowHeight, ptnHeight);
+
+
+
+$('#pattern-editor').css('height', ptnHeight);
+
+
+
+$("a[href='#notes']").click(function() {
+  /*$("html, body").animate({ scrollTop: 0 }, "slow"); */
+  window.scrollTo(0, 0);
+  $('#menu-at-modulation').hide();
+  $('#menu-at-notes').show();
+  //  return false;
+});
+
+
+$("a[href='#menu-at-modulation']").click(function() {
+  /*$("html, body").animate({ scrollTop: 0 }, "slow"); */
+  $('#menu-at-notes').hide();
+  $('#menu-at-modulation').show();
+  //return false;
+});
+
+
+
+
 /*
     nx.onload = function() {
   slider700.val.value = 15;

@@ -2,8 +2,16 @@ window.insConf2 = [ // channelConf
 
 // orange channel
 
-{ channelName: 'Channel 1: drums',  
-  trackSet: 0, // defaultKit
+{ sessionName: 'Batucada A',
+  channelName: 'Ch1 Kick',  
+  trackSet: 1, // defaultKit
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
+
   conf: [ // kits 
 
     { type: 'samples', // (kitType) : conductor, samples, synth,...
@@ -16,12 +24,12 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'TheCheebacabra1/kick.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+     controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', // slider, dial/rotary_knob, switch_button                                  
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -31,8 +39,44 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]           
     }, // close kit
 
     { type: 'samples', 
@@ -47,13 +91,29 @@ window.insConf2 = [ // channelConf
         }                      
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -61,8 +121,28 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]             
     }, 
 
     { type: 'samples', 
@@ -77,13 +157,29 @@ window.insConf2 = [ // channelConf
         }                      
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 2,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -91,8 +187,28 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]             
     },   
 
     { type: 'samples', 
@@ -107,13 +223,29 @@ window.insConf2 = [ // channelConf
         }                      
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 3,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -121,8 +253,28 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]             
     },  
 
     { type: 'samples', 
@@ -137,13 +289,29 @@ window.insConf2 = [ // channelConf
         }                      
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 4,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -151,8 +319,28 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]             
     },     
 
     { type: 'samples', 
@@ -166,13 +354,13 @@ window.insConf2 = [ // channelConf
         }                      
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 5,
+            value: 0,
             stepSize: 0, 
             interpolate: 0, // 0: off | 1: on                   
             displayedRangeMin: 0,
@@ -180,8 +368,44 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]             
     }   
   ] // close kits
 }, // close channel
@@ -204,7 +428,7 @@ window.insConf2 = [ // channelConf
 
 //*
 { // channel
-  channelName: 'Channel 2: conductor', // name
+  channelName: 'Ch2 Conductor', // name
   //channelType: 'conductor', // type
   trackSet: 0, // defaultKit = default instrument/control kit
 
@@ -218,7 +442,7 @@ window.insConf2 = [ // channelConf
       color: '#51ACBD', // = kitColor
       
       controls: [ // aka preset values                                    
-        { 
+        /*{ 
           name: 'Channel 1 volume',
           id: 800,
 
@@ -371,7 +595,175 @@ window.insConf2 = [ // channelConf
               min: 0,
               max: 1
           }                
-        },                                        
+        }, */                                       
+
+
+
+
+
+{ 
+          name: 'Channel 1 volume',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Channel 1 volume',
+              param: '_insVol0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 55,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Channel 3 volume',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Channel 3 volume',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              }, 
+
+              midicc: 0,                      
+              value: 28,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Channel 4 volume',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'Channel 4 volume',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 25, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 5 volume',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'Channel 5 volume',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 18, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 6 volume',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'Channel 6 volume',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 22, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 7 volume',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'Channel 7 volume',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 25,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 8 volume',
+          id: 807,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'Channel 8 volume',
+              param: '_insVol7', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 35, // 40
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+
+
+
 
         { // control
           name: 'Tempo',
@@ -386,7 +778,7 @@ window.insConf2 = [ // channelConf
               name: 'BPM',
               param: '_tempo', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 119, // 100 - 85 110
+              value: 90, // 100 - 85 110 - 119
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 60,
@@ -400,7 +792,7 @@ window.insConf2 = [ // channelConf
           name: 'Channel change',
           id: 997,
 
-          type: 'input', // slider, dial/rotary_knob, switch_button      
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
           direction: 0, // 'horizontal', 'vertical' for sliders    
           colors: { // color params
             fg: '#51ACBD' // foregroundColor
@@ -423,16 +815,16 @@ window.insConf2 = [ // channelConf
           name: 'Session change',
           id: 996,
 
-          type: 'input', 
+          type: 'ddmenu', 
           direction: 0, 
           colors: { 
             fg: '#51ACBD' 
           },   
           x: {
-              name: 'Session dest (1>2)',
+              name: 'Session', //  dest (1>2) - Pick session
               param: '[external]', 
               midicc: 0,                      
-              value: 2,
+              value: 2, // starting at session 001
               stepSize: 0, 
               interpolate: 0, 
               displayedRangeMin: 0,
@@ -480,7 +872,7 @@ window.insConf2 = [ // channelConf
               name: 'C2 start bar offset',
               param: '_insBarOffset1', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 0,
+              value: 16,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -504,7 +896,7 @@ window.insConf2 = [ // channelConf
               name: 'C3 start bar offset',
               param: '_insBarOffset2', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 8,
+              value: 24,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -527,7 +919,7 @@ window.insConf2 = [ // channelConf
           x: {
               name: 'C4 start bar offset',
               param: '_insBarOffset3', // [external] = does not change timbre generator param
-              midicc: 0,                      
+              midicc: 32,                      
               value: 8,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
@@ -552,7 +944,7 @@ window.insConf2 = [ // channelConf
               name: 'C5 start bar offset',
               param: '_insBarOffset4', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 16,
+              value: 48,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -576,7 +968,7 @@ window.insConf2 = [ // channelConf
               name: 'C6 start bar offset',
               param: '_insBarOffset5', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 24,
+              value: 64,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -600,7 +992,7 @@ window.insConf2 = [ // channelConf
               name: 'C7 start bar offset',
               param: '_insBarOffset6', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 32,
+              value: 70,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -624,7 +1016,7 @@ window.insConf2 = [ // channelConf
               name: 'C8 start bar offset',
               param: '_insBarOffset7', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 40,
+              value: 74,
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -687,9 +1079,15 @@ window.insConf2 = [ // channelConf
 
 // blue channel
 
-{ channelName: 'Channel 3: bass', // channelName = "bass, high pitch sounds etc" - insName
+{ channelName: 'Ch3 Bass', // channelName = "bass, high pitch sounds etc" - insName
   //channelType: 'instrument', // conductor
   trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
   conf: [ // kits channelConfiguration kitConfiguration 
    
     { // Kit
@@ -729,29 +1127,60 @@ window.insConf2 = [ // channelConf
 
       controls: [ // aka preset values
           //
-          {
-            name: 'ins kit',
-            // color params
-            id: 998,
-            type: 'input', // slider, dial/rotary_knob, switch_button
-            direction: 0, // 'horizontal', 'vertical' for sliders
-            x: {
-                interpolate: 0, // 0: off | 1: on
-                name: 'Change ins', // ins kit
-                param: '[external]', // name of function or object path - eg.set_a
-                midicc: 1,                      
-                value: 0,
-                stepSize: 1, // crénelage                      
-                displayedRangeMin: '[calc]',
-                displayedRangeMax: '[calc]',
-                min: '[calc]',
-                max: '[calc]'
-            }                
-          },
+{ name: 'Choose sound', // instrument/
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Choose pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },
           { 
             name: 'osc1 vol',
             id: 1,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'osc1 vol',
               param: 'vco1.set_gain',                     
@@ -762,7 +1191,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'osc1 waveform',
             id: 2,
-            type: 'input',                                    
+            type: 'ddmenu',                                    
             x: {
               name: 'osc1 waveform',
               param: 'vco1.set_wave',                     
@@ -770,13 +1199,18 @@ window.insConf2 = [ // channelConf
               stepSize: 1, 
               interpolate: 0, 
               min: 0,
+              option: {
+                0: 'triangle',
+                1: 'sawtooth',                     
+                2: 'square',
+              },               
               max: 2 // 124                    
             }                
           },  
           { 
             name: 'osc2 vol',
             id: 3,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'osc2 vol',
               param: 'vco2.set_gain',                     
@@ -787,7 +1221,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'osc2 waveform',
             id: 4,
-            type: 'input',                                    
+            type: 'ddmenu',                                    
             x: {
               name: 'osc2 waveform',
               param: 'vco2.set_wave',                     
@@ -795,13 +1229,18 @@ window.insConf2 = [ // channelConf
               stepSize: 1, 
               interpolate: 0, 
               min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },                 
               max: 2                    
             }                
           },     
           { 
             name: 'osc2 pitch',
             id: 5,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'osc2 pitch',
               param: 'vco2.set_pitch',                     
@@ -812,7 +1251,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'env attack',
             id: 6,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'env attack',
               param: 'eg.set_a',                     
@@ -824,7 +1263,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'env decay',
             id: 7,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'env decay',
               param: 'eg.set_d',                     
@@ -835,7 +1274,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'env sustain',
             id: 8,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'env sustain',
               param: 'eg.set_s',                     
@@ -846,7 +1285,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'env release',
             id: 9,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'env release',
               param: 'eg.set_r',                     
@@ -857,7 +1296,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter cutoff',
             id: 10,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter cutoff',
               param: 'filter.set_freq',                     
@@ -869,7 +1308,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter resonance',
             id: 11,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter resonance',
               param: 'filter.set_q',                     
@@ -880,7 +1319,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter eg amount',
             id: 13,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter eg amount',
               param: 'filter.set_amount',                     
@@ -891,7 +1330,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter env attack',
             id: 14,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter env attack',
               param: 'feg.set_a',                     
@@ -902,7 +1341,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter env decay',
             id: 15,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter env decay',
               param: 'feg.set_d',                     
@@ -913,7 +1352,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter env sustain',
             id: 16,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter env sustain',
               param: 'feg.set_s',                     
@@ -924,7 +1363,7 @@ window.insConf2 = [ // channelConf
           { 
             name: 'filter env release',
             id: 17,
-            type: 'input',                                    
+            type: 'slider',                                    
             x: {
               name: 'filter env release',
               param: 'feg.set_r',                     
@@ -975,13 +1414,29 @@ window.insConf2 = [ // channelConf
         } 
       ],
       controls: [ 
-        { name: '[Kit change]',
+{ name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -989,10 +1444,29 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -1003,7 +1477,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -1011,12 +1485,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2 // 124                    
           }                
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -1026,7 +1505,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -1034,12 +1513,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2                    
           }                
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -1049,7 +1533,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -1059,7 +1543,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -1069,7 +1553,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -1079,7 +1563,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -1089,7 +1573,7 @@ window.insConf2 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -1099,7 +1583,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -1109,7 +1593,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -1119,7 +1603,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -1129,7 +1613,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -1139,7 +1623,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -1149,7 +1633,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -1195,13 +1679,19 @@ window.insConf2 = [ // channelConf
 
 
 
-{ channelName: 'Channel 4: percs',  
+{ channelName: 'Ch4 Agogo',  
   trackSet: 0, 
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Agogo', 
       kitNumber: 0, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1210,11 +1700,27 @@ window.insConf2 = [ // channelConf
         }                   
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -1224,13 +1730,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'AnaGuiro', 
       kitNumber: 1, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1239,13 +1765,29 @@ window.insConf2 = [ // channelConf
         }                   
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1253,13 +1795,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'AnCowbl1', 
       kitNumber: 2, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1267,14 +1829,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/AnCowbl1.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 2,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1282,13 +1860,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'AnlgClap', 
       kitNumber: 3, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1296,14 +1894,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/AnlgClap.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 3,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1311,13 +1925,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]           
     },
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Balafon', 
       kitNumber: 4, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1325,14 +1959,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Balafon.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+ controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 4,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1340,7 +1990,27 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },           
 
@@ -1360,13 +2030,19 @@ window.insConf2 = [ // channelConf
 
 
 
-{ channelName: 'Channel 5: percs',  
+{ channelName: 'Ch5 Berimba1',  
   trackSet: 0, 
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Berimba1', 
       kitNumber: 0, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1374,12 +2050,28 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Berimba1.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -1389,13 +2081,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]           
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Cabasa', 
       kitNumber: 1, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1404,13 +2116,29 @@ window.insConf2 = [ // channelConf
         }                   
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1418,13 +2146,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'checkitout', 
       kitNumber: 2, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1432,14 +2180,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/checkitout.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 2,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1447,13 +2211,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'COMEON3', 
       kitNumber: 3, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1461,14 +2245,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/COMEON3.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 3,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1476,13 +2276,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Conga', 
       kitNumber: 4, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1490,14 +2310,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Conga.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 4,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1505,7 +2341,27 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },           
 
@@ -1529,13 +2385,19 @@ window.insConf2 = [ // channelConf
 
 
 
-{ channelName: 'Channel 6: percs',  
+{ channelName: 'Ch6 Cuica',  
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
   trackSet: 0, 
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Cuica', 
       kitNumber: 0, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1543,12 +2405,28 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Cuica.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -1558,13 +2436,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'EgyptDrum', 
       kitNumber: 1, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1573,13 +2471,29 @@ window.insConf2 = [ // channelConf
         }                   
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1587,13 +2501,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'checkitout', 
       kitNumber: 2, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1601,14 +2535,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/checkitout.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 2,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1616,13 +2566,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Gamelan1', 
       kitNumber: 3, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1630,14 +2600,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Gamelan1.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 3,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1645,13 +2631,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]           
     },
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'indper05', 
       kitNumber: 4, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -1659,14 +2665,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/indper05.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 4,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1674,8 +2696,28 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]          
     },           
 
 
@@ -1716,7 +2758,13 @@ window.insConf2 = [ // channelConf
 
 // Yellow cheesy channel: guitar, synth lead, etc
 
-{ channelName: 'Channel 7: c4>c5',  
+{ channelName: 'Ch7 c4_c5 synth',  
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+
   trackSet: 0, 
   conf: [ 
 
@@ -1752,11 +2800,27 @@ window.insConf2 = [ // channelConf
         } 
       ],
       controls: [ 
-        { name: '[Kit change]',
+{ name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -1766,10 +2830,29 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -1779,7 +2862,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -1787,12 +2870,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2 // 124                    
           }                
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -1802,7 +2890,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -1810,12 +2898,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2                    
           }                
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -1825,7 +2918,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -1835,7 +2928,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -1845,7 +2938,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -1855,7 +2948,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -1865,7 +2958,7 @@ window.insConf2 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -1875,7 +2968,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -1885,7 +2978,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -1895,7 +2988,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -1905,7 +2998,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -1915,7 +3008,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -1925,7 +3018,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -1975,13 +3068,29 @@ window.insConf2 = [ // channelConf
         } 
       ],
       controls: [ 
-        { name: '[Kit change]',
+{ name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -1989,10 +3098,29 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -2002,7 +3130,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -2010,12 +3138,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2 // 124                    
           }                
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -2025,7 +3158,7 @@ window.insConf2 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -2033,12 +3166,17 @@ window.insConf2 = [ // channelConf
             stepSize: 1, 
             interpolate: 0, 
             min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
             max: 2                    
           }                
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -2048,7 +3186,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -2058,7 +3196,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -2068,7 +3206,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -2078,7 +3216,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -2088,7 +3226,7 @@ window.insConf2 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -2098,7 +3236,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -2108,7 +3246,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -2118,7 +3256,7 @@ window.insConf2 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -2128,7 +3266,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -2138,7 +3276,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -2148,7 +3286,7 @@ window.insConf2 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -2171,13 +3309,19 @@ window.insConf2 = [ // channelConf
 
 
 
-{ channelName: 'Channel 8: percs',  
+{ channelName: 'Ch8 indper06',  
   trackSet: 0, 
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+  ], 
+  
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'indper06', 
       kitNumber: 0, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -2185,12 +3329,28 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/indper06.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
             param: '[external]', 
             value: 0,
             stepSize: 0, 
@@ -2200,13 +3360,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
-      ]            
+
+      ]           
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'indper09', 
       kitNumber: 1, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -2215,13 +3395,29 @@ window.insConf2 = [ // channelConf
         }                   
       ],
       controls: [ 
-        { name: '[Kit change]',
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 1,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2229,13 +3425,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Kalimba2', 
       kitNumber: 2, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -2243,14 +3459,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Kalimba2.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 2,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2258,13 +3490,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'Koukin2', 
       kitNumber: 3, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -2272,14 +3524,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/Koukin2.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 3,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2287,13 +3555,33 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Batucada', 
+      name: 'LogDrum1', 
       kitNumber: 4, 
       color: 'rgba(253, 118, 8, 1)', 
       tracks: [
@@ -2301,14 +3589,30 @@ window.insConf2 = [ // channelConf
           sampleUrl: 'percsel/LogDrum1.wav'            
         }                   
       ],
-      controls: [ 
-        { name: '[Kit change]',
+controls: [ 
+        { name: 'Instrument',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
-            name: 'Kit change',
+            name: 'Instrument',
             param: '[external]', 
-            value: 4,
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
             stepSize: 0, 
             interpolate: 0, 
             displayedRangeMin: 0,
@@ -2316,7 +3620,27 @@ window.insConf2 = [ // channelConf
             min: 0,
             max: '[calc]'
           }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
         }
+
       ]            
     },           
 
@@ -2339,4 +3663,3 @@ window.insConf2 = [ // channelConf
 ];
 
 
-window['insConf'] = window.insConf1; // window.insConf2 - select which session to select at app startup

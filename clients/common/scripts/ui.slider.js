@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation) {
 
     /**
      * Mixins
@@ -21,6 +21,7 @@
     var _name = name;
     var _channelId = channelId;
     var _usedLibrary = usedLibrary;
+    var _orientation = orientation;
     var $container = $(container);
     var $item;
     var _timeoutId;
@@ -38,7 +39,7 @@
       //console.log('input value changed', 'input value changed');
       console.log('input value changed', $item.find("input").val());
       //alert($item.val());
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val()
+//      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val()
       /*$('body').on('touchend', _onMouseUp);
       $('body').on('touchcancel', _onMouseUp);*/
     };
@@ -80,7 +81,7 @@ if (usedLibrary=='Interface') {
 
     
     var _drawSlider = function(name, usedLibrary) {
-      $item = $('<div class="ctrlchange slider" id="slider'+ _id +'">'); // $itemContainer
+      $item = $('<div class="ctrlchange slider '+_orientation+'" id="slider'+ _id +'"><div class="canvas-container">'); // $itemContainer
       //$item = $('<input>');
       $item.appendTo($container);
 
@@ -107,25 +108,33 @@ window.interfacePanel.add(window.sliderArray[_id]);
 
 
 
+                  if (_orientation=='horizontal') {
+                    var isVerticalCheck = false;
+                  } else {
+                    var isVerticalCheck = true;
+                  }
+
+
 window.interfacePanel[_id] = new Interface.Panel({ 
-  container:document.querySelector("#slider"+_id)//,
+  container:document.querySelector("#slider"+_id+"."+_orientation+" .canvas-container")//,
   //useRelativeSizesAndPositions:true 
 });
 window.interfacePanel[_id].background = 'black';
-
+/*
 var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.sliderLabelArray[_id]
   bounds:[0,0.7,.5,.25],
   hAlign:'center',
   vAlign:'bottom',
   value: _value //' ' //
 });  
-
+*/
  var slider = new Interface.Slider({ // window.sliderArray[_id]
   //label: 'vertical slider'+_id,  
   //bounds:[0,0,0.75,0.75],
-  bounds:[0,0,1,1],
+  bounds:[0,0,1,1], // [0.05,0.05,0.95,0.95]
   value: _value/100,
   //target: window.sliderLabelArray[_id], key:'setValue' // label
+  isVertical:isVerticalCheck, 
 
   onvaluechange: function() { 
   //label.setValue( (this.value*100).toFixed() );
@@ -143,11 +152,21 @@ var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.s
 
 //window.sliderArray[_id].add(label);
 
+
+
+/*
+var hbox = new Interface.HBox({ 
+  bounds:[0,0,1,1]
+})
+
+window.interfacePanel[_id].add( hbox);
+hbox.add( slider); */
+
 window.interfacePanel[_id].add(slider/*, label*/); // window.sliderArray[_id]
 
-$item.append('<label>'+_value+'</label>');
-$item.append('<span>'+name+'</span>');
-$item.css("height", 170);
+$item.append('<div class="infoContainer"><label>'+_value+'</label><span>'+name+'</span></div>');
+//$item.append('<span>'+name+'</span>');
+//$item.css("height", 180); /* 170*/
 
 console.log('slider id: ',_id);
 

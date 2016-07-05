@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Ddmenu = function(id, name, container, value, controlObject, channelId, elementId) {
+  mixr.ui.Ddmenu = function(id, name, container, value, controlObject, channelId, elementId, selectedOption) {
 
     /**
      * Mixins
@@ -24,6 +24,7 @@
     var $item;
     var _timeoutId;
     var _elementId = elementId;
+    var _selectedOption = selectedOption;
 
     /**
      * This objecvt will hold all the references to ui elements.
@@ -45,6 +46,8 @@
 
     var _onMouseDown = function(event) {
 
+      console.log('cont context id: ', $container.context.id);
+
       /*console.log('input value changed', $item.find("input").val());
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val() */
 
@@ -60,7 +63,7 @@
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId}); // presetId
 
 
-      } else {
+      } else if ($container.context.id=='patterns') { 
     
       // remove [unsaved pattern] option
       if ($('#patterns option[value="0"]').length>0 ) {
@@ -98,46 +101,99 @@
 
         notesObject = [];
 
-        for (var n = 0, len = trackNumber; n < len; n += 1) {
-          var notesNumber = result[0].tracks[n].length;
-          var traack = result[0].tracks[n];
-          //console.log("notesNumber + traack", notesNumber, traack);
 
-          //var notes = [];
+
+      window['userPattern'] = {
+          'tracks' : []
+      };
+
+        // first reset grid
+        var availTrackNumber = $("#pattern-editor table tr").length;
+        //console.log('availTrackNumber: ', availTrackNumber);
+
+        for (var n = 0, len = availTrackNumber; n < len; n += 1) {
+          var notesNumber = 16;
+          window['userPattern'].tracks[n] = [];
+          console.log('win usr ptn: ', window['userPattern']);
 
           for (var l = 0; l < notesNumber; l += 1) {
-            //notes[l] = traack[l];
-            //_instruments[channelId].tracks[n].notes[l] = traack[l];
-            //console.log("track, note, volume: ", n, l, traack[l]);
-
             noteInfo = {};
             noteInfo.id = channelId;
             noteInfo.trackId = channelId+'-'+n;
             noteInfo.noteId = l;
-            noteInfo.volume = traack[l];
-            //window['SEQVIEW'].updateNote(noteInfo);
-            //if noteInfo.volume>0 {
-            //notesObject.push(noteInfo);            
-            //}
-
-
+            noteInfo.volume = 0;
+            window['userPattern'].tracks[n][l]=0;
             _updateNote(noteInfo);
-
+            //console.log('noteInfo: ',noteInfo);
           }  
-          //var notes = result[0].tracks[n].getNotes(); // 
-          //anextInstrument.tracks[n].setNotes(notes);
+        } 
+
+
+
+        //console.log('trk nb: ', trackNumber);
+
+        // than fill grid with corresponding data
+        for (var n = 0, len = availTrackNumber; n < len; n += 1) { // trackNumber
+
+          if (typeof result[0].tracks[n] !== 'undefined') {
+            
+            var notesNumber = result[0].tracks[n].length;
+            var traack = result[0].tracks[n];
+            //console.log("notesNumber + traack", notesNumber, traack);
+
+            //var traackId = traack.id.split('-')[1];
+             //traack.notes;
+
+            //var notes = [];
+
+            for (var l = 0; l < notesNumber; l += 1) {
+              //notes[l] = traack[l];
+              //_instruments[channelId].tracks[n].notes[l] = traack[l];
+              //console.log("track, note, volume: ", n, l, traack[l]);
+
+              noteInfo = {};
+              noteInfo.id = channelId;
+              noteInfo.trackId = channelId+'-'+n;
+              noteInfo.noteId = l;
+              noteInfo.volume = traack[l];
+
+              window['userPattern'].tracks[n][l]=traack[l];
+
+              //window['SEQVIEW'].updateNote(noteInfo);
+              //if noteInfo.volume>0 {
+              //notesObject.push(noteInfo);            
+              //}
+
+
+              _updateNote(noteInfo);
+              //console.log('noteInfo: ',noteInfo);
+
+            }  
+            //var notes = result[0].tracks[n].getNotes(); // 
+            //anextInstrument.tracks[n].setNotes(notes);
+
+          }
         } 
 
 
 
 
+
+
+
+
+
+
+
+
+
+      } else { 
+        var optionValue = $('#'+$container.context.id).find(":selected").val();
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: optionValue}); // , y: 0, patternId: ptnId, classs: classs
+
+
+
       } // end of id discrimination
-
-
-
-
-
-
       
 
 
@@ -238,10 +294,16 @@ $('#kits').on('change', '#kits',function(e) {
       if (typeof controlObject.classs !== 'undefined') {
         var drawClass = controlObject.classs; //'class="'+value.classs+'"';
       } else {
-        var drawClass = '';
+        var drawClass = 'random';
       } 
 
-      $item = $('<option class="'+drawClass+'" id="option'+_elementId+'" value="'+value+'">'+name+'</option>'); // $itemContainer - _id
+      if (_selectedOption==value) {
+        var selected = 'selected';
+      } else {
+        var selected = '';
+      }
+
+      $item = $('<option '+selected+' class="'+drawClass+'" id="option'+_elementId+'" value="'+value+'">'+name+'</option>'); // $itemContainer - _id
       //var instrumentsConfig = window.insConf;
       //$item.append('<canvas nx="slider" id="slider'+_id+'" min="0" max="100" label="'+name+'"></canvas>');  
       //$item.append('<option id="slider'+_id+'" value="'+_id+'">'+name+'</option>');  

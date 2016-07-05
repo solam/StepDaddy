@@ -161,7 +161,7 @@ console.log('mixer sending time:', startTimestamp);*/
 
       } //*/
 
-      _updateChannels();
+      //_updateChannels();
 
     };
 
@@ -340,7 +340,7 @@ console.log('mixer sending time:', startTimestamp);*/
 */
 
       } else if (data.args.id==995) {
-        console.log('995 save ptn data', data);
+        //console.log('995 save ptn data', data);
         _sequencer.addPattern(data, data.client);
         //_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: _instruments[data.client]});
 
@@ -355,7 +355,7 @@ console.log('mixer sending time:', startTimestamp);*/
           }
         }
 
-        console.log('ins data clt: ', _instruments[data.client]);
+        //console.log('ins data clt: ', _instruments[data.client]);
 
 
       } else if (data.args.id==994) {
@@ -373,14 +373,19 @@ console.log('mixer sending time:', startTimestamp);*/
         }, 100);
       } */  
 
-      console.log(notes);
+      //console.log(notes);
+
+
+      } else if (data.args.id==993) { // update channel infos
+        //console.log('data 993: channel sound', data); 
+        _sequencer.updateChannelSound(data.client, data.args.x);
 
       } else {
         //console.log('non regular event id popped');
 
         _sequencer.updateFxParam(data.args, data.client);   
 
-        if (data.args.id==699 || data.args.id==999) { // 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
+        if (data.args.id==699 || data.args.id==999 /*|| data.args.id==993*/) { // 993: update channel sound On/Off | 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
           _updateChannels();
         }
 
@@ -464,8 +469,11 @@ console.log('mixer sending time:', startTimestamp);*/
       window['SEQVIEW'] = _sequencerView;
 
       _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
+
+        //console.log('beat', beat);
+
 //_sequencerView.drawPlayhead(beat); // remove audio stuttering
-        _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat});
+        _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat}); // lighten data transmitted to clients
       });
     };
 

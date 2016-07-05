@@ -146,7 +146,7 @@
       //$item = $('<input>');
 
       if (_id==995) {      
-        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>pattern name</label>');
+        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>Enter pattern name to be saved</label>');
         //$('#pattern-name').val(window['userPattern'].name);
         //console.log('ptn name: ', window['userPattern'].name)
       }      
@@ -169,6 +169,7 @@
       }
 
       if (_id==998) {      
+        console.log('input insconf: ', instrumentsConfig, window.insConf);
         var channelKitNumber = instrumentsConfig[_channelId].conf.length-1;
         $item.append('<label>'+name+' (0>'+channelKitNumber+')</label>');
       } else {

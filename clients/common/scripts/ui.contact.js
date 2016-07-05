@@ -56,6 +56,8 @@
           $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
           //console.log('ch info: ', data.channelInfo);
         }
+      } else {
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: 1, y: 0}); // , patternId: ptnId, classs: classs
       }
 
 
@@ -90,7 +92,10 @@ var classs = $('#patterns').find(":selected").attr('class');
 
 
       if (_id==995) {      
-        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>pattern name</label><a href="#" class="trigger-button">TRIGGER</a>');
+        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>Type new pattern name</label><a href="#" class="trigger-button">Save & share new ptn</a>'); // <div class="input-container">
+      }  else if (_id==997) {  
+        $item.append('<a href="#" class="trigger-button">Change Channel</a>'); // Switch
+
       }  
 
 
@@ -103,11 +108,14 @@ if (usedLibrary=='Interface') {
 
 
 
-
+/*
 window.interfacePanel[_id] = new Interface.Panel({ 
   container:document.querySelector("#button"+_id)
 });
 window.interfacePanel[_id].background = 'black';
+*/
+
+
 /*
 var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.sliderLabelArray[_id]
   bounds:[0,0.7,.5,.25],
@@ -159,14 +167,14 @@ var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.s
 
 //window.sliderArray[_id].add(label);
 
-window.interfacePanel[_id].add(slider); 
+//window.interfacePanel[_id].add(slider); 
 
 //document.querySelector("#button"+_id)
 //$("#button"+_id+" a.trigger-button").on('click', _onMouseDown); // span
 
 
 var flag = false;
-$("#button"+_id+" a.trigger-button").bind('touchstart click', function(){
+$("#button"+_id+" a.trigger-button").bind('touchstart click', function(){ //  canvas
   if (!flag) {
     flag = true;
     setTimeout(function(){ flag = false; }, 100);

@@ -1,9 +1,14 @@
-@import url(http://fonts.googleapis.com/css?family=Lobster);
+/*@import url(http://fonts.googleapis.com/css?family=Lobster);*/
 html, body {
   background: black;
-  padding: 0;
+  padding: 10px; /* 0 */
   margin: 0;
-  height: 100%;
+  /*height: auto;*/
+
+  /*max-height: 50%;
+  min-height: 80%;*/
+  /*height: 90%;*/
+  /*height: 100%; this setting fucked up slider smoothness & precision */
   font-family: helvetica neue, helvetica;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -16,7 +21,7 @@ input,
 button {
   -webkit-appearance: none;
   height: 60px;
-  min-width: 100px;
+  min-width: 50px; /* 100 */
   background: white;
   border-radius: 4px;
   border: none;
@@ -94,7 +99,7 @@ button {
       text-decoration: none; }
     #roomId div h1 {
       color: #fff;
-      font-family: 'Lobster'; }
+      font-family: 'arial'; } /* Lobster*/
     #roomId div h2 {
       color: #fff;
       font-family: Arial; }
@@ -108,12 +113,13 @@ button {
 
 #pattern-editor,
 #sequencer-view {
-  height: 100%;
+  height: 80%; /* 100%*/
+  /*width:100%;*/
   display: block; }
   #pattern-editor table,
   #sequencer-view table {
     width: 100%;
-    height: 100%;
+    height: 100%; 
     border-collapse: collapse; }
   #pattern-editor thead th,
   #sequencer-view thead th {

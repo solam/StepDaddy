@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-  <script src="http://192.168.1.6:8080/target/target-script-min.js#anonymous"></script>
+  <!--<script src="http://192.168.1.6:8080/target/target-script-min.js#anonymous"></script> mobile device debug -->
   <meta charset="UTF-8">
   <title>Sounds & visuals generator - ...Loops</title><!-- Sequencer -->
   <link rel="stylesheet" href="css/style.css" />
@@ -82,11 +82,17 @@ button.stop_rec {
   </style>
 </head>
 <body>
-<div id="instructions">audio server loaded
-<br/>Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1) wifi ssid: <span>FORMATION</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2) <span>solam.co</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3) cliquer sur: <span>application test</span>
-Instructions pour jouer : tenir son smartphone en mode paysage !
+<div id="instructions"><!--audio server loaded-->Générateur sonore prêt<br/>
+<br/>Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br/>1) Connectez-vous au réseau Wi-Fi: <span>loops</span> (pas de mot de passe)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br/>2) Sur votre navigateur tapez l'adresse: <span>http://loops</span> (ou http://192.168.2.24)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- ou http://loops:8282--> 
+<br/>3) Sur la page ...Loops cliquez sur: <span>JOIN CURRENT APP SESSION</span>
+<br/><br/>
+<!--Instructions--> Conseils pour jouer de son instrument/contrôleur  : 
+<br/>- tenir son smartphone en mode paysage
 </div><!-- ARTISTES-RESIDENTS - A8MN13mPde  / pwd: <span></span> -->
 
+<br/>
 <button id='start_rec'>Start Rec</button>
 
   <div id="audio-server-status">
@@ -133,9 +139,6 @@ Instructions pour jouer : tenir son smartphone en mode paysage !
     <table>
     </table>
   </section>
-
-
-
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
 
@@ -155,6 +158,7 @@ Instructions pour jouer : tenir son smartphone en mode paysage !
 
   <script src="scripts/instruments_config.js"></script>
   <script src="scripts/instruments_config_02.js"></script><!-- cumbersome to add a file for each session -->
+  <script src="scripts/instruments_config_03.js"></script>
 
   <script src="../common/scripts/models.track.js"></script>
   <script src="../common/scripts/models.instrument.js"></script>

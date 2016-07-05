@@ -150,3 +150,16 @@ function testGCOModes() {
 // check for HTML5 canvas blend mode property 'multiply' browser support        
 var supportedGCO = testGCOModes();
 gcoCheck = contains.call(supportedGCO, 'multiply'); // true - false
+
+
+
+
+//<script type="text/javascript">
+
+function rotate( array , times ){
+  while( times-- ){
+    var temp = array.shift();
+    array.push( temp )
+  }
+}
+//</script>

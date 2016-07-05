@@ -9,8 +9,8 @@
 </head>
 <body class="waiting">
 
-<div id="instructions">(...Loops waiting room) Get ready to control your instrument or mixer! 
-</div>
+<div id="instructions">(...Loops waiting room) Get ready for your controller
+</div><!-- (...Loops waiting room) Get ready to control your instrument or mixer! -->
 
   <div class="roundedTwo">
     <input type="checkbox" value="None" id="roundedTwo" name="check" checked/>
@@ -141,7 +141,7 @@ var checkAvailableSlots = setInterval(function () {
       var d = new Date();
       var nowTimeStamp = d.getTime();  
       var check = window.localStorage.getItem("check");
-      var availableSlots = window.localStorage.getItem("availableSlots");
+      var availableSlots = 1; //window.localStorage.getItem("availableSlots");
 
       if (typeof check !== 'undefined' && check==1 || typeof check == 'undefined') {
         var pause = 0;
@@ -163,7 +163,7 @@ var checkAvailableSlots = setInterval(function () {
             }  
 
             //var passString = remainingBars; //passCount;
-            var instructionString = '(...Loops waiting room) Get ready for your controller in <span id="countdown"></span><span id="slots"> - available slots: '+ availableSlots +'</span>'; // for your turn - to control your instrument or mixer in 
+            var instructionString = '(...Loops waiting room) Get ready for your controller in <span id="countdown"></span>'; // for your turn - to control your instrument or mixer in // <span id="slots"> - available slots: '+ availableSlots +'</span>
           } else if (availableSlots>=1 && pause==0 /*availableSlots!=0 && availableSlots!='server-not-ready'*/) {
             var passString = "Go!";
             var instructionString = '<span id="countdown"></span>';

@@ -15,6 +15,8 @@
     //window._availableInstruments = _availableInstruments;
     var _tracks = {};
 
+    //this._instrumentsSoundModes = [];
+
     var _patterns = [];
     this._patterns = [];
     this._systemPatterns = [];
@@ -62,7 +64,17 @@
 
     //var this._instrumentsConfig = window.insConf02;
     //window['insConf'] = window.insConf2;
-    this._instrumentsConfig = window.insConf;
+
+
+    //
+    //window['sessionNumber'] = 2;  
+
+    this._sessionNumber = 2;
+    this._instrumentsConfig = window['insConf' + this._sessionNumber]; //window.insConf;
+    window['insConf'] = this._instrumentsConfig; // window.insConf2 - select which session to select at app startup
+
+    console.log('session number: ', this._sessionNumber, this._instrumentsConfig);
+
 
     this._tempo = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
 
@@ -104,14 +116,36 @@
 
 
     this._channelName = [];
-    this._channelName[0]= this._instrumentsConfig[0].channelName;
-    this._channelName[1]= this._instrumentsConfig[1].channelName;
-    this._channelName[2]= this._instrumentsConfig[2].channelName;
-    this._channelName[3]= this._instrumentsConfig[3].channelName;
-    this._channelName[4]= this._instrumentsConfig[4].channelName;
-    this._channelName[5]= this._instrumentsConfig[5].channelName;
-    this._channelName[6]= this._instrumentsConfig[6].channelName;
-    this._channelName[7]= this._instrumentsConfig[7].channelName;
+
+
+    this._channelName[0]= [];
+    this._channelName[1]= [];
+    this._channelName[2]= [];
+    this._channelName[3]= [];
+    this._channelName[4]= [];
+    this._channelName[5]= [];
+    this._channelName[6]= [];
+    this._channelName[7]= [];
+
+    this._channelName[0]['name']= this._instrumentsConfig[0].channelName;
+    this._channelName[1]['name']= this._instrumentsConfig[1].channelName;
+    this._channelName[2]['name']= this._instrumentsConfig[2].channelName;
+    this._channelName[3]['name']= this._instrumentsConfig[3].channelName;
+    this._channelName[4]['name']= this._instrumentsConfig[4].channelName;
+    this._channelName[5]['name']= this._instrumentsConfig[5].channelName;
+    this._channelName[6]['name']= this._instrumentsConfig[6].channelName;
+    this._channelName[7]['name']= this._instrumentsConfig[7].channelName; 
+
+    this._channelName[0]['color']= this._instrumentsConfig[0].conf[0]['color'];
+    this._channelName[1]['color']= this._instrumentsConfig[1].conf[0]['color'];
+    this._channelName[2]['color']= this._instrumentsConfig[2].conf[0]['color'];
+    this._channelName[3]['color']= this._instrumentsConfig[3].conf[0]['color'];
+    this._channelName[4]['color']= this._instrumentsConfig[4].conf[0]['color'];
+    this._channelName[5]['color']= this._instrumentsConfig[5].conf[0]['color'];
+    this._channelName[6]['color']= this._instrumentsConfig[6].conf[0]['color'];
+    this._channelName[7]['color']= this._instrumentsConfig[7].conf[0]['color'];    
+
+    //console.log('ch color:',this._channelName[0], this._channelName[0]['color']/*, this._instrumentsConfig[0].conf[0]['color']*/);
 
     this._channelPatterns = [];
     this._channelPatterns[0]= this._instrumentsConfig[0].patterns;
@@ -134,6 +168,56 @@
      achannelPatterns[7]= JSON.stringify(this._instrumentsConfig[7].patterns); 
 
 
+
+
+
+    this._channelpatternSeq = [];
+    this._channelpatternSeq[0]= this._instrumentsConfig[0].patternSeq;
+    this._channelpatternSeq[1]= this._instrumentsConfig[1].patternSeq;
+    this._channelpatternSeq[2]= this._instrumentsConfig[2].patternSeq;
+    this._channelpatternSeq[3]= this._instrumentsConfig[3].patternSeq;
+    this._channelpatternSeq[4]= this._instrumentsConfig[4].patternSeq;
+    this._channelpatternSeq[5]= this._instrumentsConfig[5].patternSeq;
+    this._channelpatternSeq[6]= this._instrumentsConfig[6].patternSeq;
+    this._channelpatternSeq[7]= this._instrumentsConfig[7].patternSeq;  
+
+
+    console.log('this._channelpatternSeq: ', this._channelpatternSeq);
+
+    var achannelpatternSeq = [];
+     achannelpatternSeq[0]= JSON.stringify(this._instrumentsConfig[0].patternSeq);
+     achannelpatternSeq[1]= JSON.stringify(this._instrumentsConfig[1].patternSeq);
+     achannelpatternSeq[2]= JSON.stringify(this._instrumentsConfig[2].patternSeq);
+     achannelpatternSeq[3]= JSON.stringify(this._instrumentsConfig[3].patternSeq);
+     achannelpatternSeq[4]= JSON.stringify(this._instrumentsConfig[4].patternSeq);
+     achannelpatternSeq[5]= JSON.stringify(this._instrumentsConfig[5].patternSeq);
+     achannelpatternSeq[6]= JSON.stringify(this._instrumentsConfig[6].patternSeq);
+     achannelpatternSeq[7]= JSON.stringify(this._instrumentsConfig[7].patternSeq);
+
+
+
+
+
+
+
+
+
+    if (this._countdownMode == 1) { 
+      var sound = 0;  
+    } else {
+      var sound = 1;
+    } 
+    this._instrumentsSoundModes = [];
+    this._instrumentsSoundModes[0]= sound;//this._instrumentsConfig[0].sound;
+    this._instrumentsSoundModes[1]= sound;//this._instrumentsConfig[1].sound;
+    this._instrumentsSoundModes[2]= sound;// this._instrumentsConfig[2].sound;
+    this._instrumentsSoundModes[3]= sound;//this._instrumentsConfig[3].sound;
+    this._instrumentsSoundModes[4]= sound;//this._instrumentsConfig[4].sound;
+    this._instrumentsSoundModes[5]= sound;//this._instrumentsConfig[5].sound;
+    this._instrumentsSoundModes[6]= sound;//this._instrumentsConfig[6].sound;
+    this._instrumentsSoundModes[7]= sound;//this._instrumentsConfig[7].sound;
+    
+
     //var ptns = this._channelPatterns;  
 
     //console.log(this._insBarOffset[0]);
@@ -152,12 +236,17 @@
     //console.log(this._channelInfo);
 
 
+    this._sessionList = [];
 
+    for (var a=1; a<99; a++) {
+      if (typeof window['insConf'+a] !== 'undefined') {
+        this._sessionList.push(window['insConf'+a][0].sessionName);
+      }
+    }
 
+    //this._sessionListSerialized = JSON.stringify(this._sessionList);
 
-
-
-
+console.log('this._sessionList', this._sessionList);
 
     var _lowpassFilter = null;
     var _compressor = null;
@@ -309,13 +398,23 @@
             channelInfo.kickoutTime = this._insKickoutTime;
             channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
             channelInfo.countdownMode = this._countdownMode;
-            channelInfo.channelName = this._channelName[i]; // 'testttt'; //
+            channelInfo.channelName = this._channelName[i]['name'];
+            channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
+            channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
+            channelInfo.sessionList = this._sessionList;//Serialized;
+
+
+            if (typeof this._channelpatternSeq[i] !== 'undefined') {                 
+              channelInfo.channelPatternSeq = this._channelpatternSeq[i][this._instrumentsConfig[i].defaultPatternSeq]; //;
+              //console.log("channelInfo.channelPatternSeq: ", channelInfo.channelPatternSeq, this._channelpatternSeq[i], this._channelpatternSeq[i]['defaultPatternSeq'] /*,channelInfo.channelPatternSeq*/);           
+            }
+
                 channelInfo.patterns = this._patterns;     
             channelInfo.channelPatterns = this._channelPatterns[i];   
             channelInfo.channelKits = this.getKitNames(i);
 
 
-            //console.log("_ch kits: ", channelInfo.channelKits);
+            //
 
             //console.log("_patterns at ins crea: ", this._patterns);
             //console.log("ch name: ", channelInfo.channelName);
@@ -563,8 +662,11 @@
 
 
     this.changeSession = function(data, clientId) {
-      window['insConf'] = window['insConf'+data.x];
+      var sessNumber = parseInt(data.x) + 1;
+      console.log("sessNumber: ", sessNumber);
+      window['insConf'] = window['insConf'+sessNumber];
       this['_instrumentsConfig'] = window['insConf'];
+      this._sessionNumber = sessNumber;
 //this.createInstruments(); // Update general instruments' object
     };    
 
@@ -576,6 +678,12 @@
     this.updateNotes = function(data) { // update various notes
         
         var channelId = _clients[data.client].id;
+
+
+
+
+      if (channelId!=1) {
+
 
         //console.log('updates notes data: ', channelId); // _instruments - data, 
 
@@ -605,6 +713,8 @@
           //var ptnStorage = this._systemPatterns;
           //var ptnStorage = window.systemPatterns;
 
+          //var ptnStorage = _self._systemPatterns; // does not seem to work neither
+
           var ptnStorage = JSON.parse(window.chPatternsAtStartup[channelId]); // oriChannelPatterns
         } else {  
           var ptnStorage = this._patterns;
@@ -612,17 +722,61 @@
 
         var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
         var trackNumber = result[0].tracks.length; 
+        var channelTrackLength = _instruments[channelId].tracks.length;
+
+
+        if (trackNumber > channelTrackLength) {
+          var trackNumber = channelTrackLength;
+        } else {
+          var trackNumber = trackNumber;
+        }
+
 
         //console.log('sys ptns + data: ', this._systemPatterns, data, result[0], channelId);
 
-        console.log('ptn + sys ptns after: ', /*channelId, data.args.x, result[0], this._systemPatterns, data*/ window.chPatternsAtStartup); // , tempSysPatterns , window.systemPatterns
+        //console.log('ptn + sys ptns after: ', /*channelId, data.args.x, result[0], this._systemPatterns, data*/ window.chPatternsAtStartup); // , tempSysPatterns , window.systemPatterns
+
+
+        // first reset played tracks of processed channel
+        var maxTrackNumber = 30; // Beware Hardcoded value!
+        for (var n = 0, len = maxTrackNumber; n < len; n += 1) {
+          var notesNumber = 16;//result[0].tracks[n].length;
+          //var traack = result[0].tracks[n];        
+          var notes = [];
+
+          for (var l = 0; l < notesNumber; l += 1) {
+
+            if (typeof _instruments[channelId].tracks[n] !== 'undefined') {            
+              _instruments[channelId].tracks[n].notes[l] = 0;//traack[l];
+            }
+            /*noteInfo = {};
+            noteInfo.id = channelId;
+            noteInfo.trackId = channelId+'-'+n;
+            noteInfo.noteId = l;
+            noteInfo.volume = 0; //traack[l];
+            notesObject.push(noteInfo); */           
+          }  
+        } 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         notesObject = [];
 
         for (var n = 0, len = trackNumber; n < len; n += 1) {
           var notesNumber = result[0].tracks[n].length;
           var traack = result[0].tracks[n];
-          //console.log("notesNumber + traack", notesNumber, traack);
+          //console.log("notesNumber + traack", notesNumber, traack);          
 
           var notes = [];
 
@@ -647,6 +801,9 @@
         } 
         //console.log("notesObject: ", notesObject);
         return notesObject;
+
+
+    } // end of exlude conductor channel (channel 1 aka 2nd channel)    
 
         //var trackId = data.trackId.split('-')[1];
         //var instrumentId = data.trackId.split('-')[0];
@@ -708,7 +865,24 @@
         channelInfo.kickoutTime = this._insKickoutTime;
         channelInfo.barOffset = eval('this._insBarOffset'+prevKit); //this._insBarOffset[0];  
         channelInfo.countdownMode = this._countdownMode;  
-        channelInfo.channelName = this._channelName[prevKit];  
+        //channelInfo.channelName = this._channelName[prevKit];  
+        channelInfo.channelName = this._channelName[prevKit]['name'];
+        channelInfo.channelColor = this._channelName[prevKit]['color'];
+
+        //channelInfo.sessionName = this._sessionList[this._sessionNumber];
+        channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
+        //console.log('session name update ins: ', channelInfo.sessionName);
+        channelInfo.sessionList = this._sessionList;//Serialized;
+
+
+        if (typeof this._channelpatternSeq[prevKit] !== 'undefined') {                 
+          channelInfo.channelPatternSeq = this._channelpatternSeq[i][this._instrumentsConfig[i].defaultPatternSeq];               
+        }
+
+
+
+        //channelInfo.sessionNumber = ;        
+
         channelInfo.patterns = this._patterns;
         channelInfo.channelPatterns = this._channelPatterns[prevKit];
         channelInfo.channelKits = this.getKitNames(prevKit);
@@ -789,6 +963,10 @@
     this.updateChannelInfo = function(clientId, order) { 
 
       console.log('clientId + order: ',clientId, order);
+
+
+  if (typeof _clients[clientId] !== 'undefined') {
+
       var channelNumber = _clients[clientId].id; // ! channelNumber ! source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
 
       if (channelNumber!=1) { // do not process conductor role which has no track data associated to it! Beware hardcoded value!
@@ -809,8 +987,24 @@
         channelInfo.kickoutTime = this._insKickoutTime;
         channelInfo.barOffset = eval('this._insBarOffset'+channelNumber); //this._insBarOffset[0];  
         channelInfo.countdownMode = this._countdownMode;  
-        channelInfo.channelName = this._channelName[channelNumber]; 
+        channelInfo.channelName = this._channelName[channelNumber]['name']; 
+        channelInfo.channelColor = this._channelName[channelNumber]['color'];
+        channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
+        channelInfo.sessionList = this._sessionList;//Serialized;
+
+
+        if (typeof this._channelpatternSeq[channelNumber] !== 'undefined') {                 
+          channelInfo.channelPatternSeq = this._channelpatternSeq[i][this._instrumentsConfig[i].defaultPatternSeq];               
+        }
+
+
+
         channelInfo.patterns = this._patterns;   
+
+        channelInfo.channelPatterns = this._channelPatterns[channelNumber];
+        channelInfo.channelKits = this.getKitNames(channelNumber);
+
+
 
         //console.log('start time', this._audioServerStartTimestamp);
 
@@ -842,10 +1036,23 @@
 
         return anextInstrument;
       }  
+
+} // end of if (typeof _clients[clientId] !== 'undefined')
+
+
     };
 
 
+this.updateChannelSound = function(clientId, value) {
 
+  var channelNumber = _clients[clientId].id;
+  //this._instruments[channelNumber].channelInfo.soundMode = value;
+  //this['_instrumentsSoundModes['+channelNumber+']']=value;
+  this._instrumentsSoundModes[channelNumber]=value;
+  console.log('updateChannelSound: ', clientId, channelNumber, value/*, _self['_instrumentsSoundModes[0]'], _self['_instrumentsSoundModes[1]'], _self['_instrumentsSoundModes[2]']*/);
+  //this[paramX] = valueX;
+  //console.log("channel soundMode: ", channelNumber, _self._instruments[channelNumber].channelInfo.soundMode /*_instruments, _instruments[channelNumber].channelInfo.soundMode*/);
+};
 
 
 
@@ -918,7 +1125,7 @@
             for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
 
 
-                //console.log('this._Ins01Volume: ', _self._Ins01Volume);
+                //console.log('cg snd mode: ', i, _instruments[i], _instruments[i].channelInfo.soundMode); // _self._Ins01Volume
 
                 /*var incr = i+1;
                 //var insVolume = '_self_Ins0'+incr+'Volume'; // this will cause problem after 9 instruments aka 010 use '01 - 16' step technique
@@ -927,9 +1134,22 @@
                     console.log('insxx volume: ', window['_self_Ins0'+incr+'Volume']);
                     _instruments[i].setParams(window['_self_Ins0'+incr+'Volume']);
                 } */
+                //this['_instrumentsSoundModes['+channelNumber+']']
+                //console.log(_self['_instrumentsSoundModes['+i+']']);
+                //console.log(_self['_instrumentsSoundModes[0]'], _self['_instrumentsSoundModes[1]'], _self['_instrumentsSoundModes[2]']);
 
+                //console.log('first 3 ch sMode: ', _self._instrumentsSoundModes[0], _self._instrumentsSoundModes[1], _self._instrumentsSoundModes[2], _self._instrumentsSoundModes[3], _self._instrumentsSoundModes[4], _self._instrumentsSoundModes[5]);
+                // _instruments[i].channelInfo.soundMode
 
-
+              if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
+                  //if (this._instrumentsSoundModes[i] == 1) {
+                    var play = 1;
+                //}
+              } else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1){
+                var play = 1;
+              } else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/ {
+                var play = 0;
+              }
                 
 
                 for (var j = 0; j < _instruments[i].tracks.length; j++) {
@@ -947,7 +1167,7 @@
 
                     var volume = track.notes[_noteIndex];
                     if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
-                        if (volume > 0) {
+                        if (volume > 0 && play==1) {
 
 
 
@@ -960,7 +1180,7 @@
                         }
                     } else if (_instruments[i].type === 'synth') {
 
-                        if (volume > 0) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
+                        if (volume > 0 && play==1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
                 /*          
                 if (i==1) { // only check if instrument loaded
                   _instruments[1].setParams(2,_self._Ins01Volume); // send array of param ids => values INSTEAD
@@ -973,12 +1193,15 @@
                         }
                     }
                 }
+
+              //}
+
             }
 
             // Attempt to synchronize drawing time with sound
             if (_noteTime != _lastDrawTime) {
                 _lastDrawTime = _noteTime;
-                _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex);
+                _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
             }
 
             _self.step();
@@ -1077,6 +1300,8 @@
 
     this.updateFxParam = function(data, clientId) { // updateParam
         
+        console.log('clt id:', _clients[clientId].instrumentName);
+
         // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
         var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
         var synthInstance1 = window[synthInstance2];
