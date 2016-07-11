@@ -69,7 +69,7 @@
     //
     //window['sessionNumber'] = 2;  
 
-    this._sessionNumber = 2;
+    this._sessionNumber = 4;
     this._instrumentsConfig = window['insConf' + this._sessionNumber]; //window.insConf;
     window['insConf'] = this._instrumentsConfig; // window.insConf2 - select which session to select at app startup
 

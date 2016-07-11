@@ -1,8 +1,8 @@
-window.insConf2 = [ // channelConf
+window.insConf4 = [ // channelConf
 
 // orange channel
 
-{ sessionName: 'Pitch instruments A',
+{ sessionName: 'Summerlab',
   channelName: 'Channel 1: drums',  
   trackSet: 1, // defaultKit or might always be first object of patterns array
   //*
@@ -1060,7 +1060,7 @@ window.insConf2 = [ // channelConf
               name: 'Channel 1 volume',
               param: '_insVol0', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 55,
+              value: 50, // 60
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1091,7 +1091,7 @@ window.insConf2 = [ // channelConf
               }, 
 
               midicc: 0,                      
-              value: 28,
+              value: 10,
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1112,7 +1112,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 25, // 30
+              value: 10, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1133,7 +1133,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 18, // 23
+              value: 6, // 23
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1154,7 +1154,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 22, // 30
+              value: 18, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1175,7 +1175,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 25,
+              value: 9,
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1196,7 +1196,7 @@ window.insConf2 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 35, // 40
+              value: 22, // 40
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1317,7 +1317,7 @@ window.insConf2 = [ // channelConf
               name: 'C2 start bar offset',
               param: '_insBarOffset1', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 16,
+              value: 0, //
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1341,7 +1341,7 @@ window.insConf2 = [ // channelConf
               name: 'C3 start bar offset',
               param: '_insBarOffset2', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 24,
+              value: 4, //
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1365,7 +1365,7 @@ window.insConf2 = [ // channelConf
               name: 'C4 start bar offset',
               param: '_insBarOffset3', // [external] = does not change timbre generator param
               midicc: 32,                      
-              value: 8,
+              value: 8, // 8
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1389,7 +1389,7 @@ window.insConf2 = [ // channelConf
               name: 'C5 start bar offset',
               param: '_insBarOffset4', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 48,
+              value: 16, // 48
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1413,7 +1413,7 @@ window.insConf2 = [ // channelConf
               name: 'C6 start bar offset',
               param: '_insBarOffset5', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 64,
+              value: 20, // 64
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1437,7 +1437,7 @@ window.insConf2 = [ // channelConf
               name: 'C7 start bar offset',
               param: '_insBarOffset6', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 70,
+              value: 32, // 70
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1461,7 +1461,7 @@ window.insConf2 = [ // channelConf
               name: 'C8 start bar offset',
               param: '_insBarOffset7', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 74,
+              value: 24, // 74
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1485,7 +1485,7 @@ window.insConf2 = [ // channelConf
               name: 'General kickout time (in bars)',
               param: '_insKickoutTime', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 90, // 90 ? don't 
+              value: 32, // 90 ? don't 
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1528,9 +1528,10 @@ window.insConf2 = [ // channelConf
   //channelType: 'instrument', // conductor
   trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"id":"5236cf00-43a4-11e6-b2a6-8dd4312fd1bb","name":"S_Lab_BassLine01","classs":"channel"} 
   ], 
 
   conf: [ // kits channelConfiguration kitConfiguration 
@@ -2124,24 +2125,25 @@ window.insConf2 = [ // channelConf
 
 
 
-{ channelName: 'Ch4 Agogo',  
-  trackSet: 0, 
+{ channelName: 'Ch4 Aigu',  
+  trackSet: 1, 
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]],"id":"5ea7c9c0-43a8-11e6-aef9-a11d75865f0d","name":"snare","classs":"channel"}     
   ], 
 
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Agogo', 
+      name: 'aigu_01', 
       kitNumber: 0, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(0, 161, 0, 1)', 
       tracks: [
-        { name: 'Agogo',
-          sampleUrl: 'percsel/Agogo.wav'            
+        { name: 'aigu_01',
+          sampleUrl: 'summerlab_01/aigu_01.wav'            
         }                   
       ],
       controls: [ 
@@ -2201,12 +2203,12 @@ window.insConf2 = [ // channelConf
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'AnaGuiro', 
+      name: 'aigu_02', 
       kitNumber: 1, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(0, 161, 0, 0.9)', 
       tracks: [
-        { name: 'AnaGuiro',
-          sampleUrl: 'percsel/AnaGuiro.wav'            
+        { name: 'aigu_02',
+          sampleUrl: 'summerlab_01/aigu_02.wav'            
         }                   
       ],
       controls: [ 
@@ -2266,12 +2268,12 @@ window.insConf2 = [ // channelConf
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'AnCowbl1', 
+      name: 'aigu_03', 
       kitNumber: 2, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(0, 161, 0, 0.8)', 
       tracks: [
-        { name: 'AnCowbl1',
-          sampleUrl: 'percsel/AnCowbl1.wav'            
+        { name: 'aigu_03',
+          sampleUrl: 'summerlab_01/aigu_03.wav'            
         }                   
       ],
 controls: [ 
@@ -2331,12 +2333,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'AnlgClap', 
+      name: 'aigu_04', 
       kitNumber: 3, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(0, 161, 0, 0.7)', 
       tracks: [
-        { name: 'AnlgClap',
-          sampleUrl: 'percsel/AnlgClap.wav'            
+        { name: 'aigu_04',
+          sampleUrl: 'summerlab_01/aigu_04.wav'            
         }                   
       ],
 controls: [ 
@@ -2396,12 +2398,12 @@ controls: [
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Balafon', 
+      name: 'bois_01', 
       kitNumber: 4, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(0, 161, 0, 0.6)', 
       tracks: [
-        { name: 'Balafon',
-          sampleUrl: 'percsel/Balafon.wav'            
+        { name: 'bois_01',
+          sampleUrl: 'summerlab_01/bois_01.wav'            
         }                   
       ],
  controls: [ 
@@ -2475,24 +2477,25 @@ controls: [
 
 
 
-{ channelName: 'Ch5 Berimba1',  
-  trackSet: 0, 
+{ channelName: 'Ch5 Bong/Tôle/Clap',  
+  trackSet: 2, 
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]],"id":"921e3a00-43a8-11e6-8708-cb84aafd38b0","name":"hihats","classs":"channel"} 
   ], 
 
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Berimba1', 
+      name: 'bong_01', 
       kitNumber: 0, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(237, 49, 104, 1)', 
       tracks: [
-        { name: 'Berimba1',
-          sampleUrl: 'percsel/Berimba1.wav'            
+        { name: 'bong_01',
+          sampleUrl: 'summerlab_01/bong_01.wav'            
         }                   
       ],
 controls: [ 
@@ -2552,12 +2555,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Cabasa', 
+      name: 'bong_02', 
       kitNumber: 1, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(237, 49, 104, 0.9)', 
       tracks: [
-        { name: 'Cabasa',
-          sampleUrl: 'percsel/Cabasa.wav'            
+        { name: 'bong_02',
+          sampleUrl: 'summerlab_01/bong_02.wav'            
         }                   
       ],
       controls: [ 
@@ -2617,12 +2620,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'checkitout', 
+      name: 'bong_03', 
       kitNumber: 2, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(237, 49, 104, 0.8)', 
       tracks: [
-        { name: 'checkitout',
-          sampleUrl: 'percsel/checkitout.wav'            
+        { name: 'bong_03',
+          sampleUrl: 'summerlab_01/bong_03.wav'            
         }                   
       ],
 controls: [ 
@@ -2682,12 +2685,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'COMEON3', 
+      name: 'tôle_01', 
       kitNumber: 3, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(237, 49, 104, 0.7)', 
       tracks: [
-        { name: 'COMEON3',
-          sampleUrl: 'percsel/COMEON3.wav'            
+        { name: 'tôle_01',
+          sampleUrl: 'summerlab_01/tôle_01.wav'            
         }                   
       ],
 controls: [ 
@@ -2747,12 +2750,12 @@ controls: [
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Conga', 
+      name: 'tôle_02', 
       kitNumber: 4, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(237, 49, 104, 0.6)', 
       tracks: [
-        { name: 'Conga',
-          sampleUrl: 'percsel/Conga.wav'            
+        { name: 'tôle_02',
+          sampleUrl: 'summerlab_01/tôle_02.wav'            
         }                   
       ],
 controls: [ 
@@ -2808,7 +2811,138 @@ controls: [
         }
 
       ]            
-    },           
+    },  
+
+
+ { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'clap_03', 
+      kitNumber: 0, 
+      color: 'rgba(237, 49, 104, 0.5)', 
+      tracks: [
+        { name: 'clap_03',
+          sampleUrl: 'summerlab_01/clap_03.wav'            
+        }                   
+      ],
+controls: [ 
+        { name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+
+      ]            
+    },
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'clap_04', 
+      kitNumber: 1, 
+      color: 'rgba(237, 49, 104, 0.4)', 
+      tracks: [
+        { name: 'clap_04',
+          sampleUrl: 'summerlab_01/clap_04.wav'            
+        }                   
+      ],
+      controls: [ 
+        { name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+
+      ]            
+    },            
 
 
 
@@ -2830,154 +2964,27 @@ controls: [
 
 
 
-{ channelName: 'Ch6 Cuica',  
+{ channelName: 'Ch6 Machine',  
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1]],"id":"c503b4e0-43a8-11e6-9e5e-476267c44e16","name":"4-16 steps","classs":"channel"}     
   ], 
 
-  trackSet: 0, 
+  trackSet: 5, 
   conf: [ 
 
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'Cuica', 
-      kitNumber: 0, 
-      color: 'rgba(253, 118, 8, 1)', 
-      tracks: [
-        { name: 'Cuica',
-          sampleUrl: 'percsel/Cuica.wav'            
-        }                   
-      ],
-controls: [ 
-        { name: 'Instrument',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Instrument',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },
-
-        { name: 'Pattern',
-          id: 994,
-          type: 'ddmenu', 
-          x: {
-            name: 'Pattern',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },        
-
-        { 
-          name: 'Save Pattern',
-          id: 995,
-
-          type: 'contact', 
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Save Pattern',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, 
-              interpolate: 0 
-          }                 
-        }
-
-      ]            
-    },
+    
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'EgyptDrum', 
-      kitNumber: 1, 
-      color: 'rgba(253, 118, 8, 1)', 
-      tracks: [
-        { name: 'EgyptDrum',
-          sampleUrl: 'percsel/EgyptDrum.wav'            
-        }                   
-      ],
-      controls: [ 
-        { name: 'Instrument',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Instrument',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },
-
-        { name: 'Pattern',
-          id: 994,
-          type: 'ddmenu', 
-          x: {
-            name: 'Pattern',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },        
-
-        { 
-          name: 'Save Pattern',
-          id: 995,
-
-          type: 'contact', 
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Save Pattern',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, 
-              interpolate: 0 
-          }                 
-        }
-
-      ]            
-    },
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'checkitout', 
+      name: 'machine_01', 
       kitNumber: 2, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(253, 206, 31, 1)', 
       tracks: [
-        { name: 'checkitout',
-          sampleUrl: 'percsel/checkitout.wav'            
+        { name: 'machine_01',
+          sampleUrl: 'summerlab_01/machine_01.wav'            
         }                   
       ],
 controls: [ 
@@ -3037,12 +3044,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Gamelan1', 
+      name: 'machine_02', 
       kitNumber: 3, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(253, 206, 31, 0.9)', 
       tracks: [
-        { name: 'Gamelan1',
-          sampleUrl: 'percsel/Gamelan1.wav'            
+        { name: 'machine_02',
+          sampleUrl: 'summerlab_01/machine_02.wav'            
         }                   
       ],
 controls: [ 
@@ -3102,12 +3109,12 @@ controls: [
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'indper05', 
+      name: 'machine_03', 
       kitNumber: 4, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(253, 206, 31, 0.8)', 
       tracks: [
-        { name: 'indper05',
-          sampleUrl: 'percsel/indper05.wav'            
+        { name: 'machine_03',
+          sampleUrl: 'summerlab_01/machine_03.wav'            
         }                   
       ],
 controls: [ 
@@ -3163,7 +3170,207 @@ controls: [
         }
 
       ]          
-    },           
+    },  
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'machine_04', 
+      kitNumber: 2, 
+      color: 'rgba(253, 206, 31, 0.7)', 
+      tracks: [
+        { name: 'machine_04',
+          sampleUrl: 'summerlab_01/machine_04.wav'            
+        }                   
+      ],
+controls: [ 
+        { name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+
+      ]            
+    },
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'machine_05', 
+      kitNumber: 2, 
+      color: 'rgba(253, 206, 31, 0.6)', 
+      tracks: [
+        { name: 'machine_05',
+          sampleUrl: 'summerlab_01/machine_05.wav'            
+        }                   
+      ],
+controls: [ 
+        { name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+
+      ]            
+    },    
+
+
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'machine_06', 
+      kitNumber: 2, 
+      color: 'rgba(253, 206, 31, 0.5)', 
+      tracks: [
+        { name: 'machine_06',
+          sampleUrl: 'summerlab_01/machine_06.wav'            
+        }                   
+      ],
+controls: [ 
+        { name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+
+      ]            
+    },
 
 
 
@@ -3203,11 +3410,12 @@ controls: [
 
 // Yellow cheesy channel: guitar, synth lead, etc
 
-{ channelName: 'Ch7 c4_c5 synth',  
+{ channelName: 'Ch7 synthétiseur',  
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]],"id":"ee663060-43a8-11e6-b344-c76207a71a6f","name":"3-15 steps","classs":"channel"} 
   ], 
 
   trackSet: 0, 
@@ -3754,24 +3962,25 @@ controls: [
 
 
 
-{ channelName: 'Ch8 indper06',  
+{ channelName: 'Ch8 Voix',  
   trackSet: 0, 
 
-  defaultPattern: 0, 
+  defaultPattern: 1, 
   patterns: [ // channel patterns
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]} 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]],"id":"2f183b30-43a9-11e6-8b5d-57c381b84f0b","name":"step 15","classs":"channel"} 
   ], 
   
   conf: [ 
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'indper06', 
+      name: 'Voix_01', 
       kitNumber: 0, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(226, 0, 6, 1)', 
       tracks: [
-        { name: 'indper06',
-          sampleUrl: 'percsel/indper06.wav'            
+        { name: 'Voix_01',
+          sampleUrl: 'summerlab_01/Voix_01.wav'            
         }                   
       ],
 controls: [ 
@@ -3831,12 +4040,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'indper09', 
+      name: 'Voix_02', 
       kitNumber: 1, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(226, 0, 6, 0.9)', 
       tracks: [
-        { name: 'indper09',
-          sampleUrl: 'percsel/indper09.wav'            
+        { name: 'Voix_02',
+          sampleUrl: 'summerlab_01/Voix_02.wav'            
         }                   
       ],
       controls: [ 
@@ -3896,12 +4105,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Kalimba2', 
+      name: 'Voix_03', 
       kitNumber: 2, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(226, 0, 6, 0.8)', 
       tracks: [
-        { name: 'Kalimba2',
-          sampleUrl: 'percsel/Kalimba2.wav'            
+        { name: 'Voix_03',
+          sampleUrl: 'summerlab_01/Voix_03.wav'            
         }                   
       ],
 controls: [ 
@@ -3961,12 +4170,12 @@ controls: [
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'Koukin2', 
+      name: 'Voix_04', 
       kitNumber: 3, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(226, 0, 6, 0.7)', 
       tracks: [
-        { name: 'Koukin2',
-          sampleUrl: 'percsel/Koukin2.wav'            
+        { name: 'Voix_04',
+          sampleUrl: 'summerlab_01/Voix_04.wav'            
         }                   
       ],
 controls: [ 
@@ -4026,12 +4235,12 @@ controls: [
 
      { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'LogDrum1', 
+      name: 'Shit', 
       kitNumber: 4, 
-      color: 'rgba(253, 118, 8, 1)', 
+      color: 'rgba(226, 0, 6, 0.6)', 
       tracks: [
-        { name: 'LogDrum1',
-          sampleUrl: 'percsel/LogDrum1.wav'            
+        { name: 'Shit',
+          sampleUrl: 'summerlab_01/Voix_05.wav'            
         }                   
       ],
 controls: [ 

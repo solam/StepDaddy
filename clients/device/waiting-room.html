@@ -12,11 +12,11 @@
 <div id="instructions">(...Loops waiting room) Get ready for your controller
 </div><!-- (...Loops waiting room) Get ready to control your instrument or mixer! -->
 
-  <div class="roundedTwo">
+  <!--<div class="roundedTwo">
     <input type="checkbox" value="None" id="roundedTwo" name="check" checked/>
     <label for="roundedTwo"></label>
-    <span>Check button to participate to current session</span><!-- [uncheck to standbye (not participate in the session)] -->
-  </div>
+    <span>Check button to participate to current session</span><!-- [uncheck to standbye (not participate in the session)]
+  </div>-->
 
   <!--<input type="text" value="75" class="dial">-->
   <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq" value="0.15" val="0.15">0.15</canvas>
@@ -140,7 +140,7 @@ var checkAvailableSlots = setInterval(function () {
 
       var d = new Date();
       var nowTimeStamp = d.getTime();  
-      var check = window.localStorage.getItem("check");
+      var check = 1; //window.localStorage.getItem("check");
       var availableSlots = 1; //window.localStorage.getItem("availableSlots");
 
       if (typeof check !== 'undefined' && check==1 || typeof check == 'undefined') {
