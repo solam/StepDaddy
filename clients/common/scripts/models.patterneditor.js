@@ -282,8 +282,9 @@ var bpm = data.channelInfo.bpm;
 
 $("#channelname").html(data.channelInfo.channelName);
 $("#channelname").css('background', data.channelInfo.channelColor);
-$("#insname").html('instru type: '+data.instrumentName);
+$("#insname").html('instru: '+data.instrumentName);
 $("#sessionname").html('session: '+data.channelInfo.sessionList[data.channelInfo.sessionName]);
+$('body').addClass('channel' + data.channelInfo.channelNumber + ' session'+data.channelInfo.sessionName);
 
 //console.log('session name: ', data.channelInfo.sessionList);
 
@@ -444,11 +445,17 @@ window.newtimer = setInterval(function () { // (e)
       remainingBars = (kickoutTime - nowTimeStamp)/millisecondsPerBar;
       var remainingBars = Math.floor(remainingBars);
 
-      if (remainingBars>=1 ) {
+      if (remainingBars>=2 ) { // >2
         var passString = remainingBars; 
         var instructionString = 'Get ready to let your instrument go in <span id="countdown"></span>';
+        var kickedOut = 0;
+      } else if (remainingBars>=1 ) {  // <=2
+        var passString = "Bye!";
+        var kickedOut = 0;
+        var instructionString = '<span id="countdown"></span>';
       } else {
         var passString = "Bye!";
+        var kickedOut = 1;
         var instructionString = '<span id="countdown"></span>';
       }
 
@@ -459,7 +466,7 @@ window.newtimer = setInterval(function () { // (e)
       $("#instructions").html(instructionString);
       $("#countdown").html(passString);    
 
-      if (passString == "Bye!") {
+      if (kickedOut == 1 /*passString == "Bye!"*/) {
         window.location.replace("waiting-room.html");
       }   
 

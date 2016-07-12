@@ -92,7 +92,7 @@ var classs = $('#patterns').find(":selected").attr('class');
 
 
       if (_id==995) {      
-        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>Type new pattern name</label><a href="#" class="trigger-button">Save & share new ptn</a>'); // <div class="input-container">
+        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>Type new pattern name</label><a href="#" class="trigger-button">Save new pattern</a>'); // <div class="input-container">
       }  else if (_id==997) {  
         $item.append('<a href="#" class="trigger-button">Change Channel</a>'); // Switch
 

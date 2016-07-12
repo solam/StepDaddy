@@ -3,20 +3,990 @@ window.insConf3 = [ // channelConf
 
 // orange channel
 
+
+
+
+
+
 { sessionName: 'The Chase',
-  channelName: 'Ch1: bassline A',  
+  channelName: 'Ch1 | Drums',  
+  trackSet: 3, // defaultKit or might always be first object of patterns array
+  //*
+  defaultPattern: 1, 
+  patterns: [ 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    //{"name":"dnb rythm", "classs":"channel", "id":"d969fe00-19c6-11e6-a327-f59272915189", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]]},
+    {"name":"4/4 kick",     "classs":"channel", "id":"81a98180-1887-11e6-8ebb-edf93ea0958c", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]},    
+    {"name":"Kick + snare", "classs":"user", "id":"2b2e0600-3d85-11e6-a2d1-8bcd79be09f2", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]},
+    {"name":"Kick + hat + snare","classs":"user","id":"1c7bb480-3d86-11e6-a2d1-8bcd79be09f2", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]}    
+  ],  
+  //*/
+
+  conf: [ // kits 
+
+    { type: 'samples', // (kitType) : conductor, samples, synth,...
+      instrumentName: 'Sampler', 
+      name: 'TheCheebacabra1', // (kitName)
+      kitNumber: 0, // number 
+      color: 'rgba(253, 118, 8, 1)', // (kitColor)
+      tracks: [
+        { name: 'Tom 3',
+          sampleUrl: 'TheCheebacabra1/tom3.wav'            
+        },
+        { name: 'Tom 2',
+          sampleUrl: 'TheCheebacabra1/tom2.wav'            
+        },
+        { name: 'Tom 1',
+          sampleUrl: 'TheCheebacabra1/tom1.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: 'TheCheebacabra1/snare.wav'            
+        },
+        { name: 'Hihat',
+          sampleUrl: 'TheCheebacabra1/hihat.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: 'TheCheebacabra1/kick.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls             
+    }, // close kit
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'CR78', 
+      kitNumber: 1, 
+      color: 'rgba(253, 118, 8, 0.95)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'CR78/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'CR78/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'CR78/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'CR78/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'CR78/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'CR78/kick.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls            
+    }, 
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'breakbeat13', 
+      kitNumber: 2, 
+      color: 'rgba(253, 118, 8, 0.9)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'breakbeat13/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'breakbeat13/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'breakbeat13/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'breakbeat13/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'breakbeat13/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'breakbeat13/kick.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls            
+    },   
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'LINN', 
+      kitNumber: 3, 
+      color: 'rgba(253, 118, 8, 0.85)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'LINN/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'LINN/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'LINN/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'LINN/snare_gm_chase.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'LINN/hihat.wav'            
+        },
+        {
+          name: 'kick_gm_chase',
+          sampleUrl: 'LINN/kick_gm_chase.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls          
+    },  
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Kit8', 
+      kitNumber: 4, 
+      color: 'rgba(253, 118, 8, 0.8)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'Kit8/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'Kit8/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'Kit8/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'Kit8/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'Kit8/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'Kit8/kick.wav'            
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls              
+    },     
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: '909', 
+      kitNumber: 5, 
+      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
+      tracks: [
+        /*{ name: 'Cymbal',
+          sampleUrl: 'Drums/Ah1 Ride.wav'            
+        },
+        { name: 'Rimshot',
+          sampleUrl: 'Drums/Ch1 RimShot.wav'            
+        },*/      
+        { name: 'Rimshot',
+          sampleUrl: '12-TR-909/909 RIM.wav'            
+        },
+        { name: 'Opened hihat',
+          sampleUrl: '12-TR-909/909 HHOP.wav'            
+        },
+        { name: 'Clap',
+          sampleUrl: '12-TR-909/909 CLAP.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: '12-TR-909/909 SD10.wav'            
+        },
+        { name: 'Closed hihat',
+          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
+        }                      
+      ],
+      controls: [ 
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 1,
+            interpolate: 0, 
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Change pattern change',
+            param: '[external]', 
+            value: 0,
+            interpolate: 0, 
+          }                 
+        },        
+
+        { 
+          name: 'Save pattern',
+          id: 995,
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Type new pattern name', // Enter pattern name to be saved
+              param: '[external]',                     
+              value: 0,
+              interpolate: 0 
+          }                 
+        }
+      ] // end of controls             
+    } 
+
+  ] // close kits
+}, // close channel
+
+
+
+
+
+
+
+
+
+
+// black channel
+
+//*
+{ // channel
+  channelName: 'Ch2 | Conductor', // name
+  //channelType: 'conductor', // type
+  trackSet: 0, // defaultKit = default instrument/control kit
+
+  conf: [ // kits = kitConfiguration 
+    { // kit            
+      type: 'control', // = kitType
+      instrumentName: 'Conductor', 
+
+      name: 'Conductor Ctrl 01', // = kitName
+      kitNumber: 0, // number = kitNumber            
+      color: '#51ACBD', // = kitColor
+      
+      controls: [ // aka preset values       
+
+
+
+
+        { 
+          name: 'Channel 1 volume',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Channel 1 volume',
+              param: '_insVol0', // [external] = does not change timbre generator param
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },               
+              midicc: 0,                      
+              value: 55,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Channel 3 volume',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Channel 3 volume',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              }, 
+
+              midicc: 0,                      
+              value: 28,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Channel 4 volume',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'Channel 4 volume',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 25, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 5 volume',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'Channel 5 volume',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 18, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 6 volume',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'Channel 6 volume',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 22, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 7 volume',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'Channel 7 volume',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 25,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Channel 8 volume',
+          id: 807,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'Channel 8 volume',
+              param: '_insVol7', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 35, // 40
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },                                        
+
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 126, // 100 - 85 - 123 - 60 - 170
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 400,
+              min: 60,
+              max: 400
+          }               
+        },
+
+        { // control
+          name: 'Channel change',
+          id: 997,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'Channel change',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        }, 
+
+                        { // control
+          name: 'Change session',
+          id: 996,
+
+          type: 'ddmenu', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session destination',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 1,
+              stepSize: 0, 
+              interpolate: 0 
+              //displayedRangeMin: 0,
+              //displayedRangeMax: 1,
+              //min: 0,
+              //max: 1
+          }                 
+        },
+
+
+/*
+{ 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'input', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },
+*/
+
+
+        { 
+          name: 'C1 start bar offset',
+          id: 700,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C1 start bar offset',
+              param: '_insBarOffset0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C2 start bar offset',
+          id: 701,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C2 start bar offset',
+              param: '_insBarOffset1', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },        
+
+        { 
+          name: 'C3 start bar offset',
+          id: 702,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C3 start bar offset',
+              param: '_insBarOffset2', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0, // 8
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C4 start bar offset',
+          id: 703,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C4 start bar offset',
+              param: '_insBarOffset3', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32, // 12
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C5 start bar offset',
+          id: 704,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C5 start bar offset',
+              param: '_insBarOffset4', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 16,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C6 start bar offset',
+          id: 705,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C6 start bar offset',
+              param: '_insBarOffset5', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 24,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C7 start bar offset',
+          id: 706,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C7 start bar offset',
+              param: '_insBarOffset6', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },  
+
+        { 
+          name: 'C8 start bar offset',
+          id: 707,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C8 start bar offset',
+              param: '_insBarOffset7', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 40,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },                                                
+
+        { 
+          name: 'General Bar kickout time',
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Channel rotation time (in bars)', // General kickout time 
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 90, // 90 ? don't 
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },     
+
+
+
+        
+
+      ] // end of controls //*/
+    } // end of kit
+  ] // end of kits
+}, // end of channel
+//*/
+
+
+
+
+
+
+
+
+
+{ sessionName: 'The Chase',
+  channelName: 'Ch3 | Bassline',  
   trackSet: 0, 
   defaultPattern: 1, 
   patterns: [ // channel patterns
     {"name":"reset",      "classs":"channel", "id":"2fb82950-36f3-11e6-aa68-d355ddb21e83", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
-    {"name":"Bassline A", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
-    {"name":"Bassline B", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]]}
+    {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"bassline b", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]]}
   ],  
 
   defaultPatternSeq: 0, 
   patternSeq: [     
-    [ {"name":"bassline A", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f"},
-      {"name":"Bassline B", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f"} ]
+    [ {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f"},
+      {"name":"bassline a", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f"} ]
   ], 
 
   conf: [ // kits 
@@ -24,6 +994,7 @@ window.insConf3 = [ // channelConf
               { // Kit
             type: 'synth',
             instrumentName: 'AikeWebsynth1', // aike_ws_01
+            url:'http://aikelab.net/websynth/',
 
             color: 'rgba(0, 171, 157, 0.95)',
             name: '303 square bass', // preset name
@@ -81,7 +1052,7 @@ window.insConf3 = [ // channelConf
 
 
                 //
-        { name: 'Pick sound',
+        { name: 'Change preset',
           id: 998,
           type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
           x: {
@@ -97,7 +1068,7 @@ window.insConf3 = [ // channelConf
           }                 
         },
 
-        { name: 'Pick pattern',
+        { name: 'Change pattern',
           id: 994,
           type: 'ddmenu', 
           x: {
@@ -429,926 +1400,12 @@ window.insConf3 = [ // channelConf
 
 
 
-
-
-
-
-
-
-// black channel
-
-//*
-{ // channel
-  channelName: 'Channel 2: conductor', // name
-  //channelType: 'conductor', // type
-  trackSet: 0, // defaultKit = default instrument/control kit
-
-  conf: [ // kits = kitConfiguration 
-    { // kit            
-      type: 'control', // = kitType
-      instrumentName: 'Conductor', 
-
-      name: 'Conductor Ctrl 01', // = kitName
-      kitNumber: 0, // number = kitNumber            
-      color: '#51ACBD', // = kitColor
-      
-      controls: [ // aka preset values       
-
-
-
-
-        { 
-          name: 'Channel 1 volume',
-          id: 800,
-
-          type: 'slider', // slider, dial/rotary_knob, switch_button      
-          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'Channel 1 volume',
-              param: '_insVol0', // [external] = does not change timbre generator param
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },               
-              midicc: 0,                      
-              value: 55,
-              stepSize: 0, // crénelage   
-              interpolate: 1, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },
-
-        // Channel 2 = conductor role
-
-        { 
-          name: 'Channel 3 volume',
-          id: 802,
-
-          type: 'slider', // slider, dial/rotary_knob, switch_button      
-          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'Channel 3 volume',
-              param: '_insVol2', // [external] = does not change timbre generator param
-
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              }, 
-
-              midicc: 0,                      
-              value: 28,
-              stepSize: 0, // crénelage   
-              interpolate: 1, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },
-
-        { 
-          name: 'Channel 4 volume',
-          id: 803,
-          type: 'slider',  
-          direction: 'horizontal',                           
-          x: {
-              name: 'Channel 4 volume',
-              param: '_insVol3', 
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },                   
-              value: 25, // 30
-              stepSize: 0, 
-              interpolate: 1, 
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'Channel 5 volume',
-          id: 804,
-          type: 'slider',
-          direction: 'horizontal',                             
-          x: {
-              name: 'Channel 5 volume',
-              param: '_insVol4', 
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },                   
-              value: 18, // 23
-              stepSize: 0, 
-              interpolate: 1, 
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'Channel 6 volume',
-          id: 805,
-          type: 'slider', 
-          direction: 'horizontal',                            
-          x: {
-              name: 'Channel 6 volume',
-              param: '_insVol5', 
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },                   
-              value: 22, // 30
-              stepSize: 0, 
-              interpolate: 1, 
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'Channel 7 volume',
-          id: 806,
-          type: 'slider',  
-          direction: 'horizontal',                           
-          x: {
-              name: 'Channel 7 volume',
-              param: '_insVol6', 
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },                   
-              value: 25,
-              stepSize: 0, 
-              interpolate: 1, 
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'Channel 8 volume',
-          id: 807,
-          type: 'slider',   
-          direction: 'horizontal',                          
-          x: {
-              name: 'Channel 8 volume',
-              param: '_insVol7', 
-              subParams: { 
-                AikeWebsynth1: 'volume.set' 
-              },                   
-              value: 35, // 40
-              stepSize: 0, 
-              interpolate: 1, 
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },                                        
-
-        { // control
-          name: 'Tempo',
-          id: 999,
-
-          type: 'input', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },   
-          x: {
-              name: 'BPM',
-              param: '_tempo', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 126, // 100 - 85 - 123 - 60 - 170
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 60,
-              displayedRangeMax: 400,
-              min: 60,
-              max: 400
-          }               
-        },
-
-        { // control
-          name: 'Channel change',
-          id: 997,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },   
-          x: {
-              name: 'Channel change',
-              param: '[external]', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 1,
-              min: 0,
-              max: 1
-          }                 
-        }, 
-
-                        { // control
-          name: 'Session change',
-          id: 996,
-
-          type: 'ddmenu', 
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Session destination',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 1,
-              stepSize: 0, 
-              interpolate: 0 
-              //displayedRangeMin: 0,
-              //displayedRangeMax: 1,
-              //min: 0,
-              //max: 1
-          }                 
-        },
-
-
-/*
-{ 
-          name: 'Save Pattern',
-          id: 995,
-
-          type: 'input', // nexus push button
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Save Pattern',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, 
-              interpolate: 0 
-          }                 
-        },
-*/
-
-
-        { 
-          name: 'C1 start bar offset',
-          id: 700,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C1 start bar offset',
-              param: '_insBarOffset0', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },   
-
-        { 
-          name: 'C2 start bar offset',
-          id: 701,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C2 start bar offset',
-              param: '_insBarOffset1', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },        
-
-        { 
-          name: 'C3 start bar offset',
-          id: 702,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C3 start bar offset',
-              param: '_insBarOffset2', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 16, // 8
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },   
-
-        { 
-          name: 'C4 start bar offset',
-          id: 703,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C4 start bar offset',
-              param: '_insBarOffset3', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 32, // 12
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'C5 start bar offset',
-          id: 704,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C5 start bar offset',
-              param: '_insBarOffset4', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 16,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        }, 
-
-        { 
-          name: 'C6 start bar offset',
-          id: 705,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C6 start bar offset',
-              param: '_insBarOffset5', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 24,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },   
-
-        { 
-          name: 'C7 start bar offset',
-          id: 706,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C7 start bar offset',
-              param: '_insBarOffset6', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 32,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },  
-
-        { 
-          name: 'C8 start bar offset',
-          id: 707,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'C8 start bar offset',
-              param: '_insBarOffset7', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 40,
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },                                                
-
-        { 
-          name: 'General Bar kickout time',
-          id: 699,
-
-          type: 'hidden', // slider, dial/rotary_knob, switch_button      
-          direction: 0, // 'horizontal', 'vertical' for sliders    
-          colors: { // color params
-            fg: '#51ACBD' // foregroundColor
-          },          
-                    
-          x: {
-              name: 'General kickout time (in bars)',
-              param: '_insKickoutTime', // [external] = does not change timbre generator param
-              midicc: 0,                      
-              value: 90, // 90 ? don't 
-              stepSize: 0, // crénelage   
-              interpolate: 0, // 0: off | 1: on                   
-              displayedRangeMin: 0,
-              displayedRangeMax: 100,
-              min: 0,
-              max: 1
-          }                
-        },     
-
-
-
-        
-
-      ] // end of controls //*/
-    } // end of kit
-  ] // end of kits
-}, // end of channel
-//*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //*
 
 
 // blue channel
 
-{ 
-  channelName: 'Ch2: Drums',  
-  trackSet: 1, // defaultKit or might always be first object of patterns array
-  //*
-  defaultPattern: 1, 
-  patterns: [ 
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
-    //{"name":"dnb rythm", "classs":"channel", "id":"d969fe00-19c6-11e6-a327-f59272915189", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]]},
-    {"name":"4/4 kick",     "classs":"channel", "id":"81a98180-1887-11e6-8ebb-edf93ea0958c", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]},    
-    {"name":"Kick + snare", "classs":"user", "id":"2b2e0600-3d85-11e6-a2d1-8bcd79be09f2", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]},
-    {"name":"Kick + hat + snare","classs":"user","id":"1c7bb480-3d86-11e6-a2d1-8bcd79be09f2", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]}    
-  ],  
-  //*/
 
-  conf: [ // kits 
-
-    { type: 'samples', // (kitType) : conductor, samples, synth,...
-      instrumentName: 'Sampler', 
-      name: 'TheCheebacabra1', // (kitName)
-      kitNumber: 0, // number 
-      color: 'rgba(253, 118, 8, 1)', // (kitColor)
-      tracks: [
-        { name: 'Tom 3',
-          sampleUrl: 'TheCheebacabra1/tom3.wav'            
-        },
-        { name: 'Tom 2',
-          sampleUrl: 'TheCheebacabra1/tom2.wav'            
-        },
-        { name: 'Tom 1',
-          sampleUrl: 'TheCheebacabra1/tom1.wav'            
-        },  
-        { name: 'Snare',
-          sampleUrl: 'TheCheebacabra1/snare.wav'            
-        },
-        { name: 'Hihat',
-          sampleUrl: 'TheCheebacabra1/hihat.wav'            
-        },
-        { name: 'Kick',
-          sampleUrl: 'TheCheebacabra1/kick.wav'            
-        }                      
-      ],
-      controls: [ 
-        { name: 'Instrument',
-          id: 998,
-          type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
-          x: {
-            name: 'Instrument',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },
-
-        { name: 'Pattern',
-          id: 994,
-          type: 'ddmenu', 
-          x: {
-            name: 'Pattern',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },        
-
-        { 
-          name: 'Save Pattern',
-          id: 995,
-
-          type: 'input', // nexus push button
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Save Pattern',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, 
-              interpolate: 0 
-          }                 
-        }
-
-      ]            
-    }, // close kit
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'CR78', 
-      kitNumber: 1, 
-      color: 'rgba(253, 118, 8, 0.95)', 
-      tracks: [
-        {
-          name: 'Tom 3',
-          sampleUrl: 'CR78/tom3.wav'            
-        },
-        {
-          name: 'Tom 2',
-          sampleUrl: 'CR78/tom2.wav'            
-        },
-        {
-          name: 'Tom 1',
-          sampleUrl: 'CR78/tom1.wav'            
-        },  
-        {
-          name: 'Snare',
-          sampleUrl: 'CR78/snare.wav'            
-        },
-        {
-          name: 'Hihat',
-          sampleUrl: 'CR78/hihat.wav'            
-        },
-        {
-          name: 'Kick',
-          sampleUrl: 'CR78/kick.wav'            
-        }                      
-      ],
-      controls: [ 
-        { name: 'Instrument',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 1,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },
-
-
-        { name: 'Pattern',
-          id: 994,
-          type: 'ddmenu', 
-          x: {
-            name: 'Pattern change',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },        
-
-        { 
-          name: 'Save Pattern',
-          id: 995,
-
-          type: 'contact', // nexus push button
-          direction: 0, 
-          colors: { 
-            fg: '#51ACBD' 
-          },   
-          x: {
-              name: 'Enter pattern name to be saved',
-              param: '[external]', 
-              midicc: 0,                      
-              value: 0,
-              stepSize: 0, 
-              interpolate: 0 
-          }                 
-        }
-
-
-
-
-      ]            
-    }, 
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'breakbeat13', 
-      kitNumber: 2, 
-      color: 'rgba(253, 118, 8, 0.9)', 
-      tracks: [
-        {
-          name: 'Tom 3',
-          sampleUrl: 'breakbeat13/tom3.wav'            
-        },
-        {
-          name: 'Tom 2',
-          sampleUrl: 'breakbeat13/tom2.wav'            
-        },
-        {
-          name: 'Tom 1',
-          sampleUrl: 'breakbeat13/tom1.wav'            
-        },  
-        {
-          name: 'Snare',
-          sampleUrl: 'breakbeat13/snare.wav'            
-        },
-        {
-          name: 'Hihat',
-          sampleUrl: 'breakbeat13/hihat.wav'            
-        },
-        {
-          name: 'Kick',
-          sampleUrl: 'breakbeat13/kick.wav'            
-        }                      
-      ],
-      controls: [ 
-        { name: '[Kit change]',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 2,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        }
-      ]            
-    },   
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'LINN', 
-      kitNumber: 3, 
-      color: 'rgba(253, 118, 8, 0.85)', 
-      tracks: [
-        {
-          name: 'Tom 3',
-          sampleUrl: 'LINN/tom3.wav'            
-        },
-        {
-          name: 'Tom 2',
-          sampleUrl: 'LINN/tom2.wav'            
-        },
-        {
-          name: 'Tom 1',
-          sampleUrl: 'LINN/tom1.wav'            
-        },  
-        {
-          name: 'Snare',
-          sampleUrl: 'LINN/snare.wav'            
-        },
-        {
-          name: 'Hihat',
-          sampleUrl: 'LINN/hihat.wav'            
-        },
-        {
-          name: 'Kick',
-          sampleUrl: 'LINN/kick.wav'            
-        }                      
-      ],
-      controls: [ 
-        { name: '[Kit change]',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 3,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        }
-      ]            
-    },  
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: 'Kit8', 
-      kitNumber: 4, 
-      color: 'rgba(253, 118, 8, 0.8)', 
-      tracks: [
-        {
-          name: 'Tom 3',
-          sampleUrl: 'Kit8/tom3.wav'            
-        },
-        {
-          name: 'Tom 2',
-          sampleUrl: 'Kit8/tom2.wav'            
-        },
-        {
-          name: 'Tom 1',
-          sampleUrl: 'Kit8/tom1.wav'            
-        },  
-        {
-          name: 'Snare',
-          sampleUrl: 'Kit8/snare.wav'            
-        },
-        {
-          name: 'Hihat',
-          sampleUrl: 'Kit8/hihat.wav'            
-        },
-        {
-          name: 'Kick',
-          sampleUrl: 'Kit8/kick.wav'            
-        }                      
-      ],
-      controls: [ 
-        { name: '[Kit change]',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 4,
-            stepSize: 0, 
-            interpolate: 0, 
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        }
-      ]            
-    },     
-
-    { type: 'samples', 
-      instrumentName: 'Sampler', 
-      name: '909', 
-      kitNumber: 5, 
-      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
-      tracks: [
-        /*{ name: 'Cymbal',
-          sampleUrl: 'Drums/Ah1 Ride.wav'            
-        },
-        { name: 'Rimshot',
-          sampleUrl: 'Drums/Ch1 RimShot.wav'            
-        },*/      
-        { name: 'Rimshot',
-          sampleUrl: '12-TR-909/909 RIM.wav'            
-        },
-        { name: 'Opened hihat',
-          sampleUrl: '12-TR-909/909 HHOP.wav'            
-        },
-        { name: 'Clap',
-          sampleUrl: '12-TR-909/909 CLAP.wav'            
-        },  
-        { name: 'Snare',
-          sampleUrl: '12-TR-909/909 SD10.wav'            
-        },
-        { name: 'Closed hihat',
-          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
-        },
-        { name: 'Kick',
-          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
-        }                      
-      ],
-      controls: [ 
-        { name: '[Kit change]',
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Kit change',
-            param: '[external]', 
-            value: 5,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        }
-      ]            
-    } 
-
-  ] // close kits
-}, // close channel
 
 
 
@@ -1392,7 +1449,7 @@ window.insConf3 = [ // channelConf
 
 // Green to blue channel
 
-{ channelName: 'Ch4: Synth melody A',  
+{ channelName: 'Ch4 | Synth',  
 
   defaultPattern: 1, 
   patterns: [ // channel patterns
@@ -2001,7 +2058,7 @@ window.insConf3 = [ // channelConf
  
 
   ] // end of kits
-}, // end of channel
+} /*, // end of channel
 
 
 

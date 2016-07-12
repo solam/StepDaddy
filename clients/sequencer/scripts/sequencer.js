@@ -39,7 +39,7 @@
     var startDate = new Date();
     this._audioServerStartTimestamp = startDate.getTime();
 
-    this._countdownMode = 1; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+    this._countdownMode = 1; // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
     
 
 
@@ -69,7 +69,7 @@
     //
     //window['sessionNumber'] = 2;  
 
-    this._sessionNumber = 4;
+    this._sessionNumber = 3;
     this._instrumentsConfig = window['insConf' + this._sessionNumber]; //window.insConf;
     window['insConf'] = this._instrumentsConfig; // window.insConf2 - select which session to select at app startup
 
@@ -131,19 +131,20 @@
     this._channelName[1]['name']= this._instrumentsConfig[1].channelName;
     this._channelName[2]['name']= this._instrumentsConfig[2].channelName;
     this._channelName[3]['name']= this._instrumentsConfig[3].channelName;
-    this._channelName[4]['name']= this._instrumentsConfig[4].channelName;
-    this._channelName[5]['name']= this._instrumentsConfig[5].channelName;
-    this._channelName[6]['name']= this._instrumentsConfig[6].channelName;
-    this._channelName[7]['name']= this._instrumentsConfig[7].channelName; 
+
+    if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelName[4]['name']= this._instrumentsConfig[4].channelName; }
+    if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelName[5]['name']= this._instrumentsConfig[5].channelName; }
+    if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelName[6]['name']= this._instrumentsConfig[6].channelName; }
+    if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelName[7]['name']= this._instrumentsConfig[7].channelName; }
 
     this._channelName[0]['color']= this._instrumentsConfig[0].conf[0]['color'];
     this._channelName[1]['color']= this._instrumentsConfig[1].conf[0]['color'];
     this._channelName[2]['color']= this._instrumentsConfig[2].conf[0]['color'];
     this._channelName[3]['color']= this._instrumentsConfig[3].conf[0]['color'];
-    this._channelName[4]['color']= this._instrumentsConfig[4].conf[0]['color'];
-    this._channelName[5]['color']= this._instrumentsConfig[5].conf[0]['color'];
-    this._channelName[6]['color']= this._instrumentsConfig[6].conf[0]['color'];
-    this._channelName[7]['color']= this._instrumentsConfig[7].conf[0]['color'];    
+    if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelName[4]['color']= this._instrumentsConfig[4].conf[0]['color']; }
+    if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelName[5]['color']= this._instrumentsConfig[5].conf[0]['color']; }
+    if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelName[6]['color']= this._instrumentsConfig[6].conf[0]['color']; }
+    if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelName[7]['color']= this._instrumentsConfig[7].conf[0]['color']; }    
 
     //console.log('ch color:',this._channelName[0], this._channelName[0]['color']/*, this._instrumentsConfig[0].conf[0]['color']*/);
 
@@ -152,21 +153,21 @@
     this._channelPatterns[1]= this._instrumentsConfig[1].patterns;
     this._channelPatterns[2]= this._instrumentsConfig[2].patterns;
     this._channelPatterns[3]= this._instrumentsConfig[3].patterns;
-    this._channelPatterns[4]= this._instrumentsConfig[4].patterns;
-    this._channelPatterns[5]= this._instrumentsConfig[5].patterns;
-    this._channelPatterns[6]= this._instrumentsConfig[6].patterns;
-    this._channelPatterns[7]= this._instrumentsConfig[7].patterns;  
+    if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelPatterns[4]= this._instrumentsConfig[4].patterns; }
+    if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelPatterns[5]= this._instrumentsConfig[5].patterns; }
+    if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelPatterns[6]= this._instrumentsConfig[6].patterns; }
+    if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelPatterns[7]= this._instrumentsConfig[7].patterns; } 
 
     var achannelPatterns = [];
      achannelPatterns[0]= JSON.stringify(this._instrumentsConfig[0].patterns);
      achannelPatterns[1]= JSON.stringify(this._instrumentsConfig[1].patterns);
      achannelPatterns[2]= JSON.stringify(this._instrumentsConfig[2].patterns);
      achannelPatterns[3]= JSON.stringify(this._instrumentsConfig[3].patterns);
-     achannelPatterns[4]= JSON.stringify(this._instrumentsConfig[4].patterns);
-     achannelPatterns[5]= JSON.stringify(this._instrumentsConfig[5].patterns);
-     achannelPatterns[6]= JSON.stringify(this._instrumentsConfig[6].patterns);
-     achannelPatterns[7]= JSON.stringify(this._instrumentsConfig[7].patterns); 
-
+     if (typeof this._instrumentsConfig[4] !== 'undefined') {achannelPatterns[4]= JSON.stringify(this._instrumentsConfig[4].patterns); }
+     if (typeof this._instrumentsConfig[5] !== 'undefined') {achannelPatterns[5]= JSON.stringify(this._instrumentsConfig[5].patterns); }
+     if (typeof this._instrumentsConfig[6] !== 'undefined') {achannelPatterns[6]= JSON.stringify(this._instrumentsConfig[6].patterns); }
+     if (typeof this._instrumentsConfig[7] !== 'undefined') {achannelPatterns[7]= JSON.stringify(this._instrumentsConfig[7].patterns); }
+ 
 
 
 
@@ -176,10 +177,10 @@
     this._channelpatternSeq[1]= this._instrumentsConfig[1].patternSeq;
     this._channelpatternSeq[2]= this._instrumentsConfig[2].patternSeq;
     this._channelpatternSeq[3]= this._instrumentsConfig[3].patternSeq;
-    this._channelpatternSeq[4]= this._instrumentsConfig[4].patternSeq;
-    this._channelpatternSeq[5]= this._instrumentsConfig[5].patternSeq;
-    this._channelpatternSeq[6]= this._instrumentsConfig[6].patternSeq;
-    this._channelpatternSeq[7]= this._instrumentsConfig[7].patternSeq;  
+    if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelpatternSeq[4]= this._instrumentsConfig[4].patternSeq; }
+    if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelpatternSeq[5]= this._instrumentsConfig[5].patternSeq; }
+    if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelpatternSeq[6]= this._instrumentsConfig[6].patternSeq; }
+    if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelpatternSeq[7]= this._instrumentsConfig[7].patternSeq; }  
 
 
     console.log('this._channelpatternSeq: ', this._channelpatternSeq);
@@ -189,10 +190,10 @@
      achannelpatternSeq[1]= JSON.stringify(this._instrumentsConfig[1].patternSeq);
      achannelpatternSeq[2]= JSON.stringify(this._instrumentsConfig[2].patternSeq);
      achannelpatternSeq[3]= JSON.stringify(this._instrumentsConfig[3].patternSeq);
-     achannelpatternSeq[4]= JSON.stringify(this._instrumentsConfig[4].patternSeq);
-     achannelpatternSeq[5]= JSON.stringify(this._instrumentsConfig[5].patternSeq);
-     achannelpatternSeq[6]= JSON.stringify(this._instrumentsConfig[6].patternSeq);
-     achannelpatternSeq[7]= JSON.stringify(this._instrumentsConfig[7].patternSeq);
+     if (typeof this._instrumentsConfig[4] !== 'undefined') {achannelpatternSeq[4]= JSON.stringify(this._instrumentsConfig[4].patternSeq); }
+     if (typeof this._instrumentsConfig[5] !== 'undefined') {achannelpatternSeq[5]= JSON.stringify(this._instrumentsConfig[5].patternSeq); }
+     if (typeof this._instrumentsConfig[6] !== 'undefined') {achannelpatternSeq[6]= JSON.stringify(this._instrumentsConfig[6].patternSeq); }
+     if (typeof this._instrumentsConfig[7] !== 'undefined') {achannelpatternSeq[7]= JSON.stringify(this._instrumentsConfig[7].patternSeq); }
 
 
 
@@ -399,6 +400,7 @@ console.log('this._sessionList', this._sessionList);
             channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
             channelInfo.countdownMode = this._countdownMode;
             channelInfo.channelName = this._channelName[i]['name'];
+            channelInfo.channelNumber = i;
             channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
             channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
             channelInfo.sessionList = this._sessionList;//Serialized;
@@ -866,13 +868,20 @@ console.log('this._sessionList', this._sessionList);
         channelInfo.barOffset = eval('this._insBarOffset'+prevKit); //this._insBarOffset[0];  
         channelInfo.countdownMode = this._countdownMode;  
         //channelInfo.channelName = this._channelName[prevKit];  
-        channelInfo.channelName = this._channelName[prevKit]['name'];
-        channelInfo.channelColor = this._channelName[prevKit]['color'];
+
 
         //channelInfo.sessionName = this._sessionList[this._sessionNumber];
         channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
         //console.log('session name update ins: ', channelInfo.sessionName);
         channelInfo.sessionList = this._sessionList;//Serialized;
+
+
+        if (typeof prevKit !== 'undefined') {   
+          //console.log('prevKit', prevKit);
+          channelInfo.channelNumber = prevKit;
+          channelInfo.channelName = this._channelName[prevKit]['name'];
+          channelInfo.channelColor = this._channelName[prevKit]['color'];            
+        }
 
 
         if (typeof this._channelpatternSeq[prevKit] !== 'undefined') {                 
@@ -988,6 +997,7 @@ console.log('this._sessionList', this._sessionList);
         channelInfo.barOffset = eval('this._insBarOffset'+channelNumber); //this._insBarOffset[0];  
         channelInfo.countdownMode = this._countdownMode;  
         channelInfo.channelName = this._channelName[channelNumber]['name']; 
+        channelInfo.channelNumber = channelNumber;
         channelInfo.channelColor = this._channelName[channelNumber]['color'];
         channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
         channelInfo.sessionList = this._sessionList;//Serialized;

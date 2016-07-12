@@ -60,7 +60,7 @@
   display:block; /* inline- */
   clear:both;
   /*width: 600px; /* 100% */
-  margin-left: 80px;
+  /*margin-left: 80px;*/
   }
 
   #pattern-editor {
@@ -68,8 +68,8 @@
   opacity:0;
   margin-bottom: 20px;
   float:left;
-  width:95%; /* 100*/
-  margin-left: 80px;
+  width:100%; /* 95*/
+  /*margin-left: 80px;*/
   }  
 
   #pattern-editor td/*, #sequencer-view td*/ {
@@ -87,13 +87,16 @@
   color: lightgrey;
   border-radius: 5px;
   padding: 15px;
-  z-index: 50;   
-  /*width: 100%;*/
+  z-index: 500;   
+  width: 100%;
   margin-left: auto;
   margin-right: auto;  
   font-size: 30px; 
   display:none;  
   position: fixed;
+  left:-2px;
+  top:-10px; /*-5*/
+  /*text-align: center;*/
 } 
   .roundedTwo span,
   #instructions span {
@@ -208,23 +211,23 @@ font-size: 7vw; /*5 - 10*/
   font-size: 12px;
   width: 200px;
   float: left;
-  bottom: 11px;
+  bottom: 17px; /* 11 */
   position: relative;
-  left: 35px;
+  left: 38px; /*35 */
 }
 
 #channelinfo {
   color: white;
   font-size: 14px;
   display:block;
-  margin-left: 80px;
-
-
+  /*margin-left: 80px;*/
+  /*padding-bottom: 12px;*/
+  margin-bottom: 8px;
 }
 
 body.control #channelinfo {
-  height: 60px;
-  margin-bottom: 30px;
+  /*height: 60px;*/
+  margin-bottom: 40px;
 }
 
 option.channel {
@@ -253,7 +256,7 @@ select#patterns {
   display: inline; /* -block */
   margin-bottom: 0; /* 20 */
   margin-right: 20px;
-  margin-left: 20px;
+  margin-left: 24px;
   padding-bottom: 20px; /* 20 */
   position: relative;
   margin-top: -50px; /* -40*/
@@ -490,6 +493,13 @@ div.ctrlchange.slider span,
   padding: 2px;
 }
 
+
+div#channelinfo * {
+  margin-right: 5px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
 div.ctrlchange.slider span {
   /*display:block;
   font-size: 12px;
@@ -578,6 +588,8 @@ ul.menu li a {
   height: 50px;
   vertical-align: middle;
   line-height: 50px;
+  width: 50px;
+  text-align: center;
 }
 
 .menu-location {
@@ -598,26 +610,19 @@ ul.menu#fixed {
 ul.menu#fixed li {
   float:none;  
   display:block;
-  margin: 8px 0 8px 0;
+  margin: 0px 0 15px 0;
 }
-
+/*
 div#channelinfo * {
   display: inline;
-}
+} */
 
 .waiting #instructions {
   position: relative;
 }
 
 
-#bpm {
-  float:right;
-  width: 37px;
-  height: 37px;
-  vertical-align: middle;
-  line-height: 18.5px;
-  text-align: center;
-}
+
 
 div#channelinfo div#channelname {
   font-size: 30px;
@@ -656,4 +661,86 @@ select.multi {
 
 .off {
   background: red !important;
+}
+
+body.control #left,
+body.control ul.menu {
+  display:none;
+}
+
+body.control #modifiers,
+body.control #channelinfo {
+  margin-left: 0;
+}
+
+body.channel0 ul.menu #tweak-menu {
+  display: none;
+}
+
+#id999 { /* bpm input */
+  clear:both;
+}
+div#channelinfo #bpm,
+div#channelinfo #insname, 
+div#channelinfo #sessionname {
+  top: 4px;
+}
+
+div#channelinfo #bpmNO {
+  /*height: 37px; */
+  padding: 0;
+  margin-right: 0;
+  bottom: 1px;
+  display: inline-block !important;
+  /*float:right;*/
+  width: 37px;
+  height: 37px;
+  vertical-align: middle;
+  line-height: 18.5px;
+  text-align: center;  
+}
+
+div#channelinfo #channelname {
+  /*margin-bottom: 8px;
+  display: inline-block;*/
+} 
+
+body {
+  padding-right: 0;
+}
+
+#left, #right {
+  /*width: 5%;*/
+  float:left;
+  display:inline-block;
+  position:relative;
+}  
+
+#right {
+  float:right;  
+  /*width: 95%;*/
+  width: -moz-calc(100% - 80px);
+  width: -webkit-calc(100% - 80px);
+  width: calc(100% - 80px);
+}  
+
+
+body.control #right {
+  width: 100%;
+}
+
+body.control #id699,
+body.control #id999,
+body.control #thesessions {
+  top: -40px;
+}
+
+#tips {
+  color: white;
+  margin-left: 15px;
+  /*margin-bottom: 40px;*/
+}
+
+#tips h2 {
+  margin-bottom: 0;
 }
