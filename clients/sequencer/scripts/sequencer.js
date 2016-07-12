@@ -39,7 +39,7 @@
     var startDate = new Date();
     this._audioServerStartTimestamp = startDate.getTime();
 
-    this._countdownMode = 0; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+    this._countdownMode = 1; // 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
     
 
 

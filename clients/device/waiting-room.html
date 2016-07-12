@@ -12,11 +12,11 @@
 <div id="instructions">(...Loops waiting room) Get ready for your controller
 </div><!-- (...Loops waiting room) Get ready to control your instrument or mixer! -->
 
-  <!--<div class="roundedTwo">
+  <div class="roundedTwo">
     <input type="checkbox" value="None" id="roundedTwo" name="check" checked/>
     <label for="roundedTwo"></label>
-    <span>Check button to participate to current session</span><!-- [uncheck to standbye (not participate in the session)]
-  </div>-->
+    <span>Check button to participate to current session</span><!-- [uncheck to standbye (not participate in the session)] -->
+  </div>
 
   <!--<input type="text" value="75" class="dial">-->
   <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq" value="0.15" val="0.15">0.15</canvas>
@@ -98,7 +98,7 @@ if (data>=1) {
 console.log(window['availableSlots']);
 */
 
-
+/*
 var checkAvailableSlots = setInterval(function () {
 
   $.get( "../sequencer/data.txt", function( data ) {
@@ -109,9 +109,9 @@ var checkAvailableSlots = setInterval(function () {
   //var availableSlots = window.localStorage.getItem("availableSlots");
   //console.log(availableSlots);
 
-}, 1000);
+}, 1000); */
 
-  /*var check = window.localStorage.getItem("check");
+  var check = window.localStorage.getItem("check");
   //window.check = check;
 
   if (typeof check !== 'undefined' && check==1) {
@@ -119,13 +119,17 @@ var checkAvailableSlots = setInterval(function () {
   } else if (typeof check !== 'undefined' && check==0) {
     $('input#roundedTwo').prop('checked', false);
     window.wait = 1;
-  }*/    
+  } else if (typeof check == 'undefined' || check==null) {
+    $('input#roundedTwo').prop('checked', true); 
+    //var check = 1;
+    localStorage.setItem('check', 1); 
+  } 
 /*
   $(function() {
     $(".dial").dial();
   }   */   
 
-    
+    //console.log('check: ', check);
 
     var startDate = new Date();
     var userStartTime = startDate.getTime();    
@@ -137,10 +141,12 @@ var checkAvailableSlots = setInterval(function () {
 
 
     var newtimer = setInterval(function () { 
+      
 
       var d = new Date();
       var nowTimeStamp = d.getTime();  
-      var check = 1; //window.localStorage.getItem("check");
+      var check = window.localStorage.getItem("check");
+        //console.log('check: ', check);
       var availableSlots = 1; //window.localStorage.getItem("availableSlots");
 
       if (typeof check !== 'undefined' && check==1 || typeof check == 'undefined') {
@@ -173,7 +179,7 @@ var checkAvailableSlots = setInterval(function () {
           $("#countdown").html(passString); //
         } else if (nowTimeStamp >= userGoTime && availableSlots>=1 && pause==0) {
           console.log('trying to reach ...Loops instrument or mixer channel');
-          window.location.href = "index.html?rm";
+          window.location.href = "index.html?rm"; // 
         }   
       //}   
 
