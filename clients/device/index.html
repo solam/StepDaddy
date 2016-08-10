@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width"> <!-- , initial-scale=1.0  height=device-height , user-scalable=no  : in portrait mode will adjust to maximum avail screen width | , maximum-scale=1.0: might forbid changing from portrait to landscape modes -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="../common/css/user.css" />
+  <link rel="stylesheet" href="../common/lib/noUiSlider/nouislider.min.css" />
+  
   <script src="../common/lib/nexusUI.js"></script>
 </head>
 <body id="bodey">
@@ -75,7 +77,17 @@
         <select id="kits" name="kits"></select>
       </div>-->
     </div>
+
+
+  <select class="dropdownSelect" id="midiIn">
+    <!--<option value="1A0CE1F47C19C43DAEB93B9595F6E4BA822ED318FE8D8BF2750B66286B5BEC38" selected="">Midi Through Port-0</option>
+    <option value="922CC8EEE2A4A4074067E3FA3CE5E09A763A9487F4BC89E357303B0C5511D875">Komplete Audio 6 MIDI 1</option>-->
+  </select>
+
+
   </div><!-- end of right --> 
+
+
 
   <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq"></canvas>-->
 
@@ -84,6 +96,10 @@
   <script src="../common/lib/jquery-1.9.0.min.js"></script>
   <script src="../common/lib/interface.min.js"></script>
   <script src="../common/lib/fastclick.js"></script>
+  <script src="../common/lib/wNumb.js"></script>
+  <script src="../common/lib/noUiSlider/nouislider.min.js"></script>
+  
+  
 
   <script src="../common/scripts/namespaces.js"></script>
   <script src="../common/scripts/utils.js"></script>
@@ -105,6 +121,8 @@
   <script src="../common/scripts/ui.ddmenu.js"></script>
   <script src="../common/scripts/ui.contact.js"></script>
   
+  <!--<script src="../common/scripts/synth.js"></script>-->
+  <script src="../common/scripts/midi.js"></script>
 
 
 

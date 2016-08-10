@@ -1059,10 +1059,13 @@ window.insConf4 = [ // channelConf
           x: {
               name: 'Channel 1 volume',
               param: '_insVol0', // [external] = does not change timbre generator param
-              midicc: 0,                      
+              midicc: 7,  // 74                    
               value: 50, // 60
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              muteKey: 49, // beware fr,fr azerty keyboard
+              muteNote: 48,
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -1090,10 +1093,13 @@ window.insConf4 = [ // channelConf
                 AikeWebsynth1: 'volume.set' 
               }, 
 
-              midicc: 0,                      
+              midicc: 4,  // 71                    
               value: 10,
               stepSize: 0, // crénelage   
-              interpolate: 1, // 0: off | 1: on                   
+              interpolate: 1, // 0: off | 1: on 
+              mute: 1,        
+              muteKey: 50,    
+              muteNote: 50,      
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -1116,6 +1122,10 @@ window.insConf4 = [ // channelConf
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
+              midicc: 3,
+              mute: 1,        
+              muteKey: 51,                
+              muteNote: 52,
               displayedRangeMax: 100,
               min: 0,
               max: 1
@@ -1136,6 +1146,10 @@ window.insConf4 = [ // channelConf
               value: 6, // 23
               stepSize: 0, 
               interpolate: 1, 
+              midicc: 13,
+              mute: 1,        
+              muteKey: 52,  
+              muteNote: 53,
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -1159,6 +1173,10 @@ window.insConf4 = [ // channelConf
               interpolate: 1, 
               displayedRangeMin: 0,
               displayedRangeMax: 100,
+              midicc: 14,
+              mute: 1,        
+              muteKey: 53,                
+              muteNote: 55,
               min: 0,
               max: 1
           }                
@@ -1180,6 +1198,10 @@ window.insConf4 = [ // channelConf
               interpolate: 1, 
               displayedRangeMin: 0,
               displayedRangeMax: 100,
+              midicc: 15,
+              mute: 1,        
+              muteKey: 54,                
+              muteNote: 57,
               min: 0,
               max: 1
           }                
@@ -1201,6 +1223,10 @@ window.insConf4 = [ // channelConf
               interpolate: 1, 
               displayedRangeMin: 0,
               displayedRangeMax: 100,
+              midicc: 16,
+              mute: 1,        
+              muteKey: 55,                
+              muteNote: 59,
               min: 0,
               max: 1
           }                

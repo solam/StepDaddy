@@ -35,7 +35,7 @@ var _createPads = function(_model) {
 
 
 var _onModifierChangeInput = function(data) {
-  console.log('_onModifierChange: ', data);
+  //console.log('_onModifierChange: ', data);
 };
 
 
@@ -49,8 +49,20 @@ var _onModifierChangeInput = function(data) {
 
       var url = mixr.Utils.parseURL(location.href);
 
-      if (url.query) {
-        _conn.joinRoom(url.query,
+      // http://127.0.0.1:8282/device/?rm/mopo will give mopo as pwd
+      var pwd = url.url.split("/").pop();
+      
+      //var rmid = JSON.stringify(url.query) + '/' + JSON.stringify(pwd); // rm/mopo
+      
+
+      var delim = '_';
+
+      var rmid = url.query.concat(delim).concat(pwd); 
+
+      //console.log('url', rmid, url, pwd);
+
+      if (rmid) { // url.query
+        _conn.joinRoom(rmid, // url.query
             _onRoomJoined,
             function(e) {
               console.log('Room not joined!', e);
@@ -102,7 +114,7 @@ if (!_padsAreInitialized) {
       .on(mixr.enums.Events.REGISTER, _onRegistered)
       .on(mixr.enums.Events.ROOM_CLOSED, _onRoomClosed)
       .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChangeInput);
-
+/*
       setTimeout(function() {
         window.scrollTo(0, 1);
         //window.scrollTo(0,9999); // document.body.scrollHeight
@@ -111,7 +123,7 @@ if (!_padsAreInitialized) {
       //element_to_scroll_to.scrollIntoView();
 
       }, 0); 
-
+*/
       //window.scrollTo(0,99999);
       //$('html').animate({ scrollTop: element.offset().top }, 'slow');
 

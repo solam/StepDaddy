@@ -196,7 +196,8 @@ a.add(b);*/
 
         if (_model.instrument.controls!=0) {  
 
-var usedLibrary = 'Interface';
+var usedLibrary = 'noUiSlider'; // Interface
+//var usedLibrary = 'Interface';
 
 if (usedLibrary=='Interface') {
 
@@ -313,7 +314,7 @@ var element = $('#pattern-editor table');
 
 
 
-//*
+/*
 
 if (is_touch_device()) {
 
@@ -347,7 +348,7 @@ a.background = 'black';
 a.add(b); // ,c
 
 
-//*/
+//
 
 
 
@@ -658,10 +659,35 @@ if (typeof window.kits  !== 'undefined') { // kits
                   var orientation = 'vertical';
                 }
 
+
+                if (controls[j].x.mute !== 'undefined') {
+                  if (controls[j].x.mute==1) {
+                    var mute = controls[j].x.muteKey; //1;
+                  } else {
+                    var mute = 0;
+                  }
+                } else {
+                  var mute = 0;
+                }
+
+
+                if (controls[j].x.muteNote !== 'undefined') {
+                  if (controls[j].x.mute==1) {
+                    var muteNote = controls[j].x.muteNote; //1;
+                  } else {
+                    var muteNote = 0;
+                  }
+                } else {
+                  var muteNote = 0;
+                }                
+
+                console.log('mute', mute);
+
+
                 // if HTML5 canvas blend mode property 'multiply' browser not supported : load simple inputs instead of sliders
                 if( gcoCheck==false /*/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)*/ ) {
                   //window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId, usedLibrary, orientation).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote).initialize(); // NexusUI
 
 
                 } else { 
@@ -678,7 +704,7 @@ window.sliderArray = []; */
 
 
 
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId, usedLibrary, orientation).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote).initialize(); // NexusUI
                 }
                 
                 window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);

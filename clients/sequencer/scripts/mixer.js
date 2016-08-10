@@ -60,6 +60,7 @@
     var _onClientJoined = function(data) {
 
       //console.log('sysptns at client join room:', _sequencer._systemPatterns); 
+      console.log('mixer.js _onClientJoined:', data); 
 
       var client = _clients[data.client];
       if (typeof client !== 'undefined') {
@@ -87,7 +88,11 @@
       _clientJoinedCount++;
       //_channelUsedCount++;
 
+      if (typeof data.pwd !== 'undefined') {
+        _clients[data.client] = data.pwd;
+      } else {  
       _clients[data.client] = true;
+      }
       console.log('_clients', _clients);
       //_updateChannels();
 
@@ -123,14 +128,15 @@
     };
 
     var _onGetInstrument = function(data) {
-    //*  console.log('Got a request for an instrument', data);
+      var pwd = _clients[data.client];
+      console.log('Got a request for an instrument', data);
 
-      /*var numAvailableInstruments = _sequencer._availableInstruments.length; // - _channelUsedCount;
+      /* var numAvailableInstruments = _sequencer._availableInstruments.length; // - _channelUsedCount;
       console.log('seq avail ins length', _sequencer._availableInstruments.length);
       $("#audio-server-available-slots").html(numAvailableInstruments); */
 
       // var instrument = _sequencer.getRandomInstrument(data.client);
-      var instrument = _sequencer.getNextInstrument(data.client);
+      var instrument = _sequencer.getNextInstrument(data.client, pwd);
     
       //var instrument.channelInfo = 'test !!!!';
       //console.log("_onGetInstrument (mixer.js): ", instrument);

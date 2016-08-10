@@ -188,12 +188,12 @@ define(['sys', 'mixins.wrapper'], function(sys, MixinsWrapper) {
         _addEventListeners(client);
       }
 
-      callback({room: this.id, client: client.id});
+      callback({room: this.id, client: client.id, pwd: client.pwd});
 
       if (_roomOwnerClient) {
         // Inform the room owner that a new client has
         // connected to the room
-        _roomOwnerClient.send('client_joined', {client: client.id});
+        _roomOwnerClient.send('client_joined', {client: client.id, pwd: client.pwd});
       }
 
       return this;

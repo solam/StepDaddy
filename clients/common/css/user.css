@@ -744,3 +744,17 @@ body.control #thesessions {
 #tips h2 {
   margin-bottom: 0;
 }
+
+.cont-noui-slider {
+  width: 60px;
+  height: 200px;
+}
+
+.ctrlchange.slider.noui .noUi-connect {
+    transition: background 0ms;
+}
+
+.mutes {
+  width: 40px;
+  height: 40px;
+}

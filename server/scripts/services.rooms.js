@@ -52,9 +52,16 @@ define([
      * @return {RoomsManager} Returns this instance.
      */
     this.joinRoom = function(roomId, client, callback, errback) {
+
+      var roomArray = roomId.split('_'); 
+      var roomId = roomArray[0];
+
+      client.pwd = roomArray[1]; // restrict some instrument to people connecting with a password
+
       // If the room exists
       if (typeof _rooms[roomId] !== 'undefined') {
         _rooms[roomId].registerClient(client, callback, errback);
+        //console.log('clt: ', client/*, callback*/);
       } else {
         errback('No room exists!');
       }

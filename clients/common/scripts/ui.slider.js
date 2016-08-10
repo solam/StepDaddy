@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote) {
 
     /**
      * Mixins
@@ -22,6 +22,10 @@
     var _channelId = channelId;
     var _usedLibrary = usedLibrary;
     var _orientation = orientation;
+    var _mute = mute;
+    var _midicc = midicc;
+    var _muteNote = muteNote;
+    
     var $container = $(container);
     var $item;
     var _timeoutId;
@@ -56,7 +60,172 @@
       //$(window).on('resize', _onResize);
         //$item.find("canvas")
 
-if (usedLibrary=='Interface') {
+
+if (usedLibrary=='noUiSlider') {
+
+
+
+
+
+var keypressSlider = document.getElementById('slider'+_id),
+  input = document.getElementById('input'+_id);
+
+noUiSlider.create(keypressSlider, {
+  start: _value,
+  step: 1,
+  animate: false,
+  animationDuration: 0,
+  format: wNumb({
+      decimals: 0/*,
+      thousand: '.',
+      postfix: ' (US $)',*/
+    }),
+  orientation: "vertical",
+  direction: 'rtl',
+  connect: "lower",
+  range: {
+    'min': 0,
+    /*'20%': [ 300, 100 ],
+    '50%': [ 800, 50 ],*/
+    'max': 100
+  }
+});
+
+keypressSlider.noUiSlider.on('update', function( values, handle ) {
+  input.value = values[handle];
+  console.log('input val: ', input.value);
+  var skwerotedValue = Math.floor(input.value);
+  _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0});
+});
+
+input.addEventListener('change', function(){
+  keypressSlider.noUiSlider.set([null, Math.floor(this.value) ]); // parseInt(this.value,10) // this.value.replace(/\.00$/,'')
+});
+
+
+
+// Listen to keydown events on the input field.
+input.addEventListener('keydown', function( e ) {
+
+  // Convert the string to a number.
+  var value = Number( keypressSlider.noUiSlider.get() ),
+    sliderStep = keypressSlider.noUiSlider.steps()
+
+  // Select the stepping for the first handle.
+  sliderStep = sliderStep[0];
+
+  // also use -/+ if available on moble devices
+
+  // 13 is enter,
+  // 38 is key up,
+  // 40 is key down.
+  switch ( e.which ) {
+    case 13:
+      keypressSlider.noUiSlider.set(Math.floor(this.value));
+      break;
+    case 38:
+      keypressSlider.noUiSlider.set( value + sliderStep[1] );
+      break;
+    case 40:
+      keypressSlider.noUiSlider.set( value - sliderStep[1] );
+      break;
+  }
+});
+
+if (_mute!=0) { // _mute==1
+
+var mute = document.getElementById('mute'+_id);
+
+mute.addEventListener('click', function(){
+  currSliVal = keypressSlider.noUiSlider.get();
+
+  if (currSliVal!=0) {
+    window['oldSliVal'+_id] = currSliVal;
+    keypressSlider.noUiSlider.set( 0 );
+  } else {
+    keypressSlider.noUiSlider.set(window['oldSliVal'+_id]);
+  }
+
+  
+});
+
+
+
+document.addEventListener("keydown", function(e) {
+  //console.log(event.which);
+  if (e.which==_mute) {
+
+    currSliVal = keypressSlider.noUiSlider.get();
+
+    if (currSliVal!=0) {
+      window['oldSliVal'+_id] = currSliVal;
+      keypressSlider.noUiSlider.set( 0 );
+    } else {
+      keypressSlider.noUiSlider.set(window['oldSliVal'+_id]);
+    }
+
+  }
+});
+
+
+
+
+
+}
+
+if (_midicc!=0) {
+
+window['midicc'+_midicc] = function( number, value ) { // controller
+  //console.log('_midicc', number, _midicc, value, _id);
+
+  if (number==_midicc) {
+    //keypressSlider.noUiSlider.set(value*100);
+    document.getElementById('slider'+_id).noUiSlider.set(value*100);
+  }
+
+/*
+  switch(number) {
+  case _midicc:
+    keypressSlider.noUiSlider.set(value);
+    return;
+  case 0x0a:
+  } */
+};
+
+}
+
+
+
+
+
+if (_muteNote!=0) {
+
+window['muteNote'+_muteNote] = function( number, value ) { // controller
+  //console.log('_muteNote', number, _muteNote, value, _id);
+
+  if (number==_muteNote) {
+    currSliVal = keypressSlider.noUiSlider.get();
+
+    if (currSliVal!=0) {
+      window['oldSliVal'+_id] = currSliVal;
+      keypressSlider.noUiSlider.set( 0 );
+    } else {
+      keypressSlider.noUiSlider.set(window['oldSliVal'+_id]);
+    }
+  }
+
+
+};
+
+}
+
+
+
+
+
+
+
+} else if (usedLibrary=='Interface') {
 
 } else {
         
@@ -81,10 +250,38 @@ if (usedLibrary=='Interface') {
 
     
     var _drawSlider = function(name, usedLibrary) {
+
+console.log('usedLibrary', usedLibrary);
+
+if (usedLibrary=='noUiSlider') {
+
+      $item = $('<div class="ctrlchange slider noui"><div class="cont-noui-slider DDDDslider '+_orientation+'" id="slider'+ _id +'""></div><input id="input'+ _id +'" type="text">'); // conntainer $itemContainer
+      
+      
+
+      if (_mute!=0) { // _mute==1
+        $mute = $('<span class="mutes" id="mute'+ _id +'">M</span></div>');
+        $mute.appendTo($item);
+        console.log($item);
+      } else {
+        $mute = $('</div>');
+        $mute.appendTo($item);
+      }
+
+
+      $item.append('<div class="infoContainer"><span>'+name+'</span></div>');
+
+      $item.appendTo($container);
+
+
+} else if (usedLibrary!='noUiSlider') {
+
       $item = $('<div class="ctrlchange slider '+_orientation+'" id="slider'+ _id +'"><div class="canvas-container">'); // $itemContainer
       //$item = $('<input>');
       $item.appendTo($container);
 
+
+} 
 
 if (usedLibrary=='Interface') {
 
@@ -178,7 +375,7 @@ console.log('slider id: ',_id);
 
 
 
-} else {
+} else if (usedLibrary!='noUiSlider') {
 
 
 

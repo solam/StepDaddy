@@ -39,7 +39,7 @@
     var startDate = new Date();
     this._audioServerStartTimestamp = startDate.getTime();
 
-    this._countdownMode = 1; // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+    this._countdownMode = 0; // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
     
 
 
@@ -69,7 +69,7 @@
     //
     //window['sessionNumber'] = 2;  
 
-    this._sessionNumber = 3;
+    this._sessionNumber = 4;
     this._instrumentsConfig = window['insConf' + this._sessionNumber]; //window.insConf;
     window['insConf'] = this._instrumentsConfig; // window.insConf2 - select which session to select at app startup
 
@@ -560,13 +560,16 @@ console.log('this._sessionList', this._sessionList);
 
     };    
 
-    this.getNextInstrument = function(clientId) {
+    this.getNextInstrument = function(clientId, pwd) {
+
+        //console.log("pwd", pwd);
+
         //*
         if (typeof _clients[clientId] !== 'undefined') {
             return _clients[clientId];
         } //*/
 
-        //console.log("_availableInstruments", _availableInstruments);
+        console.log("_availableInstruments", _availableInstruments);
 
         var numAvailableInstruments = _availableInstruments.length;
         if (numAvailableInstruments === 0) {
@@ -574,11 +577,22 @@ console.log('this._sessionList', this._sessionList);
             return;
         }
 
-        var nextInstrument = _availableInstruments[0]; // get first available instrument
-        _availableInstruments.shift(); // and remove it from available instrument list
-        // The shift() method removes the first item of an array, and returns that item.
-        _self._availableInstruments.shift();
-        window._availableInstruments.shift();
+        // Do not give Conductor role/instrument unless provided pwd is mopo
+        if (pwd!='mopo' && _availableInstruments[0].instrumentName=='Conductor') {
+          var nextInstrument = _availableInstruments[1];
+          _availableInstruments.splice(1, 1);
+        } else {
+          var nextInstrument = _availableInstruments[0]; // get first available instrument
+          _availableInstruments.shift(); // and remove it from available instrument list
+          // The shift() method removes the first item of an array, and returns that item.
+          _self._availableInstruments.shift();
+          window._availableInstruments.shift();          
+        }
+
+
+
+        
+
 
 
         if (typeof nextInstrument !== 'undefined') {
@@ -1310,7 +1324,7 @@ this.updateChannelSound = function(clientId, value) {
 
     this.updateFxParam = function(data, clientId) { // updateParam
         
-        console.log('clt id:', _clients[clientId].instrumentName);
+        //console.log('clt id:', _clients[clientId].instrumentName);
 
         // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
         var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
@@ -1410,7 +1424,7 @@ this.updateChannelSound = function(clientId, value) {
                     } else {
                       this[controls[j].x.param] = valueX;
 
-                      console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
+                      //console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
 
                       if (controls[j].y) {
                         this[controls[j].y.param] = valueY;

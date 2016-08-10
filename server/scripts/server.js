@@ -146,6 +146,7 @@ define([
           function(response) {
             _clients[data.client].send('execute', {success: true, id: data.id, response: response});
 
+            //console.log('data.id', data.id);
             _clientJoinedCount++;
             var fs = require('fs');
             fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err) {

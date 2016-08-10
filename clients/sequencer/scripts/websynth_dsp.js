@@ -345,17 +345,19 @@ var CTL_Filter = function(ctx) {
 	this.lowpass.Q.value = 50 / 5;
 };
 
-CTL_Filter.prototype.set_freq = function(f) {
+CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 values
 	this.base_freq = f;
-	this.freq = Math.min(100, this.base_freq + this.eg * 100);
-	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+	this.freq = Math.min(100, this.base_freq/* + this.eg * 100*/);
+	this.lowpass.frequency.value = 200 + Math.pow(2.0, (this.freq + 30) / 10); // 300
+  console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
+  //this.lowpass.frequency.value = Math.pow(2, f);
 };
 
 CTL_Filter.prototype.set_q = function(q) {
-	this.lowpass.Q.value = q / 5;
+	this.lowpass.Q.value = q / 3.5; // 5
 };
 
-CTL_Filter.prototype.set_eg = function(val) {
+CTL_Filter.prototype.set_eg = function(val) { 
 	this.eg = val;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
 	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
