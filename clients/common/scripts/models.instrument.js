@@ -126,19 +126,91 @@
 
       //console.log('window[synthInstanceString]: ', window[synthInstanceString]);
 
+
+
+
+//function isNumber(obj) { return !isNaN(parseFloat(obj)) }
+
+//console.log(isNumber (this.channelInfo.presetId));
+
+// get instrument param value via preset system not ins/kit system
+//*
+
+console.log('presets + ch presets: ', this.channelInfo.presets, this.channelInfo.channelPresets);  
+
+
+
+
+
+      if (this.channelInfo.presets.length!=0 && typeof this.channelInfo.channelPresets !== 'undefined') {
+          var presets = this.channelInfo.presets.concat(this.channelInfo.channelPresets);
+        } else {
+          var presets = this.channelInfo.channelPresets;
+        }
+        
+      
+
+
+
+console.log('after ptn save check: ', this.channelInfo.presetId, presets);
+
+if (typeof presets !== 'undefined' 
+&& presets.length>0 // this.channelInfo.presets
+&& // channelPresets - presets
+  typeof this.channelInfo.presetId !== 'undefined'
+&& this.channelInfo.presetId!=0) {
+
+  var taarget = this.channelInfo.presetId;
+  var taarget = taarget.toString();
+
+//var preset = $.grep(this.channelInfo.channelPresets, function(e){ return e.id == this.channelInfo.presetId; });
+
+var preset = presets.filter(function( obj ) { // channelPresets - presets // this.channelInfo.channelPresets
+  return obj.id == taarget // "2fbdd99d0000";  //
+});
+//console.log('ch preset + preset id: ', this.channelInfo.channelPresets, this.channelInfo.presetId, preset);
+
+
+console.log('preset model ins: ', taarget, presets, preset/*, this.channelInfo.presets*/);  
+
+var preset = preset[0].controls;
+  //console.log('preset: ', preset);  
+
+var presetMode = 1; // presetMode=0 : kit/InsMode
+
+} else {
+  var presetMode = 0; // presetMode=0 : kit/InsMode
+}
+//*/
+
+//var presetMode = 0;
+
+console.log('usedControls', presetMode /*usedControls, this.channelInfo*/);
+
       // load instrument preset for currently processed channel
       if (usedControls.length>0) { //     usedControls!=0
 
         for (var j = 0; j < usedControls.length; j++) {
 
+//valueX = usedControls[j].x.value; // so that line 141: valueX = this.interpolate2(valueX... works?
+
                 if (usedControls[j].x.interpolate==0) {
-                  valueX = usedControls[j].x.value;
-                } else {
+
+                  if (presetMode == 1) {
+
+                    valueX = preset[usedControls[j].id];
+
+                  } else {
+                    valueX = usedControls[j].x.value; // preset[usedControls[j].id]; //
+                  }
+
+                  
+                } /*else { // seemingly unused condition
                   //valueX = this.interpolate(data.x, usedControls[j].x.min, usedControls[j].x.max);  
                   //_sequencer = new mixr.Sequencer(); // replace with local function
                   valueX = this.interpolate2(valueX, usedControls[j].x.min, usedControls[j].x.max, usedControls[j].x.displayedRangeMin, usedControls[j].x.displayedRangeMax);  
                   //console.log('valueX', valueX);   
-                }
+                }*/
 
                 if (usedControls[j].x.param!='[external]') {
                   switch (this.instrumentName) {
@@ -208,6 +280,8 @@
 
         switch (this.instrumentName) {
             case 'AikeWebsynth1':
+              //console.log('id', this.id, window[synthInstance]); 
+                //window[synthInstance].setVolume(0.1);
                 window[synthInstance].play(note);
                 break;
             case 'MrSynth':
@@ -263,6 +337,24 @@
        //mrSynth.updateFrequency(notes[note]*0.5);
        //mrSynth.startDecay();
        //mrSynth.startAttack();
+
+
+        var synthInstance = this.instrumentName + '_' + this.id;
+
+        if (typeof window[synthInstance]!== 'undefined') {
+
+          switch (this.instrumentName) {
+              case 'AikeWebsynth1':
+                  //window[synthInstance].setVolume(0);
+                  //console.log('syn inst: ',window[synthInstance]);
+                  //window[synthInstance].stop(note);
+                  break;
+              case 'MrSynth':
+                  /*window[synthInstance].updateFrequency(notes[note]*0.5);
+                  window[synthInstance].startAttack();*/
+                  break;
+          }         
+        }
 
       }
     };

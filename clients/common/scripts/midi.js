@@ -151,6 +151,8 @@ function onMIDIStarted( midi ) {
   midi.onstatechange = midiConnectionStateChange;
   populateMIDIInSelect();
   selectMIDI.onchange = selectMIDIIn;
+
+
 }
 
 function onMIDISystemError( err ) {
@@ -162,5 +164,9 @@ function onMIDISystemError( err ) {
 window.addEventListener('load', function() {   
   if (navigator.requestMIDIAccess)
     navigator.requestMIDIAccess().then( onMIDIStarted, onMIDISystemError );
+
+    //if ($('#midiIn option').val('Komplete Audio 6 MIDI 1')) {
+    //$('#midiIn option:eq(1)').prop('selected',true).trigger('change'); //  // .val('Komplete Audio 6 MIDI 1')
+  //} */
 
 });

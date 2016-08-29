@@ -44,10 +44,14 @@ console.log('model ptn editor receving time:', startTimestamp);*/
       } else if (data=='waitroom') {
         window.location.replace("waiting-room.html");  
       }
-      //console.log('Got instrument tracks', data.tracks); // data.id
+      console.log('Got instrument tracks', data); // data.id
 
       var traacks = Object.keys(data.tracks); 
       var traacksLength = traacks.length;
+
+
+      var controols = Object.keys(data.controls); 
+      var controolsLength = controols.length;
 
 
       // send localStorage "user" patterns into session shared pattern store
@@ -62,6 +66,12 @@ if (typeof window.localPatterns == 'undefined') {
   window.localPatterns = [];
 }
 
+
+
+
+if (typeof window.localPresets == 'undefined') {
+  window.localPresets = [];
+}
 
 
 /*
@@ -163,6 +173,57 @@ for ( var i = 0, len = localStorage.length; i < len; ++i ) {
 
 
 
+if (typeof window.channelPresets == 'undefined' && typeof data.channelInfo.channelPresets !== 'undefined') { 
+
+  if (data.channelInfo.channelPresets.length>0) { 
+    window.channelPresets = data.channelInfo.channelPresets;
+  }  
+
+}
+
+for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+  var varName = localStorage.key(i);
+  var pushpreset = 0;  
+  
+  if (varName !== null && varName.substring(0, 10) == "Loops-pre_") {
+      var preString = localStorage.getItem(varName);
+
+      _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 991, x: 1, y: 0, preset: preString });
+
+      var preObj = JSON.parse(preString); 
+      preObj['classs'] = 'user';
+
+      //console.log('preString', preString, preObj);
+
+      if (window.localPresets.length==0) { 
+        window.localPresets.push(preObj);
+      } else if (window.localPresets.length>0) {
+
+        for ( var j = 0, len2 = window.localPresets.length; j < len2; ++j ) {  
+          var pre = window.localPresets[j]; 
+
+          if (pre.id==preObj.id) {
+            var preIndex = j;
+            var pushpreset = 1;
+          }
+        }  
+
+      if (pushpreset == 1) {
+        window.localPresets.splice(preIndex, 1); // remove old entry
+        window.localPresets.push(preObj); // update with new entry
+      } else { // if (pushpreset == 2)
+        window.localPresets.push(preObj); // add new preset
+      }
+    }  
+  } 
+}
+
+
+
+
+
+
+
 
 
 
@@ -189,12 +250,31 @@ for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       //window['userPattern']['info']['name']='elevator';
       var uuidVar = uuid.v1(); // this var is only generated after 1 get instruement event
       window['userPattern'].id=uuidVar; 
-      window['userPattern'].name=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0); - traacksLength + 'n_' + 
+      window['userPattern']._name_=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0); - traacksLength + 'n_' + 
       window['userPattern'].classs='user';
       //console.log('channel pattern array', window['userPattern']);
       //$('#pattern-name').val(window['userPattern'].name);
 
       //console.log('chInfo model ptn:', data.channelInfo);
+
+
+
+      window['userPreset'] = {
+        'controls' : {}
+      };
+
+      for (var i = 0; i < controols.length; i++) {
+        if (data.controls[i].id>=1 && data.controls[i].id<=200) { // exclude non timbre param controls (ptn, ptnSeq, preset changers)
+          var value = data.controls[i].x.value;  
+          var id = data.controls[i].id;
+          window['userPreset'].controls[id] = value;
+        }
+      }  
+      var uuidVar = uuid.v1(); 
+      window['userPreset'].id=uuidVar; 
+      window['userPreset']._name_=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); 
+      window['userPreset'].classs='user';
+
 
 
 
@@ -206,11 +286,23 @@ for ( var i = 0, len = localStorage.length; i < len; ++i ) {
 
 if( $('#patterns').length ) {
 
+//console.log('win ptn id: ', window.patternId, data.channelInfo.patternId);
+
+
+if (typeof window.patternId == 'undefined') {
+
+  window.patternId = [];
+
+}  //else { */
+
+
   if (typeof data.channelInfo.patternId !== 'undefined') {
-    window.patternId = data.channelInfo.patternId;
+    window.patternId[data.id] = data.channelInfo.patternId;
   } 
 
-  if (window.patternId==0) {
+  console.log('win ptn id: ', window.patternId, data.channelInfo.patternId);
+
+  if ( typeof window.patternId[data.id] !== 'undefined' && window.patternId[data.id]==0 ) { // window.patternId[data.id] - data.channelInfo.patternId !== 'undefined' && data.channelInfo.patternId
 
       $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved pattern]</option>');
       $itemOptionUnsaved.appendTo(document.getElementById('patterns'));
@@ -218,26 +310,54 @@ if( $('#patterns').length ) {
 
   } else {    
 
-    $('#patterns option[value="' + window.patternId + '"]').prop('selected',true);
+    $('#patterns option[value="' + data.channelInfo.patternId + '"]').prop('selected',true); // window.patternId
     //$('#patterns option[value="fake-option"]').hide(); //css('visibility', 'hidden');
     //$("#patterns").val($("#patterns option:first").click());  //.val());
     //$('#patterns option:eq(1)').attr('selected', 'selected').trigger('change');
 
   }
 
-  console.log('patternId: ', window.patternId, data.channelInfo.patternId);
+  //console.log('patternId: ', window.patternId, data.channelInfo.patternId);
+//}
+
+
 }
+
+
+
+if ( $('#presets').length ) {
+
+  if (typeof data.channelInfo.presetId !== 'undefined') {
+    window.presetId = data.channelInfo.presetId;
+  } 
+
+  if (window.presetId==0) {
+
+      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved sound]</option>');
+      $itemOptionUnsaved.appendTo(document.getElementById('presets'));
+      $('#presets option[value="0"]').prop('selected',true);
+
+  } else {    
+    $('#presets option[value="' + window.presetId + '"]').prop('selected',true);
+  }
+
+  //console.log('presetId: ', window.presetId, data.channelInfo.presetId);
+}
+
+
+
+
 
 
 if( $('#kits').length ) {
 
-  if (typeof data.channelInfo.presetId == 'undefined') {
+  /*if (typeof data.channelInfo.presetId == 'undefined') {
     var kiitNuumber = data.kitNumber;
   } else {
     var kiitNuumber = data.channelInfo.presetId;    
-  }
+  }*/
 
-
+  var kiitNuumber = data.kitNumber;
 
   $('#kits option[value="' + kiitNuumber + '"]').prop('selected',true);
   //console.log('ch info: preset id kitNumber ', data.channelInfo.presetId, data.kitNumber, kiitNuumber);
@@ -276,15 +396,30 @@ var channelBarOffset = 8; */
 
 
 var countdownMode = data.channelInfo.countdownMode;
-console.log('countdownMode', countdownMode, data.channelInfo.channelName);
+
+if (data.instrumentName=='Conductor') {
+  var countdownMode = 0; // 0: no countdown on conductor
+}
+
+
+console.log('countdownMode', countdownMode /*, data data.channelInfo.channelName*/);
 
 var bpm = data.channelInfo.bpm;
 
 $("#channelname").html(data.channelInfo.channelName);
 $("#channelname").css('background', data.channelInfo.channelColor);
-$("#insname").html('instru: '+data.instrumentName);
-$("#sessionname").html('session: '+data.channelInfo.sessionList[data.channelInfo.sessionName]);
-$('body').addClass('channel' + data.channelInfo.channelNumber + ' session'+data.channelInfo.sessionName);
+
+if (typeof data.channelInfo.instrumentUrl == 'undefined') {
+  $("#insname").html('ins: '+data.instrumentName); // instru
+} else {
+  $("#insname").html('ins: <a target="_blank" href="'+ data.channelInfo.instrumentUrl +'">'+data.instrumentName+'</a>');
+}
+
+
+$("#sessionname").html('sess: '+data.channelInfo.sessionList[data.channelInfo.sessionName]); // session
+var sessionNumber = Number(data.channelInfo.sessionName)+1;
+var channelNumb = Number(data.channelInfo.channelNumber)+1;
+$('body').addClass('channel' + channelNumb + ' session'+sessionNumber); // data.channelInfo.sessionName
 
 //console.log('session name: ', data.channelInfo.sessionList);
 
@@ -507,16 +642,40 @@ window.newtimer = setInterval(function () { // (e)
 
         //window.sequencerBeat = data;
 
-        if (data==15 && window.stepSeq==1) {          
+        if (data.beat==15 && window.stepSeq==1) { // data.beat==15         
           if (typeof window.patternSequencer !== 'undefined') {
-            rotate(window.patternSequencer,1);
-            //console.log('stuff happens', window.patternSequencer);
-            $('select#patterns option[value="'+window.patternSequencer[0].id+'"]').prop('selected',true).trigger('change'); // 01627d00-3d18-11e6-bd11-650c5a0c542f
+
+            switch(window.patternSequencer.length) {
+              case 2:        
+                if (isEvenStrict(data.bar) ) {
+                  var nextPlayedPattern=1;
+                } else {
+                  var nextPlayedPattern=0;
+                }
+                break;
+              case 4:
+                if (data.bar<5) {
+                  var nextPlayedPattern=Number(data.bar)-1;
+                } else {
+                  var nextPlayedPattern=Number(data.bar)-5;
+                }
+                break;
+              case 8:
+                var nextPlayedPattern=Number(data.bar)-1;
+                break;        
+              default:
+                rotate(window.patternSequencer,1);
+                var nextPlayedPattern=0;
+            } 
+
+            //rotate(window.patternSequencer,1);
+            //console.log('bar pops:', data.bar); // window.patternSequencer
+            $('select#patterns option[value="'+window.patternSequencer[nextPlayedPattern].id+'"]').prop('selected',true).trigger('change'); // 01627d00-3d18-11e6-bd11-650c5a0c542f // window.patternSequencer[0].id
           }          
         } 
 
 
-      _self.emit(mixr.enums.Events.SEQUENCER_BEAT, data);
+      _self.emit(mixr.enums.Events.SEQUENCER_BEAT, data.beat);
     };
 
     var _addEventListeners = function() {
@@ -533,26 +692,27 @@ window.newtimer = setInterval(function () { // (e)
       return this.instrument;
     };    */
 
-    this.updateNote = function(volume, note, trackId) {
-      console.log('instrumentId', this.instrument.id);
+    this.updateNote = function(volume, note, trackId, patternId) {
+      //console.log('instrumentId', this.instrument.id);
       _connection.execute(mixr.enums.Events.NOTE, {
         id: this.instrument.id,
         trackId: trackId,
         noteId: note,
-        volume: volume
+        volume: volume,
+        patternId: patternId
       });
 
       var traackId = trackId.split('-')[1];      
       //window['userPattern']['tracks'][traackId][note] = volume;
       window['userPattern'].tracks[traackId][note] = volume;
-      console.log('changed channel pattern', window['userPattern']); // , trackId, note, volume
+      //console.log('changed channel pattern', window['userPattern']); // , trackId, note, volume
 
     };
 
 
 
     this.onModifierChange = function(data) {
-       console.log('ptn editor ModifierChange: ', data); 
+       //console.log('ptn editor ModifierChange: ', data); 
       _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
     };
 

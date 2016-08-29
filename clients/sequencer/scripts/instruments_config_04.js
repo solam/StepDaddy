@@ -1,3 +1,22 @@
+/*function extend(obj, src) {
+  for (var key in src) {
+  if (src.hasOwnProperty(key)) obj[key] = src[key];
+  }
+  return obj;
+  }
+*/
+
+
+
+
+
+
+//bill.name = "Bill";
+//var c1_e1_3_notes = window.noteRanges['c1_c2_8_notes'].slice(0);
+
+//console.log('ui arrayz: ', window.launch.sample_prg, aikeWebsynthControls); 
+
+
 window.insConf4 = [ // channelConf
 
 // orange channel
@@ -1240,7 +1259,7 @@ window.insConf4 = [ // channelConf
           name: 'Tempo',
           id: 999,
 
-          type: 'input', // slider, dial/rotary_knob, switch_button      
+          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
           direction: 0, // 'horizontal', 'vertical' for sliders    
           colors: { // color params
             fg: '#51ACBD' // foregroundColor
@@ -1253,9 +1272,9 @@ window.insConf4 = [ // channelConf
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 60,
-              displayedRangeMax: 400,
+              displayedRangeMax: 220, // 400
               min: 60,
-              max: 400
+              max: 220 // 400
           }               
         },
 
@@ -1552,25 +1571,44 @@ window.insConf4 = [ // channelConf
 
 { channelName: 'Ch3 Bass', // channelName = "bass, high pitch sounds etc" - insName
   //channelType: 'instrument', // conductor
-  trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
+  trackSet: 0, // defaultKit -   Number - // defaultInstrumentPreset
 
-  defaultPattern: 1, 
+
+
+  defaultPreset: 0, 
+  presets: [
+    {"name":"303 square bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d8f8f","controls":{1:0, 2:1, 3:35, 4:2, 5:76, 6:0, 7:5, 8:0, 9:0, 10:0, 11:75, 12:100, 13:0, 14:0, 15:0, 16:0}},
+    {"name":"double osc bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d0000","controls":{1:40, 2:1, 3:100, 4:0, 5:0, 6:0, 7:15, 8:0, 9:0, 10:66, 11:20, 12:35, 13:0, 14:30, 15:80, 16:0}},
+  ],
+
+  defaultPattern: 0, 
   patterns: [ // channel patterns
     {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
-    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"id":"5236cf00-43a4-11e6-b2a6-8dd4312fd1bb","name":"S_Lab_BassLine01","classs":"channel"} 
+    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"id":"5236cf00-43a4-11e6-b2a6-8dd4312fd1bb","name":"S_Lab_BassLine01","classs":"channel"},
+    {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"bassline b", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]]}     
   ], 
 
-  conf: [ // kits channelConfiguration kitConfiguration 
+  defaultPatternSeq: 0, 
+  patternSeq: [     
+    [ {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f"},
+      {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}
+      //{"name":"bassline b", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f"} 
+    ]
+  ],   
+
+  conf: [ // kits channelConfiguration kitConfiguration - instruments conf'
    
     { // Kit
       type: 'synth',
       instrumentName: 'AikeWebsynth1', // aike_ws_01
+      instrumentUrl: 'http://aikelab.net/websynth/',
 
       color: 'rgba(0, 171, 157, 0.95)',
-      name: '303 square bass', // preset name
+      name: 'c1 > e1', // preset name - 303 square bass
       kitNumber: 0,      
 
-      tracks: [
+      tracks: window.draw.chase_bass /* c1_c2_penta_minor  c1_e1_3_notes[
         { name: 'C2',
           note: -5 
         },  
@@ -1595,9 +1633,9 @@ window.insConf4 = [ // channelConf
         { name: 'C1',
           note: -17
         }                                                                               
-      ],
+      ]*/,
 
-      controls: [ // aka preset values
+      controls: aikeWebsynthControls/*[ // aka preset values
           //
 { name: 'Choose sound', // instrument/
           id: 998,
@@ -1843,7 +1881,7 @@ window.insConf4 = [ // channelConf
               interpolate: 0, 
             }                
           }                  
-        ] // end of Kit controls              
+        ] // end of Kit controls   */           
     },
 
 
@@ -1856,8 +1894,9 @@ window.insConf4 = [ // channelConf
 
     { type: 'synth',
       instrumentName: 'AikeWebsynth1', 
+      instrumentUrl: 'http://aikelab.net/websynth/',
       color: 'rgba(0, 161, 0, 1)',
-      name: 'double osc bass', 
+      name: 'c2 > c3', // double osc bass
       kitNumber: 1,
       tracks: [
         { name: 'C3',
@@ -1885,7 +1924,7 @@ window.insConf4 = [ // channelConf
           note: -5
         } 
       ],
-      controls: [ 
+      controls: aikeWebsynthControls /*[ 
 { name: 'Instrument',
           id: 998,
           type: 'ddmenu', 
@@ -2113,7 +2152,7 @@ window.insConf4 = [ // channelConf
             interpolate: 0, 
           }                
         }
-      ] // end of kit controls
+      ]*/ // end of kit controls
     }, // end of kit
 
 
@@ -3426,7 +3465,602 @@ controls: [
 
 
 
+{ channelName: 'Ch7 Synth', // channelName = "bass, high pitch sounds etc" - insName
+  //channelType: 'instrument', // conductor
+  trackSet: 0, // defaultKit -   Number - // defaultInstrumentPreset
 
+
+
+  defaultPreset: 0, 
+  presets: [
+    {"name":"303 square bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d8f8f","controls":{1:0, 2:1, 3:35, 4:2, 5:76, 6:0, 7:5, 8:0, 9:0, 10:0, 11:75, 12:100, 13:0, 14:0, 15:0, 16:0}},
+    {"name":"double osc bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d0000","controls":{1:40, 2:1, 3:100, 4:0, 5:0, 6:0, 7:15, 8:0, 9:0, 10:66, 11:20, 12:35, 13:0, 14:30, 15:80, 16:0}},
+  ],
+
+  defaultPattern: 0, 
+  patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"id":"5236cf00-43a4-11e6-b2a6-8dd4312fd1bb","name":"S_Lab_BassLine01","classs":"channel"} 
+  ], 
+
+  defaultPatternSeq: 0, 
+  patternSeq: [     
+    [ {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"},
+      {"name":"bassline b", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f"} ]
+  ],     
+
+  conf: [ // kits channelConfiguration kitConfiguration - instruments conf'
+   
+    { // Kit
+      type: 'synth',
+      instrumentName: 'AikeWebsynth1', // aike_ws_01
+
+      color: 'rgba(0, 171, 157, 0.95)',
+      name: 'c1 > e1', // preset name - 303 square bass
+      kitNumber: 0,      
+
+      tracks: window.draw.c3_c4_penta_minor /*c1_e1_3_notes[
+        { name: 'C2',
+          note: -5 
+        },  
+        { name: 'B1',
+          note: -6
+        }, 
+        { name: 'A1',
+          note: -8
+        }, 
+        { name: 'G1',
+          note: -10
+        }, 
+        { name: 'F1',
+          note: -12
+        },   
+        { name: 'E1',
+          note: -13
+        }, 
+        { name: 'D1',
+          note: -15
+        },  
+        { name: 'C1',
+          note: -17
+        }                                                                               
+      ]*/,
+
+      controls: aikeWebsynthControls/*[ // aka preset values
+          //
+{ name: 'Choose sound', // instrument/
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Choose pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },
+          { 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'vco1.set_gain',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'vco1.set_wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'triangle',
+                1: 'sawtooth',                     
+                2: 'square',
+              },               
+              max: 2 // 124                    
+            }                
+          },  
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'vco2.set_gain',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'vco2.set_wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },                 
+              max: 2                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch',
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'vco2.set_pitch',                     
+              value: 76, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'eg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'eg.set_d',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'eg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'eg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'filter.set_freq',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'filter.set_q',                     
+              value: 75, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter eg amount',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter env attack',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'feg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'feg.set_d',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'feg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 17,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'feg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          }                  
+        ] // end of Kit controls   */           
+    },
+
+
+
+
+
+
+
+
+
+    { type: 'synth',
+      instrumentName: 'AikeWebsynth1', 
+      color: 'rgba(0, 161, 0, 1)',
+      name: 'c2 > c3', // double osc bass
+      kitNumber: 1,
+      tracks: [
+        { name: 'C3',
+          note:  7
+        },  
+        { name: 'B2',
+          note:  6
+        }, 
+        { name: 'A2',
+          note:  4
+        }, 
+        { name: 'G2',
+          note:  2
+        }, 
+        { name: 'F2',
+          note:  0
+        },   
+        { name: 'E2',
+          note: -1
+        }, 
+        { name: 'D2',
+          note: -3
+        },  
+        { name: 'C2',
+          note: -5
+        } 
+      ],
+      controls: aikeWebsynthControls /*[ 
+{ name: 'Instrument',
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },    
+        { name: 'osc1 vol',
+          id: 1,
+          type: 'slider',                                    
+          x: {
+            name: 'osc1 vol',
+            param: 'vco1.set_gain',                     
+            value: 40,
+            interpolate: 0, 
+
+          }                
+        },
+        { name: 'osc1 waveform',
+          id: 2,
+          type: 'ddmenu',                                    
+          x: {
+            name: 'osc1 waveform',
+            param: 'vco1.set_wave',                     
+            value: 1,
+            stepSize: 1, 
+            interpolate: 0, 
+            min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
+            max: 2 // 124                    
+          }                
+        },  
+        { name: 'osc2 vol',
+          id: 3,
+          type: 'slider',                                    
+          x: {
+            name: 'osc2 vol',
+            param: 'vco2.set_gain',                     
+            value: 110,
+            interpolate: 0, 
+          }                
+        },
+        { name: 'osc2 waveform',
+          id: 4,
+          type: 'ddmenu',                                    
+          x: {
+            name: 'osc2 waveform',
+            param: 'vco2.set_wave',                     
+            value: 0,
+            stepSize: 1, 
+            interpolate: 0, 
+            min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },               
+            max: 2                    
+          }                
+        },     
+        { name: 'osc2 pitch',
+          id: 5,
+          type: 'slider',                                    
+          x: {
+            name: 'osc2 pitch',
+            param: 'vco2.set_pitch',                     
+            value: 0, // -30 for high pitcehd notes
+            interpolate: 0, 
+          }                
+        },  
+        { name: 'env attack',
+          id: 6,
+          type: 'slider',                                    
+          x: {
+            name: 'env attack',
+            param: 'eg.set_a',                     
+            value: 0,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'env decay',
+          id: 7,
+          type: 'slider',                                    
+          x: {
+            name: 'env decay',
+            param: 'eg.set_d',                     
+            value: 15,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'env sustain',
+          id: 8,
+          type: 'slider',                                    
+          x: {
+            name: 'env sustain',
+            param: 'eg.set_s',                     
+            value: 0,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'env release',
+          id: 9,
+          type: 'slider',                                    
+          x: {
+            name: 'env release',
+            param: 'eg.set_r',                     
+            value: 0,
+            interpolate: 0, 
+          }                
+        },                                                                                                             
+        { name: 'filter cutoff',
+          id: 10,
+          type: 'slider',                                    
+          x: {
+            name: 'filter cutoff',
+            param: 'filter.set_freq',                     
+            value: 66,
+            interpolate: 0, 
+          }                
+        },  
+        { name: 'filter resonance',
+          id: 11,
+          type: 'slider',                                    
+          x: {
+            name: 'filter resonance',
+            param: 'filter.set_q',                     
+            value: 20,
+            interpolate: 0, 
+          }                
+        },  
+        { name: 'filter eg amount',
+          id: 13,
+          type: 'slider',                                    
+          x: {
+            name: 'filter eg amount',
+            param: 'filter.set_amount',                     
+            value: 35,
+            interpolate: 0, 
+          }                
+        },  
+        { name: 'filter env attack',
+          id: 14,
+          type: 'slider',                                    
+          x: {
+            name: 'filter env attack',
+            param: 'feg.set_a',                     
+            value: 0,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'filter env decay',
+          id: 15,
+          type: 'slider',                                    
+          x: {
+            name: 'filter env decay',
+            param: 'feg.set_d',                     
+            value: 30,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'filter env sustain',
+          id: 16,
+          type: 'slider',                                    
+          x: {
+            name: 'filter env sustain',
+            param: 'feg.set_s',                     
+            value: 80,
+            interpolate: 0, 
+          }                
+        },   
+        { name: 'filter env release',
+          id: 17,
+          type: 'slider',                                    
+          x: {
+            name: 'filter env release',
+            param: 'feg.set_r',                     
+            value: 0,
+            interpolate: 0, 
+          }                
+        }
+      ]*/ // end of kit controls
+    }, // end of kit
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+  ] // close channel conf
+
+},
 
 
 
@@ -3435,8 +4069,15 @@ controls: [
 
 
 // Yellow cheesy channel: guitar, synth lead, etc
-
+/*
 { channelName: 'Ch7 synthétiseur',  
+
+  defaultPreset: 0, 
+  presets: [
+    {"name":"303 square bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d8f8f","controls":{1:0, 2:1, 3:35, 4:2, 5:76, 6:0, 7:5, 8:0, 9:0, 10:0, 11:75, 12:100, 13:0, 14:0, 15:0, 16:0}},
+    {"name":"double osc bass","type":"AikeWebsynth1","classs":"channel","id":"2fbdd99d0000","controls":{1:40, 2:1, 3:100, 4:0, 5:0, 6:0, 7:15, 8:0, 9:0, 10:66, 11:20, 12:35, 13:0, 14:30, 15:80, 16:0}},
+  ],
+
 
   defaultPattern: 1, 
   patterns: [ // channel patterns
@@ -3452,7 +4093,7 @@ controls: [
       color: 'rgba(253, 206, 31, 0.8)',
       name: 'etoufed synth', 
       kitNumber: 0,
-      tracks: [
+      tracks: window.draw.c3_c4_penta_minor/*[
         { name: 'C5',
           note:  31
         },  
@@ -3477,7 +4118,7 @@ controls: [
         { name: 'C4',
           note:  19
         } 
-      ],
+      ]/,
       controls: [ 
 { name: 'Instrument',
           id: 998,
@@ -3979,7 +4620,7 @@ controls: [
 
   ] // end of kits
 }, // end of channel
-
+*/
 
 
 

@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote, displayedRange) {
 
     /**
      * Mixins
@@ -25,6 +25,8 @@
     var _mute = mute;
     var _midicc = midicc;
     var _muteNote = muteNote;
+    var _displayedRange = displayedRange;
+    
     
     var $container = $(container);
     var $item;
@@ -84,18 +86,41 @@ noUiSlider.create(keypressSlider, {
   direction: 'rtl',
   connect: "lower",
   range: {
-    'min': 0,
+    'min': _displayedRange['min'], //0,
     /*'20%': [ 300, 100 ],
     '50%': [ 800, 50 ],*/
-    'max': 100
+    'max': _displayedRange['max'], //100
   }
 });
 
 keypressSlider.noUiSlider.on('update', function( values, handle ) {
   input.value = values[handle];
-  console.log('input val: ', input.value);
+  //console.log('input val: ', input.value);
+
+
+
+
+if (typeof document.getElementById('presets') !== 'undefined' && window.changeParamMode=='manual') {
+
+      if ($('#presets option[value="0"]').length>0 ) {
+        $('#presets option[value="0"]').remove();
+      }
+
+      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved sound]</option>');
+      $itemOptionUnsaved.appendTo(document.getElementById('presets'));
+      $('#presets option[value="0"]').prop('selected',true);
+
+}
+
+  var presetId = $('#presets').find(":selected").val();
+
   var skwerotedValue = Math.floor(input.value);
-  _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0});
+
+  //window['userPreset'].controls[_id]={};
+  window['userPreset'].controls[_id]=skwerotedValue;
+
+
+  _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId});
 });
 
 input.addEventListener('change', function(){
@@ -231,13 +256,13 @@ window['muteNote'+_muteNote] = function( number, value ) { // controller
         
 
         var sliderId= 'slider'+_id;
-        console.log(sliderId);
+        //console.log(sliderId);
 
         
         window[sliderId].on('*', function(data) {
         // data will be an object with x and y properties (data.x and data.y)
         //alert(data.x);
-        console.log(data.value);
+        //console.log(data.value);
         var skwerotedValue = Math.floor(data.value);
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0});
         }); 
@@ -251,7 +276,7 @@ window['muteNote'+_muteNote] = function( number, value ) { // controller
     
     var _drawSlider = function(name, usedLibrary) {
 
-console.log('usedLibrary', usedLibrary);
+//console.log('usedLibrary', usedLibrary);
 
 if (usedLibrary=='noUiSlider') {
 

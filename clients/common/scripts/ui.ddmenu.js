@@ -46,21 +46,31 @@
 
     var _onMouseDown = function(event) {
 
-      console.log('cont context id: ', $container.context.id);
+      //console.log('cont context id: ', $container.context.id);
 
       /*console.log('input value changed', $item.find("input").val());
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0}); // 2 - $item.val() */
 
       event.stopPropagation();
-      console.log('change recognized', event);
+      //console.log('change recognized', event);
+
+
+      var kitId = $('#kits').find(":selected").val();
+      var presetId = $('#presets').find(":selected").val();
+      var patternClass = $('#patterns').find(":selected").attr('class'); // 'user'; // 
+      var patternId = $('#patterns').find(":selected").val();
+
+
 
       if (/*_id==998*/ $container.context.id=='kits') {
-
+      //*  
       var elementId = $('#kits').find(":selected").val();
       var classs = $('#patterns').find(":selected").attr('class'); // 'user'; // 
       var patternId = $('#patterns').find(":selected").val();
 
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId}); // presetId
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId}); // presetId
+      //*/
+      //_self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: kitId, y: 0, preset: 1, /*pattern: 1,*/ classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId});
 
 
       } else if ($container.context.id=='patterns') { 
@@ -76,7 +86,7 @@
       var elementId = $('#patterns').find(":selected").val();
 
       //console.log('selct option value changed', $('#patterns').find(":selected").text() , $('#patterns').find(":selected").val() ); // $item.find("option").val()
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val()  }); 
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId}); 
 
 
         if (classs=='channel') {
@@ -114,7 +124,7 @@
         for (var n = 0, len = availTrackNumber; n < len; n += 1) {
           var notesNumber = 16;
           window['userPattern'].tracks[n] = [];
-          console.log('win usr ptn: ', window['userPattern']);
+          //console.log('win usr ptn: ', window['userPattern']);
 
           for (var l = 0; l < notesNumber; l += 1) {
             noteInfo = {};
@@ -183,12 +193,50 @@
 
 
 
+      } else if ($container.context.id=='presets') { 
+    
+      // remove [unsaved preset] option
+      if ($('#presets option[value="0"]').length>0 ) {
+        $('#presets option[value="0"]').remove();
+      }  
+
+
+
+
+
+      //console.log('selct option value changed', $('#presets').find(":selected").text() , $('#presets').find(":selected").val() ); // $item.find("option").val()
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId}); 
+
+/*
+        if (classs=='channel') {
+          var preStorage = window.channelPresets;
+        } else if (classs=='session') {       
+          var preStorage = window.sessionPresets;   
+        } else {  
+          var preStorage = window.localPresets;
+        }        
+
+        var result = $.grep(preStorage, function(e){ return e.id == elementId; });
+        if (typeof result[0] !== 'undefined') {
+          var trackNumber = result[0].tracks.length; 
+        } else {
+          var trackNumber = 0;
+        }
+
+
+/*
+      window['userPreset'] = {
+          'controls' : []
+      }; */
+
 
 
 
 
       } else { 
+
         var optionValue = $('#'+$container.context.id).find(":selected").val();
+        window['userPreset'].controls[_id] = optionValue;
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: optionValue}); // , y: 0, patternId: ptnId, classs: classs
 
 

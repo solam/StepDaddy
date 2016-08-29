@@ -236,7 +236,14 @@ EG.prototype.note_on = function() {
 };
 
 EG.prototype.note_off = function() {
-	this.mode = EGM.Release;
+  //this.mode = EGM.Idle;
+  //this.gain= 1.0;
+  //this.gain += this.r_delta;
+  //this.gain += this.a_delta; //0.0;
+  //this.time = 1.0;
+	this.mode = EGM.Release; // EGM.Decay - EGM.Idle; 
+                         // 
+                         //console.log(this.gain);
 };
 
 EG.prototype.next = function() {
@@ -340,7 +347,7 @@ var CTL_Filter = function(ctx) {
 	this.amount = 0.5;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
     this.lowpass = ctx.createBiquadFilter();
-	this.lowpass.type = 0;
+	this.lowpass.type = 'lowpass'; // 0
 	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
 	this.lowpass.Q.value = 50 / 5;
 };
@@ -349,7 +356,7 @@ CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 value
 	this.base_freq = f;
 	this.freq = Math.min(100, this.base_freq/* + this.eg * 100*/);
 	this.lowpass.frequency.value = 200 + Math.pow(2.0, (this.freq + 30) / 10); // 300
-  console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
+  //console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
   //this.lowpass.frequency.value = Math.pow(2, f);
 };
 
@@ -448,7 +455,8 @@ WebSynth.prototype.play = function(n) {
 };
 
 WebSynth.prototype.stop = function() {
-	this.eg.note_off();
+  //console.log(this.eg, this.feg);
+	this.eg.note_off(); // Does not work on multi track aka multi notes: lowest note will sound, the others will mute
 	this.feg.note_off();
 };
 

@@ -37,26 +37,71 @@
 
       var classs = $('#patterns').find(":selected").attr('class');
 
+      var presetId = $('#presets').find(":selected").val();
+      //var patternClass = $('#patterns').find(":selected").attr('class'); // 'user'; // 
+      var patternId = $('#patterns').find(":selected").val();
+
 
       if (_id==995) {
          var KitNumber = $('#kits').find(":selected").val(); 
          //var patternId = $('#patterns').find(":selected").val();
-         window['userPattern'].name = $('#pattern-name').val();
+         window['userPattern']._name_ = $('#pattern-name').val();
          window['userPattern'].id = uuid.v1();
-         var ptnString = JSON.stringify(window['userPattern']); 
-        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id});
+
+         // put 'name' object key as first key to appear into Webstorage key=>value display
+         var alphaAscSortedUserPattern = sortObj(window['userPattern'],'asc');
+         var ptnString = JSON.stringify(alphaAscSortedUserPattern); 
+         var ptnString = ptnString.replace('_name_', 'name'); 
+
+         //window['userPattern'].name = $('#pattern-name').val();
+
+         //console.log('ptnString', ptnString);
+
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId});
         localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
         //window.localPatterns.push(window['userPattern']);
 
-        console.log('userPattern + local ptns at save: ', window['userPattern'], window.localPatterns);
+        //console.log('userPattern + local ptns at save: ', window['userPattern'], window.localPatterns);
 
-        $itemOption = $('<option class="user" id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern'].name+'</option>');
+        $itemOption = $('<option class="user" id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern']._name_+'</option>');
         $itemOption.appendTo(document.getElementById('patterns'));
         if( $('#patterns').length ) {
           $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
           //console.log('ch info: ', data.channelInfo);
         }
-      } else {
+      } 
+
+      else if (_id==991) {
+
+        var presetClass = $('#presets').find(":selected").attr('class');
+
+        var KitNumber = $('#kits').find(":selected").val(); 
+        window['userPreset']._name_ = $('#preset-name').val();
+        window['userPreset'].id = uuid.v1();
+        
+        var alphaAscSortedUserPreset = sortObj(window['userPreset'],'asc');
+        var preString = JSON.stringify(alphaAscSortedUserPreset); 
+        var preString = preString.replace('_name_', 'name');  
+
+        //window['userPreset'].name = $('#preset-name').val();
+
+        console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
+
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, preset: preString, classs: presetClass, kitNumber: KitNumber, triggerMode: 'manual', patternId: patternId, presetId: window['userPreset'].id});
+        localStorage.setItem('Loops-pre_'+window['userPreset'].id, preString);
+        $itemOption = $('<option class="user" id="option'+window['userPreset'].id+'" value="'+window['userPreset'].id+'">'+window['userPreset']._name_+'</option>');
+        $itemOption.appendTo(document.getElementById('presets'));
+        if( $('#presets').length ) {
+          $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true);
+        }
+      }
+
+
+
+
+
+
+      else {
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: 1, y: 0}); // , patternId: ptnId, classs: classs
       }
 
@@ -92,7 +137,11 @@ var classs = $('#patterns').find(":selected").attr('class');
 
 
       if (_id==995) {      
-        $item.append('<input type="text" id="pattern-name" value="'+ window['userPattern'].name +'"/><label>Type new pattern name</label><a href="#" class="trigger-button">Save new pattern</a>'); // <div class="input-container">
+        $item.append('<input type="text" class="save" id="pattern-name" value="'+ window['userPattern']._name_ +'"/><label>Type pattern name</label><a href="#" class="trigger-button">Save pattern</a>'); // new <div class="input-container">
+      
+      } else if (_id==991) {      
+        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type sound name</label><a href="#" class="trigger-button">Save sound</a>'); 
+      
       }  else if (_id==997) {  
         $item.append('<a href="#" class="trigger-button">Change Channel</a>'); // Switch
 
@@ -100,6 +149,21 @@ var classs = $('#patterns').find(":selected").attr('class');
 
 
       $item.appendTo($container);
+
+//*
+
+var flag = false;
+$("#button"+_id+" a.trigger-button").bind('touchstart click', function(){ //  canvas
+  if (!flag) {
+    flag = true;
+    setTimeout(function(){ flag = false; }, 100);
+    _onMouseDown();
+    console.log('clicked!');
+  }
+
+  return false
+});
+//*/      
 
 
 if (usedLibrary=='Interface') {
@@ -173,16 +237,6 @@ var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.s
 //$("#button"+_id+" a.trigger-button").on('click', _onMouseDown); // span
 
 
-var flag = false;
-$("#button"+_id+" a.trigger-button").bind('touchstart click', function(){ //  canvas
-  if (!flag) {
-    flag = true;
-    setTimeout(function(){ flag = false; }, 100);
-    _onMouseDown();
-  }
-
-  return false
-});
 
 
 

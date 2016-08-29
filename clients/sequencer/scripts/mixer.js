@@ -174,7 +174,7 @@ console.log('mixer sending time:', startTimestamp);*/
     var _onNote = function(data) {
 //_sequencerView.updateNote(data.args); // remove audio stuttering
       _sequencer.updateNote(data.args);
-      //console.log('_onNote: ', data.args);
+      console.log('_onNote: ', data);
     };
 
 
@@ -224,7 +224,7 @@ console.log('mixer sending time:', startTimestamp);*/
       // if 'channel change' id from conductor role
       if (data.args.id==997) {
 
-       console.log('_clients before client kick', _clients);
+       //console.log('_clients before client kick', _clients);
        //_totalInstruments 
 
        
@@ -250,7 +250,7 @@ console.log('mixer sending time:', startTimestamp);*/
 
        }
 
-       console.log('_clients after client kick', _clients);
+       //console.log('_clients after client kick', _clients);
        
        var claients = Object.keys(_clients); 
 
@@ -330,6 +330,32 @@ console.log('mixer sending time:', startTimestamp);*/
         }
 //*/
 
+
+
+
+
+
+
+
+
+    // change preset
+    } else if (data.args.id==992) {
+
+        var instrument = _sequencer.updatePreset(data.args, data.client);        
+        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        _instruments[data.client] = instrument; 
+
+        /*// import notes from old instr to new one (so theyr are displayed on seq view)  
+        for (var i = 0; i < instrument.tracks.length; i++) {          
+          for (var j = 0; j < instrument.tracks[i].notes.length; j++) {            
+            var dataObj = { 
+            'id': instrument.id, // channel id
+            'trackId': instrument.tracks[i].id, 
+            'noteId': j , // step number 0-15 - instrument.tracks[i].note
+            'volume': instrument.tracks[i].notes[j]};  
+          }
+        }*/
+
       } else if (data.args.id==996) {
         _sequencer.changeSession(data.args, data.client);
 /*
@@ -364,6 +390,24 @@ console.log('mixer sending time:', startTimestamp);*/
         //console.log('ins data clt: ', _instruments[data.client]);
 
 
+
+
+      } else if (data.args.id==991) {
+        //console.log('995 save ptn data', data);
+        _sequencer.addPreset(data, data.client);
+
+        if (typeof data.args.triggerMode !== 'undefined') {
+          if (data.args.triggerMode == 'manual') {
+
+          data.args.x = data.args.kitNumber;
+          var instrument = _sequencer.updateInstrument(data.args, data.client);        
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          _instruments[data.client] = instrument; 
+          }
+        } 
+
+
+
       } else if (data.args.id==994) {
 
       //console.log('data 994:', data);   
@@ -386,6 +430,9 @@ console.log('mixer sending time:', startTimestamp);*/
         //console.log('data 993: channel sound', data); 
         _sequencer.updateChannelSound(data.client, data.args.x);
 
+      } else if (data.args.id==201) {  
+          console.log('data', data);
+        _sequencer.directInfoChange(data);
       } else {
         //console.log('non regular event id popped');
 
@@ -393,6 +440,8 @@ console.log('mixer sending time:', startTimestamp);*/
 
         if (data.args.id==699 || data.args.id==999 /*|| data.args.id==993*/) { // 993: update channel sound On/Off | 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
           _updateChannels();
+        } else if (data.args.id>0 && data.args.id<=200) { // >=0
+          _sequencer.directInfoChange(data);
         }
 
 
@@ -472,14 +521,26 @@ console.log('mixer sending time:', startTimestamp);*/
       window['SEQ'] = _sequencer;
 
       _sequencerView = new mixr.views.SequencerView(document.getElementById('sequencer-view')).initialize();
-      window['SEQVIEW'] = _sequencerView;
+      //window['SEQVIEW'] = _sequencerView;
+
+      window.barcount=0;
 
       _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
 
-        //console.log('beat', beat);
+        
+        // bar count rounds from bar1 to bar8
+        if (window.barcount==8 && beat==0) {
+          window.barcount=0;
+        }
+
+        if (beat==0) {
+          window.barcount++;
+        }
+
+        //console.log('beat', beat, window.barcount);
 
 //_sequencerView.drawPlayhead(beat); // remove audio stuttering
-        _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat}); // lighten data transmitted to clients
+        _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
       });
     };
 

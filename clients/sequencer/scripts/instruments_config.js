@@ -1,3 +1,912 @@
+
+window.draw = { // window.noteRanges 
+  c1_c2_major: [{ name: 'C2', note: -5 }, { name: 'B1', note: -6 }, { name: 'A1', note: -8 }, { name: 'G1', note: -10 }, { name: 'F1', note: -12 }, { name: 'E1', note: -13 }, { name: 'D1', note: -15 }, { name: 'C1', note: -17 } ],
+  
+  c1_c2_major_for_penta_minor: [{ name: 'C2', note: -5 }, { name: 'G1', note: -10 }, { name: 'C1', note: -17 } ],
+  c2_c3_major_for_penta_minor: [{ name: 'C3', note: 7 },  { name: 'G2', note: 2 }, { name: 'C2', note: -5 } ],
+  c3_c4_major_for_penta_minor: [{ name: 'C4', note: 19 }, { name: 'G3', note: 14 }, { name: 'C3', note: 7 } ],
+  c4_c5_major_for_penta_minor: [{ name: 'C5', note: 31 }, { name: 'G4', note: 26 }, { name: 'C4', note: 19 } ],  
+
+  c1_c2_penta_minor: [{ name: 'C2', note: -5 }, { name: 'Bb1', note: -7 }, { name: 'G1', note: -10 }, { name: 'F1', note: -12 }, { name: 'Eb1', note: -14 }, { name: 'C1', note: -17 } ],
+  c2_c3_penta_minor: [{ name: 'C3', note: 7 }, { name: 'Bb2', note: 5 }, { name: 'G2', note: 2 }, { name: 'F2', note: 0 }, { name: 'Eb2', note: -2 }, { name: 'C2', note: -5 } ],
+  c3_c4_penta_minor: [{ name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 } ],
+  c4_c5_penta_minor: [{ name: 'C5', note: 31 }, { name: 'Bb4', note: 29 }, { name: 'G4', note: 26 }, { name: 'F4', note: 24 }, { name: 'Eb4', note: 22 }, { name: 'C4', note: 19 } ],
+
+  c2_c4_penta_minor: [{ name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 }, { name: 'Bb2', note: 5 }, { name: 'G2', note: 2 }, { name: 'F2', note: 0 }, { name: 'Eb2', note: -2 }, { name: 'C2', note: -5 } ],
+  c3_c5_penta_minor: [{ name: 'C5', note: 31 }, { name: 'Bb4', note: 29 }, { name: 'G4', note: 26 }, { name: 'F4', note: 24 }, { name: 'Eb4', note: 22 }, { name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 } ],
+
+  chase_bass:[{ name: 'D#3', note:  10 }, { name: 'C3', note:  7 }, { name: 'A#2', note:  5 }, { name: 'G2', note:  2 }, { name: 'F2', note:  0 } ] };
+
+
+
+window.launch = {
+  sample_prg:
+[ // aka preset values
+          //
+{ name: 'Change instrument', // instrument/
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }
+],
+
+
+
+
+
+
+  synth_preset:
+    [           
+      { name: 'Choose ins/oct', 
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },
+
+      { name: 'Change sound', // Choose preset
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },      
+
+      { 
+        name: 'Save Preset',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },      
+
+      { name: 'Change pattern',
+        id: 994,
+        type: 'ddmenu', 
+        x: {
+          name: 'Pattern',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+
+      { 
+        name: 'Save Pattern',
+        id: 995,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Pattern',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },      
+
+      { 
+        name: 'Pattern sequencer',
+        id: 992,
+
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Sequence',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },        
+
+
+
+
+
+    ]
+};
+
+
+window.tweak = {
+  aike_websynth_v1: [
+
+{ 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'vco1.set_gain',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'vco2.set_gain',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'vco1.set_wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'triangle',
+                1: 'sawtooth',                     
+                2: 'square',
+              },               
+              max: 2 // 124                    
+            }                
+          },  
+
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'vco2.set_wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },                 
+              max: 2                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch',
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'vco2.set_pitch',                     
+              value: 76, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'eg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'eg.set_d',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'eg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'eg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'filter.set_freq',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'filter.set_q',                     
+              value: 75, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter eg amount',
+            id: 12,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter env attack',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'feg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'feg.set_d',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'feg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'feg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          }                  
+        ],
+
+  conductor: [ // aka preset values                                    
+                                    
+
+{ 
+          name: 'Ch1 vol',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch1 vol',
+              param: '_insVol0', // [external] = does not change timbre generator param
+              midicc: 7,  // 74                    
+              value: 50, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              muteKey: 49, // beware fr,fr azerty keyboard
+              muteNote: 48,
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Ch2 vol',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch2 vol',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              }, 
+
+              midicc: 4,  // 71                    
+              value: 10,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on 
+              mute: 1,        
+              muteKey: 50,    
+              muteNote: 50,      
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch3 vol',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch3 vol',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 10, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              midicc: 3,
+              mute: 1,        
+              muteKey: 51,                
+              muteNote: 52,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch4 vol',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'ch4 vol',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 6, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              midicc: 13,
+              mute: 1,        
+              muteKey: 52,  
+              muteNote: 53,
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch5 vol',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'ch5 vol',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 18, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 14,
+              mute: 1,        
+              muteKey: 53,                
+              muteNote: 55,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch6 vol',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch6 vol',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 9,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 15,
+              mute: 1,        
+              muteKey: 54,                
+              muteNote: 57,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch7 vol',
+          id: 807,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch7 vol',
+              param: '_insVol7', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set' 
+              },                   
+              value: 22, // 40
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 16,
+              mute: 1,        
+              muteKey: 55,                
+              muteNote: 59,
+              min: 0,
+              max: 1
+          }                
+        },
+
+
+
+
+
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 90, // 100 - 85 110 - 119
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 220, // 400
+              min: 60,
+              max: 220 // 400
+          }               
+        },
+
+        { // control
+          name: 'Channel change',
+          id: 997,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'Channel change',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+
+        { // control
+          name: 'Session change',
+          id: 996,
+
+          type: 'ddmenu', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session', //  dest (1>2) - Pick session
+              param: '[external]', 
+              midicc: 0,                      
+              value: 2, // starting at session 001
+              stepSize: 0, 
+              interpolate: 0, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 1,
+              max: 2
+          }                 
+        },
+
+        { 
+          name: 'C1 start bar offset',
+          id: 700,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C1 start bar offset',
+              param: '_insBarOffset0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },       
+
+        { 
+          name: 'C8 start bar offset',
+          id: 701,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C2 start bar offset',
+              param: '_insBarOffset1', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0, //
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },            
+
+        { 
+          name: 'C2 start bar offset',
+          id: 702,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C3 start bar offset',
+              param: '_insBarOffset2', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 4, //
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C3 start bar offset',
+          id: 703,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C4 start bar offset',
+              param: '_insBarOffset3', // [external] = does not change timbre generator param
+              midicc: 32,                      
+              value: 8, // 8
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C4 start bar offset',
+          id: 704,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C5 start bar offset',
+              param: '_insBarOffset4', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 16, // 48
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C5 start bar offset',
+          id: 705,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C6 start bar offset',
+              param: '_insBarOffset5', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 20, // 64
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C6 start bar offset',
+          id: 706,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C7 start bar offset',
+              param: '_insBarOffset6', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32, // 70
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },  
+
+        { 
+          name: 'C7 start bar offset',
+          id: 707,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C8 start bar offset',
+              param: '_insBarOffset7', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 24, // 74
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+                                                       
+
+        { 
+          name: 'General Bar kickout time',
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General kickout time (in bars)',
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32, // 90 ? don't 
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }                                   
+
+      ]        
+      
+
+};
+
+
+var c1_e1_3_notes = (JSON.parse(JSON.stringify(window.draw.c1_c2_major)));
+var c1_e1_3_notes = c1_e1_3_notes.splice(5,3);
+
+
+var synthControlsWithouKitPtnseq = (JSON.parse(JSON.stringify(window.launch.synth_preset)));
+synthControlsWithouKitPtnseq.splice(5, 1); // remove ptnSeq
+//synthControlsWithouKitPtnseq.splice(0, 1); // remove kit (ins-oct) change
+
+var aikeWebsynthControlsReduced = synthControlsWithouKitPtnseq.concat(window.tweak.aike_websynth_v1);
+
+//var synthControlsNoPtnseq= window.launch.synth_preset;
+//synthControlsNoPtnseq.splice(0, 1); // remove kit (ins-oct) change
+
+var aikeWebsynthControls = window.launch.synth_preset.concat(window.tweak.aike_websynth_v1); //collect(window.launch.sample_prg, window.tweak.aike_websynth_v1);
+
+
+
+
+var smpPrgChangeSavePattern= window.launch.sample_prg;
+//smpPrgChangeSavePattern.splice(0, 1); ///.shift();  
+
+//console.log('smpPrgChangeSavePattern', smpPrgChangeSavePattern);
+
+
+
+
 window.insConf1 = [ // channelConf
 
 // orange channel

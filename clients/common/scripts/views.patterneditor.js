@@ -46,7 +46,8 @@
       _self.emit(mixr.enums.Events.NOTE, {
         volume: isItOn ? 1 : 0,
         note: noteIndex,
-        trackId: $(this).parent().data('id')
+        trackId: $(this).parent().data('id'),
+        patternId: $('#patterns').find(":selected").val()
       });
     };
 

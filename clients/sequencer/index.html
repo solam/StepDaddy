@@ -30,7 +30,7 @@
       /*width: 100%;*/
       margin-left: auto;
       margin-right: auto;  
-      font-size: 30px;   
+      font-size: 40px;  /* 30*/ 
     } 
 
     #instructions span {
@@ -79,17 +79,49 @@ button.stop_rec {
   display: inline-block; 
 }
 
+#tips span.taitol {
+  position: relative;
+  top: 40px;
+  color: lightgrey;
+  font-weight: normal;
+}
+
+#tips ul li {
+  font-size: 30px;
+}
+
   </style>
 </head>
 <body>
-<div id="instructions"><!--audio server loaded-->Générateur sonore prêt<br/>
-<br/>Pour participer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<br/>1) Connectez-vous au réseau Wi-Fi: <span>loops</span> (pas de mot de passe)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<br/>2) Sur votre navigateur tapez l'adresse: <span>http://loops.play</span> (ou http://192.168.2.24)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- ou http://loops:8282--> 
-<br/>3) Sur la page ...Loops cliquez sur: <span>JOIN CURRENT APP SESSION</span>
-<br/><br/>
-<!--Instructions--> Conseils pour jouer de son instrument/contrôleur  : 
-<br/>- tenir son smartphone en mode paysage
+<div id="instructions"><!--audio server loadedGénérateur sonore prêt<br/>-->
+<br/>Pour participer à la <span>performance musicale collective:</span><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<br/>1) Connectez-vous au <span>réseau Wi-Fi</span>: <span>loops</span> (pas de mot de passe)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<br/>2) Sur votre <span>navigateur Web</span> tapez l'adresse: <span>http://loops.play</span> (ou http://192.168.2.24)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--><!-- ou http://loops:8282--> 
+<!--<br/>3) Sur la page ...Loops cliquez sur: <span>JOIN CURRENT APP SESSION</span>-->
+<br/><!--<br/>-->
+<!--Instructions--> <!--Conseils pour jouer de son instrument/contrôleur  : 
+<br/>- tenir son smartphone en mode paysage-->
+
+  <div id="tips">
+    <span class="taitol">Conseils:</span>
+    <ul>
+      <li>Si vous utilisez un <i>smartphone</i>:
+       <ul>
+        <li>tenez le en mode "paysage"</li>
+        <li>configurez le de façon à ce que votre écran ne s'éteigne que toutes les 3 à 5 minutes</li>
+        <li>pour le domaine loops.play désactivez la traduction automatique des pages Web de l'anglais vers le français</li>
+       </ul> 
+       <br/>
+      <li>Si vous rencontrez des problèmes: </li>
+        <ul>
+          <li>rafraîchissez votre page Web <!--(ctrl+r ou f5 sur ordinateur <i>desktop</i>)--></li>
+          <li>installez et utilisez le navigateur Google Chrome (...Loops ne semble pas fonctionner sous Apple iOS - Safari)</li>
+          <li>vérifiez que votre appareil est compatible avec le Wi-Fi N (norme IEEE 802.11n) utilisé par le réseau local loops</li>
+       </ul> 
+    </ul>  
+  </div>
+
+
 </div><!-- ARTISTES-RESIDENTS - A8MN13mPde  / pwd: <span></span> -->
 
 <br/>
@@ -160,6 +192,7 @@ button.stop_rec {
   <script src="scripts/instruments_config_02.js"></script><!-- cumbersome to add a file for each session -->
   <script src="scripts/instruments_config_03.js"></script>
   <script src="scripts/instruments_config_04.js"></script>
+  <script src="scripts/instruments_config_05.js"></script>
 
   <script src="../common/scripts/models.track.js"></script>
   <script src="../common/scripts/models.instrument.js"></script>
@@ -177,6 +210,34 @@ button.stop_rec {
 
 
   <script type="text/javascript">
+
+
+/*
+// success callback when requesting audio input stream
+function gotStream(stream) {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext = new AudioContext();
+
+    // Create an AudioNode from the stream.
+    var mediaStreamSource = audioContext.createMediaStreamSource( stream );
+
+    // Connect it to the destination to hear yourself (or any other node for processing!)
+    mediaStreamSource.connect( window['audio_context'] ); // audioContext.destination
+}
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+navigator.getUserMedia( {audio:true}, gotStream );
+
+*/
+
+
+
+
+
+
+
+
+
 
 
 var recMode = 'manual'; // manual | auto  

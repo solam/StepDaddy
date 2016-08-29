@@ -14,14 +14,24 @@
   <div class="roundedTwo">
     <input type="checkbox" value="None" id="roundedTwo" name="check" checked/>
     <label for="roundedTwo"></label>
-    <span>Check button to be part of current collective music performance</span><!-- [uncheck to standbye (not participate in the session)] -->
+    <span>Uncheck to PAUSE playing</span><!-- [uncheck to standbye (not participate in the session)] Check button to be part of current collective music performance-->
   </div>
 
   <div id="tips">
     <h2>Conseils:</h2>
     <ul>
-      <li>Si vous utilisez un <i>smartphone</i> tenez le en mode "paysage"</li>
-      <li>Si vous rencontrez un problème, rafraîchissez votre page Web (ctrl+r ou f5 sur ordinateur <i>desktop</i>)</li>
+      <li>Si vous utilisez un <i>smartphone</i>:
+       <ul>
+        <li>tenez le en mode "paysage"</li>
+        <li>configurez le de façon à ce que votre écran ne s'éteigne que toutes les 3 à 5 minutes</li>
+        <li>pour le domaine loops.play désactivez la traduction automatique des pages Web de l'anglais vers le français</li>
+       </ul> 
+      <li>Si vous rencontrez des problèmes: </li>
+        <ul>
+          <li>rafraîchissez votre page Web (ctrl+r ou f5 sur ordinateur <i>desktop</i>)</li>
+          <li>installez et utilisez le navigateur Google Chrome (...Loops ne semble pas fonctionner sous Apple iOS - Safari)</li>
+          <li>vérifiez que votre appareil est compatible avec le Wi-Fi N (norme IEEE 802.11n) utilisé par le réseau local loops</li>
+       </ul> 
     </ul>  
   </div>
 
@@ -143,7 +153,7 @@ var checkAvailableSlots = setInterval(function () {
     var startDate = new Date();
     var userStartTime = startDate.getTime();    
 
-    var waitingTime = getRandomInt(1, 20);
+    var waitingTime = getRandomInt(1, 15); // 40
     //alert(waitingTime);
     var userGoTime = userStartTime + waitingTime*1000;
 

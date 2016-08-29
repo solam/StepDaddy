@@ -18,10 +18,11 @@
 
   <div id="left">
     <ul class="menu" id="fixed">
-        <li id="info-menu"><a href="#notes" class="scrolltop" id="menu-notes">info</a></li>
-        <li id="notes-menu"><a href="#pattern-editor">notes</a></li>
-        <li id="control-menu"><a href="#modifiers">control</a></li><!-- snd & ptn -->
-        <li id="tweak-menu"><a href="#id1">tweak</a></li><!-- #slider1 -->
+        <li id="info-menu"><a href="#notes" class="scrolltop" id="menu-notes">ch info</a></li><!-- nel info-->
+        <li id="notes-menu"><a href="#pattern-editor">draw</a></li><!-- notes-->
+        <li id="control-menu"><a href="#modifiers">launch</a></li><!-- snd & ptn control -->
+        <li id="tweak-menu"><a href="#slider1">tweakA</a></li><!-- #slider1 -->
+        <li id="tweak-menu2"><a href="#id1">tweakB</a></li>
         <!--<li><a href="#modulation">mod</a></li> instrument modulation-->
     </ul>
   </div>
@@ -182,17 +183,12 @@ a.add(b); // ,c
 
   <script src="scripts/device.js"></script>
   <script type="text/javascript">
-
+/*
 var windowHeight = $(window).height();
-
 var ptnHeight = 0.7*windowHeight;
-
-console.log('heights: ', windowHeight, ptnHeight);
-
-
-
+//console.log('heights: ', windowHeight, ptnHeight);
 $('#pattern-editor').css('height', ptnHeight);
-
+*/
 
 
 $("a[href='#notes']").click(function() {
@@ -209,6 +205,7 @@ $("a[href='#id1']").click(function() {
   window.scrollTo(0,document.body.scrollHeight);
   //  return false;
 });
+
 
 
 
@@ -258,6 +255,22 @@ window.scrollTo(0,1);
 
 }
 */
+
+/*
+// Shorthand for $( document ).ready()
+$(function() {
+  $('#midiIn option').val('Komplete Audio 6 MIDI 1').prop('selected',true); // option:eq(2)
+});
+*/
+
+
+
+
+
+
+
+
+
 
 
   </script>

@@ -163,3 +163,60 @@ function rotate( array , times ){
   }
 }
 //</script>
+
+
+/**
+ * Sort JavaScript Object
+ * CF Webtools : Chris Tierney
+ * obj = object to sort
+ * order = 'asc' or 'desc'
+ */
+function sortObj( obj, order ) {
+  "use strict";
+
+  var key,
+    tempArry = [],
+    i,
+    tempObj = {};
+
+  for ( key in obj ) {
+    tempArry.push(key);
+  }
+
+  tempArry.sort(
+    function(a, b) {
+      return a.toLowerCase().localeCompare( b.toLowerCase() );
+    }
+  );
+
+  if( order === 'desc' ) {
+    for ( i = tempArry.length - 1; i >= 0; i-- ) {
+      tempObj[ tempArry[i] ] = obj[ tempArry[i] ];
+    }
+  } else {
+    for ( i = 0; i < tempArry.length; i++ ) {
+      tempObj[ tempArry[i] ] = obj[ tempArry[i] ];
+    }
+  }
+
+  return tempObj;
+}
+
+
+function isEvenStrict(n) {
+  return n === parseFloat(n)? !(n%2) : void 0;
+}
+
+
+function collect() {
+  var ret = {};
+  var len = arguments.length;
+  for (var i=0; i<len; i++) {
+    for (p in arguments[i]) {
+      if (arguments[i].hasOwnProperty(p)) {
+        ret[p] = arguments[i][p];
+      }
+    }
+  }
+  return ret;
+}

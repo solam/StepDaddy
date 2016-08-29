@@ -18,7 +18,7 @@
   }
 
   #pattern-editor.control {
-    /*display:none; */   
+    display:none;    
   }
 
   div.ctrlchange {
@@ -307,6 +307,7 @@ div.button.contact {
   width: 160px; 
 }
 
+.ctrlchange input.save,
 input#pattern-name {
   /*width:220px;*/  
   /*display: inline-block;
@@ -746,15 +747,110 @@ body.control #thesessions {
 }
 
 .cont-noui-slider {
-  width: 60px;
-  height: 200px;
+  /*width: 60px;*/
+  height: 140px; /*200*/
 }
+
+.cont-noui-slider.noUi-vertical {
+    width: 26px;
+}
+
+.cont-noui-slider .noUi-handle {
+    width: 36px !important;
+    height: 24px !important;
+}    
 
 .ctrlchange.slider.noui .noUi-connect {
     transition: background 0ms;
 }
 
+.ctrlchange.slider.noui input {
+  height: 26px;
+  min-width: 26px;
+  width: 26px;
+  text-indent: 2px;
+}
+
+.ctrlchange.slider.noui {
+  margin-right:30px;
+  margin-bottom:30px;
+}
+
+.ctrlchange.slider.noui span {
+  width: 22px;
+}  
+
+.ctrlchange#id2 {
+  display: inline-block;
+}
+
+.ctrlchange#id4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 0;
+}
+
+
+
 .mutes {
   width: 40px;
   height: 40px;
+}
+
+#channelinfo a {
+  padding: 0;
+  margin: 0;
+}
+
+#midiIn {
+  display:none;
+}
+
+.control #midiIn {
+  display:block;
+}
+
+
+/* session 5: Electropixel #6 */
+body.samples ul.menu#fixed li#tweak-menu,
+body.samples ul.menu#fixed li#tweak-menu2,
+.channel8.session5 #thekits,
+.channel7.session5 #thekits,
+
+.channel8.session5 #thepresets,
+.channel7.session5 #thepresets,
+.channel8.session5 #button991,
+.channel7.session5 #button991,
+
+.channel5.session5 #thekits,
+.channel3.session5 #thekits,
+.channel1.session5 #thekits {
+  display:none;
+}
+
+.ddmenucont {
+    width: 65px;
+    height: 199px;
+    position: relative;
+    float: left;
+    margin-right: 20px;
+}
+
+.ctrlchange.ddmenu select {
+  width: 60px;
+}
+
+#thepresets label,
+#button991 label
+/*input#preset-name,
+select#presets option[selected]*/ {
+  background: #AF5D25 !important; /* E16C25 */
+}
+
+#thepatterns label,
+#button995 label
+/*input#pattern-name,
+select#patterns option[selected]*/ {
+  background: #B6BD79 !important;
 }
