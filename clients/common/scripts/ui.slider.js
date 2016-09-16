@@ -280,7 +280,7 @@ window['muteNote'+_muteNote] = function( number, value ) { // controller
 
 if (usedLibrary=='noUiSlider') {
 
-      $item = $('<div class="ctrlchange slider noui"><div class="cont-noui-slider DDDDslider '+_orientation+'" id="slider'+ _id +'""></div><input id="input'+ _id +'" type="text">'); // conntainer $itemContainer
+      $item = $('<div class="ctrlchange slider noui" id="ctrl'+ _id +'"><div class="cont-noui-slider DDDDslider '+_orientation+'" id="slider'+ _id +'"></div><input id="input'+ _id +'" type="text">'); // conntainer $itemContainer
       
       
 

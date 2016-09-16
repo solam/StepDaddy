@@ -26,13 +26,46 @@
     var _onToggleNote = function() {
 
 
-      if ($('#patterns option[value="0"]').length>0 ) {
-        $('#patterns option[value="0"]').remove();
-      }
 
-      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved pattern]</option>');
-      $itemOptionUnsaved.appendTo(document.getElementById('patterns'));
-      $('#patterns option[value="0"]').prop('selected',true);
+      if (window.stepSeq==1) {
+/*
+         var classs = $('#patterns').find(":selected").attr('class');
+         var presetId = $('#presets').find(":selected").val();    
+         var patternId = $('#patterns').find(":selected").val();
+         var KitNumber = $('#kits').find(":selected").val(); 
+         
+         window['userPattern']._name_ = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
+         window['userPattern'].id = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
+
+         // put 'name' object key as first key to appear into Webstorage key=>value display
+         var alphaAscSortedUserPattern = sortObj(window['userPattern'],'asc');
+         var ptnString = JSON.stringify(alphaAscSortedUserPattern); 
+         var ptnString = ptnString.replace('_name_', 'name'); 
+
+
+
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: KitNumber, y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId});
+        
+        localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
+
+
+        $itemOption = $('<option class="user" id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern']._name_+'</option>');
+        $itemOption.appendTo(document.getElementById('patterns'));
+        if( $('#patterns').length ) {
+          $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
+        } */
+
+      } else {
+
+        if ($('#patterns option[value="0"]').length>0 ) {
+          $('#patterns option[value="0"]').remove();
+        }
+
+        $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved pattern]</option>');
+        $itemOptionUnsaved.appendTo(document.getElementById('patterns'));
+        $('#patterns option[value="0"]').prop('selected',true);
+
+      }
 
 
       var noteIndex = $(this).index();

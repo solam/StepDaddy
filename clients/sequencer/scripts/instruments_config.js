@@ -23,21 +23,7 @@ window.launch = {
   sample_prg:
 [ // aka preset values
           //
-{ name: 'Change instrument', // instrument/
-          id: 998,
-          type: 'ddmenu', 
-          x: {
-            name: 'Instrument',
-            param: '[external]', 
-            value: 0,
-            stepSize: 0, 
-            interpolate: 0, // 0: off | 1: on                   
-            displayedRangeMin: 0,
-            displayedRangeMax: '[calc]',
-            min: 0,
-            max: '[calc]'
-          }                 
-        },
+
 
         { name: 'Change pattern',
           id: 994,
@@ -72,7 +58,51 @@ window.launch = {
               stepSize: 0, 
               interpolate: 0 
           }                 
-        }
+        },
+
+      { name: 'Change sound kit', // instrument/
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+      /*  { 
+          name: 'Time Shift',
+          id: 990,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Time Shift',
+              param: '[external]', // [external] = does not change timbre generator param
+              //midicc: 7,  // 74                    
+              value: 0, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              // muteKey: 49, // beware fr,fr azerty keyboard
+              // muteNote: 48,
+              displayedRangeMin: -50,
+              displayedRangeMax: 50,
+              min: -50,
+              max: 150
+          }                
+        } */
+
 ],
 
 
@@ -82,55 +112,7 @@ window.launch = {
 
   synth_preset:
     [           
-      { name: 'Choose ins/oct', 
-        id: 998,
-        type: 'ddmenu', 
-        x: {
-          name: 'Instrument/Octave',
-          param: '[external]', 
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0, // 0: off | 1: on                   
-          displayedRangeMin: 0,
-          displayedRangeMax: '[calc]',
-          min: 0,
-          max: '[calc]'
-        }                 
-      },
 
-      { name: 'Change sound', // Choose preset
-        id: 992,
-        type: 'ddmenu', 
-        x: {
-          name: 'Preset',
-          param: '[external]', 
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0, 
-          displayedRangeMin: 0,
-          displayedRangeMax: '[calc]',
-          min: 0,
-          max: '[calc]'
-        }                 
-      },      
-
-      { 
-        name: 'Save Preset',
-        id: 991,
-        type: 'contact', 
-        direction: 0, 
-        colors: { 
-          fg: '#51ACBD' 
-        },   
-        x: {
-          name: 'Save Preset',
-          param: '[external]', 
-          midicc: 0,                      
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0 
-        }                 
-      },      
 
       { name: 'Change pattern',
         id: 994,
@@ -164,7 +146,57 @@ window.launch = {
           stepSize: 0, 
           interpolate: 0 
         }                 
+      },    
+
+      { name: 'Change note range', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },         
+
+      { name: 'Change sound', // Choose preset
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
       },      
+
+      { 
+        name: 'Save sound',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },           
 
       { 
         name: 'Pattern sequencer',
@@ -185,8 +217,33 @@ window.launch = {
         }                 
       },        
 
+/*
+{ 
+          name: 'Time Shift',
+          id: 990,
 
-
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Time Shift',
+              param: '[external]', // [external] = does not change timbre generator param
+              //midicc: 7,  // 74                    
+              value: 0, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              //muteKey: 49, // beware fr,fr azerty keyboard
+              //muteNote: 48,
+              displayedRangeMin: -50,
+              displayedRangeMax: 50,
+              min: -50,
+              max: 150
+          }                
+        } */
 
 
     ]
@@ -890,6 +947,7 @@ synthControlsWithouKitPtnseq.splice(5, 1); // remove ptnSeq
 //synthControlsWithouKitPtnseq.splice(0, 1); // remove kit (ins-oct) change
 
 var aikeWebsynthControlsReduced = synthControlsWithouKitPtnseq.concat(window.tweak.aike_websynth_v1);
+//console.log('aikeWebsynthControlsReduced', aikeWebsynthControlsReduced);
 
 //var synthControlsNoPtnseq= window.launch.synth_preset;
 //synthControlsNoPtnseq.splice(0, 1); // remove kit (ins-oct) change
@@ -911,7 +969,7 @@ window.insConf1 = [ // channelConf
 
 // orange channel
 
-{ sessionName: 'Pitch instruments A',
+{ sessionName: 'Pitch ins', // instruments A 
   channelName: 'Channel 1: drums',  
   trackSet: 1, // defaultKit or might always be first object of patterns array
   //*
@@ -991,7 +1049,7 @@ window.insConf1 = [ // channelConf
           name: 'Save Pattern',
           id: 995,
 
-          type: 'input', // nexus push button
+          type: 'contact', // nexus push button
           direction: 0, 
           colors: { 
             fg: '#51ACBD' 
@@ -1478,7 +1536,7 @@ window.insConf1 = [ // channelConf
               subParams: { 
                 AikeWebsynth1: 'volume.set' 
               },                   
-              value: 18, // 23
+              value: 60, // 23 - 18
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1601,7 +1659,7 @@ window.insConf1 = [ // channelConf
           name: 'Session change',
           id: 996,
 
-          type: 'input', 
+          type: 'ddmenu', 
           direction: 0, 
           colors: { 
             fg: '#51ACBD' 
@@ -1849,7 +1907,7 @@ window.insConf1 = [ // channelConf
               name: 'General kickout time (in bars)',
               param: '_insKickoutTime', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 90, // 90 ? don't 
+              value: 32, // 90 ? don't 
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1898,8 +1956,9 @@ window.insConf1 = [ // channelConf
   sound: 0, // 0: channel sound is muted/off at system startup
 
   //*
-  defaultPattern: 2,
+  defaultPattern: 0,
   patterns: [ // channel patterns
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
     {"name":"dnb ptn for c3", "classs":"channel", "id":"d969fe00-19c6-11e6-a327-f59272910000", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]},
     {"classs":"channel", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]],"id":"81a98180-1887-11e6-8ebb-edf93ea0000c","name":"4/4 for channel 3"},
     {"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]],"id":"8ada4c70-3737-11e6-bd9c-698a56bf295d","name":"nice 303 bassline","classs":"user"}    
@@ -2193,7 +2252,7 @@ window.insConf1 = [ // channelConf
                 { 
                   name: 'osc2 waveform',
                   id: 4,
-                  type: 'input',                                    
+                  type: 'ddmenu',                                    
                   x: {
                     name: 'osc2 waveform',
                     param: 'vco2.set_wave',                     
@@ -2507,7 +2566,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -2721,7 +2780,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -2751,7 +2810,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -3038,7 +3097,7 @@ window.insConf1 = [ // channelConf
 // Pink channel
 
 { channelName: 'Channel 5: melodic percussions (c3>c4)',  
-  trackSet: 1, 
+  trackSet: 0, //1
   conf: [ 
   
 //     { type: 'synth',
@@ -3370,7 +3429,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -3422,7 +3481,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', // input
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -3472,7 +3531,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -3670,7 +3729,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -3685,7 +3744,7 @@ window.insConf1 = [ // channelConf
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -3700,7 +3759,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -3715,7 +3774,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -3730,7 +3789,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -3745,7 +3804,7 @@ window.insConf1 = [ // channelConf
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -3760,7 +3819,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -3775,7 +3834,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -3790,7 +3849,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -3805,7 +3864,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -3820,7 +3879,7 @@ window.insConf1 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -3835,7 +3894,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -3867,7 +3926,7 @@ window.insConf1 = [ // channelConf
         // },  
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -3882,7 +3941,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -3897,7 +3956,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -3912,7 +3971,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -3927,7 +3986,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -3978,7 +4037,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -4063,7 +4122,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -4078,7 +4137,7 @@ window.insConf1 = [ // channelConf
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -4093,7 +4152,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -4108,7 +4167,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -4123,7 +4182,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -4138,7 +4197,7 @@ window.insConf1 = [ // channelConf
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -4153,7 +4212,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -4168,7 +4227,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -4183,7 +4242,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -4198,7 +4257,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -4213,7 +4272,7 @@ window.insConf1 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -4228,7 +4287,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -4245,7 +4304,7 @@ window.insConf1 = [ // channelConf
         // { 
         //   name: 'filter eg',
         //   id: 12,
-        //   type: 'input',                                    
+        //   type: 'slider',                                    
         //   x: {
         //     name: 'filter eg',
         //     param: 'filter.set_eg',                     
@@ -4260,7 +4319,7 @@ window.insConf1 = [ // channelConf
         // }, 
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -4275,7 +4334,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -4290,7 +4349,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -4305,7 +4364,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -4320,7 +4379,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -4372,7 +4431,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -4444,7 +4503,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 
@@ -4459,7 +4518,7 @@ window.insConf1 = [ // channelConf
         },    
         { name: 'osc1 vol',
           id: 1,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc1 vol',
             param: 'vco1.set_gain',                     
@@ -4474,7 +4533,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc1 waveform',
           id: 2,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc1 waveform',
             param: 'vco1.set_wave',                     
@@ -4489,7 +4548,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'osc2 vol',
           id: 3,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 vol',
             param: 'vco2.set_gain',                     
@@ -4504,7 +4563,7 @@ window.insConf1 = [ // channelConf
         },
         { name: 'osc2 waveform',
           id: 4,
-          type: 'input',                                    
+          type: 'ddmenu',                                    
           x: {
             name: 'osc2 waveform',
             param: 'vco2.set_wave',                     
@@ -4519,7 +4578,7 @@ window.insConf1 = [ // channelConf
         },     
         { name: 'osc2 pitch',
           id: 5,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'osc2 pitch',
             param: 'vco2.set_pitch',                     
@@ -4534,7 +4593,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'env attack',
           id: 6,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env attack',
             param: 'eg.set_a',                     
@@ -4549,7 +4608,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env decay',
           id: 7,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env decay',
             param: 'eg.set_d',                     
@@ -4564,7 +4623,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env sustain',
           id: 8,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env sustain',
             param: 'eg.set_s',                     
@@ -4579,7 +4638,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'env release',
           id: 9,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'env release',
             param: 'eg.set_r',                     
@@ -4594,7 +4653,7 @@ window.insConf1 = [ // channelConf
         },                                                                                                             
         { name: 'filter cutoff',
           id: 10,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter cutoff',
             param: 'filter.set_freq',                     
@@ -4609,7 +4668,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter resonance',
           id: 11,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter resonance',
             param: 'filter.set_q',                     
@@ -4641,7 +4700,7 @@ window.insConf1 = [ // channelConf
         // },  
         { name: 'filter eg amount',
           id: 13,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter eg amount',
             param: 'filter.set_amount',                     
@@ -4656,7 +4715,7 @@ window.insConf1 = [ // channelConf
         },  
         { name: 'filter env attack',
           id: 14,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env attack',
             param: 'feg.set_a',                     
@@ -4671,7 +4730,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env decay',
           id: 15,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env decay',
             param: 'feg.set_d',                     
@@ -4686,7 +4745,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env sustain',
           id: 16,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env sustain',
             param: 'feg.set_s',                     
@@ -4701,7 +4760,7 @@ window.insConf1 = [ // channelConf
         },   
         { name: 'filter env release',
           id: 17,
-          type: 'input',                                    
+          type: 'slider',                                    
           x: {
             name: 'filter env release',
             param: 'feg.set_r',                     
@@ -4753,7 +4812,7 @@ window.insConf1 = [ // channelConf
       controls: [ 
         { name: '[Kit change]',
           id: 998,
-          type: 'input', 
+          type: 'ddmenu', 
           x: {
             name: 'Kit change',
             param: '[external]', 

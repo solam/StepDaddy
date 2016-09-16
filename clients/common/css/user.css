@@ -25,7 +25,7 @@
     float:left;
     margin-right: 20px; /*30*/
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /*20 */
   }
 
   div.ctrlchange input {
@@ -812,6 +812,13 @@ body.control #thesessions {
 }
 
 
+/* session 1: ins pitch */
+.session1 #thesessions {
+  display:none;
+}
+
+
+
 /* session 5: Electropixel #6 */
 body.samples ul.menu#fixed li#tweak-menu,
 body.samples ul.menu#fixed li#tweak-menu2,
@@ -820,12 +827,25 @@ body.samples ul.menu#fixed li#tweak-menu2,
 
 .channel8.session5 #thepresets,
 .channel7.session5 #thepresets,
-.channel8.session5 #button991,
-.channel7.session5 #button991,
+/*.channel8.session5 #button991,
+.channel7.session5 #button991,*/
 
 .channel5.session5 #thekits,
 .channel3.session5 #thekits,
-.channel1.session5 #thekits {
+.channel1.session5 #thekits,
+.session5 #button995,
+.session5 #button991,
+.session5 #avail-ptns,
+.session5 #played-ptns,
+.session5 .ctrlchange#ctrl1, /* osc1 vol */
+.session5 .ctrlchange#ctrl3,  /* osc2 vol */
+.session5 .ctrlchange#ctrl6, /* env attack */
+.session5 .ctrlchange#ctrl12, /* filter eg amount */
+.session5 .ctrlchange#ctrl15, /* filter env sustain */
+.session5 .ctrlchange#ctrl16, /* filter env release */
+.session5 .ddmenucont,
+.session5 li#tweak-menu a
+ {
   display:none;
 }
 
@@ -837,20 +857,55 @@ body.samples ul.menu#fixed li#tweak-menu2,
     margin-right: 20px;
 }
 
+.session5 #ctrl5 { /* osc2 pitch */
+  clear:both;
+}
+
 .ctrlchange.ddmenu select {
   width: 60px;
 }
 
+body.synth .noUi-connect,
 #thepresets label,
 #button991 label
 /*input#preset-name,
 select#presets option[selected]*/ {
-  background: #AF5D25 !important; /* E16C25 */
+  background: darkgrey !important; /* E16C25 - #AF5D25: marron */
 }
+
+/*
+ {
+    background: #3FB8AF;
+    box-shadow: inset 0 0 3px rgba(51,51,51,.45);
+    -webkit-transition: background 450ms;
+    transition: background 450ms;
+}*/
+
+
 
 #thepatterns label,
 #button995 label
 /*input#pattern-name,
 select#patterns option[selected]*/ {
-  background: #B6BD79 !important;
+  /*background: #000 !important; /* #B6BD79: pale green 
+  color: #777;*/
+  background: #333 !important;
+  color: #999;  
+}
+
+
+#pattern-editor td {
+  /*background: #000;
+  color: #777;*/
+  /*background: #333;
+  color: #999;  */
+}
+
+#thekits label {
+  background: #B6BD79 !important;  
+}
+
+/* remove bpm from conductor controller */
+#ctrl999 {
+  display:none;
 }

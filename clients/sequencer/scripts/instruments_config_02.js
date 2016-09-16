@@ -2,7 +2,7 @@ window.insConf2 = [ // channelConf
 
 // orange channel
 
-{ sessionName: 'Pitch instruments A',
+{ sessionName: 'Batucada',
   channelName: 'Channel 1: drums',  
   trackSet: 1, // defaultKit or might always be first object of patterns array
   //*

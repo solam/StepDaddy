@@ -60,7 +60,7 @@
     var _onClientJoined = function(data) {
 
       //console.log('sysptns at client join room:', _sequencer._systemPatterns); 
-      console.log('mixer.js _onClientJoined:', data); 
+      //console.log('mixer.js _onClientJoined:', data); 
 
       var client = _clients[data.client];
       if (typeof client !== 'undefined') {
@@ -93,7 +93,7 @@
       } else {  
       _clients[data.client] = true;
       }
-      console.log('_clients', _clients);
+      //console.log('_clients', _clients);
       //_updateChannels();
 
     };
@@ -102,7 +102,11 @@
       console.log('A client with id', data.client, 'left the room');
       var instrument = _instruments[data.client];
       if (typeof instrument !== 'undefined') {
+
+
+if (window.graphixMode==1) {        
         //_sequencerView.removeInstrument(instrument);
+}        
         _sequencer.addInstrument(instrument); // add abandoned instrument to "available instruments" list
         delete _instruments[data.client];
         _totalInstruments--;
@@ -129,7 +133,7 @@
 
     var _onGetInstrument = function(data) {
       var pwd = _clients[data.client];
-      console.log('Got a request for an instrument', data);
+      //console.log('Got a request for an instrument', data);
 
       /* var numAvailableInstruments = _sequencer._availableInstruments.length; // - _channelUsedCount;
       console.log('seq avail ins length', _sequencer._availableInstruments.length);
@@ -153,7 +157,10 @@ console.log('mixer sending time:', startTimestamp);*/
         //console.log('>>> Instrument', instrument, _totalInstruments);
         if (typeof _instruments[data.client] === 'undefined') {
           _totalInstruments++;
-//_sequencerView.addInstrument(instrument) // remove audio stuttering
+
+if (window.graphixMode==1) {          
+  _sequencerView.addInstrument(instrument) // remove audio stuttering
+}
           _instruments[data.client] = instrument;
           $('#roomId').hide();
 
@@ -172,7 +179,12 @@ console.log('mixer sending time:', startTimestamp);*/
     };
 
     var _onNote = function(data) {
-//_sequencerView.updateNote(data.args); // remove audio stuttering
+
+
+if (window.graphixMode==1) {
+  _sequencerView.updateNote(data.args); // remove audio stuttering
+}     
+
       _sequencer.updateNote(data.args);
       console.log('_onNote: ', data);
     };
@@ -428,10 +440,13 @@ console.log('mixer sending time:', startTimestamp);*/
 
       } else if (data.args.id==993) { // update channel infos
         //console.log('data 993: channel sound', data); 
-        _sequencer.updateChannelSound(data.client, data.args.x);
+        _sequencer.updateChannelSound(data.client, data.args.x, 0);
+
+      } else if (data.args.id==990) { // update channel time shift
+        _sequencer.updateChannelSound(data.client, data.args.x, 1);        
 
       } else if (data.args.id==201) {  
-          console.log('data', data);
+          //console.log('data', data);
         _sequencer.directInfoChange(data);
       } else {
         //console.log('non regular event id popped');

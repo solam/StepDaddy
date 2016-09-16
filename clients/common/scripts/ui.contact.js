@@ -42,6 +42,15 @@
       var patternId = $('#patterns').find(":selected").val();
 
 
+        if (typeof window.stepSeq !== 'undefined') {
+          window.ptnSeq = {};
+          window.ptnSeq.list = window.patternSequencer;
+          window.ptnSeq.state = window.stepSeq;
+          var ptnSeqString = JSON.stringify(window.ptnSeq);
+        } else {
+          var ptnSeqString = 0;
+        }
+
       if (_id==995) {
          var KitNumber = $('#kits').find(":selected").val(); 
          //var patternId = $('#patterns').find(":selected").val();
@@ -57,7 +66,7 @@
 
          //console.log('ptnString', ptnString);
 
-        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId});
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId, ptnSeq: ptnSeqString});
         localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
         //window.localPatterns.push(window['userPattern']);
 
@@ -85,9 +94,12 @@
 
         //window['userPreset'].name = $('#preset-name').val();
 
-        console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
 
-        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, preset: preString, classs: presetClass, kitNumber: KitNumber, triggerMode: 'manual', patternId: patternId, presetId: window['userPreset'].id});
+
+
+        //console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
+
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, preset: preString, classs: presetClass, kitNumber: KitNumber, triggerMode: 'manual', patternId: patternId, presetId: window['userPreset'].id, ptnSeq: ptnSeqString});
         localStorage.setItem('Loops-pre_'+window['userPreset'].id, preString);
         $itemOption = $('<option class="user" id="option'+window['userPreset'].id+'" value="'+window['userPreset'].id+'">'+window['userPreset']._name_+'</option>');
         $itemOption.appendTo(document.getElementById('presets'));

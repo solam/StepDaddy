@@ -61,6 +61,15 @@
       var patternId = $('#patterns').find(":selected").val();
 
 
+      if (typeof window.stepSeq !== 'undefined') {
+        window.ptnSeq = {};
+        window.ptnSeq.list = window.patternSequencer;
+        window.ptnSeq.state = window.stepSeq;
+        var ptnSeqString = JSON.stringify(window.ptnSeq);
+      } else {
+        var ptnSeqString = 0;
+      } 
+
 
       if (/*_id==998*/ $container.context.id=='kits') {
       //*  
@@ -68,7 +77,9 @@
       var classs = $('#patterns').find(":selected").attr('class'); // 'user'; // 
       var patternId = $('#patterns').find(":selected").val();
 
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId}); // presetId
+
+
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString}); // presetId
       //*/
       //_self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: kitId, y: 0, preset: 1, /*pattern: 1,*/ classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId});
 
@@ -86,7 +97,7 @@
       var elementId = $('#patterns').find(":selected").val();
 
       //console.log('selct option value changed', $('#patterns').find(":selected").text() , $('#patterns').find(":selected").val() ); // $item.find("option").val()
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId}); 
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId, ptnSeq: ptnSeqString}); 
 
 
         if (classs=='channel') {
@@ -205,7 +216,7 @@
 
 
       //console.log('selct option value changed', $('#presets').find(":selected").text() , $('#presets').find(":selected").val() ); // $item.find("option").val()
-      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId}); 
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString}); 
 
 /*
         if (classs=='channel') {

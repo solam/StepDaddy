@@ -20,89 +20,25 @@
       margin-top: 10px;
     }
 
-    #instructions {
-      position: relative; 
-      background: black;  
-      color: lightgrey;
-      border-radius: 5px;
-      padding: 15px;
-      z-index: 50;   
-      /*width: 100%;*/
-      margin-left: auto;
-      margin-right: auto;  
-      font-size: 40px;  /* 30*/ 
-    } 
-
-    #instructions span {
-      color: white;
-      font-weight: bold;
-    }      
-
-
-button.stop_rec {
-    background: red !important;
-    padding: 5px 29px 5px 29px !important;
-}
-#start_rec {
-    float: left;
-    background: #389838;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-    font-weight: bold;
-    position: relative;
-    top: -2px;
-    right: -20px;
-    opacity: .80;
-    &:hover {
-        opacity: 1;
-    }
-}
-
-#audio-server-status {
-  color: white;
-  left: 45px;
-  font-size: 28px;
-  display: block;
-  position: relative;
-  top: 10px;
-  font-weight: bold;
-  float: left;
-}
-
-#audio-server-status span {
-  display: inline-block; 
-}
-
-#audio-server-status #audio-server-available-slots {
-  display: inline-block; 
-}
-
-#tips span.taitol {
-  position: relative;
-  top: 40px;
-  color: lightgrey;
-  font-weight: normal;
-}
-
-#tips ul li {
-  font-size: 30px;
-}
+ 
 
   </style>
 </head>
-<body>
+<body id="audiovis-gen">
 <div id="instructions"><!--audio server loadedGénérateur sonore prêt<br/>-->
-<br/>Pour participer à la <span>performance musicale collective:</span><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-<br/>1) Connectez-vous au <span>réseau Wi-Fi</span>: <span>loops</span> (pas de mot de passe)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-<br/>2) Sur votre <span>navigateur Web</span> tapez l'adresse: <span>http://loops.play</span> (ou http://192.168.2.24)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--><!-- ou http://loops:8282--> 
-<!--<br/>3) Sur la page ...Loops cliquez sur: <span>JOIN CURRENT APP SESSION</span>-->
-<br/><!--<br/>-->
+  <img class="rounded" style="" src="../common/images/Loops_logo.png"><!-- width="220" height="220" -->
+  <div class="ins-right">
+    <br/>Pour participer à l'<span>improvisation musicale:</span><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; performance musicale collective  -->
+    <br/>1) Connectez-vous au <span>réseau Wi-Fi</span>: <span>loops</span> (pas de mot de passe)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+    <br/>2) Sur votre <span>navigateur Web</span> tapez l'adresse: <span>http://loops.play</span> (ou http://192.168.2.24)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--><!-- ou http://loops:8282--> 
+    <!--<br/>3) Sur la page ...Loops cliquez sur: <span>JOIN CURRENT APP SESSION</span>-->
+    <br/><!--<br/>-->
+  </div>
+
 <!--Instructions--> <!--Conseils pour jouer de son instrument/contrôleur  : 
 <br/>- tenir son smartphone en mode paysage-->
 
-  <div id="tips">
+  <!--<div id="tips">
     <span class="taitol">Conseils:</span>
     <ul>
       <li>Si vous utilisez un <i>smartphone</i>:
@@ -114,22 +50,22 @@ button.stop_rec {
        <br/>
       <li>Si vous rencontrez des problèmes: </li>
         <ul>
-          <li>rafraîchissez votre page Web <!--(ctrl+r ou f5 sur ordinateur <i>desktop</i>)--></li>
+          <li>rafraîchissez votre page Web <!--(ctrl+r ou f5 sur ordinateur <i>desktop</i>)--</li>
           <li>installez et utilisez le navigateur Google Chrome (...Loops ne semble pas fonctionner sous Apple iOS - Safari)</li>
           <li>vérifiez que votre appareil est compatible avec le Wi-Fi N (norme IEEE 802.11n) utilisé par le réseau local loops</li>
        </ul> 
     </ul>  
-  </div>
+  </div>-->
 
-
+<br/><br/><br/><br/>
 </div><!-- ARTISTES-RESIDENTS - A8MN13mPde  / pwd: <span></span> -->
 
-<br/>
+
 <button id='start_rec'>Start Rec</button>
 
   <div id="audio-server-status">
     <div style="display:none;" id="audio-server-ready"></div>
-    <span>Available slots: </span>
+    <span>Instrument(s) disponible(s): </span><!-- Available slots -->
     <div id="audio-server-available-slots"></div>
   </div>
 
@@ -167,7 +103,7 @@ button.stop_rec {
     </div>-->
   </div>
 
-  <section id="sequencer-view">
+  <section id="sequencer-view" class="main-display-grid">
     <table>
     </table>
   </section>
@@ -336,7 +272,12 @@ $(window).unload(function() {
 
 
 
+var windowWidth = $(window).width();
+var windowWidth = Number(windowWidth)-3;
 
+$('#audiovis-gen').css('width', windowWidth);
+
+console.log('windowWidth:', windowWidth);
 
 
 

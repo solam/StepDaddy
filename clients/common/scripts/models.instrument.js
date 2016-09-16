@@ -85,7 +85,11 @@
             break;                        
         }  
 
-        window[synthInstanceString]['controls'] = controls;
+        // only populate window[synthInstanceString]['controls'] at first instrument creation
+        if (typeof window[synthInstanceString]['controls']== 'undefined') { 
+          window[synthInstanceString]['controls'] = controls;
+          //console.log('controls', controls);
+        } 
         var usedControls = controls;
 
       //} 
@@ -136,28 +140,27 @@
 // get instrument param value via preset system not ins/kit system
 //*
 
-console.log('presets + ch presets: ', this.channelInfo.presets, this.channelInfo.channelPresets);  
+//console.log('presets + ch presets: ', this.channelInfo.presets, this.channelInfo.channelPresets);  
 
 
 
 
-
+    if (typeof this.channelInfo.presets !== 'undefined' ) {
       if (this.channelInfo.presets.length!=0 && typeof this.channelInfo.channelPresets !== 'undefined') {
           var presets = this.channelInfo.presets.concat(this.channelInfo.channelPresets);
-        } else {
+      } else {
           var presets = this.channelInfo.channelPresets;
-        }
-        
-      
+      }        
+    }
 
 
 
-console.log('after ptn save check: ', this.channelInfo.presetId, presets);
+//console.log('after ptn save check: ', this.channelInfo.presetId, presets);
 
 if (typeof presets !== 'undefined' 
 && presets.length>0 // this.channelInfo.presets
 && // channelPresets - presets
-  typeof this.channelInfo.presetId !== 'undefined'
+typeof this.channelInfo.presetId !== 'undefined'
 && this.channelInfo.presetId!=0) {
 
   var taarget = this.channelInfo.presetId;
@@ -171,21 +174,40 @@ var preset = presets.filter(function( obj ) { // channelPresets - presets // thi
 //console.log('ch preset + preset id: ', this.channelInfo.channelPresets, this.channelInfo.presetId, preset);
 
 
-console.log('preset model ins: ', taarget, presets, preset/*, this.channelInfo.presets*/);  
+//console.log('preset model ins: ', taarget, presets, preset/*, this.channelInfo.presets*/);  
 
 var preset = preset[0].controls;
   //console.log('preset: ', preset);  
 
 var presetMode = 1; // presetMode=0 : kit/InsMode
 
+
+  /*if (typeof window[synthInstanceString]['controls']== 'undefined') { 
+    window[synthInstanceString]['controls'] = preset;
+    //console.log('controls', controls);
+  }  */
+
+
 } else {
   var presetMode = 0; // presetMode=0 : kit/InsMode
+  //var usedControls = window[synthInstanceString]['controls'];
+
+
+  /*if (typeof window[synthInstanceString]['controls']== 'undefined') { 
+    window[synthInstanceString]['controls'] = usedControls;
+    //console.log('controls', controls);*
+  }  */
+
 }
 //*/
 
+
+//console.log('presetMode: ', presetMode, preset, window[synthInstanceString]['controls']/*, controls, usedControls*/);
+
+
 //var presetMode = 0;
 
-console.log('usedControls', presetMode /*usedControls, this.channelInfo*/);
+//console.log('usedControls', presetMode /*usedControls, this.channelInfo*/);
 
       // load instrument preset for currently processed channel
       if (usedControls.length>0) { //     usedControls!=0
@@ -199,9 +221,14 @@ console.log('usedControls', presetMode /*usedControls, this.channelInfo*/);
                   if (presetMode == 1) {
 
                     valueX = preset[usedControls[j].id];
+                    //console.log('valueX', valueX);
+                    if (typeof valueX !== 'undefined') {
+                      window[synthInstanceString]['controls'][j].x.value = valueX; // Solution (to unsaved sound not transported across channel disconnects) found!
+                    }
 
                   } else {
                     valueX = usedControls[j].x.value; // preset[usedControls[j].id]; //
+                    //valueX = window[synthInstanceString]['controls'][j].x.value;
                   }
 
                   

@@ -173,7 +173,129 @@ button {
         #pattern-editor td:nth-child(1),
         #sequencer-view td:nth-child(1) {
           width: 100px; }
-          #pattern-editor td:nth-child(1) h1,
-          #sequencer-view td:nth-child(1) h1 {
+          #pattern-editor td:nth-child(1) h1/*,
+          #sequencer-view td:nth-child(1) h1*/ {
             font-size: 16px;
-            width: 100px; } }
+            width: 100px; } 
+
+
+          #sequencer-view td:nth-child(1) h1 {
+            font-size: 10px;
+            width: 100px; }
+
+
+          }
+
+
+
+
+/*
+@media (min-width: 580px) {
+  .main-display-grid td:nth-child(1) {
+            width: 100px; }
+  .main-display-grid td:nth-child(1) h1 {
+              font-size: 16px;
+              width: 100px; } 
+}            
+
+*/
+body#audiovis-gen {
+  /*height: 100%;
+  width: 100%;*/
+}
+
+
+
+section#sequencer-view.main-display-grid {
+  height: 65% !important; /* 70*/
+}                
+
+
+   #instructions {
+      position: relative; 
+      background: black;  
+      color: lightgrey;
+      border-radius: 5px;
+      padding: 15px;
+      z-index: 50;   
+      /*width: 100%;*/
+      margin-left: auto;
+      margin-right: auto;  
+      font-size: 20px;  /* 30 - 40*/ 
+      padding-top: 0;
+    } 
+
+
+
+
+
+#instructions img.rounded {
+  float:left;
+  max-width: 15%;
+  margin-top:25px;
+}
+
+#instructions .ins-right {
+  float:left;
+  max-width: 83.5%;
+  margin-left: 1.5%; 
+}
+
+
+
+    #instructions span {
+      color: white;
+      font-weight: bold;
+    }      
+
+
+button.stop_rec {
+    background: red !important;
+    padding: 5px 29px 5px 29px !important;
+}
+#start_rec {
+    float: left;
+    background: #389838;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+    position: relative;
+    top: -2px;
+    right: -20px;
+    opacity: .80;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+#audio-server-status {
+  color: white;
+  left: 45px;
+  font-size: 28px;
+  display: block;
+  position: relative;
+  top: 10px;
+  font-weight: bold;
+  float: left;
+}
+
+#audio-server-status span {
+  display: inline-block; 
+}
+
+#audio-server-status #audio-server-available-slots {
+  display: inline-block; 
+}
+
+#tips span.taitol {
+  position: relative;
+  top: 40px;
+  color: lightgrey;
+  font-weight: normal;
+}
+
+#tips ul li {
+  font-size: 30px;
+}

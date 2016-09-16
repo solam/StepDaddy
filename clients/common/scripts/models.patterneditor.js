@@ -419,6 +419,7 @@ if (typeof data.channelInfo.instrumentUrl == 'undefined') {
 $("#sessionname").html('sess: '+data.channelInfo.sessionList[data.channelInfo.sessionName]); // session
 var sessionNumber = Number(data.channelInfo.sessionName)+1;
 var channelNumb = Number(data.channelInfo.channelNumber)+1;
+window.channelNumber = channelNumb;
 $('body').addClass('channel' + channelNumb + ' session'+sessionNumber); // data.channelInfo.sessionName
 
 //console.log('session name: ', data.channelInfo.sessionList);
@@ -523,11 +524,11 @@ window.newtimer = setInterval(function () { // (e)
       //var kickoutTime = allowedToPlayStartTime + (millisecondsPerBar*kickoutBars);
       //alert(window.allowedToPlayStartTime);
 
-      navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+      /*navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
       if (navigator.vibrate) {
         navigator.vibrate(500);
-      }
+      } */
       // allow channel to sound
       _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 993, x: 1, y: 0});
 
@@ -668,6 +669,7 @@ window.newtimer = setInterval(function () { // (e)
                 var nextPlayedPattern=0;
             } 
 
+            window.playedPatternOrder = nextPlayedPattern;
             //rotate(window.patternSequencer,1);
             //console.log('bar pops:', data.bar); // window.patternSequencer
             $('select#patterns option[value="'+window.patternSequencer[nextPlayedPattern].id+'"]').prop('selected',true).trigger('change'); // 01627d00-3d18-11e6-bd11-650c5a0c542f // window.patternSequencer[0].id
@@ -706,6 +708,59 @@ window.newtimer = setInterval(function () { // (e)
       //window['userPattern']['tracks'][traackId][note] = volume;
       window['userPattern'].tracks[traackId][note] = volume;
       //console.log('changed channel pattern', window['userPattern']); // , trackId, note, volume
+
+
+
+
+      if (window.stepSeq==1) {
+
+        //console.log('windowuserPattern', window['userPattern']);
+
+         var classs = $('#patterns').find(":selected").attr('class');
+         var presetId = $('#presets').find(":selected").val();    
+         var patternId = $('#patterns').find(":selected").val();
+         var KitNumber = $('#kits').find(":selected").val(); 
+         
+         //window['userPattern']._name_ = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
+         var dispNumb = Number(window.playedPatternOrder)+1;
+         window['userPattern']._name_ = 'bar' + dispNumb + '_ch' + window.channelNumber +'_onTheFly';
+         window['userPattern'].id = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
+
+         // put 'name' object key as first key to appear into Webstorage key=>value display
+         var alphaAscSortedUserPattern = sortObj(window['userPattern'],'asc');
+         var ptnString = JSON.stringify(alphaAscSortedUserPattern); 
+         var ptnString = ptnString.replace('_name_', 'name'); 
+
+         window.patternSequencer[window.playedPatternOrder].id = window['userPattern'].id;
+         window.patternSequencer[window.playedPatternOrder].name = 'bar' + dispNumb + '_ch' + window.channelNumber +'_onTheFly';
+
+
+         window.ptnSeq = {};
+         window.ptnSeq.list = window.patternSequencer;
+         window.ptnSeq.state = window.stepSeq;
+         var ptnSeqString = JSON.stringify(window.ptnSeq);
+         //console.log('ptnSeqString', ptnSeqString, window.ptnSeq);
+
+        _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: KitNumber, y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId, ptnSeq: ptnSeqString}); // 
+        
+        localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
+
+
+        $itemOption = $('<option class="user" id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern']._name_+'</option>');
+        $itemOption.appendTo(document.getElementById('patterns'));
+        if( $('#patterns').length ) {
+          $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
+        }
+
+
+
+
+
+
+      }
+
+
+
 
     };
 

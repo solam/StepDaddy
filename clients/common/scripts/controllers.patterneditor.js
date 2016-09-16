@@ -223,7 +223,7 @@ a.add(b);*/
         if (_model.instrument.controls!=0) {  
 
 
-console.log('_model.instrument.type', _model.instrument.type);
+//console.log('_model.instrument.type', _model.instrument.type);
 
 
 if (typeof presets !== 'undefined' // channelPresets _model.instrument.channelInfo.presets
@@ -811,7 +811,13 @@ if (typeof window.kits  !== 'undefined') { // kits
                     var value = controls[j].x.value;
                   }
 
-                  //console.log(value, window.preset);
+
+                  //console.log('value: ', value);
+
+                  if (typeof value == 'undefined') { // typeof window.preset[controls[j]]
+                    var value = 0;
+                  }
+                  //console.log(value/*, window.preset*/);
 
                 // if HTML5 canvas blend mode property 'multiply' browser not supported : load simple inputs instead of sliders
                 if( gcoCheck==false /*/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)*/ ) {
@@ -895,9 +901,9 @@ cbox.appendTo(ptnSeq); */
 
 
 //*
-    var channelPatternSeq = _model.instrument.channelInfo.channelPatternSeq; 
+    var channelPatternSeq = _model.instrument.channelInfo.channelPatternSeqList; //['list']; 
     var ctrlchangeParent = document.getElementById('pattern-sequencer');
-
+    console.log("channelPatternSeq: ", channelPatternSeq);
 
     $item = $('<div id="played-ptns" class="select-container played"><select multiple class="multi" id="played-patterns" name="played-patterns">'); // $itemContainer - <div class="ctrlchange" id="played-sequencer">           
     $item.appendTo(ctrlchangeParent); // container   
@@ -934,13 +940,15 @@ cbox.appendTo(ptnSeq); */
 
     } // end of for loop
 
-    //console.log('ptnSEq state: ', _model.instrument.channelInfo.patternSeqState);
+    
 
     if (typeof _model.instrument.channelInfo.patternSeqState !== 'undefined') {
       var patternSeqStateValue = _model.instrument.channelInfo.patternSeqState;
     } else {
       var patternSeqStateValue = controls[j].x.value;
     }      
+
+    //console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
 
     if (patternSeqStateValue==1) {
       window.stepSeq=1;
@@ -1027,6 +1035,11 @@ var preText = $( this ).text();
 $( this ).text(number+preText)
 });*/
 
+
+       //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
+       $('html, body').animate({
+        scrollTop: $("#pattern-sequencer").offset().top
+    }, 1); 
     
      
    });  
@@ -1058,6 +1071,11 @@ var preText = $( this ).text();
 $( this ).text(number+preText)
 });*/
 
+
+   //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
+       $('html, body').animate({
+        scrollTop: $("#pattern-sequencer").offset().top
+    }, 1); 
 
       
    });  
@@ -1094,12 +1112,28 @@ window.stepTimer = setInterval(function () {
 window.changeParamMode = 'manual'; // now that params have been auto changed, future param changes are assumed to be from user events
 
 
-$(".ctrlchange.slider.horizontal").first().addClass('first');
 
-$( ".ctrlchange.slider.noui:first" ).css( "clear", "both" );
-$( ".ctrlchange.slider.noui" ).eq( 7 ).css( "clear", "both" );
 
 $( ".ctrlchange.ddmenu" ).wrapAll( "<div class='ddmenucont' />");
+
+if ( $('body').hasClass('session5') ) {
+
+  $( '.ddmenucont' ).css( "clear", "both" ); // #modifiers 
+
+} else {
+
+/*
+$(".ctrlchange.slider.horizontal").first().addClass('first');
+$( ".ctrlchange.slider.noui:first" ).css( "clear", "both" );
+$( ".ctrlchange.slider.noui" ).eq( 7 ).css( "clear", "both" );*/
+
+
+}
+
+
+
+
+
 
 
 var windowHeight = $(window).height();
