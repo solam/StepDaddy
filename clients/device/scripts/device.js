@@ -57,9 +57,9 @@ var _onModifierChangeInput = function(data) {
 
       var delim = '_';
 
-      var rmid = url.query.concat(delim).concat(pwd); 
+      var rmid = url.query.concat(delim).concat(pwd).concat(delim).concat(window.pageId); 
 
-      //console.log('url', rmid, url, pwd);
+      console.log('url', rmid, url, pwd);
 
       if (rmid) { // url.query
         _conn.joinRoom(rmid, // url.query
@@ -132,6 +132,7 @@ if (!_padsAreInitialized) {
   };
 
   new mixr.Device().initialize();
+  //setTimeout(function(){ new mixr.Device().initialize() }, 4000);
 
 }());
 

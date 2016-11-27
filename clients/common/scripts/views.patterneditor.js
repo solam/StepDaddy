@@ -20,6 +20,8 @@
 
     var $item = item;
     var $table = $item.find('table');
+    var $keyboard = $item.find('div');// document.getElementById('keybox');
+
     //var $itemAddClass = $item.addClass( "myClass yourClass" );
     //var controllers = document.getElementById('modifiers');
 
@@ -148,6 +150,44 @@
       $table.append($row);
       trackCount++;
     };
+
+
+
+    this.addKey = function (track, color) {
+      //console.log('addTrack', track);
+  
+      // Check if we already have a key for that track
+      if ($keyboard.find('span[class="trk' + track.id + '"]').length > 0) {
+        return;
+      }
+
+      if (trackCount === 0) {
+        _renderHeader(track.notes.length);
+      }
+
+      var $key = $('<span>').attr('class', 'white key trk'+track.id).attr('id', 'k'+track.note);
+
+      $key.append($('<span>' + track.name + '</span>'));
+
+      /*for (var i = 0; i < track.notes.length; i++) {
+        var $td = $('<td>');
+        var number = i+1;
+        var stepNumber = '0' +number;
+        var stepNumber = stepNumber.slice(-2);
+        //$td.append(i+1);
+        $td.append(stepNumber);
+        if (track.notes[i] === 1) {
+          $td.addClass('active');
+        }
+        $row.append($td);
+      } */
+
+      $key.css('background', color);
+      $keyboard.append($key);
+      trackCount++;
+    };
+
+
 
     var _renderHeader = function (length) {
       var $head = $('<thead>');

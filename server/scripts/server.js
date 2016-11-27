@@ -65,8 +65,8 @@ define([
      */
     var _clients = {};
 
-    var _sessionChannels = 9; // 8 controllers + 1 client as general audio renderer
-    var _clientJoinedCount = 0; // used to inform potential clients on available slots   
+    /*var _sessionChannels = 9; // 8 controllers + 1 client as general audio renderer
+    var _clientJoinedCount = 0; // used to inform potential clients on available slots   */
 
     /**
      * The rooms manager is responsible for managing all the rooms.
@@ -121,13 +121,13 @@ define([
           function(response) {
             _clients[data.client].send('execute', {success: true, id: data.id, response: response});
 
-            var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
+            /*var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
             fs.writeFile('./clients/sequencer/data.txt', _sessionChannels-1, function (err) {
               if (err) throw err;
                 console.log('avail clients slot(s) at session start', _sessionChannels-1);
             });
             _clientJoinedCount = 1; // 0
-            //_clientJoinedCount++;
+            //_clientJoinedCount++; */
 
           }, function(error) {
             _clients[data.client].send('execute', {success: false, id: data.id, response: error});
@@ -146,13 +146,13 @@ define([
           function(response) {
             _clients[data.client].send('execute', {success: true, id: data.id, response: response});
 
-            //console.log('data.id', data.id);
+            /*//console.log('data.id', data.id);
             _clientJoinedCount++;
             var fs = require('fs');
             fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err) {
               if (err) throw err;
                 console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
-            });
+            }); */
 
             //console.log('clts length', _self._clients.length);
 
@@ -171,12 +171,12 @@ define([
     var _onClientBye = function(data) {
       _self.unregister(data.client);
 
-      _clientJoinedCount--;
+      /*_clientJoinedCount--;
       var fs = require('fs');
       fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err) {
         if (err) throw err;
           console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
-      });
+      }); */
 
     };
 

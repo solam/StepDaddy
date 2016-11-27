@@ -1,0 +1,15 @@
+{
+  "name": "cow-bell",
+  "version": "1.0.1",
+  "description": "A web audio module for synthesizing cow-bells",
+  "main": "index.js",
+  "keywords": [
+    "web",
+    "audio",
+    "synth",
+    "cow-bells"
+  ],
+  "author": "itsjoesullivan",
+  "repository": "itsjoesullivan/cow-bell",
+  "license": "ISC"
+}

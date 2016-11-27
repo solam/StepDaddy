@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote, displayedRange) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote, displayedRange, solo) {
 
     /**
      * Mixins
@@ -25,6 +25,8 @@
     var _mute = mute;
     var _midicc = midicc;
     var _muteNote = muteNote;
+
+    var _solo = solo;
     var _displayedRange = displayedRange;
     
     
@@ -93,9 +95,15 @@ noUiSlider.create(keypressSlider, {
   }
 });
 
+
+window['oldSliVal'+_id] = _value;
+
 keypressSlider.noUiSlider.on('update', function( values, handle ) {
   input.value = values[handle];
-  //console.log('input val: ', input.value);
+
+
+  
+  //console.log('input val: ', values[handle], window['oldSliVal'+_id] /*input.value*/);
 
 
 
@@ -116,15 +124,54 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
   var skwerotedValue = Math.floor(input.value);
 
+
+  if (skwerotedValue!==0) { // exclude muting operation from being reced as old slider value before level cut operation
+    window['oldSliVal'+_id] = skwerotedValue;
+  } 
+
+
   //window['userPreset'].controls[_id]={};
-  window['userPreset'].controls[_id]=skwerotedValue;
 
 
-  _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId});
+  if (typeof window['userPreset'] !== 'undefined') { 
+    window['userPreset'].controls[_id]=skwerotedValue;
+  }
+
+  
+  if (typeof window['SEQ'] !== 'undefined') {
+
+    var chId = ('' + _id).substr(-1);
+
+    var synthInstanceString = 'AikeWebsynth1' + '_' + chId; // bad: hardcoded instrument type
+
+
+    if (typeof window[synthInstanceString] !== 'undefined') {
+      eval(synthInstanceString+'.volume.set('+skwerotedValue/100+')');
+      console.log('aikeWS1', skwerotedValue/100 );
+    } else {
+      window['SEQ']['_insVol'+chId] = skwerotedValue/100;
+      console.log('sampler', skwerotedValue/100 );
+    }
+
+    //console.log('skwerotedValue', skwerotedValue, chId );
+
+  } else {
+    _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId});    
+  }
+  
+
+  
 });
 
 input.addEventListener('change', function(){
+  var vall = Math.floor(this.value);
+
+  if (vall!==0) {
+    window['oldSliVal'+_id] = Math.floor(this.value);
+  }    
+  
   keypressSlider.noUiSlider.set([null, Math.floor(this.value) ]); // parseInt(this.value,10) // this.value.replace(/\.00$/,'')
+  
 });
 
 
@@ -147,12 +194,15 @@ input.addEventListener('keydown', function( e ) {
   switch ( e.which ) {
     case 13:
       keypressSlider.noUiSlider.set(Math.floor(this.value));
+      window['oldSliVal'+_id] = Math.floor(this.value);
       break;
     case 38:
       keypressSlider.noUiSlider.set( value + sliderStep[1] );
+      window['oldSliVal'+_id] = Math.floor(value) + sliderStep[1];
       break;
     case 40:
       keypressSlider.noUiSlider.set( value - sliderStep[1] );
+      window['oldSliVal'+_id] = Math.floor(value) - sliderStep[1];
       break;
   }
 });
@@ -246,6 +296,86 @@ window['muteNote'+_muteNote] = function( number, value ) { // controller
 
 
 
+if (_solo!=0) {
+
+  window['channelVol'][_id] = keypressSlider;
+  //window['channelVol'+]=keypressSlider;
+
+
+  var solo = document.getElementById('solo'+_id);
+
+  solo.addEventListener('click', function(){
+
+    
+    /*for (var i = 0; i < window['channelVol'].length; i++) {
+
+
+    }  */
+
+
+    if ( $('#solo'+_id).hasClass('active') ) {
+      window['channelVol'][_id].solo = 0;
+      $('#solo'+_id).removeClass('active');
+      //window['channelVol'][_id].noUiSlider.set(window['oldSliVal'+_id]);
+
+      forIn(window['channelVol'], function(val, key, o) { // o = object
+        if (val.solo!==1) {
+          //val.noUiSlider.set(window['oldSliVal'+key]);
+          val.noUiSlider.set( 0 );
+          //console.log('olslival: ',window['oldSliVal'+key], key);
+        } 
+      });
+
+      if ( $('.solos').hasClass('active') ) {
+
+      } else { // if no solo button is active anymore restore all previous recorded audio channel levels
+
+        forIn(window['channelVol'], function(val, key, o) { // o = object
+          if (val.solo!==1) {
+            val.noUiSlider.set(window['oldSliVal'+key]);
+          } 
+        });
+
+      }
+
+
+    } else {
+      $('#solo'+_id).addClass('active');
+      window['channelVol'][_id].solo = 1;
+      window['channelVol'][_id].noUiSlider.set(window['oldSliVal'+_id]);
+
+      forIn(window['channelVol'], function(val, key, o) { // o = object
+        if (val.solo!==1) {
+          val.noUiSlider.set( 0 );
+        } /*else {
+          val.noUiSlider.set(window['oldSliVal'+key]);
+        }*/
+        //console.log('o', o);
+      });
+
+    }
+
+    
+
+
+
+
+
+    /*currSliVal = keypressSlider.noUiSlider.get();
+
+    if (currSliVal!=0) {
+      window['oldSliVal'+_id] = currSliVal;
+      keypressSlider.noUiSlider.set( 0 );
+    } else {
+      keypressSlider.noUiSlider.set(window['oldSliVal'+_id]);
+    }*/
+
+    //console.log(window['channelVol']);
+    
+  });
+
+}
+
 
 
 
@@ -285,9 +415,9 @@ if (usedLibrary=='noUiSlider') {
       
 
       if (_mute!=0) { // _mute==1
-        $mute = $('<span class="mutes" id="mute'+ _id +'">M</span></div>');
+        $mute = $('<span class="mutes" id="mute'+ _id +'">M</span><span class="solos" id="solo'+ _id +'">S</span></div>');
         $mute.appendTo($item);
-        console.log($item);
+        //console.log($item);
       } else {
         $mute = $('</div>');
         $mute.appendTo($item);

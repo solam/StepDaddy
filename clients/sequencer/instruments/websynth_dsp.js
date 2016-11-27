@@ -50,7 +50,7 @@ Glide.prototype.set_on = function(val) {
 
 ///////////// Init Parameter /////////////////////
 //var stream_length = 4096;
-var stream_length = 1024;
+var stream_length = 1024; //1024; // create larger buffer sizes for mobile devices
 
 ///////////// VCO /////////////////////
 var WAVE = {

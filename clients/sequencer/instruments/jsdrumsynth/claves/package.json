@@ -1,0 +1,14 @@
+{
+  "name": "claves",
+  "version": "2.0.0",
+  "description": "A web audio module for synthesizing claves",
+  "main": "index.js",
+  "keywords": [
+    "web",
+    "audio",
+    "synth",
+    "claves"
+  ],
+  "author": "itsjoesullivan",
+  "license": "ISC"
+}

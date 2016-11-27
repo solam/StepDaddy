@@ -12,6 +12,10 @@ window.draw = { // window.noteRanges
   c3_c4_penta_minor: [{ name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 } ],
   c4_c5_penta_minor: [{ name: 'C5', note: 31 }, { name: 'Bb4', note: 29 }, { name: 'G4', note: 26 }, { name: 'F4', note: 24 }, { name: 'Eb4', note: 22 }, { name: 'C4', note: 19 } ],
 
+  c4_c5_penta_minorCWilso: [{ name: 'C5', note: 55 }, { name: 'Bb4', note: 53 }, { name: 'G4', note: 50 }, { name: 'F4', note: 48 }, { name: 'Eb4', note: 46 }, { name: 'C4', note: 43 } ],
+  drumsynth_01: [{ name: 'kick', note: 0 }, { name: 'hihat', note: 1 }, { name: 'clap', note: 2 } ],
+
+
   c2_c4_penta_minor: [{ name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 }, { name: 'Bb2', note: 5 }, { name: 'G2', note: 2 }, { name: 'F2', note: 0 }, { name: 'Eb2', note: -2 }, { name: 'C2', note: -5 } ],
   c3_c5_penta_minor: [{ name: 'C5', note: 31 }, { name: 'Bb4', note: 29 }, { name: 'G4', note: 26 }, { name: 'F4', note: 24 }, { name: 'Eb4', note: 22 }, { name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 } ],
 
@@ -475,6 +479,7 @@ window.tweak = {
               mute: 1, // 0: off | 1: on  
               muteKey: 49, // beware fr,fr azerty keyboard
               muteNote: 48,
+              solo: 1,               
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -508,7 +513,8 @@ window.tweak = {
               interpolate: 1, // 0: off | 1: on 
               mute: 1,        
               muteKey: 50,    
-              muteNote: 50,      
+              muteNote: 50,   
+              solo: 1,   
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -535,6 +541,7 @@ window.tweak = {
               mute: 1,        
               muteKey: 51,                
               muteNote: 52,
+              solo: 1,
               displayedRangeMax: 100,
               min: 0,
               max: 1
@@ -559,6 +566,7 @@ window.tweak = {
               mute: 1,        
               muteKey: 52,  
               muteNote: 53,
+              solo: 1,
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -586,6 +594,7 @@ window.tweak = {
               mute: 1,        
               muteKey: 53,                
               muteNote: 55,
+              solo: 1,
               min: 0,
               max: 1
           }                
@@ -611,6 +620,7 @@ window.tweak = {
               mute: 1,        
               muteKey: 54,                
               muteNote: 57,
+              solo: 1,
               min: 0,
               max: 1
           }                
@@ -636,6 +646,7 @@ window.tweak = {
               mute: 1,        
               muteKey: 55,                
               muteNote: 59,
+              solo: 1,
               min: 0,
               max: 1
           }                
@@ -649,7 +660,7 @@ window.tweak = {
           name: 'Tempo',
           id: 999,
 
-          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
+          type: 'input', // slider, dial/rotary_knob, switch_button  - input    
           direction: 0, // 'horizontal', 'vertical' for sliders    
           colors: { // color params
             fg: '#51ACBD' // foregroundColor
@@ -1907,7 +1918,7 @@ window.insConf1 = [ // channelConf
               name: 'General kickout time (in bars)',
               param: '_insKickoutTime', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 32, // 90 ? don't 
+              value: 64, // 90 ? don't 32 | 64: 2mn @ 120 bpm
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,

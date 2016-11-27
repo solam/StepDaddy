@@ -7,7 +7,7 @@ session5ConductorControls[4].x.value = 25;
 session5ConductorControls[5].x.value = 30;
 session5ConductorControls[6].x.value = 16; // ch7 vol - 100
 
-session5ConductorControls[7].x.value = 80; // tempo
+session5ConductorControls[7].x.value = 140; // tempo
 
 session5ConductorControls[10].x.value = 0; // ch1 bar offest
 session5ConductorControls[11].x.value = 8;
@@ -331,15 +331,126 @@ window.insConf5 = [
 
 
 
-
+console.log('ses5: ', session5ConductorControls);
 
 
 window.insConf99 = [ 
 
+
 { 
   sessionName: 'Test (99)',
 
-  channelName: 'Ch1 Synth bass', 
+  channelName: 'Ch1 Drum Synth', 
+  trackSet: 0, 
+
+  conf: [
+    { 
+      type: 'synth',
+      instrumentName: 'JoeSullivanDrumSynth', 
+      instrumentUrl: 'http://tiny-808.com/',
+      color: 'rgba(0, 81, 0, 1)',
+      name: 'c1 > c2', 
+      kitNumber: 0,      
+      tracks: window.draw.drumsynth_01,
+      inputMode: 'grid', // 'keyboard', 'grid'
+      controls: patternSeqOff //aikeWebsynthControls           
+    }
+
+  ] 
+}, 
+
+{ 
+  sessionName: 'Test (99)',
+
+  channelName: 'Ch1 Poly Synth', 
+  trackSet: 0, 
+
+  /*defaultPreset: 0, 
+  presets: [
+    {"name":"TRI_Bass","classs":"channel","controls":{"1":100,"2":"0","3":24,"4":"1","5":81,"6":0,"7":26,"8":78,"9":43,"10":23,"11":51,"12":33,"13":13,"14":7,"15":29,"16":33,"992":1},"id":"2d4bc2e0-6677-11e6-89c6-9b6aaf4bf5b7"}, // "992":0 = patternSeq disabled
+    {"name":"Baonlle","classs":"channel","controls":{"1":10,"2":"2","3":46,"4":"1","5":76,"6":0,"7":10,"8":11,"9":16,"10":40,"11":68,"12":26,"13":25,"14":51,"15":20,"16":12},"id":"4f802750-667e-11e6-89c6-9b6aaf4bf5b7"}
+  ],
+
+  defaultPattern: 0, 
+  patterns: [ 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"tri_note_mellow","classs":"channel","id":"8577ef70-6677-11e6-89c6-9b6aaf4bf5b7","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]]},
+    {"name":"Pois sauteurs","classs":"channel","id":"70c15650-667e-11e6-89c6-9b6aaf4bf5b7","tracks":[[0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"la marche du clown","classs":"channel","id":"307c36c0-6681-11e6-ae54-5f50faffa605","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]}    
+  ], 
+
+  defaultPatternSeq: 0, 
+  patternSeq: [     
+    [ {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"},
+      {"name":"la marche du clown","classs":"channel","id":"307c36c0-6681-11e6-ae54-5f50faffa605"} ]
+  ],   */ 
+
+  conf: [
+    { 
+      type: 'synth',
+      instrumentName: 'CWilsoWAMidiSynth', 
+      instrumentUrl: 'https://webaudiodemos.appspot.com/midi-synth/index.html',
+      color: 'rgba(0, 161, 0, 1)',
+      name: 'c1 > c2', 
+      kitNumber: 0,      
+      tracks: window.draw.c4_c5_penta_minorCWilso,
+      inputMode: 'keyboard', // 'keyboard', 'grid'
+      controls: patternSeqOff //aikeWebsynthControls           
+    }
+
+  ] 
+}, 
+
+
+{ channelName: 'Ch8 Conductor',
+  trackSet: 0, 
+
+  patternSeq: [     
+  ],
+
+  conf: [ { 
+    type: 'control', 
+    instrumentName: 'Conductor', 
+    name: 'Conductor Ctrl 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: session5ConductorControls
+  }] 
+},
+
+
+
+
+{ sessionName: 'Ep #6', // Electropixel #6
+  channelName: 'Ch2 Bass guitar',  
+  trackSet: 0, 
+
+  defaultPattern: 4, 
+  patterns: [ 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"TaLaLi Bassline A (synkoped)","classs":"channel","id":"81c22550-6675-11e6-b5e9-51d55022d761","tracks":[[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0]]},
+    {"name":"TaLaLi Bassline B (continuous)","classs":"channel","id":"128a5ad0-6676-11e6-b509-c753c06f4910","tracks":[[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0]]},
+    {"name":"calme ta basse","classs":"channel", "id":"a61d9d90-667e-11e6-a6fa-97a17043872f","tracks":[[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0]]},
+    {"name":"4/4","classs":"channel","id":"85d646b0-71e9-11e6-ae6b-cbeced753752","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]} 
+  ],  
+
+  conf: [{ 
+    type: 'samples', 
+    instrumentName: 'Sampler', 
+    name: 'c1-c2 (3 notes) - Bass guitar', 
+    kitNumber: 0, 
+    color: 'rgba(0, 171, 157, 1)',
+    //tracks: [{ name: 'C2', sampleUrl: 'Basse/C2.wav'}, /*{ name: 'B1', sampleUrl: 'Basse/B1.wav'}, { name: 'A1', sampleUrl: 'Basse/A1.wav'}, */ { name: 'G1', sampleUrl: 'Basse/G1.wav'}, /*{ name: 'F1', sampleUrl: 'Basse/F1.wav'}, { name: 'E1', sampleUrl: 'Basse/E1.wav'}, { name: 'D1', sampleUrl: 'Basse/D1.wav'}, */ { name: 'C1', sampleUrl: 'Basse/C1.wav'} ], 
+    tracks: [{ name: 'C4', sampleUrl: 'Guitar/C4.wav'},/* { name: 'B3', sampleUrl: 'Guitar/B3.wav'}, { name: 'A3', sampleUrl: 'Guitar/A3.wav'},*/ { name: 'G3', sampleUrl: 'Guitar/G3.wav'},/* { name: 'F3', sampleUrl: 'Guitar/F3.wav'}, { name: 'E3', sampleUrl: 'Guitar/E3.wav'}, { name: 'D3', sampleUrl: 'Guitar/D3.wav'},*/ { name: 'C3', sampleUrl: 'Guitar/C3.wav'} ],
+    controls: smpPrgChangeSavePattern
+  }] 
+}, 
+
+
+{ 
+  //sessionName: 'Test (99)',
+
+  channelName: 'Ch3 Synth bass', 
   trackSet: 0, 
 
   defaultPreset: 0, 
@@ -388,55 +499,6 @@ window.insConf99 = [
 
   ] 
 }, 
-
-
-
-{ channelName: 'Ch8 Conductor',
-  trackSet: 0, 
-
-  patternSeq: [     
-  ],
-
-  conf: [ { 
-    type: 'control', 
-    instrumentName: 'Conductor', 
-    name: 'Conductor Ctrl 01', 
-    kitNumber: 0, 
-    color: '#51ACBD',       
-    controls: session5ConductorControls
-  }] 
-},
-
-
-
-
-{ sessionName: 'Ep #6', // Electropixel #6
-  channelName: 'Ch2 Bass guitar',  
-  trackSet: 0, 
-
-  defaultPattern: 4, 
-  patterns: [ 
-    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
-    {"name":"TaLaLi Bassline A (synkoped)","classs":"channel","id":"81c22550-6675-11e6-b5e9-51d55022d761","tracks":[[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0]]},
-    {"name":"TaLaLi Bassline B (continuous)","classs":"channel","id":"128a5ad0-6676-11e6-b509-c753c06f4910","tracks":[[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0]]},
-    {"name":"calme ta basse","classs":"channel", "id":"a61d9d90-667e-11e6-a6fa-97a17043872f","tracks":[[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0]]},
-    {"name":"4/4","classs":"channel","id":"85d646b0-71e9-11e6-ae6b-cbeced753752","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]]} 
-  ],  
-
-  conf: [{ 
-    type: 'samples', 
-    instrumentName: 'Sampler', 
-    name: 'c1-c2 (3 notes) - Bass guitar', 
-    kitNumber: 0, 
-    color: 'rgba(0, 171, 157, 1)',
-    //tracks: [{ name: 'C2', sampleUrl: 'Basse/C2.wav'}, /*{ name: 'B1', sampleUrl: 'Basse/B1.wav'}, { name: 'A1', sampleUrl: 'Basse/A1.wav'}, */ { name: 'G1', sampleUrl: 'Basse/G1.wav'}, /*{ name: 'F1', sampleUrl: 'Basse/F1.wav'}, { name: 'E1', sampleUrl: 'Basse/E1.wav'}, { name: 'D1', sampleUrl: 'Basse/D1.wav'}, */ { name: 'C1', sampleUrl: 'Basse/C1.wav'} ], 
-    tracks: [{ name: 'C4', sampleUrl: 'Guitar/C4.wav'},/* { name: 'B3', sampleUrl: 'Guitar/B3.wav'}, { name: 'A3', sampleUrl: 'Guitar/A3.wav'},*/ { name: 'G3', sampleUrl: 'Guitar/G3.wav'},/* { name: 'F3', sampleUrl: 'Guitar/F3.wav'}, { name: 'E3', sampleUrl: 'Guitar/E3.wav'}, { name: 'D3', sampleUrl: 'Guitar/D3.wav'},*/ { name: 'C3', sampleUrl: 'Guitar/C3.wav'} ],
-    controls: smpPrgChangeSavePattern
-  }] 
-}, 
-
-
-
 
 
 

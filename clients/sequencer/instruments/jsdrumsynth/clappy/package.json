@@ -1,0 +1,24 @@
+{
+  "name": "clappy",
+  "version": "3.0.0",
+  "description": "A web audio module for synthesizing claps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify main.js -o bundle.js"
+  },
+  "keywords": [
+    "web",
+    "audio",
+    "synth",
+    "clap"
+  ],
+  "author": "itsjoesullivan",
+  "license": "ISC",
+  "dependencies": {
+    "noise-buffer": "^2.0.1"
+  },
+  "devDependencies": {
+    "compare-audio-buffer": "^1.0.0"
+  }
+}

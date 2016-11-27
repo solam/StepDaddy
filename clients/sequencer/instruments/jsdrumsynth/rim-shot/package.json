@@ -1,0 +1,12 @@
+{
+  "name": "rim-shot",
+  "version": "1.1.0",
+  "description": "Rimshot sound for web audio",
+  "main": "index.js",
+  "author": "Joe Sullivan <itsjoesullivan@gmail.com> (http://joesul.li/van)",
+  "license": "ISC",
+  "dependencies": {
+    "make-distortion-curve": "^1.0.0"
+  },
+  "repository": "itsjoesullivan/rim-shot"
+}

@@ -34,11 +34,18 @@ define([
      */
     this.createRoom = function(id, client, callback, errback) {
 
-      if (typeof _rooms[id] === 'undefined') {
-        _rooms[id] = new Room(id);
-      }
+      var roomArrayB = id.split('_'); 
+      var roomIdB = roomArrayB[0];
 
-      _rooms[id].registerRoomOwner(client, callback, errback);
+      /*client.pwd = roomArray[1]; 
+      client.pageId = roomArray[2];*/      
+
+      if (typeof _rooms[roomIdB] === 'undefined') {
+        _rooms[roomIdB] = new Room(roomIdB);
+      } 
+
+      //console.log('id: ', id);
+      _rooms[roomIdB].registerRoomOwner(id, client, callback, errback);
 
       return this;
     };
@@ -53,10 +60,12 @@ define([
      */
     this.joinRoom = function(roomId, client, callback, errback) {
 
+      //console.log('roomId: ', roomId);
       var roomArray = roomId.split('_'); 
       var roomId = roomArray[0];
 
       client.pwd = roomArray[1]; // restrict some instrument to people connecting with a password
+      client.pageId = roomArray[2];
 
       // If the room exists
       if (typeof _rooms[roomId] !== 'undefined') {

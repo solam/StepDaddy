@@ -12,7 +12,20 @@
 </head>
 <body id="bodey">
 
-  <div id="instructions"><!--Get ready for your turn!-->
+<script>
+/*
+var win = window.open('http://127.0.0.1:8282/sequencer/?rm/child', '_blank');
+if (win) {
+    //Browser has allowed it to be opened
+    win.focus();
+} else {
+    //Browser has blocked it
+    alert('Please allow popups for this website');
+} */
+
+</script>
+
+  <div id="instructions" class="instructions-user"><!--Get ready for your turn!-->
     <span id="countdown"></span>
   </div>  
 
@@ -57,7 +70,14 @@
     <section id="pattern-editor">
       <table>
       </table>
+      <div id="keybox" touch-action="none">
+        <!--<div id="blackkeys">
+            <span id="k61" class="black key"></span><span id="k63" class="black key"></span><span class="spacer"></span><span id="k66" class="black key"></span><span id="k68" class="black key"></span><span id="k70" class="black key"></span><span class="spacer"></span><span id="k73" class="black key"></span><span id="k75" class="black key"></span><span class="spacer"></span><span id="k78" class="black key"></span><span id="k80" class="black key"></span><span id="k82" class="black key"></span>
+        </div>-->                
+      </div>
     </section>
+
+    
 
 
   <!--<ul class="menu" id="menu-at-modulation">
@@ -85,10 +105,17 @@
     <option value="922CC8EEE2A4A4074067E3FA3CE5E09A763A9487F4BC89E357303B0C5511D875">Komplete Audio 6 MIDI 1</option>-->
   </select>
 
+  
 
   </div><!-- end of right --> 
 
+  <!--<iframe src="http://127.0.0.1:8282/sequencer/?rm/child" width="600" height="600"></iframe>-->
 
+  <iframe id="myIframe" width="200" height="200"></iframe>
+
+  <script>
+  
+  </script>
 
   <!--<canvas nx="slider" id="slider1" min="0" max="100" label="freq"></canvas>-->
 
@@ -121,6 +148,8 @@
   <script src="../common/scripts/ui.slider.js"></script>
   <script src="../common/scripts/ui.ddmenu.js"></script>
   <script src="../common/scripts/ui.contact.js"></script>
+  <script src="../common/scripts/ui.keyboard.js"></script>
+  
   
   <!--<script src="../common/scripts/synth.js"></script>-->
   <script src="../common/scripts/midi.js"></script>
@@ -134,6 +163,36 @@
   <script src="../common/scripts/views.patterneditor.js"></script>
 
   <script>
+
+      window.pageId = uuid.v1();
+
+      /*
+      window.setTimeout(function () {
+          var iframe = document.getElementById('myIframe');
+          iframe.setAttribute('src', 'http://'+window.ip+':8282/sequencer/?rm/child/'+window.pageId);
+      }, 300);  // 1000 - 2000
+      //*/
+
+
+      /*
+      window.setTimeout(function () {
+
+
+        var win = window.open('http://'+window.ip+':8282/sequencer/?rm/child/'+window.pageId, '_blank');
+        if (win) {
+            //Browser has allowed it to be opened
+            //win.focus();
+        } else {
+            //Browser has blocked it
+            alert('Please allow popups for this website');
+        }
+
+
+      }, 5000);  
+      // */
+
+
+
   //window.localPatterns = [];  
     /*$("#pattern-editor").hide();
     $("#modifiers").hide();*/

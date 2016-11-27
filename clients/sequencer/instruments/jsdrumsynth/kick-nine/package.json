@@ -1,0 +1,23 @@
+{
+  "name": "kick-nine",
+  "version": "1.1.0",
+  "description": "A kick drum sound module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsjoesullivan/kick-nine.git"
+  },
+  "author": "itsjoesullivan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsjoesullivan/kick-nine/issues"
+  },
+  "homepage": "https://github.com/itsjoesullivan/kick-nine#readme",
+  "dependencies": {
+    "make-distortion-curve": "^1.0.0",
+    "noise-buffer": "^1.0.0"
+  }
+}

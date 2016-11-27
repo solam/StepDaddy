@@ -1,0 +1,24 @@
+{
+  "name": "make-distortion-curve",
+  "description": "distortion curve function for web audio",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [
+    "webaudio",
+    "distortion",
+    "curve"
+  ],
+  "author": "Cole Willsea <coleww@gmail.com> (http://colewillsea.com/)",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coleww/make-distortion-curve.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coleww/make-distortion-curve/issues"
+  },
+  "homepage": "https://github.com/coleww/make-distortion-curve"
+}

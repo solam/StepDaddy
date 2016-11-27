@@ -99,6 +99,7 @@
           } else {
             var ptnId = 0;
           }
+        console.log('input change:', $item.find("input").val(), _id);  
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, patternId: ptnId, classs: classs}); // 2 - $item.val()
       }
       /*$('body').on('touchend', _onMouseUp);

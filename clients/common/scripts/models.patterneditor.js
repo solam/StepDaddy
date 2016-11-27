@@ -28,6 +28,8 @@
      */
     var _connection = connection;
 
+    window.ptnEditorModel = connection;
+
     var _onInstrument = function(data) {
 
 
@@ -415,12 +417,16 @@ if (typeof data.channelInfo.instrumentUrl == 'undefined') {
   $("#insname").html('ins: <a target="_blank" href="'+ data.channelInfo.instrumentUrl +'">'+data.instrumentName+'</a>');
 }
 
-
+if (typeof data.channelInfo.inputMode  !== 'undefined' && data.channelInfo.inputMode=='keyboard') {
+  var inputMode = data.channelInfo.inputMode;
+} else {
+  var inputMode = '';
+} 
 $("#sessionname").html('sess: '+data.channelInfo.sessionList[data.channelInfo.sessionName]); // session
 var sessionNumber = Number(data.channelInfo.sessionName)+1;
 var channelNumb = Number(data.channelInfo.channelNumber)+1;
 window.channelNumber = channelNumb;
-$('body').addClass('channel' + channelNumb + ' session'+sessionNumber); // data.channelInfo.sessionName
+$('body').addClass('channel' + channelNumb + ' session'+sessionNumber+' '+inputMode); // data.channelInfo.sessionName
 
 //console.log('session name: ', data.channelInfo.sessionList);
 

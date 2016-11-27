@@ -2,7 +2,7 @@
 
   mixr.Mixer = function() {
 
-    var DICTIONARY = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+    //var DICTIONARY = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
     //var DICTIONARY = 'abc123'.split('');
 
     var _room_id = 'Mixr_room_1';
@@ -15,9 +15,16 @@
     var _clientJoinedCount = 0;
     //var _channelUsedCount = 0;
     var _self = this;
+    var _childRoom = 0;
+    window.childRoom = 0;
+    window.timeShift = 0; // 31.25;
+    window.timeOutIncrement=0;
+
+    //var _url = mixr.Utils.parseURL(location.href); // url typed on browser url bar
+
 
     var _encode = function(i) {
-      if (i == 0) {
+    /*  if (i == 0) {
         return DICTIONARY[0];
       }
       var result = '';
@@ -26,10 +33,22 @@
       while (i > 0) {
         result += DICTIONARY[(i % base)];
         i = Math.floor(i / base);
-      }
+      } */
+
+
+    var _url = mixr.Utils.parseURL(location.href);  
+    var _arrUrl = _url.url.split('/'); // _self.      
+
+      // var url = 'http://127.0.0.1:8282/sequencer/?rm/child'
+      //var pwd = url.url.split("/").pop();
+
+
+      var pwd = _arrUrl[4]; //arr[arr.length-2]; // ?rm
+      var pwd = pwd.replace("?", ""); // rm
+
 
       //return result.split('').reverse().join('');
-      return 'rm'; // force creating only room 'rm'
+      return pwd; //'rm'; // force creating only room 'rm' - 
     }
 
     var _onRoomCreated = function(data) {
@@ -39,6 +58,188 @@
       //var numAvailableInstruments = _sequencer._availableInstruments.length;
       //$("#audio-server-available-slots").html(numAvailableInstruments);    
       //console.log('numAvailableInstruments', numAvailableInstruments);  
+
+      //console.log('conduct controls', _sequencer._instrumentsConfig[1].conf[0].controls ); // window['Conductor_1']['controls']
+
+
+
+
+
+
+
+
+
+if (window.childRoom == 2) {
+
+
+        // conductorControls
+        var controls = _sequencer._instrumentsConfig[1].conf[0].controls;
+        var container = document.getElementById('modifiers');
+        var channelId = 1;
+
+
+        if (controls!=0) {  
+
+
+//console.log('_model.instrument.type', _model.instrument.type);
+
+
+
+
+
+
+
+
+var usedLibrary = 'noUiSlider'; // Interface
+//var usedLibrary = 'Interface';
+
+
+
+// define array to group all channel volumes into
+window['channelVol'] = [];
+
+window.changeParamMode = 'auto'; // synth sliders etc are automatically changed vs. user events: manual
+
+          for (var j = 0; j < controls.length; j++) {
+
+            var input = input + j;
+
+            if (typeof input !== 'undefined') { // window[input]
+
+  if (controls[j].type=='slider') {
+
+                if (controls[j].direction !== 'undefined') {
+                  if (controls[j].direction=='horizontal') {
+                    var orientation = 'horizontal';
+                  } else {
+                    var orientation = 'vertical';
+                  }
+                } else {
+                  var orientation = 'vertical';
+                }
+
+
+                if (controls[j].x.mute !== 'undefined') {
+                  if (controls[j].x.mute==1) {
+                    var mute = controls[j].x.muteKey; //1;
+                  } else {
+                    var mute = 0;
+                  }
+                } else {
+                  var mute = 0;
+                }
+
+
+                if (controls[j].x.muteNote !== 'undefined') {
+                  if (controls[j].x.mute==1) {
+                    var muteNote = controls[j].x.muteNote; //1;
+                  } else {
+                    var muteNote = 0;
+                  }
+                } else {
+                  var muteNote = 0;
+                }                
+
+
+
+                if (controls[j].x.solo !== 'undefined') {
+                  if (controls[j].x.solo==1) {
+                    var solo = controls[j].x.soloKey; //1;
+                  } else {
+                    var solo = 0;
+                  }
+                } else {
+                  var solo = 0;
+                }
+
+
+                //console.log('mute', mute);
+
+                var displayedRange = [];
+                displayedRange['min'] = 0;
+                displayedRange['max'] = 100;
+                
+                if (typeof controls[j].x.displayedRangeMin !== 'undefined' && typeof controls[j].x.displayedRangeMax !== 'undefined') {
+                  //if (controls[j].x.displayedRangeMin !== 0 && controls[j].x.displayedRangeMax !== 100) {
+                    displayedRange['min'] = controls[j].x.displayedRangeMin;
+                    displayedRange['max'] = controls[j].x.displayedRangeMax;
+                  //}
+                } /*else {
+                  displayedRange['min'] = 0;
+                  displayedRange['max'] = 100;
+                }*/
+                
+                //console.log('displayedRange', displayedRange, controls[j].x.displayedRangeMin);
+
+               /* if (presetMode == 1) {
+                    var value = window.preset[controls[j].id];
+                  } else { */
+                    var value = controls[j].x.value;
+                  //}
+
+
+                  //console.log('value: ', value);
+
+                  if (typeof value == 'undefined') { // typeof window.preset[controls[j]]
+                    var value = 0;
+                  }
+                  //console.log(value/*, window.preset*/);
+
+
+
+
+
+
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
+                
+                
+                //window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
+                //alert("slider");
+              } else if (controls[j].type=='hidden') {
+
+              } 
+
+        } // end of if (typeof input !== 'undefined') {
+
+
+} // end of controls loop
+
+
+
+
+window.changeParamMode = 'manual'; // now that params have been auto changed, future param changes are assumed to be from user events
+
+
+
+
+
+
+
+
+
+        } 
+
+
+
+
+
+
+
+} // end of if window.childRoom = 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 
     };
 
@@ -83,6 +284,9 @@
 // create updateInstruments seq class method
           // just refresh channel data : do not re-init "audio rendering" of instrument - do not reset notes' data
         console.log('first client joined', firstJoinTime);
+
+        
+
       }      
       console.log('_clientJoinedCount', _clientJoinedCount);
       _clientJoinedCount++;
@@ -132,8 +336,17 @@ if (window.graphixMode==1) {
     };
 
     var _onGetInstrument = function(data) {
+
+    console.log('Got a request for an instrument', data);  
+
+if (typeof data.insId !== 'undefined') {
+
+  _sequencer.getInstrumentById(data.client, data.insId);
+
+} else {
+
       var pwd = _clients[data.client];
-      //console.log('Got a request for an instrument', data);
+      
 
       /* var numAvailableInstruments = _sequencer._availableInstruments.length; // - _channelUsedCount;
       console.log('seq avail ins length', _sequencer._availableInstruments.length);
@@ -146,7 +359,10 @@ if (window.graphixMode==1) {
       //console.log("_onGetInstrument (mixer.js): ", instrument);
 
       if (instrument) {
-        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+
+        if (window.childRoom==0) {
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        }
 
 /*var startDate = new Date();
 var startTimestamp = startDate.getTime();
@@ -169,12 +385,16 @@ if (window.graphixMode==1) {
         }
       } else {
         console.log('No more instruments available.');
-        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
-
+        if (window.childRoom==0) {
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
+        }
 
       } //*/
 
       //_updateChannels();
+
+}      
+
 
     };
 
@@ -186,18 +406,18 @@ if (window.graphixMode==1) {
 }     
 
       _sequencer.updateNote(data.args);
-      console.log('_onNote: ', data);
+      //console.log('_onNote: ', data);
     };
 
 
     
-    var _updateChannels = function() {
+    var _updateChannels = function() { // aka force refreshing each client instrument/page
       //console.log('update channels');
        var claients = Object.keys(_clients); 
 
          for (var i = 0; i < claients.length; i++) {
 
-          if (i!=1) { // do not process conductor role (1) which has no track data associated to it ! Beware hardcoded value!
+          if (i!=133) { // do not process conductor role (1) which has no track data associated to it ! Beware hardcoded value!
           //console.log('upd ch - claients'+i, claients[i]);
             //var oldInstrument = _instruments[claients[i]];
             //_sequencer.addInstrument(oldInstrument); // add abandoned instrument to "availabe instruments" list
@@ -206,7 +426,13 @@ if (window.graphixMode==1) {
             var instrument = _sequencer.updateChannelInfo(claients[i], i);    
 
             if (instrument) {
-              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument});
+              //_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument}); // after 10+ bpm changes sound degrades on main sounding tab (with f12: code debug open) 
+
+              //console.log('i', i); // follwing lien will output VM10110:1 Uncaught SyntaxError: Unexpected identifier
+              if (window.childRoom==0) {
+                window['updCh'+i] = setTimeout(_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument}),i*300);
+              }
+
 
               /*if (typeof _instruments[claients[i]] === 'undefined') {
                 _totalInstruments++;
@@ -247,7 +473,9 @@ if (window.graphixMode==1) {
 
        if (_sequencer._availableInstruments.length==0) {
          console.log('no channel available', _sequencer._availableInstruments.length);     
-         _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[0], instrument: 'kickOut' }); //       
+         if (window.childRoom==0) {
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[0], instrument: 'kickOut' }); //     
+         }  
          _sequencer.addInstrument(_instruments[claients[0]]); // _clients[claients[0]]
          delete _instruments[claients[0]];
          _totalInstruments--;
@@ -282,7 +510,9 @@ if (window.graphixMode==1) {
 
 
           if (instrument) {
-            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument});
+            if (window.childRoom==0) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: instrument});
+            }
             //console.log(claients[i], instrument);
 
             //console.log('>>> Instrument', instrument, _totalInstruments);
@@ -310,7 +540,9 @@ if (window.graphixMode==1) {
         var instrument = _sequencer.updateInstrument(data.args, data.client);        
         // console.log('instrument.tracks', instrument.tracks); // data
 
-        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        if (window.childRoom==0) {
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        }
         //console.log('>>> Instrument', instrument);
         _instruments[data.client] = instrument; 
 
@@ -353,8 +585,10 @@ if (window.graphixMode==1) {
     // change preset
     } else if (data.args.id==992) {
 
-        var instrument = _sequencer.updatePreset(data.args, data.client);        
-        _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        var instrument = _sequencer.updatePreset(data.args, data.client);
+        if (window.childRoom==0) {        
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        } 
         _instruments[data.client] = instrument; 
 
         /*// import notes from old instr to new one (so theyr are displayed on seq view)  
@@ -393,8 +627,10 @@ if (window.graphixMode==1) {
           if (data.args.triggerMode == 'manual') {
 
           data.args.x = data.args.kitNumber;
-          var instrument = _sequencer.updateInstrument(data.args, data.client);        
-          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          var instrument = _sequencer.updateInstrument(data.args, data.client);
+          if (window.childRoom==0) {        
+            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          }
           _instruments[data.client] = instrument; 
           }
         }
@@ -412,8 +648,10 @@ if (window.graphixMode==1) {
           if (data.args.triggerMode == 'manual') {
 
           data.args.x = data.args.kitNumber;
-          var instrument = _sequencer.updateInstrument(data.args, data.client);        
-          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          var instrument = _sequencer.updateInstrument(data.args, data.client);       
+          if (window.childRoom==0) { 
+            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+          }
           _instruments[data.client] = instrument; 
           }
         } 
@@ -445,6 +683,17 @@ if (window.graphixMode==1) {
       } else if (data.args.id==990) { // update channel time shift
         _sequencer.updateChannelSound(data.client, data.args.x, 1);        
 
+      } else if (data.args.id==989) { // noteOn - noteOff from keyboard
+
+        // mute sequencer mode for channel using keyboard
+        _sequencer.updateChannelSound(data.client, 0, 0);
+        //console.log('989', data);
+        if (data.args.type=="on") {
+          noteOn(data.args.note, data.args.velocity);
+        } else {
+          noteOff(data.args.note);
+        }
+
       } else if (data.args.id==201) {  
           //console.log('data', data);
         _sequencer.directInfoChange(data);
@@ -452,10 +701,11 @@ if (window.graphixMode==1) {
         //console.log('non regular event id popped');
 
         _sequencer.updateFxParam(data.args, data.client);   
+        console.log('data', data);
 
-        if (data.args.id==699 || data.args.id==999 /*|| data.args.id==993*/) { // 993: update channel sound On/Off | 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
-          _updateChannels();
-        } else if (data.args.id>0 && data.args.id<=200) { // >=0
+        /*if (data.args.id==699 || data.args.id==999 //|| data.args.id==993//) { // 993: update channel sound On/Off | 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
+          _updateChannels(); // comment line to limit crackin' sound
+        } else*/ if (data.args.id>0 && data.args.id<=200) { // >=0
           _sequencer.directInfoChange(data);
         }
 
@@ -500,9 +750,89 @@ if (window.graphixMode==1) {
       http.send(params);
     }; */
 
+
+
+
+
+var _onSequenceBeat = function(data) {
+
+  //console.log('_childRoom', _childRoom);
+
+  if (_childRoom==1) {
+    
+    // correct the one step in advance of the master room compared to child rooms
+    if (data.beat ==0) {
+      actualBeat=15;
+    } else {
+      actualBeat=data.beat-1;
+    }
+
+    //console.log('actualBeat', actualBeat);
+
+    window['SEQ']._beatCount = actualBeat;
+    window['SEQ'].uiNextBeat(); 
+
+    //console.log('_sequencer', _sequencer);
+    //window['SEQ'].tumulo(); 
+    //window['SEQ'].interpolate();
+
+
+    /*_sequencer._beatCount = actualBeat;
+    _sequencer.uiNextBeat;*/
+
+
+    //console.log('_sequencer._beatCount', _sequencer.uiNextBeat);
+
+    /*
+    window['stepEvent'+actualBeat] = setTimeout(function(){
+      if (window.timeOutIncrement==0 || window['stepDone'+actualBeat-1]==1) {
+        window['SEQ'].uiNextBeat(); 
+        window['stepDone'+actualBeat]=1;
+        window['stepDone'+actualBeat+1]=0;
+        window.timeOutIncrement++;
+      }
+    }, window.timeShift); // 31.25 */
+
+
+  //window['SEQ'].shiftTimeFromMasterRoom();
+
+
+
+    
+  }  
+
+};
+
+
+
+
+
+
+
     this.initialize = function() {
 
-      _room_id = _encode(new Date().getTime());
+    var _url = mixr.Utils.parseURL(location.href);  
+    var _arrUrl = _url.url.split('/'); // _self.
+
+    if (typeof _arrUrl[5] !== 'undefined' && _arrUrl[5]=='child') {
+      _childRoom = 1;
+      window.childRoom = 1;
+    }  
+
+    if (typeof _arrUrl[6] == 'undefined' || _arrUrl[6]=='') {
+      _arrUrl[6] = 'nopageid';
+    }  
+
+
+    if (window.childRoom == 1 && typeof _arrUrl[6] !== 'undefined' && _arrUrl[6]=='nopageid') {
+      window.childRoom = 2;
+    }
+
+
+
+      _room_id = _arrUrl[4].replace("?", ""); //_encode(new Date().getTime());
+
+      console.log('_childRoom', _childRoom, _room_id);
 
       //_room_id = 'rm';
 
@@ -520,17 +850,24 @@ if (window.graphixMode==1) {
       }); */
 
 
+
+      var delim = '_';
+                 // rm _ child|no _ [randomPwd]|no
+      var rmid = _room_id.concat(delim).concat(_arrUrl[5]).concat(delim).concat(_arrUrl[6]); 
+      console.log(rmid);
+
       _conn = new mixr.net.Connection();
       _conn.connect(window.SERVER)
       .on(mixr.enums.Events.REGISTER, function() {
-            _conn.createRoom(_room_id, _onRoomCreated, _onRoomCreateError);
+            _conn.createRoom(rmid, _onRoomCreated, _onRoomCreateError);
           })
       .on(mixr.enums.Events.CLIENT_JOINED, _onClientJoined)
       .on(mixr.enums.Events.ROOM_CLOSED, _onRoomClosed)
       .on(mixr.enums.Events.CLIENT_LEFT, _onClientLeft)
       .on(mixr.enums.Events.GET_INSTRUMENT, _onGetInstrument)
       .on(mixr.enums.Events.NOTE, _onNote)
-      .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange);
+      .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange)
+      .on(mixr.enums.Events.SEQUENCER_BEAT, _onSequenceBeat);
 
       _sequencer = new mixr.Sequencer();
       window['SEQ'] = _sequencer;
@@ -540,28 +877,46 @@ if (window.graphixMode==1) {
 
       window.barcount=0;
 
-      _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
 
+      if (_childRoom==0) {
+
+        _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
+
+          
+          // bar count rounds from bar1 to bar8
+          if (window.barcount==8 && beat==0) {
+            window.barcount=0;
+          }
+
+          if (beat==0) {
+            window.barcount++;
+          }
+
+          //console.log('beat', beat, window.barcount);
+
+  //_sequencerView.drawPlayhead(beat); // remove audio stuttering
         
-        // bar count rounds from bar1 to bar8
-        if (window.barcount==8 && beat==0) {
-          window.barcount=0;
-        }
+          _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
+        
+        });
 
-        if (beat==0) {
-          window.barcount++;
-        }
+      } // end of if childRoom==0
 
-        //console.log('beat', beat, window.barcount);
 
-//_sequencerView.drawPlayhead(beat); // remove audio stuttering
-        _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
-      });
+    /*if (window.childRoom==1) {
+      _sequencer.initialize(); // _self.start
+    } */
+
+
+
+
     };
 
   };
 
   new mixr.Mixer().initialize();
+
+
 
 }());
 

@@ -13,6 +13,10 @@
      */
     mixr.mixins.Wrapper.call(this);
 
+    var _self = this;
+
+    //window.ptnEditorModel = this;
+
     //var _self = this;
 
     /**
@@ -32,6 +36,28 @@
      */
     var _model = model || {};
 
+/*
+this.noteOn = function( note, velocity ) {
+  console.log("note on: " + note );
+  //if (voices[note] == null) {
+    // Create a new synth node
+    //voices[note] = new Voice(note, velocity);
+    var e = document.getElementById( "k" + note );
+    if (e)
+      e.classList.add("pressed");
+  //}
+}
+
+this.noteOff = function( note ) {
+  //if (voices[note] != null) {
+    // Shut off the note playing and clear it 
+    //voices[note].noteOff();
+    //voices[note] = null;
+    var e = document.getElementById( "k" + note );
+    if (e)
+      e.classList.remove("pressed");
+  }    
+*/
     var _onNote = function(data) {
       //console.log('ptn edit:', data);
       _model.updateNote(data.volume, data.note, data.trackId, data.patternId);
@@ -101,22 +127,142 @@ if ( $('#pattern-editor').hasClass('control') ) {
 
 
         var tracks = _model.instrument.tracks;
+        var container = document.getElementById('modifiers');    
+        var controls = _model.instrument.controls;
+        var input = 1;
+        var channelId = _model.instrument.id;
+        var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
+        var inputMode = _model.instrument.channelInfo.inputMode;
+
+        if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
+          var tracks = tracks.reverse();
+        }  
+
         for (var i = 0; i < tracks.length; i++) {
-          view.addTrack(tracks[i], _model.instrument.color);
+
+          if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
+            view.addKey(tracks[i], _model.instrument.color);
+
+          } else {
+            view.addTrack(tracks[i], _model.instrument.color);
+          }  
+          
+          
         }
+
+
+
+if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
+
+  //var pointerDebugging = false;
+
+  //var keybox = document.getElementById("keybox"); // $item.find('div'); //
+  //var keybox = $('#keybox'); //$(keybox);
+
+  //console.log('search substr: ', window.location.search.substring(1));
+
+  /*if (window.location.search.substring(1) == "touch") {
+    keybox.addEventListener('touchstart', touchstart);
+    keybox.addEventListener('touchmove', touchmove);
+    keybox.addEventListener('touchend', touchend);
+  } else { */
+    //keybox.addEventListener('down', pointerDown);
+    //keybox.addEventListener('track', pointerMove);
+    //keybox.addEventListener('up', pointerUp);
+
+    /*keybox.on('down', pointerDown);
+    keybox.on('track', pointerMove);
+    keybox.on('up', pointerUp);   */ 
+
+    /*if (window.location.search.substring(1) == "dbgptr")
+      pointerDebugging = true;*/
+  //}
+
+  window.addEventListener('keydown', keyDown, false);
+  window.addEventListener('keyup', keyUp, false);
+
+
+
+  touchClick("#keybox", 'touchend mouseup', function(e) {
+    if (typeof e.targetTouches  !== 'undefined') {
+      //console.log('touchstart');
+      touchend(e);
+    } else {
+      console.log('mouse up');
+      pointerUp(e);
+    }        
+  })
+
+  touchClick("#keybox", 'touchstart mousedown', function(e) {
+    if (typeof e.targetTouches  !== 'undefined') {
+      //console.log('touchstart');
+      touchstart(e);
+    } else {
+      console.log('mouse down');
+      pointerDown(e);
+    }        
+  })
+  
+/*
+var flag = false;
+$("#keybox").bind('touchstart mousedown', function(e) { //  canvas
+  if (!flag) {
+    flag = true;
+    setTimeout(function(){ flag = false; }, 100);
+    if (typeof e.targetTouches  !== 'undefined') {
+      //console.log('touchstart');
+      touchstart(e);
+    } else {
+      console.log('mouse down');
+      pointerDown(e);
+    }
+  }
+  return false
+});  
+
+var flag2 = false;
+$("#keybox").bind('touchend mouseup', function(e) { //  canvas
+  if (!flag2) {
+    flag2 = true;
+    setTimeout(function(){ flag2 = false; }, 100);
+    if (typeof e.targetTouches  !== 'undefined') {
+      //console.log('touchstart');
+      touchend(e);
+    } else {
+      console.log('mouse up');
+      pointerUp(e);
+    }   
+  }
+  return false
+}); 
+*/
+
+/*
+var flag3 = false;
+$("#keybox").bind('touchmove mousemove', function(e) { //  canvas
+  if (!flag3) {
+    flag3 = true;
+    setTimeout(function(){ flag3 = false; }, 100);
+    if (typeof e.targetTouches  !== 'undefined') {
+      //console.log('touchstart');
+      touchmove(e);
+    } else {
+      console.log('mouse move');
+      pointerMove(e);
+    }   
+  }
+  return false
+}); 
+*/
+
+}
+
 
         // draw controllers
 
         //console.log('_model.ins:', _model.instrument.id);
 //*
-        var container = document.getElementById('modifiers');    
-        var controls = _model.instrument.controls;
-        var input = 1;
-        var channelId = _model.instrument.id;
 
-
-
-var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
 
 console.log('kits: ', kits);
 
@@ -453,6 +599,9 @@ console.log('trying to keep sliders precize and smooth on touch devices');
 //*
 
 
+// define array to group all channel volumes into
+window['channelVol'] = [];
+
 window.changeParamMode = 'auto'; // synth sliders etc are automatically changed vs. user events: manual
 
           for (var j = 0; j < controls.length; j++) {
@@ -787,6 +936,19 @@ if (typeof window.kits  !== 'undefined') { // kits
                   var muteNote = 0;
                 }                
 
+
+
+                if (controls[j].x.solo !== 'undefined') {
+                  if (controls[j].x.solo==1) {
+                    var solo = controls[j].x.soloKey; //1;
+                  } else {
+                    var solo = 0;
+                  }
+                } else {
+                  var solo = 0;
+                }
+
+
                 //console.log('mute', mute);
 
                 var displayedRange = [];
@@ -822,7 +984,7 @@ if (typeof window.kits  !== 'undefined') { // kits
                 // if HTML5 canvas blend mode property 'multiply' browser not supported : load simple inputs instead of sliders
                 if( gcoCheck==false /*/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)*/ ) {
                   //window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
 
 
                 } else { 
@@ -839,7 +1001,7 @@ window.sliderArray = []; */
 
 
 
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
                 }
                 
                 window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);

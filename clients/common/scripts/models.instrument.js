@@ -56,7 +56,7 @@
     this.setup = function(context) {
 
 
-      var synthInstanceString = this.instrumentName + '_' + this.id;
+      var synthInstanceString = /*this.instrumentName + '_' + */ 'channel_' + this.id;
 
       // get control data from dynamic object
       //if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
@@ -71,6 +71,14 @@
 
         // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
         switch (this.instrumentName) {
+          case 'JoeSullivanDrumSynth':
+            window[synthInstanceString] = new jsDrumSynth(context);
+            //window[synthInstanceString] = new WebSynth(context);
+            break;             
+          case 'CWilsoWAMidiSynth':
+            initAudio(context);
+            window[synthInstanceString] = new WebSynth(context);
+            break;          
           case 'AikeWebsynth1':
             window[synthInstanceString] = new WebSynth(context);
             break;
@@ -94,11 +102,12 @@
 
       //} 
 
+      console.log('win ins strg', window[synthInstanceString])
 
       var instrumentsConfig = window.insConf;
 
-      if (typeof window['Conductor_1'] === 'object') {
-        var conductorControls = window['Conductor_1']['controls']; 
+      if (typeof window['channel_1'] === 'object') { // window['Conductor_1']
+        var conductorControls = window['channel_1']['controls']; 
       } else {
         var conductorControls = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls; // ! beware hardcoded value */       
       }    
@@ -301,11 +310,18 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
        // _synth.setVolume(100);
        //_synth.filter.set_freq(96);
        
-        var synthInstance = this.instrumentName + '_' + this.id;
+        //var synthInstance = this.instrumentName + '_' + this.id;
+        var synthInstance = 'channel_' + this.id; // synthInstanceString
 
-      if (typeof window[synthInstance]!== 'undefined') {
+      if (typeof window[synthInstance]!== 'undefined') { // window[synthInstance]
 
         switch (this.instrumentName) {
+            case 'JoeSullivanDrumSynth':
+                window[synthInstance].play(note);
+                break;          
+            case 'CWilsoWAMidiSynth':
+                noteOn(note, 75);
+                break;          
             case 'AikeWebsynth1':
               //console.log('id', this.id, window[synthInstance]); 
                 //window[synthInstance].setVolume(0.1);
@@ -366,11 +382,17 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
        //mrSynth.startAttack();
 
 
-        var synthInstance = this.instrumentName + '_' + this.id;
+        var synthInstance = 'channel_' + this.id; // this.instrumentName + '_' + this.id;
 
         if (typeof window[synthInstance]!== 'undefined') {
 
           switch (this.instrumentName) {
+            case 'JoeSullivanDrumSynth':
+                window[synthInstance].stop(note);
+                break;              
+            case 'CWilsoWAMidiSynth':
+                noteOff(note);
+                break;              
               case 'AikeWebsynth1':
                   //window[synthInstance].setVolume(0);
                   //console.log('syn inst: ',window[synthInstance]);

@@ -35,7 +35,7 @@
 
     var _currentTime = 0;
     var _noteTime = 1;
-    this._noteTime = 1;
+    this._noteTime = 0; // 1
 
     this._noteTimes = [];
     //this._noteTimes[0] = 0;
@@ -49,6 +49,9 @@
     var _startTime = 0;
     this._startTime = 0;
     //var _tempo = 110;
+
+    this._beatCount = -1;
+    this._signature = 16
     
 
     this._Ins01Volume = 1;
@@ -56,7 +59,7 @@
     var startDate = new Date();
     this._audioServerStartTimestamp = startDate.getTime();
 
-    
+    var _clock2 = null;    
     
 
 
@@ -86,11 +89,13 @@
     //
     //window['sessionNumber'] = 2;  
 
+        this._clockMode = 2; // 0: simple clock 1: multi clock for sounding channel time-shifts - 2: WAAClock
+
      window.graphixMode = 0; // ven 16 step 2016: 0 > 1 > 1
 
-    this._countdownMode = 1; // ven 16 step 2016: 0 puis 1 > 1 > 1      // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+    this._countdownMode = 0; // ven 16 step 2016: 0 puis 1 > 1 > 1      // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
 
-    this._sessionNumber = 6; // ven 16 step 2016: 6 > 5 > 1
+    this._sessionNumber = 99; // ven 16 step 2016: 6 > 5 > 1 (with /mopo)
 /*
 
 1: Pitch instruments A (for apéro SdCC janvier 2016)
@@ -108,7 +113,9 @@
     //console.log('session number: ', this._sessionNumber, this._instrumentsConfig);
 
 
-    this._tempo = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
+    this._tempo = 140;//this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 // ! hardcoded value: conductor channel + control id may change !
+
+    console.log('tempo:', this._tempo);
 
     //this._insVol0 = 0.7; // ch1 vol retrieve from window.insConf (conductor role) via trackset value
 
@@ -424,6 +431,11 @@ this._audioChannelShift[1]= 0; // -12.5
 
         // Create context.
         _context = new AudioContext();
+
+
+
+      
+
         //window['audio_context'] = _context;
 
         //window['audio_rec_gal'] = new Recorder(_context);
@@ -508,6 +520,12 @@ this._audioChannelShift[1]= 0; // -12.5
 
         this.createInstruments();
 
+
+        /*if (window.childRoom==1) {
+          this.start();
+        }  */
+
+
         //console.log(this._audioServerStartTimestamp);
     };
 
@@ -555,6 +573,10 @@ this._audioChannelShift[1]= 0; // -12.5
             channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
             channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
             channelInfo.sessionList = this._sessionList;//Serialized;
+
+            if (typeof this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].inputMode !== 'undefined') {
+              channelInfo.inputMode = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].inputMode;
+            }
 
 
             if (typeof this._channelpatternSeq[i] !== 'undefined') {     
@@ -786,7 +808,7 @@ this._audioChannelShift[1]= 0; // -12.5
             return _clients[clientId];
         } //*/
 
-        //console.log("_availableInstruments", _availableInstruments);
+        console.log("_availableInstruments", _instruments); // _availableInstruments
 
         var numAvailableInstruments = _availableInstruments.length;
         if (numAvailableInstruments === 0) {
@@ -850,6 +872,47 @@ this._audioChannelShift[1]= 0; // -12.5
 
 
 
+
+
+
+
+
+
+    this.getInstrumentById = function(clientId, insId) {
+
+        //*
+        if (typeof _clients[clientId] !== 'undefined') {
+            return _clients[clientId];
+        } //*/
+
+
+        var nextInstrument = _instruments[insId]; 
+
+        if (typeof nextInstrument !== 'undefined') {
+
+          // Initialize the instrument and call start when ready.
+          nextInstrument.initialize(this.start);
+          // Pass the context the instrument.
+          nextInstrument.setup(_context);
+
+          _clients[clientId] = nextInstrument;
+
+          //return nextInstrument;
+
+        } else {
+          return;
+        }
+
+
+    };
+
+
+
+
+
+
+
+
     this.changeChannel = function(clientId) {
         /*
         if (typeof _clients[clientId] !== 'undefined') {
@@ -908,7 +971,7 @@ this._audioChannelShift[1]= 0; // -12.5
     this.directInfoChange = function(data) { // modify instrument object params withou reloading instruments, etc...
       var channelId = _clients[data.client].id;
       
-      if (data.args.id==201) {
+      if (data.args.id==201) { 
       _instruments[channelId].patternSeqState = data.args.ptnSeqState;
       _instruments[channelId].channelInfo.patternSeqState = data.args.ptnSeqState;
       } else {
@@ -1122,6 +1185,11 @@ this._audioChannelShift[1]= 0; // -12.5
         channelInfo.sessionList = this._sessionList;//Serialized;
 
 
+        if (typeof this._instrumentsConfig[prevKit].conf[trackSet].inputMode !== 'undefined') {
+          channelInfo.inputMode = this._instrumentsConfig[prevKit].conf[trackSet].inputMode;
+        }        
+
+
         if (typeof prevKit !== 'undefined') {   
           //console.log('prevKit', prevKit);
           channelInfo.channelNumber = prevKit;
@@ -1284,6 +1352,10 @@ this._audioChannelShift[1]= 0; // -12.5
         channelInfo.sessionName = _self._sessionNumber-1; 
         channelInfo.sessionList = this._sessionList;//Serialized;
 
+        if (typeof this._instrumentsConfig[prevKit].conf[trackSet].inputMode !== 'undefined') {
+          channelInfo.inputMode = this._instrumentsConfig[prevKit].conf[trackSet].inputMode;
+        }             
+
         if (typeof prevKit !== 'undefined') {   
           //console.log('prevKit', prevKit);
           channelInfo.channelNumber = prevKit;
@@ -1422,6 +1494,10 @@ this._audioChannelShift[1]= 0; // -12.5
         channelInfo.channelColor = this._channelName[channelNumber]['color'];
         channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
         channelInfo.sessionList = this._sessionList;//Serialized;
+
+        if (typeof this._instrumentsConfig[channelNumber].conf[trackSet].inputMode !== 'undefined') {
+          channelInfo.inputMode = this._instrumentsConfig[channelNumber].conf[trackSet].inputMode;
+        }             
 
 
         if (typeof this._channelpatternSeq[channelNumber] !== 'undefined') {                 
@@ -1591,13 +1667,17 @@ this.updateChannelSound = function(clientId, value, opeId) {
     };
 
     this.start = function() {
+        console.log('_started', _started);
         //console.log('Started!', this);
         if (_started) return;
         _started = true;
         _noteTime = 0.0;
         this._noteTime = 0.0;
-    _timeGrid = 0.0;
 
+//console.log('clockMode', this._clockMode, _self._clockMode); 
+
+if (_self._clockMode == 1) {
+    _timeGrid = 0.0;
 
     for (var i = 0; i < _instruments.length; i++) {
       _self._noteTimes.push(0.0);
@@ -1605,20 +1685,244 @@ this.updateChannelSound = function(clientId, value, opeId) {
       _self._noteTriggers.push(0);      
     }  
 
+}
+
 
         // _startTime = _context.currentTime + 0.160;
-        _startTime = _context.currentTime;// + 0.005;
+        _startTime = _context.currentTime; // + 0.005;
         this._startTime = _context.currentTime;
-        _self.schedule();
+        //_self.schedule();
+
+
+
+
+  _self._noteTime = _context.currentTime; // _self._usedStartTime
+  
+  // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
+  _self._noteTime -= _startTime;
+
+if (window.childRoom==1) { // if child room solo
+  _startTime = 10
+  _self._noteTime = 10;
+  console.log('child room solo');
+}  
+
+
+  var tempo = _self._tempo; //170
+  //var signature = 4
+  var beatDur = 60/tempo/4 // /4
+  var barDur = _self._signature * beatDur
+  var beatCount = -1
+
+/*
+var nextBeatTime = function(beatInd) {
+  var currentTime = _context.currentTime
+    , currentBar = Math.floor(currentTime / barDur)
+    , currentBeat = Math.round(currentTime % barDur)
+  if (currentBeat < beatInd) return currentBar * barDur + beatInd * beatDur
+  else return (currentBar + 1) * barDur + beatInd * beatDur
+} */
+
+
+if (window.childRoom==0) {
+
+//*
+        clock = new WAAClock(_context, {toleranceEarly: 0.1}); // 0.1:needed value to delay main sequencer audio ouput start so that solo child rooms trigger window seq... - 10
+        clock.start();
+
+        uiEvent = clock.callbackAtTime(_self.uiNextBeat, _self.nextBeatTime(0))
+          .repeat(beatDur)
+          .tolerance({late: 1}) // 1 - 100 - 10
+// */       
+
+// or use js delay
+
+/*
+setTimeout(function() {
+        clock = new WAAClock(_context, {toleranceEarly: 10}); // 10
+        clock.start();
+        uiEvent = clock.callbackAtTime(_self.uiNextBeat, _self.nextBeatTime(0))
+          .repeat(beatDur)
+          .tolerance({late: 10}) // 10
+    }, 3000); // 3000
+//*/
+
+
+} else {
+
+        /*_clock2 = new WAAClock(_context); // window['SEQ']._context - window['audio_context']
+        _clock2.start();  */
+}
+
+
+
+
+
+
     };
 
+
+this.shiftTimeFromMasterRoom = function() {
+
+      /*_context.suspend();  
+
+        setTimeout(function(){
+      _context.resume();
+      _self.uiNextBeat();
+    }, 31.25); */
+        
+
+        /*
+        var shiftedTime = _context.currentTime + 1.03125;
+        //console.log('_context', _context.currentTime, shiftedTime);
+        //var context2 = new AudioContext();
+  
+        //window['clock'+_self._beatCount] = _clock2.setTimeout(function() { _self.uiNextBeat }, 0.003125).tolerance({ early: 4, late: 4 })
+        window['clock'+_self._beatCount] = _clock2.callbackAtTime(function() { _self.uiNextBeat }, _self.nextBeatTime(0)).tolerance({ early: 4, late: 4 }) // _context.currentTime
+        //window['clock'+_self._beatCount].callbackAtTime(function() { _self.uiNextBeat }, shiftedTime).tolerance({ early: 1, late: 1 });
+        //clock2.stop();*/
+
+        //console.log('_clock2',_clock2);
+};  
+
+
+
+
+    this.uiNextBeat = function() {
+      //if (window.childRoom==1) { console.log('beatCount', _self._beatCount); }
+      _self._beatCount = (_self._beatCount + 1) % _self._signature
+      _noteIndex = _self._beatCount;
+      /*$('#pattern td').removeClass('active')
+      $('#pattern td:nth-child('+(beatCount+1)+')').addClass('active')*/
+      
+
+      if (window.childRoom==0) {
+        _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
+      }
+
+        // force minimum bpm to 60 so that app does not bug
+        if (this._tempo<60) {
+          var bpm = 60;
+        } else {
+          var bpm = this._tempo;
+        }
+
+        // Advance time by a 16th note...
+        var secondsPerBeat = 60.0 / bpm; // _tempo - this._tempo
+        //_noteTime += 0.25 * secondsPerBeat;
+        //this._noteTime += 0.25 * secondsPerBeat;
+        _self._noteTime += 0.25 * secondsPerBeat;
+
+
+
+
+  var currentTime = _context.currentTime;
+/*  
+  // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
+  currentTime -= _startTime; */
+
+  //console.log(_noteTime, _self._noteTime, currentTime);
+  
+  //while (_noteTime < currentTime + 0.200) {  
+    // Convert noteTime to context time.
+    var contextPlayTime = _noteTime + _startTime;
+    //console.log(contextPlayTime, currentTime);
+
+    // adjust sample "click" to happen in sync with beat seq animation by advancing trigger time by 1 beat (16th bar)
+    if (_self._tempo<60) {
+      var bpm = 60;
+    } else {
+      var bpm = _self._tempo;
+    }
+    var secondsPerBeat = 60.0 / bpm; // aka quarter note or 1/4 bar
+    var contextPlayTimeSamples = contextPlayTime - secondsPerBeat; // 2*(secondsPerBeat/16)
+    
+    for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
+
+      if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
+        //if (this._instrumentsSoundModes[i] == 1) {
+        var play = 1;
+        //}
+      } else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1){
+        var play = 1;
+      } else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/ {
+        var play = 0;
+      }
+
+      for (var j = 0; j < _instruments[i].tracks.length; j++) {
+        var track = _instruments[i].tracks[j];
+
+        // note off on synth when note is even 0-2.14
+        if (_noteIndex & 1) {
+          var stopStep = 0;
+        } else {
+          var stopStep = 1;
+        }
+
+        var volume = track.notes[_noteIndex];
+        
+        if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
+          if (volume > 0 && play==1) {
+            //console.log('track', track);
+            _self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
+          }
+        } else if (_instruments[i].type === 'synth') {
+          if (volume > 0 && play==1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
+
+            //_instruments[i].setParams(_self._tempo);
+            _instruments[i].play(track.note); // track.note - track.name for mr synth
+
+          } else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/ {
+            _instruments[i].stop(track.note); // track.name
+          }
+        }
+      }
+    }
+    //} 
+
+    // Attempt to synchronize drawing time with sound
+    /*if (_noteTime != _lastDrawTime) {
+      console.log('_noteIndex', _noteIndex);
+      _lastDrawTime = _noteTime;*/
+     /* if (window.childRoom==0) {
+        _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
+      } */
+    //}
+    //_self.step();
+  //}
+
+  //requestAnimationFrame(_self.schedule);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    };
+
+
+
     this.schedule = function() {
+
+if (_self._clockMode == 1) {
+
+
         var currentTime = _context.currentTime;
+
+        //console.log('currentTime', currentTime); 
 
         // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
         currentTime -= _self._startTime;
-
-        //console.log('cur + start times:', currentTime, _startTime);
+      
 
             if (_self._tempo<60) {
               var bpm = 60;
@@ -1626,74 +1930,9 @@ this.updateChannelSound = function(clientId, value, opeId) {
               var bpm = _self._tempo;
             }
             var secondsPerBeat = 60.0 / bpm;
-            //var secondsPerStep = secondsPerBeat/1; // per 32th note    
-            //var secondsPerUnit = secondsPerStep/12.5;
-
-
-            /*if (typeof _self._audioChannelShift[0] !== 'undefined') {
-              if (_self._audioChannelShift[0]>0) {
-                _noteTime = _noteTime + (secondsPerUnit*_self._audioChannelShift[0]);
-              } else if (_self._audioChannelShift[0]<0) {
-                _noteTime = _noteTime - (secondsPerUnit*_self._audioChannelShift[0]);
-              } else {
-                _noteTime = _noteTime;
-              }
-             } */
-
-
-
-
-    //while (_timeGrid < currentTime + 0.200) {
-
-      //console.log('_timeGrid: ', _timeGrid);
-/*
-        while (_self._noteTime < currentTime + 0.200) { // _noteTime = reference step trigger time
-
             
-            //contextPlayTime = _noteTime + _startTime;
-            //if (_self._tempo<60) {
-            //  var bpm = 60;
-            //} else {
-            //  var bpm = _self._tempo;
-            //}
-            //secondsPerBeat = 60.0 / bpm; // aka quarter note or 1/4 bar  
-            //secondsPerStep = secondsPerBeat/1; // per 32th note    
-            //secondsPerUnit = secondsPerStep/12.5; // 50 - 25
-            //contextPlayTimeSamples = contextPlayTime - secondsPerBeat; 
-
-            _self.step();
-            //_self._noteTrigger = 0;
-        }
-//*/
-
-            //*
-        //while (_noteTime < currentTime + 0.200) { // défilé des crans // step change...
-
-            // Convert noteTime to context time.
-//            var contextPlayTime = _self._noteTime + _self._startTime;
-
-            //console.log('contextPlayTime', _noteIndex); // contextPlayTime
-
-            /*
-            // adjust sample "click" to happen in sync with beat seq animation by advancing trigger time by 1 beat (16th bar) 
-            if (_self._tempo<60) {
-              var bpm = 60;
-            } else {
-              var bpm = _self._tempo;
-            }
-            var secondsPerBeat = 60.0 / bpm; // aka quarter note or 1/4 bar  
-            var secondsPerStep = secondsPerBeat/1; // per 32th note    
-            var secondsPerUnit = secondsPerStep/12.5; // 50 - 25
-            */
-
-
-
-//            var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;    // 2*(secondsPerBeat/16)
-            //console.log('bpm', bpm);        
-            //*/
 
             for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
-
 
 
         while (_self._noteTimes[i] < currentTime + 0.200) { // _noteTime = reference step trigger time
@@ -1708,27 +1947,6 @@ this.updateChannelSound = function(clientId, value, opeId) {
         }
 
 
-
-
-
-
-
-                //console.log('cg snd mode: ', i, _instruments[i], _instruments[i].channelInfo.soundMode); // _self._Ins01Volume
-
-                /*var incr = i+1;
-                //var insVolume = '_self_Ins0'+incr+'Volume'; // this will cause problem after 9 instruments aka 010 use '01 - 16' step technique
-
-                if (typeof window['_self_Ins0'+incr+'Volume'] !== 'undefined') { // // this._Ins01Volume
-                    console.log('insxx volume: ', window['_self_Ins0'+incr+'Volume']);
-                    _instruments[i].setParams(window['_self_Ins0'+incr+'Volume']);
-                } */
-                //this['_instrumentsSoundModes['+channelNumber+']']
-                //console.log(_self['_instrumentsSoundModes['+i+']']);
-                //console.log(_self['_instrumentsSoundModes[0]'], _self['_instrumentsSoundModes[1]'], _self['_instrumentsSoundModes[2]']);
-
-                //console.log('first 3 ch sMode: ', _self._instrumentsSoundModes[0], _self._instrumentsSoundModes[1], _self._instrumentsSoundModes[2], _self._instrumentsSoundModes[3], _self._instrumentsSoundModes[4], _self._instrumentsSoundModes[5]);
-                // _instruments[i].channelInfo.soundMode
-
               if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
                   //if (this._instrumentsSoundModes[i] == 1) {
                     var play = 1;
@@ -1741,21 +1959,10 @@ this.updateChannelSound = function(clientId, value, opeId) {
                 
 
 
-
-              
-
-
-
-
-
-
                 for (var j = 0; j < _instruments[i].tracks.length; j++) {
                     var track = _instruments[i].tracks[j];
 
-                    //console.log('track.id', track.id);
-                    /*_self._noteTriggers[i] = [];
-                    _self._noteTriggers[i].push(j);
-                    _self._noteTriggers[i][j]=0; */
+
 
                         // note off on synth when note is even 0-2.14
                         if(_noteIndex & 1)
@@ -1765,29 +1972,13 @@ this.updateChannelSound = function(clientId, value, opeId) {
                           var stopStep = 1;
                         }
 
-                    //var volume = track.notes[_self._noteChannelIndex[0]]; // _noteIndex
-
+                    
 
                     if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
                       var volume = track.notes[_self._noteChannelIndex[0]]; // use first sounding-sample channel as clock master
                         if (volume > 0 && play==1) {
 
-            /*if (typeof _self._audioChannelShift[i] !== 'undefined') {
-              if (_self._audioChannelShift[i]>0) {
-                var contextPlayTimeSamples = contextPlayTimeSamples + (secondsPerUnit*_self._audioChannelShift[i]);
-                //console.log('_self._audioChannelShift[i]', i, _self._audioChannelShift[i], contextPlayTimeSamples);
-              } else if (_self._audioChannelShift[i]<0) {
-                var contextPlayTimeSamples = contextPlayTimeSamples - (secondsPerUnit*_self._audioChannelShift[i]);
-                //console.log('_self._audioChannelShift[i]', i, _self._audioChannelShift[i], contextPlayTimeSamples);
-              } else {
-                var contextPlayTimeSamples = contextPlayTimeSamples;
-                //console.log('_self._audioChannelShift[i]', i, _self._audioChannelShift[i], contextPlayTimeSamples);
-              }
-             } */
 
-                            
-                            //console.log('adjusted', contextPlayTime + (secondsPerBeat/16));
-                            //var timeDiff=contextPlayTimeSamples-currentTime;
 
 var contextPlayTime = _self._noteTimes[i] + _self._startTime;
 var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
@@ -1795,10 +1986,9 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
 
                             if (_self._noteTriggers[i][j]==0) {
 
-                            //if (contextPlayTimeSamples ) { // < currentTime+2
+                            
                               _self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
-                              //console.log('track: ', _self._noteTriggers[i] /*track/*, _noteTime, contextPlayTimeSamples, currentTime*/);
-                            //}
+
                             }
                             _self._noteTriggers[i][j]++;
 
@@ -1806,58 +1996,21 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
                     } else if (_instruments[i].type === 'synth') {
 
                       var volume = track.notes[_self._noteChannelIndex[i]]; //i
-/*
 
-            if (typeof _self._audioChannelShift[i] !== 'undefined') {
-              if (_self._audioChannelShift[i]>0) {
-                var contextPlayTimeSamples = contextPlayTime + (secondsPerUnit*_self._audioChannelShift[i]);
-              } else if (_self._audioChannelShift[i]<0) {
-                var contextPlayTimeSamples = contextPlayTime - (secondsPerUnit*_self._audioChannelShift[i]);
-              } else {
-                var contextPlayTimeSamples = contextPlayTime;
-              }
-             } */
-
-
-
-//currentTime
 
                         if (volume==1 && play==1 /*&& contextPlayTimeSamples < currentTime + 1.200*/) { // we 're sure that instrument is loaded 'cause it has some notes associated to it - volume > 0
-                /*          
-                if (i==1) { // only check if instrument loaded
-                  _instruments[1].setParams(2,_self._Ins01Volume); // send array of param ids => values INSTEAD
-                } */
 
-
-
-
-
-
-
-
-                      //console.log('contextPlayTime: ', _instruments[i], contextPlayTimeSamples, currentTime);
-
-
-                          //if (_timeGrid >=contextPlayTimeSamples + 0.2) {
-
-                            //_instruments[i].setParams(_self._tempo);
                             _instruments[i].play(track.note); // track.note - track.name for mr synth
-                            /*if (track.id[0]==2) {
-                              console.log('track', track, _instruments[i], _noteIndex);
-                            } */
 
-                         // }  
 
                         } else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/ {
                             _instruments[i].stop(track.note); // track.name
-                            /*if (track.id[0]==2) {
-                              console.log('track', track, _noteIndex);
-                            } */
+
                         }
                     }
                 }
 
-              //}
+
 
             }
 
@@ -1867,20 +2020,85 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
                 _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
             }
 
-         //   _self.step();
-       // }
-
-
-
-    //_self.timeGrid();
-
-    //}
-
-
-
-
         requestAnimationFrame(_self.schedule);
-    };
+
+
+
+} else {
+
+  var currentTime = _context.currentTime;
+  
+  // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
+  currentTime -= _startTime;
+  
+  while (_noteTime < currentTime + 0.200) {  
+    // Convert noteTime to context time.
+    var contextPlayTime = _noteTime + _startTime;
+
+    // adjust sample "click" to happen in sync with beat seq animation by advancing trigger time by 1 beat (16th bar)
+    if (_self._tempo<60) {
+      var bpm = 60;
+    } else {
+      var bpm = _self._tempo;
+    }
+    var secondsPerBeat = 60.0 / bpm; // aka quarter note or 1/4 bar
+    var contextPlayTimeSamples = contextPlayTime - secondsPerBeat; // 2*(secondsPerBeat/16)
+    
+    for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
+
+      if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
+        //if (this._instrumentsSoundModes[i] == 1) {
+        var play = 1;
+        //}
+      } else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1){
+        var play = 1;
+      } else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/ {
+        var play = 0;
+      }
+
+      for (var j = 0; j < _instruments[i].tracks.length; j++) {
+        var track = _instruments[i].tracks[j];
+
+        // note off on synth when note is even 0-2.14
+        if (_noteIndex & 1) {
+          var stopStep = 0;
+        } else {
+          var stopStep = 1;
+        }
+
+        var volume = track.notes[_noteIndex];
+        
+        if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
+          if (volume > 0 && play==1) {
+
+          _self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
+          }
+        } else if (_instruments[i].type === 'synth') {
+          if (volume > 0 && play==1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
+
+          //_instruments[i].setParams(_self._tempo);
+          _instruments[i].play(track.note); // track.note - track.name for mr synth
+
+          } else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/ {
+          _instruments[i].stop(track.note); // track.name
+          }
+        }
+      }
+    //}
+    }
+
+    // Attempt to synchronize drawing time with sound
+    if (_noteTime != _lastDrawTime) {
+      _lastDrawTime = _noteTime;
+      _self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
+    }
+    _self.step();
+  }
+
+  requestAnimationFrame(_self.schedule);
+}
+
+};
 
     this.playNote = function(track, noteTime, volume) { /*, channelId*/
         // Create the note
@@ -1925,8 +2143,9 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
         gainNode.gain.value = volume;
 
         // voice.connect(_context.destination);
-        voice.start(noteTime);
         //console.log('noteTime: ', noteTime);
+        voice.start(noteTime);
+        
     };
 
     this.step = function() {
@@ -1958,6 +2177,25 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
             // pattern++;
         }
     };
+
+
+
+
+this.nextBeatTime = function(beatInd) {
+
+  var tempo = _self._tempo; //120
+  //var signature = 4
+  var beatDur = 60/tempo
+  var barDur = _self._signature * beatDur // 
+
+
+  var currentTime = _context.currentTime
+    , currentBar = Math.floor(currentTime / barDur)
+    , currentBeat = Math.round(currentTime % barDur)
+  if (currentBeat < beatInd) return currentBar * barDur + beatInd * beatDur
+  else return (currentBar + 1) * barDur + beatInd * beatDur
+}
+
 
 
 
@@ -2017,14 +2255,14 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
     };    
 
     this.updateNote = function(data) {
-        //console.log('update note', data);
+        console.log('update note', data);
         //console.log('_clients: ', data.client); // _clients
 
         var trackId = data.trackId.split('-')[1];
         var instrumentId = data.trackId.split('-')[0];
         // TODO check the values MTF
 
-        console.log('data.id etc: ', data, data.id, _instruments[data.id]);
+        //console.log('data.id etc: ', data, data.id, _instruments[data.id]);
         _instruments[data.id].channelInfo.patternId = data.patternId;
         _instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
         //_self._instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume;
@@ -2042,7 +2280,8 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
         //console.log('clt id:', _clients[clientId].instrumentName);
 
         // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
-        var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;        
+        //var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;     
+        var synthInstance2 = 'channel_' + _clients[clientId].id;   
         var synthInstance1 = window[synthInstance2];
 
         //console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
@@ -2077,7 +2316,7 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
                 } else {
                   //valueX = this.interpolate(data.x, controls[j].x.min, controls[j].x.max);  
                   var valueX = this.interpolate2(rawValueX, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
-                  console.log('valueX', valueX); // data.x  
+                  //console.log('valueX', valueX); // data.x  
                 }
               
                 if (controls[j].y) {
@@ -2137,7 +2376,14 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
                       //}
 
                     } else {
+                      var oldTempo = this._tempo;
                       this[controls[j].x.param] = valueX;
+
+                      if (data.id==999 && window.childRoom==0) { // if tempo change
+                        console.log('tempi:', oldTempo, this._tempo);
+                        clock.timeStretch(_context.currentTime, [uiEvent, uiEvent], oldTempo / this._tempo); //  -  - _self._noteTime
+                        
+                      }
 
                       //console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
 
@@ -2192,8 +2438,20 @@ var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
     };   
 
     this.interpolate = function(value, minimum, maximum) {
+        //console.log('gogo beatCount');
         return minimum + (maximum - minimum) * value;
-    }
+    };
+
+
+
+    /*this.tumulo = function() {
+        console.log('gogo beatCount');
+        return 1;
+    };*/
+
+    /*this.tumulo = function() {
+      console.log('gogo beatCount');
+    }; */
 
   
 

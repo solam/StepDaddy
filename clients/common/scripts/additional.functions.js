@@ -220,3 +220,31 @@ function collect() {
   }
   return ret;
 }
+
+
+function forIn(obj, fn, thisObj) {
+  var key, i = 0;
+  for (key in obj) {
+    if (exec(fn, obj, key, thisObj) === false) {
+      break;
+    }
+  }
+  function exec(fn, obj, key, thisObj) {
+    return fn.call(thisObj, obj[key], key, obj);
+  }
+  return forIn;
+}
+
+
+function touchClick(btn, param, fnc) {
+    $(btn).on(param, function(event) {
+        event.stopPropagation()
+        event.preventDefault()
+        if(event.handled !== true) {
+            fnc(event)
+            event.handled = true
+        } else {
+            return false
+        }
+    })
+}

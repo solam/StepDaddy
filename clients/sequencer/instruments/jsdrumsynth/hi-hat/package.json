@@ -1,0 +1,14 @@
+{
+  "name": "hi-hat",
+  "version": "3.0.0",
+  "description": "A web audio module for synthesizing hi-hats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "itsjoesullivan",
+  "license": "ISC",
+  "dependencies": {
+    "envelope-generator": "^2.0.0"
+  }
+}

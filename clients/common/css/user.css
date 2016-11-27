@@ -81,7 +81,7 @@
   text-shadow: none ! important;  
   }  
 
-  #instructions/*, .roundedTwo*/ {
+  .instructions-user/*, .roundedTwo*/ {
   position: relative; 
   background: black;  
   color: lightgrey;
@@ -793,7 +793,7 @@ body.control #thesessions {
 
 
 
-.mutes {
+.mutes, .solos {
   width: 40px;
   height: 40px;
 }
@@ -907,5 +907,25 @@ select#patterns option[selected]*/ {
 
 /* remove bpm from conductor controller */
 #ctrl999 {
-  display:none;
+  /*display:none;*/
 }
+
+.ctrlchange.slider.noui span.solos.active {
+  background: green !important;
+}
+
+    #keybox {/*width:910px; margin-left: -7px; text-align: center;*/}
+    #blackkeys { position: absolute; z-index: 2; padding-left: 10px; margin-left: 41px; width:806px; height: 0px;}
+    .key { display:inline-block; }
+    .black { background: black; width: 40px; height: 150px; margin: 0px 11px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
+    .spacer { display:inline-block; width: 62px; height: 0; }
+    .white { background: white; width: 60px; height: 250px; border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
+    .key.pressed { background: gray ! important}
+    /*#githubnotice { width:910px; text-align: center; font-size: 14px; margin-top: 10px; font-weight: bold;}
+    #MIDIPlugin { visibility: hidden; }
+    select { width: 80px; } */
+
+
+    #bodey.keyboard #pattern-editor table {
+      display:none;
+    }

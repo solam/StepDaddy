@@ -162,7 +162,7 @@ var classs = $('#patterns').find(":selected").attr('class');
 
       $item.appendTo($container);
 
-//*
+/*
 
 var flag = false;
 $("#button"+_id+" a.trigger-button").bind('touchstart click', function(){ //  canvas
@@ -175,7 +175,11 @@ $("#button"+_id+" a.trigger-button").bind('touchstart click', function(){ //  ca
 
   return false
 });
-//*/      
+//*/     
+
+  touchClick("#button"+_id+" a.trigger-button", 'touchstart mousedown', function(e) {
+    _onMouseDown();      
+  }) 
 
 
 if (usedLibrary=='Interface') {
