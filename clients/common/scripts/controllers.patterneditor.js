@@ -58,9 +58,124 @@ this.noteOff = function( note ) {
       e.classList.remove("pressed");
   }    
 */
+
+    // redondant fct with ui.ddmenu.js
+
+
+    var funcToRemove_displayPattern = function(selectId) {
+
+      // remove [unsaved pattern] option
+      /*if ($('#'+selectId+' option[value="0"]').length>0 ) { 
+        $('#'+selectId+' option[value="0"]').remove();
+      }  */
+
+      var classs = $('#'+selectId).find(":selected").attr('class');
+      var elementId = $('#'+selectId).find(":selected").val();
+
+      //console.log('elementId: ', elementId, selectId);
+
+      // option00001
+
+      if (selectId=='selpatternedit') {
+        var ptnHolder = 'userPatternEdit';
+      } else if (selectId=='patterns') { // don't wipe userPattern memory when switching from 'ptn play display' to 'ptn edit display'
+        var ptnHolder = 'userPatternEdit';
+      }  
+
+      if (classs=='channel') {
+        var ptnStorage = window.channelPatterns;
+      } else if (classs=='session') {       
+        var ptnStorage = window.sessionPatterns;   
+      } else {  
+        var ptnStorage = window.localPatterns;
+      }        
+
+      var result = $.grep(ptnStorage, function(e){ return e.id == elementId; });
+      if (typeof result[0] !== 'undefined') {
+        var trackNumber = result[0].tracks.length; 
+      } else {
+        var trackNumber = 0;
+      }
+
+      //console.log('res0: ', result[0]);
+
+      //console.log(elementId);
+      //if (elementId=='option00001') {
+
+      if ($('#'+selectId+' option[value="0"]').length>0 ) { 
+        result[0] = {};
+        result[0].tracks = window['userPattern'].tracks;
+      }         
+        
+      
+
+      var channelId = $('#pattern-editor tr').first().attr('data-id').split('-')[0]; 
+
+      notesObject = [];
+
+      window[ptnHolder] = {'tracks' : [] };
+
+      // first reset grid
+      var availTrackNumber = $("#pattern-editor table tr").length;
+
+      for (var n = 0, len = availTrackNumber; n < len; n += 1) {
+        var notesNumber = 16;
+        window[ptnHolder].tracks[n] = [];
+
+        for (var l = 0; l < notesNumber; l += 1) {
+          noteInfo = {};
+          noteInfo.id = channelId;
+          noteInfo.trackId = channelId+'-'+n;
+          noteInfo.noteId = l;
+          noteInfo.volume = 0;
+          window[ptnHolder].tracks[n][l]=0;
+          _updateNote(noteInfo);
+          //console.log('noteInfo: ',noteInfo);
+        }  
+      } 
+
+      // than fill grid with corresponding data
+      for (var n = 0, len = availTrackNumber; n < len; n += 1) { 
+
+        if (typeof result[0].tracks[n] !== 'undefined') {
+          
+          var notesNumber = result[0].tracks[n].length;
+          var traack = result[0].tracks[n];
+
+          for (var l = 0; l < notesNumber; l += 1) {
+            noteInfo = {};
+            noteInfo.id = channelId;
+            noteInfo.trackId = channelId+'-'+n;
+            noteInfo.noteId = l;
+            noteInfo.volume = traack[l];
+
+            window[ptnHolder].tracks[n][l]=traack[l];
+
+            _updateNote(noteInfo);
+            //console.log('noteInfo: ',noteInfo);
+
+          }  
+        }
+      } 
+
+    };  // end of fct
+
+
+    var _updateNote = function(data) { // funcToRemove_displayPattern
+      $track = $('[data-id="' + data.trackId + '"]');
+      $note = $track.find('td').eq(data.noteId + 1);
+
+      //console.log('!updateNote', /*$note,*/ data);
+
+      $note.toggleClass('active', data.volume > 0);
+    };  
+
+
+
     var _onNote = function(data) {
       //console.log('ptn edit:', data);
       _model.updateNote(data.volume, data.note, data.trackId, data.patternId);
+      //window.updateNote(data.volume, data.note, data.trackId, data.patternId);
     };
 
     /**
@@ -98,7 +213,7 @@ this.noteOff = function( note ) {
 
         
 
-
+      window.channelTayppe = _model.instrument.type;  
 
       $('#pattern-editor').removeClass();
       $('#pattern-editor').addClass(_model.instrument.type); // remove '#pattern-editor' div in case of cunductor role aka control only "instrument"
@@ -134,6 +249,14 @@ if ( $('#pattern-editor').hasClass('control') ) {
         var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
         var inputMode = _model.instrument.channelInfo.inputMode;
 
+
+        if ( inputMode=='grid' && $('body').hasClass('keyboard') ) {
+          $('body').removeClass('keyboard').addClass('grid');
+        } else if ( inputMode=='keyboard' && $('body').hasClass('grid') ) {
+          $('body').removeClass('grid');
+        } 
+
+
         if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
           var tracks = tracks.reverse();
         }  
@@ -150,7 +273,7 @@ if ( $('#pattern-editor').hasClass('control') ) {
           
         }
 
-
+        console.log('inputMode', inputMode);
 
 if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
 
@@ -317,6 +440,9 @@ if (typeof kits  !== 'undefined') {
 
       }
 
+
+      var patterns = patterns.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
+
       //console.log('ptns obj: ', patterns);
 
 
@@ -345,9 +471,21 @@ if (typeof kits  !== 'undefined') {
         
       } else if (presets.length!=0) {
         if (typeof window.channelPresets !== 'undefined') {
-          var presets = window.channelPresets.concat(presets);
+          var presets = presets.concat(window.channelPresets); //window.channelPresets.concat(presets);
         }
       }
+
+
+      //window.findObjectById(presets, 699);
+
+      // remove duplicate objects by id - for same preset USER preset will ecrabouillate CHANNEL preset
+
+      //var family = [{ name: "Mike", age: 10 }, { name: "Matt", age: 13 }, { name: "Nancy", age: 15 }, { name: "Adam", age: 22 }, { name: "Jenny", age: 85 }, { name: "Nancy", age: 2 }, { name: "Carl", age: 40 }],
+    presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
+
+      //console.log('presets', presets, window.localPresets);
+
+
 
     }
 
@@ -702,6 +840,136 @@ if (typeof window.kits  !== 'undefined') { // kits
 }
 
 
+
+
+} else if (controls[j].id==988) {
+
+
+//*
+
+
+
+    if (typeof patterns !== 'undefined') {
+      
+      var ptn = Object.keys(patterns); 
+
+      if (ptn.length!=0) {    
+
+        $item = $('<div class="ctrlchange cont-pttns" id="patternedit"><select class="pttns" id="selpatternedit" name="selpatternedit">'); //  <div class="ctrlchange" id="thepatterns"><select id="patterns" name="patterns">
+        $item.appendTo(container);
+
+        var containerPatterns = document.getElementById('selpatternedit');  // this line has to be changed to  <select class="pttns" id="selpatternedit"'s id            
+
+        for (var i = 0; i < patterns.length; i++) {
+          var pattern = patterns[i];
+          var input = 2478 + i;
+
+          //console.log('pattern: ', pattern);
+
+          if (typeof input !== 'undefined') { // window[input]
+            // mixr.ui.Ddmenu = function(id, name, container, value, controlObject, channelId)
+            window['ctrl'+input] = new mixr.ui.Ddmenu(988, pattern.name, containerPatterns, pattern.id, pattern, channelId, input).initialize();  // 
+            window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
+          } 
+        }
+
+        $label = $('<label>'+ controls[j].name +'</label>');
+        $label.appendTo($item);
+
+        $item = $('</select></div>'); //
+        $item.appendTo(container);
+      }    
+    } 
+
+    var ctrlchangeParent = document.getElementById('patternedit');
+
+
+
+
+
+    if (typeof _model.instrument.channelInfo.patternEditState !== 'undefined') { // 
+      var patternEditStateValue = _model.instrument.channelInfo.patternEditState; //
+    } else {
+      var patternEditStateValue = controls[j].y.value;
+    }      
+
+    console.log('ptnEditState: ', patternEditStateValue); // _model.instrument.channelInfo.patternEditState
+
+    if (patternEditStateValue==1) {
+      window.ptnEdit=1;
+//_model.onModifierChange({id: 203, ptnEditState: 1});
+      var patternEditOnOffState = 'On';
+      //_displayPattern('selpatternedit');
+
+      //window.setTimeout(_displayPattern('selpatternedit'), 1000);
+
+      console.log('ptn edit: ', _model.instrument.channelInfo.patternEditState);
+
+      $('#pattern-editor table').toggleClass('ptn-edit');
+    } else {
+      window.ptnEdit=0;
+//_model.onModifierChange({id: 203, ptnEditState: 0});
+      var patternEditOnOffState = 'Off';
+      //_displayPattern('patterns');
+      $('#pattern-editor table').toggleClass('ptn-edit');
+    }
+
+
+      $item = $('<a href="#" id="ptn-edit-trig" class="trigger-button">'+patternEditOnOffState+'</a>'); //</div>
+      $item.appendTo(ctrlchangeParent);
+
+
+    if (patternEditStateValue==0) {
+      $('#patternedit').css('opacity', 0.3);
+      $('#ptn-edit-trig').addClass('off');
+    }      
+
+
+
+  $('#ptn-edit-trig').on('click', function (e) {
+      e.preventDefault();
+      $(this).text(function (_, text) {
+          return text === 'Off' ? 'On' : 'Off';
+      }).toggleClass('off');
+
+    if ( $(this).hasClass("off") ) {    
+      window.ptnEdit = 0;
+      _model.onModifierChange({id: 203, ptnEditState: 0});
+      $('#patternedit').css('opacity', 0.3);
+
+      // rétablire 'Play pattern' drawing/graph
+      //var selectId = 'patterns';
+//_displayPattern('patterns'); 
+      window.displayPattern('patterns');  
+      $('#pattern-editor table').toggleClass('ptn-edit'); // pattern-edit vs. pattern play 
+
+    } else {
+      window.ptnEdit = 1;
+      _model.onModifierChange({id: 203, ptnEditState: 1});
+      $('#patternedit').css('opacity', 1);
+//_displayPattern('selpatternedit');
+      window.displayPattern('selpatternedit');
+      $('#pattern-editor table').toggleClass('ptn-edit');
+    }
+
+  });  
+
+
+
+
+
+//*/
+
+
+
+
+
+
+
+
+
+
+
 } else if (controls[j].id==994) {
 
 //*
@@ -710,7 +978,7 @@ if (typeof window.kits  !== 'undefined') { // kits
 
         if (ptn.length!=0) {    
 
-                $item = $('<div class="ctrlchange" id="thepatterns"><select id="patterns" name="patterns">'); // $itemContainer            
+                $item = $('<div class="ctrlchange cont-pttns" id="thepatterns"><select class="pttns" id="patterns" name="patterns">'); // $itemContainer            
                 $item.appendTo(container);
 
           var containerPatterns = document.getElementById('patterns');                
@@ -811,6 +1079,8 @@ if (typeof window.kits  !== 'undefined') { // kits
   } 
 
 } else {
+
+  //console.log('pot ctrl xxx processed');
 
 
     if (typeof controls[j].x.option !== 'undefined') {
@@ -1110,7 +1380,7 @@ cbox.appendTo(ptnSeq); */
       var patternSeqStateValue = controls[j].x.value;
     }      
 
-    //console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
+    console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
 
     if (patternSeqStateValue==1) {
       window.stepSeq=1;

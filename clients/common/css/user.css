@@ -115,7 +115,7 @@ font-size: 7vw; /*5 - 10*/
 }  
 
 
-/*.waiting*/ input#roundedTwo {
+/*.waiting*/ input#roundedTwo, .roonded {
   height: 0;
   min-width: 0;
   background: none;  
@@ -144,6 +144,7 @@ font-size: 7vw; /*5 - 10*/
   -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
   position: relative;
+  margin-bottom: 20px;
 }
 
 .roundedTwo label {
@@ -484,7 +485,7 @@ div#channelinfo *,
 div.ctrlchange.slider span,
 .ctrlchange label {
   display: block;
-  background: darkgrey; /* #EEE */
+  background: darkgrey; /* #EEE - !important */
   color: black;
   font-size: 12px;
   position: relative;
@@ -556,8 +557,9 @@ div.ctrlchange.slider.horizontal .infoContainer span {
   text-align: center;
 }
 
+/* playhead */
 #pattern-editor table thead {
-  display:none;
+  /*display:none;*/
 }
 
 ul.menu  {
@@ -660,6 +662,11 @@ select.multi {
   /*float:right;*/
 }
 
+li#exit a {
+  background: rgba(226, 0, 6, 0.6);
+  color:lightgrey;
+}
+
 .off {
   background: red !important;
 }
@@ -684,6 +691,11 @@ body.channel0 ul.menu #tweak-menu {
 div#channelinfo #bpm,
 div#channelinfo #insname, 
 div#channelinfo #sessionname {
+  top: 4px;
+}
+
+div#channelinfo #notemin,
+div#channelinfo #notemax {
   top: 4px;
 }
 
@@ -773,7 +785,7 @@ body.control #thesessions {
 
 .ctrlchange.slider.noui {
   margin-right:30px;
-  margin-bottom:30px;
+  margin-bottom:60px;
 }
 
 .ctrlchange.slider.noui span {
@@ -793,7 +805,7 @@ body.control #thesessions {
 
 
 
-.mutes, .solos {
+.mutes, .solos, .autoinc {
   width: 40px;
   height: 40px;
 }
@@ -910,6 +922,7 @@ select#patterns option[selected]*/ {
   /*display:none;*/
 }
 
+.ctrlchange.slider.noui span.autoinc.active,
 .ctrlchange.slider.noui span.solos.active {
   background: green !important;
 }
@@ -919,7 +932,7 @@ select#patterns option[selected]*/ {
     .key { display:inline-block; }
     .black { background: black; width: 40px; height: 150px; margin: 0px 11px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
     .spacer { display:inline-block; width: 62px; height: 0; }
-    .white { background: white; width: 60px; height: 250px; border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
+    .white { background: white; width: 60px; height: 70px; border: 1px solid black; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
     .key.pressed { background: gray ! important}
     /*#githubnotice { width:910px; text-align: center; font-size: 14px; margin-top: 10px; font-weight: bold;}
     #MIDIPlugin { visibility: hidden; }
@@ -929,3 +942,264 @@ select#patterns option[selected]*/ {
     #bodey.keyboard #pattern-editor table {
       display:none;
     }
+
+
+    #bodey.keyboard #pattern-editor {
+      height: 100% !important;
+    }    
+
+
+    #bodey.grid #keybox {
+      display: none;
+    }
+
+
+    /*
+    #bodey.grid
+    #bodey.keyboard #modifiers*/
+
+    .channel4.session7 #control-menu, /* launch menu button */
+    .channel4.session7 #ctrl10,  
+    .channel4.session7 #ctrl11,
+    #bodey.keyboard #ctrl10,
+    #bodey.keyboard #ctrl11 {
+      display: none;
+    }    
+
+
+.ins-right h2 {
+  margin-bottom: 0;
+}
+
+
+.waiting .rounded {
+    border-radius: 50px;
+    opacity: 1;
+    background-color: #383232;
+    /* left: -7px; */
+    position: relative;
+    top: -5px;
+}
+
+
+.waiting a:visited {
+    color: grey;
+}
+
+.waiting a:link, .waiting a.tosession:visited {
+    color: white;
+}
+.waiting a, .waiting  a:hover, .waiting  span.link {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+.waiting span.decal {
+  position: relative;
+    top: -47px;
+    font-size: 1.5em;
+    left: 10px;
+}
+
+
+#myIframe {
+  display: none;
+}
+
+.devaudioout {
+  display: inline-block;
+  /*display: block;*/
+  height: 50px;
+  width: 150px;
+  clear:both;
+}
+
+
+
+.devaudioout .roundedTwo {
+    margin-left: 0px;
+}    
+
+
+.devaudioout .roundedTwo > span {
+  width: 105px; /*90*/
+}
+
+
+/* comment line 946 of mixer.js in order to centralize audio & visuals on same browser tab */
+
+.ins-right.soundgen,
+.ins-right.precuemixer,
+.child.precue .ins-right,
+.child.precue.gfx .ins-right.precuemixer,
+.soundgen .ins-right {
+  display: none !important;
+}
+
+.child.precue.gfx .ins-right.gfx,
+.child.precue .ins-right.precuemixer, 
+.soundgen .ins-right.soundgen {
+  display: block !important;
+}
+
+
+.child.precue section#sequencer-view.main-display-grid {
+    height: 0% !important;
+}
+
+.child.precue.gfx section#sequencer-view.main-display-grid {
+    height: 65% !important;
+}
+
+
+.child.precue #instructions {
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+
+.child.precue.gfx #instructions {
+    height: auto;
+    margin-bottom: auto;
+}
+
+
+.child.precue #instructions img.rounded {
+    max-width: 80px;
+}    
+
+.child.precue.gfx #instructions img.rounded {
+    max-width: 15%;
+}    
+
+
+.child.precue #modifiers {
+  margin-left: 25px;
+}
+
+.ins-right.precuemixer {
+  position: relative;
+  top: 41px;
+}
+
+
+.child.precue .noUi-base {
+    background-color: cornsilk;
+}    
+
+.child.precue .noUi-connect {
+    background: darkolivegreen;
+}
+
+.child.precue .noUi-handle {
+    background: darkgreen;
+
+}
+
+.child.precue/*.gfx*/ #midiOut,
+.child.precue #audio-server-status,
+.child.precue #start_rec {
+  display: none;
+}
+
+.child.precue.gfx #audio-server-status {
+  display: block;
+}
+
+
+.child.precue.gfx #audio-server-status.greenborder {
+    border-radius: 250px !important;
+    padding: 10px 20px !important;
+    margin: 20px;
+    margin-left: 0;
+    opacity: 1!important;
+}
+
+
+#pattern-editor thead th {
+  color: lightgrey;
+}
+
+h3 { color: white; margin-left: 17px;}
+
+
+body.session8 li#tweak-menu, /* control-menu */
+body.session8 li#notes-menu,
+body.session8 #thepatterns,
+body.session8 #thepresets,
+body.session8 #patternedit,
+body.session8 #pattern-sequencer,
+body.session8 .ddmenucont,
+body.session8 #id2, /*osc 1 */
+body.session8 #id4, /*osc 1 */
+body.session8 #ctrl1,
+body.session8 #ctrl3,
+body.session8 #ctrl5,
+body.session8 #ctrl6,
+body.session8 #ctrl11, /* resonance*/
+body.session8 #ctrl12,
+body.session8 #ctrl15,
+  /*body.session8 #thekits, */
+  body.session8 #ctrl10, 
+  body.session8 #ctrl13,
+  body.session8 #ctrl14, /* change note + filters stuff */
+body.session8 #ctrl16
+ {
+  display: none;
+  /*opacity: 0;*/
+}
+
+
+body.session8 div#channelinfo *,
+body.session8 div.ctrlchange.slider span,
+body.session8.ctrlchange label {
+  background: darkgrey !important; /* #EEE */
+}  
+
+
+
+
+
+
+
+body.session9 li#tweak-menu, /* control-menu */
+body.session9 li#notes-menu,
+body.session9 #thepatterns,
+body.session9 #thepresets,
+body.session9 #patternedit,
+body.session9 #pattern-sequencer,
+body.session9 .ddmenucont,
+body.session9 #id2, /*osc 1 */
+body.session9 #id4, /*osc 1 */
+body.session9 #ctrl1,
+body.session9 #ctrl3,
+body.session9 #ctrl5,
+body.session9 #ctrl6,
+body.session9 #ctrl11, /* resonance*/
+body.session9 #ctrl12,
+body.session9 #ctrl15,
+  /*body.session9 #thekits, 
+  body.session9 #ctrl10, 
+  body.session9 #ctrl13,
+  body.session9 #ctrl14,  change note + filters stuff */
+body.session9 #ctrl16
+ {
+  display: none;
+  /*opacity: 0;*/
+}
+
+
+body.session9 div#channelinfo *,
+body.session9 div.ctrlchange.slider span,
+body.session9.ctrlchange label {
+  background: darkgrey !important; /* #EEE */
+}  
+
+
+
+
+
+#pattern-editor tr td.playedbar {
+  background: #222;
+}

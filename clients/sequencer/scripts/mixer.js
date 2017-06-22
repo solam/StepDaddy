@@ -288,7 +288,7 @@ window.changeParamMode = 'manual'; // now that params have been auto changed, fu
         
 
       }      
-      console.log('_clientJoinedCount', _clientJoinedCount);
+      //console.log('_clientJoinedCount', _clientJoinedCount);
       _clientJoinedCount++;
       //_channelUsedCount++;
 
@@ -337,7 +337,7 @@ if (window.graphixMode==1) {
 
     var _onGetInstrument = function(data) {
 
-    console.log('Got a request for an instrument', data);  
+    //console.log('Got a request for an instrument', data);  
 
 if (typeof data.insId !== 'undefined') {
 
@@ -585,6 +585,8 @@ if (window.graphixMode==1) {
     // change preset
     } else if (data.args.id==992) {
 
+      //console.log('update preset', data);
+
         var instrument = _sequencer.updatePreset(data.args, data.client);
         if (window.childRoom==0) {        
           _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
@@ -624,6 +626,8 @@ if (window.graphixMode==1) {
 
 
         if (typeof data.args.triggerMode !== 'undefined') {
+
+          // will ensure othe fly modified pattern in ptnSeq mode gets visually refreshed on grid
           if (data.args.triggerMode == 'manual') {
 
           data.args.x = data.args.kitNumber;
@@ -686,28 +690,102 @@ if (window.graphixMode==1) {
       } else if (data.args.id==989) { // noteOn - noteOff from keyboard
 
         // mute sequencer mode for channel using keyboard
-        _sequencer.updateChannelSound(data.client, 0, 0);
-        //console.log('989', data);
-        if (data.args.type=="on") {
-          noteOn(data.args.note, data.args.velocity);
-        } else {
-          noteOff(data.args.note);
-        }
+        //_sequencer.updateChannelSound(data.client, 0, 0);
 
-      } else if (data.args.id==201) {  
-          //console.log('data', data);
+        
+
+        //var soundingClients = {};
+
+
+        var soundingClients = JSON.parse(JSON.stringify(_clients));
+        var soundingClientsKeys = Object.keys(soundingClients);
+
+        for (var i = 0; i < soundingClientsKeys.length; i++) {
+
+          //console.log(soundingClientsKeys[i], 'yo!');
+
+          if (soundingClients[soundingClientsKeys[i]]=='mopo') { // if conductor exclude from sounding instrument list to be picked by keyboard triggering channels
+            /*var targettedKey = Object.keys(soundingClients[i]); 
+            console.log('targettedKey:', targettedKey);*/
+            delete soundingClients[soundingClientsKeys[i]];
+          } else {
+            //soundingClients.push(_clients[i]);            
+            //soundingClients.key3 = _clients[i];
+          } 
+        }  
+
+
+
+
+
+        //console.log('_clients + soundingClients:', _clients, soundingClients);
+
+        claients = Object.keys(soundingClients);        
+
+        for (var i = 0; i < claients.length; i++) {
+          if (claients[i]==data.client) {
+            var channelId = i+1; // +1
+            //console.log('clt i:', claients[i]);
+          }
+        }  
+/*
+        var channelId = 3; // beware hardcoded value
+        //
+
+        var synthInstance = 'channel_' + channelId;
+        console.log('synthInstance', synthInstance, channelId, data.args);
+*/
+
+      //  console.log('989', channelId);
+
+        var synthInstance = 'channel_' + channelId;
+
+      if (typeof window[synthInstance] !== 'undefined') { 
+        if (window[synthInstance].constructor.name=='CWilsoWAMidiSynth') {
+          if (data.args.type=="on") {
+            window[synthInstance].noteOn(data.args.note, data.args.velocity, channelId);  // normalize func names to play-stop notes accross synths       
+          } else {
+            window[synthInstance].noteOff(data.args.note, channelId);
+          }          
+        }
+      }
+
+      } else if (data.args.id==201 || data.args.id==202 || data.args.id==203) {  
+          //console.log('data mixer752: ', data);
         _sequencer.directInfoChange(data);
       } else {
-        //console.log('non regular event id popped');
+        
+        //console.log('data', data); //console.log('non regular event id popped');
 
         _sequencer.updateFxParam(data.args, data.client);   
-        console.log('data', data);
 
         /*if (data.args.id==699 || data.args.id==999 //|| data.args.id==993//) { // 993: update channel sound On/Off | 699: General Bar kickout time | 999: bpm - if data of type general (non instrument specific command)
           _updateChannels(); // comment line to limit crackin' sound
         } else*/ if (data.args.id>0 && data.args.id<=200) { // >=0
+
+
+                                                                                /*
+                                                                                        var instrument = _sequencer.updatePreset(data.args, data.client);
+                                                                                        if (window.childRoom==0) {        
+                                                                                          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+                                                                                        } 
+                                                                                        _instruments[data.client] = instrument; 
+                                                                                */
+
+
+
           _sequencer.directInfoChange(data);
         }
+
+
+
+
+
+        
+        
+
+
+
 
 
       } 
@@ -758,7 +836,7 @@ var _onSequenceBeat = function(data) {
 
   //console.log('_childRoom', _childRoom);
 
-  if (_childRoom==1) {
+  if (_childRoom==1 /*&& window.gfxonly != 1*/) {
     
     // correct the one step in advance of the master room compared to child rooms
     if (data.beat ==0) {
@@ -817,7 +895,17 @@ var _onSequenceBeat = function(data) {
     if (typeof _arrUrl[5] !== 'undefined' && _arrUrl[5]=='child') {
       _childRoom = 1;
       window.childRoom = 1;
+      /*window.gfxonly = 1;*/
+      $('body').addClass('child');
     }  
+
+
+    //if (typeof _arrUrl[5] !== 'undefined' && _arrUrl[5]=='gfxonly') {
+   /* if (window.childRoom == 1 && typeof _arrUrl[6] !== 'undefined' && _arrUrl[6]=='gfxonly') {
+      window.gfxonly = 1;
+    }   */   
+
+    //console.log('_arrUrl[6]',_arrUrl[6]);
 
     if (typeof _arrUrl[6] == 'undefined' || _arrUrl[6]=='') {
       _arrUrl[6] = 'nopageid';
@@ -826,13 +914,23 @@ var _onSequenceBeat = function(data) {
 
     if (window.childRoom == 1 && typeof _arrUrl[6] !== 'undefined' && _arrUrl[6]=='nopageid') {
       window.childRoom = 2;
+      $('body').addClass('precue');
+      //window.gfxonly = 0;
     }
 
+
+// && _arrUrl[6]=='gfxonly'
+
+    if ( typeof _arrUrl[5] !== 'undefined' && _arrUrl[5]=='child' && _arrUrl[7]=='gfxonly') { // 
+      window.childRoom = 1;
+      window.gfxonly = 1;
+      $('body').addClass('gfx');
+    }  
 
 
       _room_id = _arrUrl[4].replace("?", ""); //_encode(new Date().getTime());
 
-      console.log('_childRoom', _childRoom, _room_id);
+      //console.log('_childRoom', _childRoom, _room_id);
 
       //_room_id = 'rm';
 
@@ -854,7 +952,7 @@ var _onSequenceBeat = function(data) {
       var delim = '_';
                  // rm _ child|no _ [randomPwd]|no
       var rmid = _room_id.concat(delim).concat(_arrUrl[5]).concat(delim).concat(_arrUrl[6]); 
-      console.log(rmid);
+      //console.log(rmid);
 
       _conn = new mixr.net.Connection();
       _conn.connect(window.SERVER)
@@ -879,6 +977,9 @@ var _onSequenceBeat = function(data) {
 
 
       if (_childRoom==0) {
+
+        // comment this line to recentralize audio & visuals on same browser tab
+        $('body').addClass('soundgen'); 
 
         _sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) {
 

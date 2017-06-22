@@ -80,6 +80,7 @@ var _onModifierChangeInput = function(data) {
     };
 
     var _onRoomJoined = function(data) {
+      $('body').css("opacity", 1);
       _isJoinedToRoom = data.room;
       //console.log('Room joined!', data);
 
@@ -103,6 +104,7 @@ if (!_padsAreInitialized) {
     };
 
     var _onRoomClosed = function(data) {
+      $('body').css("opacity", 0.2);
       _isJoinedToRoom = false;
       console.log('Room with id', data.room, 'is closed. You have been removed from the room');
     };

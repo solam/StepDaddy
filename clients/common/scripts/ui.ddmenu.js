@@ -84,17 +84,28 @@
       //_self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: kitId, y: 0, preset: 1, /*pattern: 1,*/ classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId});
 
 
-      } else if ($container.context.id=='patterns') { 
+      } else if ($container.context.id=='patterns' || $container.attr("class")=='pttns') { 
+
+
+      //console.log('id:', $container.attr("id"));  
+
+      var selectId = $container.attr("id");
     
       // remove [unsaved pattern] option
-      if ($('#patterns option[value="0"]').length>0 ) {
-        $('#patterns option[value="0"]').remove();
+      if ($('#'+selectId+' option[value="0"]').length>0 ) { // '#patterns =>'#'+selectId+'
+        $('#'+selectId+' option[value="0"]').remove();
       }  
 
 
 
-      var classs = $('#patterns').find(":selected").attr('class');
-      var elementId = $('#patterns').find(":selected").val();
+      var classs = $('#'+selectId).find(":selected").attr('class');
+      var elementId = $('#'+selectId).find(":selected").val();
+
+      var elementName = $('#'+selectId).find(":selected").text();
+
+      
+
+      //console.log('elementId', elementId);
 
       //console.log('selct option value changed', $('#patterns').find(":selected").text() , $('#patterns').find(":selected").val() ); // $item.find("option").val()
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId, ptnSeq: ptnSeqString}); 
@@ -115,7 +126,7 @@
           var trackNumber = 0;
         }
 
-
+        //console.log('ddmenu: ', classs, result[0]);
 
         var channelId = $('#pattern-editor tr').first().attr('data-id').split('-')[0]; // $('#pattern-editor tr').first().attr('data-id'); 
         //console.log('sys ptns + data: ', this._systemPatterns, data, result[0], channelId);
@@ -128,6 +139,16 @@
           'tracks' : []
       };
 
+
+
+
+if (window.ptnEdit==0 && selectId=='patterns' || window.ptnEdit==1 && selectId=='selpatternedit') {
+
+
+        if ( typeof window['userPatternEdit'] !== 'undefined' && window.ptnEdit==1 ) {
+          //delete window['userPatternEdit'];          
+        }  
+
         // first reset grid
         var availTrackNumber = $("#pattern-editor table tr").length;
         //console.log('availTrackNumber: ', availTrackNumber);
@@ -135,6 +156,15 @@
         for (var n = 0, len = availTrackNumber; n < len; n += 1) {
           var notesNumber = 16;
           window['userPattern'].tracks[n] = [];
+
+          if (window.ptnEdit==1 ) {
+            window['userPatternEdit'] = { 'tracks' : [] }; 
+            window['userPatternEdit'].name = elementName;
+            window['userPatternEdit'].id = elementId;
+            window['userPatternEdit'].classs = classs;
+            window['userPatternEdit'].tracks[n] = [];
+          }
+
           //console.log('win usr ptn: ', window['userPattern']);
 
           for (var l = 0; l < notesNumber; l += 1) {
@@ -148,6 +178,8 @@
             //console.log('noteInfo: ',noteInfo);
           }  
         } 
+
+
 
 
 
@@ -180,6 +212,10 @@
 
               window['userPattern'].tracks[n][l]=traack[l];
 
+              if (window.ptnEdit==1) {
+                window['userPatternEdit'].tracks[n][l]=traack[l];
+              }
+
               //window['SEQVIEW'].updateNote(noteInfo);
               //if noteInfo.volume>0 {
               //notesObject.push(noteInfo);            
@@ -187,7 +223,7 @@
 
 
               _updateNote(noteInfo);
-              //console.log('noteInfo: ',noteInfo);
+              //console.log('noteInfo at ddmenu change: ',noteInfo);
 
             }  
             //var notes = result[0].tracks[n].getNotes(); // 
@@ -197,7 +233,7 @@
         } 
 
 
-
+}
 
 
 
@@ -212,8 +248,11 @@
       }  
 
 
-
-
+      /*if (window.ptnEdit==1) {
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: 201, ptnEditState: 1});
+      } else if (window.ptnEdit==0) {
+      _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: 201, ptnEditState: 0});  
+      }  */
 
       //console.log('selct option value changed', $('#presets').find(":selected").text() , $('#presets').find(":selected").val() ); // $item.find("option").val()
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: patternClass, kitNumber: kitId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString}); 
@@ -346,29 +385,44 @@ $('#kits').on('change', '#kits',function(e) {
     
     var _drawController = function(name) {
 
-      //console.log('ddmenu cont: ', $container.context.id);
+      if (typeof controlObject !== 'undefined') {
 
-      //console.log('ctrl obj ', controlObject);
+        //console.log('ddmenu cont: ', $container.context.id);
 
-      if (typeof controlObject.classs !== 'undefined') {
-        var drawClass = controlObject.classs; //'class="'+value.classs+'"';
-      } else {
-        var drawClass = 'random';
-      } 
+        //console.log('ctrl obj ', controlObject);
 
-      if (_selectedOption==value) {
-        var selected = 'selected';
-      } else {
-        var selected = '';
+        if (typeof controlObject.classs !== 'undefined') {
+          var drawClass = controlObject.classs; //'class="'+value.classs+'"';
+        } else {
+          var drawClass = 'random';
+        } 
+
+        if (_selectedOption==value) {
+          var selected = 'selected';
+        } else {
+          var selected = '';
+        }
+
+
+        if (typeof controlObject.notenb !== 'undefined') {
+          var cusElNoteNb = 'data-notemin="'+controlObject.notenb[0]+'" data-notemax="'+controlObject.notenb[1]+'"'; //
+        } else {
+          var cusElNoteNb = '';
+        } 
+
+        
+
+
+
+        $item = $('<option '+selected+' class="'+drawClass+'" id="option'+_elementId+'" value="'+value+'"'+cusElNoteNb+'>'+name+'</option>'); // $itemContainer - _id
+        //var instrumentsConfig = window.insConf;
+        //$item.append('<canvas nx="slider" id="slider'+_id+'" min="0" max="100" label="'+name+'"></canvas>');  
+        //$item.append('<option id="slider'+_id+'" value="'+_id+'">'+name+'</option>');  
+              
+        $item.appendTo($container);
+        //console.log('dollar cont:', $container);
+
       }
-
-      $item = $('<option '+selected+' class="'+drawClass+'" id="option'+_elementId+'" value="'+value+'">'+name+'</option>'); // $itemContainer - _id
-      //var instrumentsConfig = window.insConf;
-      //$item.append('<canvas nx="slider" id="slider'+_id+'" min="0" max="100" label="'+name+'"></canvas>');  
-      //$item.append('<option id="slider'+_id+'" value="'+_id+'">'+name+'</option>');  
-            
-      $item.appendTo($container);
-      //console.log('dollar cont:', $container);
     };    
 
     var _setup = function(_id) {

@@ -7,12 +7,25 @@ window.draw = { // window.noteRanges
   c3_c4_major_for_penta_minor: [{ name: 'C4', note: 19 }, { name: 'G3', note: 14 }, { name: 'C3', note: 7 } ],
   c4_c5_major_for_penta_minor: [{ name: 'C5', note: 31 }, { name: 'G4', note: 26 }, { name: 'C4', note: 19 } ],  
 
+  c0_c1_penta_minor: [{ name: 'C1', note: -17 }, { name: 'Bb0', note: -19 }, { name: 'G0', note: -22 }, { name: 'F0', note: -24 }, { name: 'Eb0', note: -26 }, { name: 'C0', note: -29 } ],
   c1_c2_penta_minor: [{ name: 'C2', note: -5 }, { name: 'Bb1', note: -7 }, { name: 'G1', note: -10 }, { name: 'F1', note: -12 }, { name: 'Eb1', note: -14 }, { name: 'C1', note: -17 } ],
   c2_c3_penta_minor: [{ name: 'C3', note: 7 }, { name: 'Bb2', note: 5 }, { name: 'G2', note: 2 }, { name: 'F2', note: 0 }, { name: 'Eb2', note: -2 }, { name: 'C2', note: -5 } ],
   c3_c4_penta_minor: [{ name: 'C4', note: 19 }, { name: 'Bb3', note: 17 }, { name: 'G3', note: 14 }, { name: 'F3', note: 12 }, { name: 'Eb3', note: 10 }, { name: 'C3', note: 7 } ],
   c4_c5_penta_minor: [{ name: 'C5', note: 31 }, { name: 'Bb4', note: 29 }, { name: 'G4', note: 26 }, { name: 'F4', note: 24 }, { name: 'Eb4', note: 22 }, { name: 'C4', note: 19 } ],
 
   c4_c5_penta_minorCWilso: [{ name: 'C5', note: 55 }, { name: 'Bb4', note: 53 }, { name: 'G4', note: 50 }, { name: 'F4', note: 48 }, { name: 'Eb4', note: 46 }, { name: 'C4', note: 43 } ],
+
+
+  c4_c7_penta_minorCWilso: [
+  { name: 'C7', note: 79 }, { name: 'Bb6', note: 77 }, { name: 'G6', note: 74 }, { name: 'F6', note: 72 }, { name: 'Eb6', note: 70 },
+    { name: 'C6', note: 67 }, { name: 'Bb5', note: 65 }, { name: 'G5', note: 62 }, { name: 'F5', note: 60 }, { name: 'Eb5', note: 58 },
+      { name: 'C5', note: 55 }, { name: 'Bb4', note: 53 }, { name: 'G4', note: 50 }, { name: 'F4', note: 48 }, { name: 'Eb4', note: 46 }, { name: 'C4', note: 43 } 
+  ],
+
+
+
+
+
   drumsynth_01: [{ name: 'kick', note: 0 }, { name: 'hihat', note: 1 }, { name: 'clap', note: 2 } ],
 
 
@@ -114,11 +127,55 @@ window.launch = {
 
 
 
+
+change_ptn_change_kit:
+[ 
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+      { name: 'Change sound kit', 
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0,                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+],
+
+
+
+
+
+
+
   synth_preset:
     [           
 
-
-      { name: 'Change pattern',
+//*
+      { name: 'Play pattern', // Change pattern
         id: 994,
         type: 'ddmenu', 
         x: {
@@ -133,7 +190,7 @@ window.launch = {
           max: '[calc]'
         }                 
       },       
-
+//*/
       { 
         name: 'Save Pattern',
         id: 995,
@@ -152,7 +209,7 @@ window.launch = {
         }                 
       },    
 
-      { name: 'Change note range', // Choose
+      { name: 'Change note range/pitch', // Choose
         id: 998,
         type: 'ddmenu', 
         x: {
@@ -202,9 +259,37 @@ window.launch = {
         }                 
       },           
 
+
+
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+
+
+
       { 
         name: 'Pattern sequencer',
-        id: 992,
+        id: 9920,
 
         type: 'multiselect', // nexus push button
         direction: 0, 
@@ -219,7 +304,12 @@ window.launch = {
             stepSize: 0, 
             interpolate: 0 
         }                 
-      },        
+      },    
+
+
+
+
+
 
 /*
 { 
@@ -456,6 +546,212 @@ window.tweak = {
           }                  
         ],
 
+
+CWilsoWAMidiSynth: [
+{ 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'onUpdateOsc1Mix',                     
+              value: 15, 
+              interpolate: 0, 
+            }                
+          },
+
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'onUpdateOsc2Mix',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'onUpdateOsc1Wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'sine',
+                1: 'square',                     
+                2: 'sawtooth',
+                3: 'triangle'                
+              },               
+              max: 3                    
+            }                
+          },  
+
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'onUpdateOsc2Wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'sine',
+                1: 'square',                     
+                2: 'sawtooth',
+                3: 'triangle'
+              },                 
+              max: 3                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch', // aka detune
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'onUpdateOsc2Detune',                     
+              value: 0, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'onUpdateEnvA',                     
+              value: 1, // 0: bug
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'onUpdateEnvD',                     
+              value: 50, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'onUpdateEnvS',                     
+              value: 70, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'onUpdateEnvR',                     
+              value: 30, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'onUpdateFilterCutoff',                     
+              value: 14, //0
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'onUpdateFilterQ',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },  
+          /*{ 
+            name: 'filter eg amount',
+            id: 12,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  */
+          { 
+            name: 'filter env attack',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'onUpdateFilterEnvA',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'onUpdateFilterEnvD',                     
+              value: 1, // Time constant must be a finite positive number
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'onUpdateFilterEnvS',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'onUpdateFilterEnvR',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          }
+],
+
+
+
+
   conductor: [ // aka preset values                                    
                                     
 
@@ -472,8 +768,15 @@ window.tweak = {
           x: {
               name: 'ch1 vol',
               param: '_insVol0', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'
+              }, 
+
               midicc: 7,  // 74                    
-              value: 50, // 60
+              value: 40, // 60
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               mute: 1, // 0: off | 1: on  
@@ -504,7 +807,9 @@ window.tweak = {
               param: '_insVol2', // [external] = does not change timbre generator param
 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               }, 
 
               midicc: 4,  // 71                    
@@ -531,7 +836,9 @@ window.tweak = {
               name: 'ch3 vol',
               param: '_insVol3', 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
               value: 10, // 30
               stepSize: 0, 
@@ -557,7 +864,9 @@ window.tweak = {
               name: 'ch4 vol',
               param: '_insVol4', 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
               value: 6, // 23
               stepSize: 0, 
@@ -583,7 +892,9 @@ window.tweak = {
               name: 'ch5 vol',
               param: '_insVol5', 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
               value: 18, // 30
               stepSize: 0, 
@@ -609,7 +920,9 @@ window.tweak = {
               name: 'ch6 vol',
               param: '_insVol6', 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
               value: 9,
               stepSize: 0, 
@@ -635,7 +948,9 @@ window.tweak = {
               name: 'ch7 vol',
               param: '_insVol7', 
               subParams: { 
-                AikeWebsynth1: 'volume.set' 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
               value: 22, // 40
               stepSize: 0, 
@@ -725,6 +1040,799 @@ window.tweak = {
           }                 
         },
 
+        { 
+          name: 'C1 start bar offset',
+          id: 700,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C1 start bar offset',
+              param: '_insBarOffset0', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },       
+
+        { 
+          name: 'C2 start bar offset',
+          id: 701,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C2 start bar offset',
+              param: '_insBarOffset1', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0, //
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },            
+
+        { 
+          name: 'C3 start bar offset',
+          id: 702,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C3 start bar offset',
+              param: '_insBarOffset2', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 4, //
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C4 start bar offset',
+          id: 703,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C4 start bar offset',
+              param: '_insBarOffset3', // [external] = does not change timbre generator param
+              midicc: 32,                      
+              value: 8, // 8
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C5 start bar offset',
+          id: 704,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C5 start bar offset',
+              param: '_insBarOffset4', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 16, // 48
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'C6 start bar offset',
+          id: 705,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C6 start bar offset',
+              param: '_insBarOffset5', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 20, // 64
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'C7 start bar offset',
+          id: 706,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C7 start bar offset',
+              param: '_insBarOffset6', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32, // 70
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },  
+
+        { 
+          name: 'C8 start bar offset',
+          id: 707,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'C8 start bar offset',
+              param: '_insBarOffset7', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 24, // 74
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+                                                       
+
+        { 
+          name: 'General Bar kickout time',
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General kickout time (in bars)',
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 32, // 90 ? don't 
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }                                   
+
+      ],
+
+
+
+
+
+
+
+
+
+
+conductor16a: [ // 
+
+        { // control
+          name: 'Sounding channel number',
+          id: 500,
+          type: 'hidden', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // 
+          },   
+          x: {
+              name: 'scn',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 17,
+              stepSize: 0, // 
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+                                    
+
+{ 
+          name: 'Ch1 vol',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch1 vol',
+              param: '_insVol0', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'
+              }, 
+
+              midicc: 7,  // 74                    
+              value: 40, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              muteKey: 49, // beware fr,fr azerty keyboard
+              muteNote: 48,
+              solo: 1,               
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Ch2 vol',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch2 vol',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              }, 
+
+              midicc: 4,  // 71                    
+              value: 40,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on 
+              mute: 1,        
+              muteKey: 50,    
+              muteNote: 50,   
+              solo: 1,   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch3 vol',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch3 vol',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              midicc: 3,
+              mute: 1,        
+              muteKey: 51,                
+              muteNote: 52,
+              solo: 1,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch4 vol',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'ch4 vol',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              midicc: 13,
+              mute: 1,        
+              muteKey: 52,  
+              muteNote: 53,
+              solo: 1,
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch5 vol',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'ch5 vol',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 14,
+              mute: 1,        
+              muteKey: 53,                
+              muteNote: 55,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch6 vol',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch6 vol',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 15,
+              mute: 1,        
+              muteKey: 54,                
+              muteNote: 57,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch7 vol',
+          id: 807,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch7 vol',
+              param: '_insVol7', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, // 40
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 16,
+              mute: 1,        
+              muteKey: 55,                
+              muteNote: 59,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },
+
+
+        { 
+          name: 'Ch8 vol',
+          id: 808,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch8 vol',
+              param: '_insVol8', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 590,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch9 vol',
+          id: 809,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch9 vol',
+              param: '_insVol9', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 590,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },        
+
+        { 
+          name: 'Ch10 vol',
+          id: 810,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch10 vol',
+              param: '_insVol10', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 510,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },  
+
+        { 
+          name: 'Ch11 vol',
+          id: 811,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch11 vol',
+              param: '_insVol11', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 511,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },    
+
+        { 
+          name: 'Ch12 vol',
+          id: 812,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch12 vol',
+              param: '_insVol12', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 512,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },  
+        
+        { 
+          name: 'Ch13 vol',
+          id: 813,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch13 vol',
+              param: '_insVol13', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 513,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch14 vol',
+          id: 814,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch14 vol',
+              param: '_insVol14', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 514,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },        
+        
+        { 
+          name: 'Ch15 vol',
+          id: 815,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch15 vol',
+              param: '_insVol15', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 515,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },   
+
+        { 
+          name: 'Ch16 vol',
+          id: 816,
+          type: 'slider',   
+          direction: 'horizontal',                          
+          x: {
+              name: 'ch16 vol',
+              param: '_insVol16', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, 
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 18,
+              mute: 1,        
+              muteKey: 550,                
+              muteNote: 516,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        },                                                     
+
+
+
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 60, // 100 - 85 110 - 119
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 220, // 400
+              min: 60,
+              max: 220, // 400
+              autoValIncMode: 1, // 0: off | 1: on 
+              autoValIncBy: 4, // -1 - 1
+              autoValIncTime: 8,
+          }               
+        },
+
+        { // control
+          name: 'Channel change',
+          id: 997,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'Channel change',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+
+        { // control
+          name: 'Session change',
+          id: 996,
+
+          type: 'ddmenu', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session', //  dest (1>2) - Pick session
+              param: '[external]', 
+              midicc: 0,                      
+              value: 2, // starting at session 001
+              stepSize: 0, 
+              interpolate: 0, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 1,
+              max: 2
+          }                 
+        },
+/*
         { 
           name: 'C1 start bar offset',
           id: 700,
@@ -916,7 +2024,7 @@ window.tweak = {
               max: 1
           }                
         }, 
-
+*/
                                                        
 
         { 
@@ -941,9 +2049,70 @@ window.tweak = {
               min: 0,
               max: 1
           }                
-        }                                   
+        },
 
-      ]        
+
+
+        { 
+          name: 'General Per line Note MIN',
+          id: 698,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Min',
+              param: '_noteMin', // [external]
+              midicc: 0,                      
+              value: 0, // 
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },    
+
+
+        { 
+          name: 'General Per line Note Max',
+          id: 697,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Max',
+              param: '_noteMax', // [external]
+              midicc: 0,                      
+              value: 1, // 16
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },           
+
+
+
+      ]  
+
+
+
+
+
+
+
+
       
 
 };
@@ -958,6 +2127,18 @@ synthControlsWithouKitPtnseq.splice(5, 1); // remove ptnSeq
 //synthControlsWithouKitPtnseq.splice(0, 1); // remove kit (ins-oct) change
 
 var aikeWebsynthControlsReduced = synthControlsWithouKitPtnseq.concat(window.tweak.aike_websynth_v1);
+
+
+
+var aikeWebsynthControlsNoSave = (JSON.parse(JSON.stringify(window.launch.synth_preset)));
+aikeWebsynthControlsNoSave.splice(1, 1); // remove Save pattern
+aikeWebsynthControlsNoSave.splice(3, 1); // remove Save sound
+aikeWebsynthControlsNoSave.splice(3, 1); // remove ptnSeq
+
+//console.log('aikeWebsynthControlsNoSave', aikeWebsynthControlsNoSave);
+
+var aikeWebsynthControlsNoSave = aikeWebsynthControlsNoSave.concat(window.tweak.aike_websynth_v1);
+
 //console.log('aikeWebsynthControlsReduced', aikeWebsynthControlsReduced);
 
 //var synthControlsNoPtnseq= window.launch.synth_preset;
@@ -965,7 +2146,7 @@ var aikeWebsynthControlsReduced = synthControlsWithouKitPtnseq.concat(window.twe
 
 var aikeWebsynthControls = window.launch.synth_preset.concat(window.tweak.aike_websynth_v1); //collect(window.launch.sample_prg, window.tweak.aike_websynth_v1);
 
-
+var CWilsoWAMidiSynthControls = window.launch.synth_preset.concat(window.tweak.CWilsoWAMidiSynth);
 
 
 var smpPrgChangeSavePattern= window.launch.sample_prg;
@@ -973,7 +2154,7 @@ var smpPrgChangeSavePattern= window.launch.sample_prg;
 
 //console.log('smpPrgChangeSavePattern', smpPrgChangeSavePattern);
 
-
+var session1ConductorControls = (JSON.parse(JSON.stringify(window.tweak.conductor)));
 
 
 window.insConf1 = [ // channelConf
@@ -1430,7 +2611,17 @@ window.insConf1 = [ // channelConf
 
 
 
-
+{ channelName: '8: Conductor',
+  trackSet: 0, 
+  conf: [ { 
+    type: 'control', 
+    instrumentName: 'Conductor', 
+    name: 'Conductor Ctrl 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: session1ConductorControls
+  }] 
+}, 
 
 
 
@@ -1440,7 +2631,7 @@ window.insConf1 = [ // channelConf
 
 // black channel
 
-//*
+/*
 { // channel
   channelName: 'Channel 2: conductor', // name
   //channelType: 'conductor', // type
@@ -1690,7 +2881,7 @@ window.insConf1 = [ // channelConf
         },
 
 
-/*
+/
 { 
           name: 'Save Pattern',
           id: 995,
@@ -1709,7 +2900,7 @@ window.insConf1 = [ // channelConf
               interpolate: 0 
           }                 
         },
-*/
+/
 
 
         { 
@@ -1932,7 +3123,7 @@ window.insConf1 = [ // channelConf
 
         
 
-      ] // end of controls //*/
+      ] // end of controls ///
     } // end of kit
   ] // end of kits
 }, // end of channel

@@ -55,8 +55,12 @@
 
     this.setup = function(context) {
 
-
-      var synthInstanceString = /*this.instrumentName + '_' + */ 'channel_' + this.id;
+    /*  if (this.instrumentName== 'Conductor') {
+        var synthInstanceString = 'channel_Conductor';
+      } else { */
+        var synthInstanceString = /*this.instrumentName + '_' + */ 'channel_' + this.id;
+     // }
+      
 
       // get control data from dynamic object
       //if (/*window[synthInstanceString] !== null &&*/ typeof window[synthInstanceString] === 'object' /*|| window[synthInstanceString].constructor === Array*/) {
@@ -76,8 +80,8 @@
             //window[synthInstanceString] = new WebSynth(context);
             break;             
           case 'CWilsoWAMidiSynth':
-            initAudio(context);
-            window[synthInstanceString] = new WebSynth(context);
+            //initAudio(context);
+            window[synthInstanceString] = new CWilsoWAMidiSynth(context);
             break;          
           case 'AikeWebsynth1':
             window[synthInstanceString] = new WebSynth(context);
@@ -102,18 +106,19 @@
 
       //} 
 
-      console.log('win ins strg', window[synthInstanceString])
+      //console.log('win ins strg', synthInstanceString, window[synthInstanceString])
 
       var instrumentsConfig = window.insConf;
 
-      if (typeof window['channel_1'] === 'object') { // window['Conductor_1']
+      if (typeof window['channel_1'] === 'object') { // window['Conductor_1'] ! probably bad check as conductor might not be channel_1 !! - window['channel_1'] channel_Conductor - hardcoded value !!!!
         var conductorControls = window['channel_1']['controls']; 
       } else {
         var conductorControls = instrumentsConfig[1].conf[instrumentsConfig[1].trackSet].controls; // ! beware hardcoded value */       
       }    
 
       for (var j = 0; j < conductorControls.length; j++) {
-        if (conductorControls[j].x.param.charAt(7)==this.id) {
+        var chNumber = conductorControls[j].x.param.replace(/\D/g,'');
+        if (/*conductorControls[j].x.param.charAt(7)*/chNumber==this.id) {
           // = controls[j].x.value;
 
           if (conductorControls[j].x.interpolate==0) {
@@ -156,7 +161,7 @@
 
     if (typeof this.channelInfo.presets !== 'undefined' ) {
       if (this.channelInfo.presets.length!=0 && typeof this.channelInfo.channelPresets !== 'undefined') {
-          var presets = this.channelInfo.presets.concat(this.channelInfo.channelPresets);
+          var presets = this.channelInfo.presets; //.concat(this.channelInfo.channelPresets); // mege all use presets in one pool?
       } else {
           var presets = this.channelInfo.channelPresets;
       }        
@@ -175,6 +180,8 @@ typeof this.channelInfo.presetId !== 'undefined'
   var taarget = this.channelInfo.presetId;
   var taarget = taarget.toString();
 
+  //console.log('preset: ', taarget);  
+
 //var preset = $.grep(this.channelInfo.channelPresets, function(e){ return e.id == this.channelInfo.presetId; });
 
 var preset = presets.filter(function( obj ) { // channelPresets - presets // this.channelInfo.channelPresets
@@ -185,9 +192,11 @@ var preset = presets.filter(function( obj ) { // channelPresets - presets // thi
 
 //console.log('preset model ins: ', taarget, presets, preset/*, this.channelInfo.presets*/);  
 
-var preset = preset[0].controls;
-  //console.log('preset: ', preset);  
 
+if (typeof preset[0] !== 'undefined') {
+var preset = preset[0].controls;
+  //console.log('selPreset, preset pool: ', preset, presets );  //  - this.channelInfo.presets
+}
 var presetMode = 1; // presetMode=0 : kit/InsMode
 
 
@@ -250,16 +259,29 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
 
                 if (usedControls[j].x.param!='[external]') {
                   switch (this.instrumentName) {
+
+                    case 'JoeSullivanDrumSynth':
+                      if (window.childRoom != 2) { eval(synthInstanceString+'.jsDrumMainvolume.gain.value='+valueX*2); } // data.x 
+                      break;
+
+                    case 'CWilsoWAMidiSynth':
+                      eval(synthInstanceString+'.'+usedControls[j].x.param+'('+valueX+')'); // data.x
+                      if (window.childRoom != 2) { eval(synthInstanceString+'.onUpdateVolume('+instrumentInstanceVolume*100+')'); }
+                      //eval(synthInstanceString+'.onUpdateVolume('+instrumentInstanceVolume+')'); 
+                      break; 
+
                     case 'AikeWebsynth1':
                       // value sent as parameter to synth instance object
                       eval(synthInstanceString+'.'+usedControls[j].x.param+'('+valueX+')'); // data.x
                       //console.log('usedControls', usedControls);
                       // change instrument instance volume
-                      eval(synthInstanceString+'.volume.set('+instrumentInstanceVolume+')'); // this should only be triggered once not at every control process                      
+                      if (window.childRoom != 2) { eval(synthInstanceString+'.volume.set('+instrumentInstanceVolume+')'); } // this should only be triggered once not at every control process                      
                       break;
+
                     case 'MrSynth':
                       eval(synthInstanceString+'.'+usedControls[j].x.param+'='+valueX); // data.x
                       break;
+
                     case 'Sampler':
                       // change seq object variable value                      
                       //console.log('window[SEQ]', window['SEQ']);
@@ -269,7 +291,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
                   //window[synthInstanceString]
 
                   // set channel volume to channel Sampler instance via duplicated sequencer object
-                  window['SEQ']['_insVol'+this.id] = instrumentInstanceVolume; // 0.15879999;  
+                  if (window.childRoom != 2) { window['SEQ']['_insVol'+this.id] = instrumentInstanceVolume; } // 0.15879999;  
                   //console.log('window[SEQ]', window['SEQ']['_insVol0']);
                 } 
 
@@ -320,7 +342,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
                 window[synthInstance].play(note);
                 break;          
             case 'CWilsoWAMidiSynth':
-                noteOn(note, 75);
+                window[synthInstance].noteOn(note, 75, this.id); // old vol: 75
                 break;          
             case 'AikeWebsynth1':
               //console.log('id', this.id, window[synthInstance]); 
@@ -391,7 +413,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
                 window[synthInstance].stop(note);
                 break;              
             case 'CWilsoWAMidiSynth':
-                noteOff(note);
+                window[synthInstance].noteOff(note, this.id);
                 break;              
               case 'AikeWebsynth1':
                   //window[synthInstance].setVolume(0);

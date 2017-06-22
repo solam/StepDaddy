@@ -27,7 +27,13 @@
 
     var _onToggleNote = function() {
 
+      //if (trackCount === 0) {
+       // _renderHeader(16);
+      //}
 
+
+
+      
 
       if (window.stepSeq==1) {
 /*
@@ -76,15 +82,130 @@
 
       noteIndex--; // compensate for label
 
-      var isItOn = $(this).toggleClass('active').hasClass('active');
-      console.log('You clicked me dude', this, noteIndex, $(this).parent().index(), isItOn ? 1 : 0);
-      _self.emit(mixr.enums.Events.NOTE, {
-        volume: isItOn ? 1 : 0,
-        note: noteIndex,
-        trackId: $(this).parent().data('id'),
-        patternId: $('#patterns').find(":selected").val()
-      });
+
+
+
+      //var activeNotesPerLine = $('.' + myclassname).length;
+
+      
+      //$("#pattern-editor tr[data-id='0-0'] td.active").length;
+
+
+      // limit number of notes allowed per line for user
+      var adi = $(this).parent().data('id');
+      //var maxPossNotes = $("#pattern-editor tr[data-id='"+adi+"'] td").length;
+
+      if (typeof window['notesPerLine'] !== 'undefined') { // kill when loading pattern without noteLimitation param
+        var notesAllowed = window['notesPerLine'].max;
+        var notesAllowedMin = window['notesPerLine'].min;
+
+      } else if (typeof window['conductorNotesPerLine'] !== 'undefined') { // .min
+        var notesAllowed = window['conductorNotesPerLine'].max;
+        var notesAllowedMin = window['conductorNotesPerLine'].min;
+      } else {
+        var notesAllowed = 16;
+        var notesAllowedMin = 0;
+      }
+
+      $("#notemin").html('noteMin: '+notesAllowedMin); 
+      $("#notemax").html('noteMax: '+notesAllowed);         
+
+      
+      var activeNotes = $("#pattern-editor tr[data-id='"+adi+"'] td.active").length;
+
+      //window.activeNotes = activeNotes;
+      window.notesAllowedMin = notesAllowedMin;
+      window.notesAllowedMax = notesAllowed;
+      
+      console.log('active, min, max:',  activeNotes , notesAllowedMin, notesAllowed);
+
+      if (activeNotes == notesAllowedMin && activeNotes == notesAllowed && notesAllowedMin == notesAllowed && $(this).hasClass('active')) {
+//freezePtn = 1; //solution A
+freezePtn = 0; //solution B
+        //console.log('freeze! ');
+        //alert('block ptn edition');
+      } else {
+        freezePtn = 0;
+      }
+
+
+
+
+      /*if ( $(this).hasClass('active') ) {
+        if (activeNotes == notesAllowedMin) {
+          var clickedNoteWasActive = 1;
+        }
+
+        
+      } else {
+        var clickedNoteWasActive = 0;
+      } */
+
+      
+
+
+
+      /* solution A
+      if ( $(this).hasClass('active') && activeNotes > notesAllowedMin && activeNotes < notesAllowed && activeNotes != notesAllowedMin && freezePtn == 0) { // && notesAllowedMin > activeNotes - && activeNotes+1 > notesAllowedMin - 
+        //console.log('clickedNoteWasActive', activeNotes, notesAllowedMin);
+        $(this).removeClass('active');
+        var isItOn = 0;
+      } else if (    activeNotes < notesAllowed && freezePtn == 0) { // !$(this).hasClass('active') && && activeNotes >= notesAllowedMin-1 - && activeNotes != notesAllowedMin - && freezePtn == 0
+        $(this).addClass('active');
+        var isItOn = 1;
+      } //*/
+
+
+      // solution B
+      if ( $(this).hasClass('active') && activeNotes != notesAllowedMin ) { // >
+        $(this).removeClass('active');
+        var isItOn = 0;
+      } else if ( !$(this).hasClass('active') && activeNotes < notesAllowed ) { 
+        $(this).addClass('active').removeClass('playedbar');
+        var isItOn = 1;
+      }      
+
+
+
+
+/*
+      if ( /*$(this).hasClass('active') &&/ activeNotes > notesAllowedMin && activeNotes < notesAllowed) { // && notesAllowedMin > activeNotes - &&/ activeNotes+1 > notesAllowedMin - && freezePtn == 0
+        console.log('remPass:',  activeNotes);
+        $(this).removeClass('active');
+        var isItOn = 0;
+      } 
+
+      if ( activeNotes > notesAllowedMin && activeNotes < notesAllowed) { // !$(this).hasClass('active') && && activeNotes >= notesAllowedMin-1 - && activeNotes != notesAllowedMin - && freezePtn == 0
+        console.log('addPass:',  activeNotes);
+        $(this).addClass('active');
+        var isItOn = 1;
+      }
+*/
+
+
+      
+
+        //var isItOn = $(this).toggleClass('active').hasClass('active');
+        //console.log('You clicked me dude', this, noteIndex, $(this).parent().index(), isItOn ? 1 : 0);    
+
+      //if ( !$('#pattern-editor table').hasClass("ptn-edit") ) {
+
+      if ( freezePtn == 0) {  
+        _self.emit(mixr.enums.Events.NOTE, {
+          volume: isItOn ? 1 : 0,
+          note: noteIndex,
+          trackId: $(this).parent().data('id'),
+          patternId: $('#patterns').find(":selected").val()
+        });
+      }  
+
+      //}  
+
+
+
     };
+
+
 
     /**
      * Adds all the listeners to the elements.
@@ -109,11 +230,12 @@
     };
     */
     this.drawPlayhead = function (beat) {
-      var $tds = $('th:nth-child(' + (beat + 2) + ')');
+      //console.log('beat', beat);
+      /*var $tds = $('th:nth-child(' + (beat + 2) + ')');
       $tds.on('webkitAnimationEnd', function () {
         $tds.removeClass('beat');
       });
-      $tds.addClass('beat');
+      $tds.addClass('beat');*/
     };
 
 
@@ -126,12 +248,13 @@
       }
 
       if (trackCount === 0) {
-        _renderHeader(track.notes.length);
+        _renderHeader(track.notes.length); // 
+        //console.log('trk note length:', track.notes.length);
       }
 
       var $row = $('<tr>').attr('data-id', track.id);
 
-      $row.append($('<td><h1>' + track.name + '</h1></td>'));
+      $row.append($('<td class="notepitch"><h1>' + track.name + '</h1></td>'));
 
       for (var i = 0; i < track.notes.length; i++) {
         var $td = $('<td>');
@@ -157,7 +280,8 @@
       //console.log('addTrack', track);
   
       // Check if we already have a key for that track
-      if ($keyboard.find('span[class="trk' + track.id + '"]').length > 0) {
+      //if ($keyboard.find('span[class="trk' + track.id + '"]').length > 0) {
+      if ($keyboard.find('span[id="k' + track.note + '"]').length > 0) {        
         return;
       }
 
@@ -191,14 +315,16 @@
 
     var _renderHeader = function (length) {
       var $head = $('<thead>');
-      for (var i = 0; i < length; i++) {
+      for (var i = 0; i < length+1; i++) {
         var $th = $('<th>');
         $head.append($th);
       }
 
-      $head.children().eq(0).attr('id', 'playhead');
+      //$head.children().eq(0).attr('id', 'playhead');
 
       $table.append($head);
+
+      console.log('$head', $head);
     };
 
     /**

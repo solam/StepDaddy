@@ -10,6 +10,23 @@ this.HiHat = require('instruments/jsdrumsynth/hi-hat/index');
 this.Clappy = require('instruments/jsdrumsynth/clappy/index');
 
 
+  this.jsDrumMainvolume = context.createGain();
+  this.jsDrumMainvolume.connect(this.context.destination);
+  //this.jsDrumMainvolume.gain.value = 1;
+
+
+  
+  this.kickVol = context.createGain();
+  this.kickVol.connect(this.jsDrumMainvolume);
+  this.kickVol.gain.value = 0.50*2; // ref volume
+
+  this.closedHatVol = context.createGain();
+  this.closedHatVol.connect(this.jsDrumMainvolume);
+  this.closedHatVol.gain.value = 0.70*2;
+
+  this.clapVol = context.createGain();
+  this.clapVol.connect(this.jsDrumMainvolume);
+  this.clapVol.gain.value = 0.30*2;  
 
 }
 
@@ -31,11 +48,18 @@ jsDrumSynth.prototype.play = function(note){
   this.kickNode = this.kick();
 
   // Connect to target node
-  this.kickNode.connect(this.context.destination);
+  this.kickNode.connect(this.kickVol); // this.context.destination - this.jsDrumMainvolume
+
+  
 
   // Start
   this.kickNode.start(this.context.currentTime);
+  //this.kickNode.gain.value = 0;
                   //jsDrumSynth.kickNode.start();
+
+
+//console.log('this.kickNode', this.kickNode);
+
                   break;          
 //          }    
 
@@ -50,7 +74,7 @@ case 1:
   this.openHatNode = this.hat(true); // Open hat
 
   // Connect to target node
-  this.closedHatNode.connect(this.context.destination);
+  this.closedHatNode.connect(this.closedHatVol);
 
   // Start
   this.closedHatNode.start(this.context.currentTime);
@@ -68,7 +92,7 @@ this.clap = this.Clappy(this.context);
 this.clapNode = this.clap();
 
 // Connect to target node
-this.clapNode.connect(this.context.destination);
+this.clapNode.connect(this.clapVol);
 
 // Start
 this.clapNode.start(this.context.currentTime);

@@ -84,8 +84,8 @@ function midiMessageReceived( ev ) {
     polyPressure(noteNumber,velocity/127)
   } else if ( ev.data[0] == 254 ) {
     return  // do not show midi controller studiotech mc-25 emitting unwanted midi data 
-  } else
-  console.log( "" + ev.data[0] + " " + ev.data[1] + " " + ev.data[2])
+  } /*else 
+  console.log( "" + ev.data[0] + " " + ev.data[1] + " " + ev.data[2])*/
 }
 
 var selectMIDI = null;
@@ -151,6 +151,27 @@ function onMIDIStarted( midi ) {
   midi.onstatechange = midiConnectionStateChange;
   populateMIDIInSelect();
   selectMIDI.onchange = selectMIDIIn;
+
+
+
+      /*
+      window.setTimeout(function () {
+        // wait 2 secs than auto select 2nd item, by default
+        //$("#midiIn").val($("#midiIn option:eq(1)").val()); : only selects does not really simulate click
+
+        var miInVal = $("#midiIn option:eq(1)").val();
+
+        console.log('miInVal: ', miInVal);
+
+        ​$('option[value='+miInVal+']').attr('selected', 'selected').parent().focus();​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+
+        //$('option['+miInVal+']').attr('selected', 'selected').parent().focus();​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+
+        //$("#midiIn option:eq(1)").val().attr('selected', 'selected').parent().focus();​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+
+      }, 2000);
+      //*/
+
 
 
 }

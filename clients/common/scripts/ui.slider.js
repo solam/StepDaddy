@@ -107,18 +107,26 @@ keypressSlider.noUiSlider.on('update', function( values, handle ) {
 
 
 
-
+/*
 if (typeof document.getElementById('presets') !== 'undefined' && window.changeParamMode=='manual') {
 
-      if ($('#presets option[value="0"]').length>0 ) {
-        $('#presets option[value="0"]').remove();
+  if (typeof window.channelPresets[0].id !== 'undefined') { // this may have unexpected secondary effects on other play steup context
+    var optValue = window.channelPresets[0].id;
+  } else {
+    var optValue = 0;
+  }
+
+      
+
+      if ($('#presets option[value="'+optValue+'"]').length>0 ) {
+        $('#presets option[value="'+optValue+'"]').remove();
       }
 
-      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved sound]</option>');
+      $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="'+optValue+'">[unsaved sound]</option>');
       $itemOptionUnsaved.appendTo(document.getElementById('presets'));
-      $('#presets option[value="0"]').prop('selected',true);
+      $('#presets option[value="'+optValue+'"]').prop('selected',true);
 
-}
+} */
 
   var presetId = $('#presets').find(":selected").val();
 
@@ -142,9 +150,41 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
     var chId = ('' + _id).substr(-1);
 
-    var synthInstanceString = 'AikeWebsynth1' + '_' + chId; // bad: hardcoded instrument type
+    //var synthInstanceString = 'AikeWebsynth1' + '_' + chId; // bad: hardcoded instrument type
+    var synthInstanceString = 'channel_' + chId;
+
+    //console.log('window[synthInstanceString]', window[synthInstanceString], chId, skwerotedValue);
 
 
+              if (typeof window[synthInstanceString] !== 'undefined') {
+                  switch (window[synthInstanceString].constructor.name) {
+
+                    case 'jsDrumSynth':
+                      eval(synthInstanceString+'.jsDrumMainvolume.gain.value='+skwerotedValue/100); // data.x
+                      break;
+
+                    case 'CWilsoWAMidiSynth':
+                      eval(synthInstanceString+'.onUpdateVolume('+skwerotedValue+')');
+                      break; 
+
+                    case 'WebSynth':
+                      eval(synthInstanceString+'.volume.set('+skwerotedValue/100+')');
+                      //console.log('aikeWS1', skwerotedValue/100 );                     
+                    break;
+
+                    /*case 'MrSynth':
+                      eval(synthInstanceString+'.'+usedControls[j].x.param+'='+valueX); // data.x
+                      break;*/
+
+                    case 'Object':
+                      window['SEQ']['_insVol'+chId] = skwerotedValue/100;
+                      //console.log('sampler', skwerotedValue/100 );
+                    break;                 
+                  }
+              }
+
+    //window['channel_2'].constructor.name
+/*
     if (typeof window[synthInstanceString] !== 'undefined') {
       eval(synthInstanceString+'.volume.set('+skwerotedValue/100+')');
       console.log('aikeWS1', skwerotedValue/100 );
@@ -152,11 +192,56 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
       window['SEQ']['_insVol'+chId] = skwerotedValue/100;
       console.log('sampler', skwerotedValue/100 );
     }
-
+*/
     //console.log('skwerotedValue', skwerotedValue, chId );
 
   } else {
-    _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId});    
+    //console.log('goes here');
+
+    if ( !$('#pattern-editor').hasClass('control') ) {
+
+        // send all controller/preset params at each individual param change
+        //var presetClass = $('#presets').find(":selected").attr('class');
+        //var KitNumber = $('#kits').find(":selected").val(); 
+        
+        if (typeof window.channelPresets !== 'undefined') {
+        if (window.channelPresets.length > 0) { // 
+        
+          window['userPreset']._name_ = window.channelPresets[0].name;//$('#preset-name').val();
+          window['userPreset'].id = window.channelPresets[0].id;//uuid.v1();
+          
+          var alphaAscSortedUserPreset = sortObj(window['userPreset'],'asc');
+          var preString = JSON.stringify(alphaAscSortedUserPreset); 
+          var preString = preString.replace('_name_', 'name');  
+
+          //window['userPreset'].name = $('#preset-name').val();
+
+        }
+        }
+
+    }    
+
+
+        //console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
+
+        //_self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, preset: preString, classs: presetClass, kitNumber: KitNumber, triggerMode: 'manual', patternId: patternId, presetId: window['userPreset'].id, ptnSeq: ptnSeqString});
+        
+//localStorage.setItem('Loops-pre_'+window['userPreset'].id, preString);
+
+        /*
+        $itemOption = $('<option class="user" id="option'+window['userPreset'].id+'" value="'+window['userPreset'].id+'">'+window['userPreset']._name_+'</option>');
+        $itemOption.appendTo(document.getElementById('presets'));
+        if( $('#presets').length ) {
+          $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true);
+        }
+        //*/
+
+
+
+
+
+
+    _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString});    
   }
   
 
@@ -295,6 +380,36 @@ window['muteNote'+_muteNote] = function( number, value ) { // controller
 }
 
 
+if (typeof _ctrlObj.x.autoValIncMode !== 'undefined') {
+  var incM = document.getElementById('inc'+_id);
+
+incM.addEventListener('click', function(){
+
+
+
+
+    if ( $('#inc'+_id).hasClass('active') ) {
+      
+
+      $('#inc'+_id).removeClass('active');
+      window['autoinc'][_id]= [];
+      window['autoinc'][_id]['state']= 0;
+
+
+    } else {
+      $('#inc'+_id).addClass('active');
+      window['autoinc'][_id]= [];
+      window['autoinc'][_id]['state']= 1;
+
+    }
+
+    
+  });
+
+
+}  
+
+
 
 if (_solo!=0) {
 
@@ -412,16 +527,39 @@ if (usedLibrary=='noUiSlider') {
 
       $item = $('<div class="ctrlchange slider noui" id="ctrl'+ _id +'"><div class="cont-noui-slider DDDDslider '+_orientation+'" id="slider'+ _id +'"></div><input id="input'+ _id +'" type="text">'); // conntainer $itemContainer
       
-      
+      /*if (_id==999) {
+        console.log('_ctrlObj: ', _ctrlObj);
+      } */
+
+      if (typeof _ctrlObj.x.autoValIncMode !== 'undefined') {
+
+        if (_ctrlObj.x.autoValIncMode==1) {
+          var actState= ' active';
+          window['autoinc'][_id]= [];
+          window['autoinc'][_id]['state']= 1;          
+        } 
+
+
+        $autoInc = $('<span data-id="'+_id+'" data-inctype="'+_ctrlObj.x.autoValIncBy+'" data-inctime="'+_ctrlObj.x.autoValIncTime+'" class="autoinc'+ actState +'" id="inc'+ _id +'">I</span>'); // data- attributes to span element for time & increment type
+        $autoInc.appendTo($item);
+      } else {
+        //$autoInc = '';
+      }      
 
       if (_mute!=0) { // _mute==1
-        $mute = $('<span class="mutes" id="mute'+ _id +'">M</span><span class="solos" id="solo'+ _id +'">S</span></div>');
+        $mute = $('<span class="mutes" id="mute'+ _id +'">M</span><span class="solos" id="solo'+ _id +'">S</span></div>'); // '+autoInc+'
         $mute.appendTo($item);
         //console.log($item);
       } else {
         $mute = $('</div>');
         $mute.appendTo($item);
       }
+
+
+
+
+
+      
 
 
       $item.append('<div class="infoContainer"><span>'+name+'</span></div>');

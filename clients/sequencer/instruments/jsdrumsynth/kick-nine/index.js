@@ -5,9 +5,10 @@ module.exports = function(context) {
   var lastNode;
   return function() {
     var node = context.createGain();
+    //node.gain.value = 0;
 
     var osc = context.createOscillator();
-    osc.type = "sine";
+    osc.type = "sine"; // sine square
     osc.connect(node);
 
     var distortion = context.createWaveShaper();
@@ -39,7 +40,7 @@ module.exports = function(context) {
       }
       lastNode = node;
       node.gain.setValueAtTime(1, when);
-      node.gain.exponentialRampToValueAtTime(0.0001, when + 1.2)
+      node.gain.exponentialRampToValueAtTime(0.0001, when + 1.2); // 0.0001
 
       osc.start(when);
       osc.frequency.setValueAtTime(200, when);
@@ -47,7 +48,9 @@ module.exports = function(context) {
       osc.stop(when + 1.2);
 
       noiseSource.start(when);
-      noisePath.gain.exponentialRampToValueAtTime(0.0001, when + 0.003);
+      noisePath.gain.exponentialRampToValueAtTime(0.0001, when + 0.003); // 0.0001
+
+      //node.gain.value = 0.05;
 
 
     };

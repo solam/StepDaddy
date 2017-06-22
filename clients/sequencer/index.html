@@ -29,9 +29,52 @@
   </style>
 </head>
 <body id="audiovis-gen">
+
+    <select id="midiOut" class="selectpicker">
+        <option value="">Not connected</option>
+    </select>    
+
+
 <div id="instructions"><!--audio server loadedGénérateur sonore prêt<br/>-->
   <img class="rounded" style="" src="../common/images/Loops_logo.png"><!-- width="220" height="220" -->
-  <div class="ins-right">
+
+
+  <!--<div class="ins-right gfx" style="display:none; opacity:0;">
+    <br/>Pour participer à l'<span>improvisation musicale:</span>
+    <br/>1) Connecte-toi au <span>réseau Wi-Fi</span>: <span>loops (pas de mot de passe)</span>
+    <br/>2) Sur ton <span>navigateur Web</span> tape l'adresse: http://<span>10.42.0.1:8282/device/?rm/nomopo</span>
+    <br/><!--ou scan--<img style="margin-top: 20px; position:absolute; top:60px; left: 72px" src="../website/loops-connect.png" />
+  </div>-->
+
+  <div class="ins-right gfx">
+  <!--<h2>Open <span>Electro</span>nic Music <span>Jam</span> <span>Session</span> #1</h2>-->
+  <!--<span style="color: white; font-size:40px;">pas de session d'impro en cours, revenez à telle heure !</span>-->
+    <br/>Pour participer à l'<span>improvisation musicale:</span>
+    <br/>1) Connecte-toi au <span>réseau Wi-Fi</span>: <span>loops (pas de mot de passe)</span><!-- * z-vous loops.play votre ou http://192.168.2.24:8282/device/?rm/nomopo -->
+    <br/>2) Sur ton <span>navigateur Web</span> tape l'adresse: http://<span>loops.play</span>
+    <!--<br/><br/>* Si vous obtenez une @ IP erronée de type 169.254.x.x avec le DHCP, configurez en STATIQUE, comme suit:
+    <br/>ip @: <span>192.168.2.x</span> [x: numéro aléatoire entre 30 et 240] subnet mask: <span>255.255.0.0</span> router: <span>192.168.2.1</span> dns: <span>192.168.2.1</span>
+    <br/> galérez avec le DHCP -->
+    <br/>
+    <!--<span style="font-size: 0.65em; color: lightgrey;">Merci à Maël pour le "debug" du réseau Wi-Fi !</span>-->
+  </div>
+
+  <!--<div class="ins-right" style="display:none">
+    <br/>Pour participer à l'<span>improvisation musicale:</span>
+    <br/>1) Connectez-vous au <span>réseau Wi-Fi</span>: <span>FORMATION (pas de mot de passe)</span>
+    <br/>2) Sur votre <span>navigateur Web</span> tapez l'adresse: <span>http://:8282/device/?rm/nomopo</span>
+    <br/>
+  </div>-->
+
+  <div class="ins-right soundgen">
+  <h1>Sound Generator</h1> <!--(browser tab) (1)-->
+  </div>  
+
+  <div class="ins-right precuemixer">
+    <spanb>Pre-cue mixer</spanb>
+  </div>    
+
+  <div class="ins-right" style="display:none">
     <br/>Pour participer à l'<span>improvisation musicale:</span><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; performance musicale collective  -->
     <br/>1) Connectez-vous au <span>réseau Wi-Fi</span>: <span>trempolino public</span> (mot de passe: trempolino)<!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
     <br/>2) Sur votre <span>navigateur Web</span> tapez l'adresse: <span>http://10.10.10.124:8282/device/?rm/mopo</span><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--><!-- ou http://loops:8282--> 
@@ -67,7 +110,7 @@
 
 <button id='start_rec'>Start Rec</button>
 
-  <div id="audio-server-status">
+  <div id="audio-server-status" class="greenborder">
     <div style="display:none;" id="audio-server-ready"></div>
     <span>Instrument(s) disponible(s): </span><!-- Available slots -->
     <div id="audio-server-available-slots"></div>
@@ -105,14 +148,17 @@
         and <a href="http://twitter.com/72lions" target="_blank">@72lions</a> </p>
         <p class="copyright">iOS icons by <a href="http://ashung.deviantart.com/" target="_blank">Hung Ashung</a></p>
     </div>-->
+
   </div>
 
-  <section id="sequencer-view" class="main-display-grid">
+  <section id="sequencer-view" class="main-display-grid">  
     <table>
+
     </table>
   </section>
 
     <div id="modifiers"></div>
+
 
   <script src="../common/scripts/additional.functions.js"></script>
   <script src="../common/lib/socket.io.js"></script>
@@ -159,6 +205,7 @@
   
   <script src="scripts/browser-polyfill.min.js"></script>
   <script src="scripts/recorder.js"></script>
+  <script src="../common/scripts/midiclock.js"></script>
   <script src="scripts/sequencer.js"></script>
   <script src="scripts/mixer.js"></script>
 
