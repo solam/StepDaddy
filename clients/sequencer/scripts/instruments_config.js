@@ -128,6 +128,94 @@ window.launch = {
 
 
 
+
+  sample_prg2:
+[ 
+          
+
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },
+
+      { name: 'Change sound kit', // instrument/
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+/*
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+*/
+
+],
+
+
+
+
+
 change_ptn_change_kit:
 [ 
 
@@ -167,7 +255,66 @@ change_ptn_change_kit:
 
 
 
+change_ptn_change_kit2:
+[ 
 
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+      { name: 'Change sound kit', 
+          id: 998,
+          type: 'ddmenu', 
+          x: {
+            name: 'Instrument',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0,                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },        
+
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },        
+
+],
 
 
 
@@ -1435,7 +1582,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, // 30
+              value: 4, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1463,7 +1610,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40,
+              value: 4,
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1491,7 +1638,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, // 40
+              value: 4, // 40
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1520,7 +1667,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1548,7 +1695,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1576,7 +1723,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1604,7 +1751,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1632,7 +1779,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1660,7 +1807,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1688,7 +1835,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1716,7 +1863,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1744,7 +1891,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 40, 
+              value: 4, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -1832,6 +1979,9 @@ conductor16a: [ //
               max: 2
           }                 
         },
+
+
+// this uncommented : channels muted at start
 /*
         { 
           name: 'C1 start bar offset',
@@ -1858,7 +2008,7 @@ conductor16a: [ //
         },       
 
         { 
-          name: 'C8 start bar offset',
+          name: 'C2 start bar offset',
           id: 701,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1882,7 +2032,7 @@ conductor16a: [ //
         },            
 
         { 
-          name: 'C2 start bar offset',
+          name: 'C3 start bar offset',
           id: 702,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1895,7 +2045,7 @@ conductor16a: [ //
               name: 'C3 start bar offset',
               param: '_insBarOffset2', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 4, //
+              value: 0, //
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1906,7 +2056,7 @@ conductor16a: [ //
         },   
 
         { 
-          name: 'C3 start bar offset',
+          name: 'C4 start bar offset',
           id: 703,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1919,7 +2069,7 @@ conductor16a: [ //
               name: 'C4 start bar offset',
               param: '_insBarOffset3', // [external] = does not change timbre generator param
               midicc: 32,                      
-              value: 8, // 8
+              value: 0, // 8
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1930,7 +2080,7 @@ conductor16a: [ //
         }, 
 
         { 
-          name: 'C4 start bar offset',
+          name: 'C5 start bar offset',
           id: 704,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1943,7 +2093,7 @@ conductor16a: [ //
               name: 'C5 start bar offset',
               param: '_insBarOffset4', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 16, // 48
+              value: 0, // 48
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1954,7 +2104,7 @@ conductor16a: [ //
         }, 
 
         { 
-          name: 'C5 start bar offset',
+          name: 'C6 start bar offset',
           id: 705,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1967,7 +2117,7 @@ conductor16a: [ //
               name: 'C6 start bar offset',
               param: '_insBarOffset5', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 20, // 64
+              value: 0, // 64
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -1978,7 +2128,7 @@ conductor16a: [ //
         },   
 
         { 
-          name: 'C6 start bar offset',
+          name: 'C7 start bar offset',
           id: 706,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -1991,7 +2141,7 @@ conductor16a: [ //
               name: 'C7 start bar offset',
               param: '_insBarOffset6', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 32, // 70
+              value: 0, // 70
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -2002,7 +2152,7 @@ conductor16a: [ //
         },  
 
         { 
-          name: 'C7 start bar offset',
+          name: 'C8 start bar offset',
           id: 707,
 
           type: 'hidden', // slider, dial/rotary_knob, switch_button      
@@ -2015,7 +2165,7 @@ conductor16a: [ //
               name: 'C8 start bar offset',
               param: '_insBarOffset7', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 24, // 74
+              value: 0, // 74
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -2024,11 +2174,108 @@ conductor16a: [ //
               max: 1
           }                
         }, 
-*/
+
+
+
+        { 
+          name: 'C9 start bar offset',
+          id: 708,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C9 start bar offset',
+              param: '_insBarOffset8', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        }, 
+
+        { 
+          name: 'C10 start bar offset',
+          id: 709,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C10 start bar offset',
+              param: '_insBarOffset9', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        },         
+
+
+        { 
+          name: 'C11 start bar offset',
+          id: 710,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C11 start bar offset',
+              param: '_insBarOffset10', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        }, 
+
+        { 
+          name: 'C12 start bar offset',
+          id: 711,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C12 start bar offset',
+              param: '_insBarOffset11', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        },    
+
+        { 
+          name: 'C13 start bar offset',
+          id: 712,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C13 start bar offset',
+              param: '_insBarOffset12', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        }, 
+
+        { 
+          name: 'C14 start bar offset',
+          id: 713,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C14 start bar offset',
+              param: '_insBarOffset13', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        },         
+
+
+        { 
+          name: 'C15 start bar offset',
+          id: 714,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C15 start bar offset',
+              param: '_insBarOffset14', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        }, 
+
+        { 
+          name: 'C16 start bar offset',
+          id: 715,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C16 start bar offset',
+              param: '_insBarOffset15', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        },    
+
+
+                            { 
+          name: 'C17 start bar offset',
+          id: 716,
+          type: 'hidden', direction: 0, colors: {fg: '#51ACBD'},
+          x: {
+              name: 'C17 start bar offset',
+              param: '_insBarOffset16', 
+              midicc: 0, value: 0, stepSize: 0, interpolate: 0, displayedRangeMin: 0, displayedRangeMax: 100, min: 0, max: 1 }
+        },    
+
+
+//*/
                                                        
 
         { 
-          name: 'General Bar kickout time',
+          name: 'Rotation', // General Bar kickout time
           id: 699,
 
           type: 'input', // slider, dial/rotary_knob, switch_button      
@@ -2038,10 +2285,10 @@ conductor16a: [ //
           },          
                     
           x: {
-              name: 'General kickout time (in bars)',
+              name: 'rotation (in bars)', // General kickout time
               param: '_insKickoutTime', // [external] = does not change timbre generator param
               midicc: 0,                      
-              value: 32, // 90 ? don't 
+              value: 32, // 90 ? don't - 32
               stepSize: 0, // crénelage   
               interpolate: 0, // 0: off | 1: on                   
               displayedRangeMin: 0,
@@ -2157,6 +2404,93 @@ var smpPrgChangeSavePattern= window.launch.sample_prg;
 var session1ConductorControls = (JSON.parse(JSON.stringify(window.tweak.conductor)));
 
 
+
+
+var aikeWebsynthControls2 = (JSON.parse(JSON.stringify(aikeWebsynthControls)));
+
+    //var ptnEdit = window.findObjectById(aikeWebsynthControls2, 988);
+    //var soundingChannelNumber = soundingChannelNumber.x.value;
+    
+    //ptnEdit.y.value = 0; // ptn edit off
+    //delete ptnEdit;
+
+    aikeWebsynthControls2.splice(5, 1); // remove ptnEdit
+
+    //console.log('ptnEdit', aikeWebsynthControls2); // , ptnEdit
+
+    //
+
+
+
+window.conductor16b = (JSON.parse(JSON.stringify(window.tweak.conductor16a)));    
+  var noteMin = window.findObjectById(window.conductor16b, 698);
+  var noteMax = window.findObjectById(window.conductor16b, 697);
+  noteMin.x.value = 0;
+  noteMax.x.value = 16;
+
+  var tempoParam = window.findObjectById(window.conductor16b, 999);
+  tempoParam.x.value = 70;
+  tempoParam.x.autoValIncMode =0; // turn off auto increment tempo
+
+
+  var param800 = window.findObjectById(window.conductor16b, 800);
+  param800.x.value = 65;  
+
+  var param802 = window.findObjectById(window.conductor16b, 802);
+  param802.x.value = 30; 
+
+    var param803 = window.findObjectById(window.conductor16b, 803);
+  param803.x.value = 30; 
+
+  var param804 = window.findObjectById(window.conductor16b, 804);
+  param804.x.value = 30; 
+
+    var param805 = window.findObjectById(window.conductor16b, 805);
+  param805.x.value = 20; 
+
+    var param806 = window.findObjectById(window.conductor16b, 806);
+  param806.x.value = 20; 
+
+    var param807 = window.findObjectById(window.conductor16b, 807);
+  param807.x.value = 20; 
+
+    var param808 = window.findObjectById(window.conductor16b, 808);
+  param808.x.value = 14;   
+
+
+
+
+
+
+  var param809 = window.findObjectById(window.conductor16b, 809);
+  param809.x.value = 0;  
+
+  var param810 = window.findObjectById(window.conductor16b, 810);
+  param810.x.value = 0;    
+
+  var param811 = window.findObjectById(window.conductor16b, 811);
+  param811.x.value = 0;     
+  
+  var param812 = window.findObjectById(window.conductor16b, 812);
+  param812.x.value = 0;    
+
+  var param813 = window.findObjectById(window.conductor16b, 813);
+  param813.x.value = 0;      
+
+  var param814 = window.findObjectById(window.conductor16b, 814);
+  param814.x.value = 0;      
+
+  var param815 = window.findObjectById(window.conductor16b, 815);
+  param815.x.value = 0;        
+
+  var param816 = window.findObjectById(window.conductor16b, 816);
+  param816.x.value = 0;        
+
+  // rotation PARAM
+  var param699 = window.findObjectById(window.conductor16b, 699);
+  param699.x.value = 48;        
+
+
 window.insConf1 = [ // channelConf
 
 // orange channel
@@ -2164,7 +2498,7 @@ window.insConf1 = [ // channelConf
 { sessionName: 'Pitch ins', // instruments A 
   channelName: 'Channel 1: drums',  
   trackSet: 1, // defaultKit or might always be first object of patterns array
-  //*
+  /*
   defaultPattern: 2, 
   patterns: [ // channel patterns
     //{"classs":"channel", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"id":"fake-option","name":"[last pattern]"},
@@ -2204,7 +2538,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'TheCheebacabra1/kick.wav'            
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: 'Instrument',
           id: 998,
           type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
@@ -2256,7 +2590,7 @@ window.insConf1 = [ // channelConf
           }                 
         }
 
-      ]            
+      ]*/            
     }, // close kit
 
     { type: 'samples', 
@@ -2290,7 +2624,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'CR78/kick.wav'            
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: 'Instrument',
           id: 998,
           type: 'ddmenu', 
@@ -2346,7 +2680,7 @@ window.insConf1 = [ // channelConf
 
 
 
-      ]            
+      ] */           
     }, 
 
     { type: 'samples', 
@@ -2380,7 +2714,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'breakbeat13/kick.wav'            
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -2396,7 +2730,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ]            
+      ]    */        
     },   
 
     { type: 'samples', 
@@ -2430,7 +2764,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'LINN/kick.wav'            
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -2446,7 +2780,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ]            
+      ]*/            
     },  
 
     { type: 'samples', 
@@ -2480,7 +2814,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'Kit8/kick.wav'            
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -2496,7 +2830,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ]            
+      ]*/            
     },     
 
     { type: 'samples', 
@@ -2530,7 +2864,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
         }                      
       ],
-      controls: [ 
+      controls: window.launch.sample_prg2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -2546,8 +2880,23 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ]            
+      ]*/            
+    },
+
+ /* resets pattern when switching back to any other sample kit
+    { 
+      type: 'synth',
+      instrumentName: 'JoeSullivanDrumSynth', 
+      instrumentUrl: 'http://tiny-808.com/',
+      color: 'rgba(0, 81, 0, 1)',
+      name: 'Joe Sullivan Synth Drums', 
+      kitNumber: 6,      
+      tracks: window.draw.drumsynth_01,
+      inputMode: 'grid', // 'keyboard', 'grid'
+      controls: window.launch.sample_prg2 //changePattern //aikeWebsynthControls patternSeqOff          
     }
+*/
+       
 
 
 /* this kit needs sample normalizing (samples not loud enough) before requalifying to the system
@@ -2611,7 +2960,7 @@ window.insConf1 = [ // channelConf
 
 
 
-{ channelName: '8: Conductor',
+{ channelName: 'Conductor', // 8:
   trackSet: 0, 
   conf: [ { 
     type: 'control', 
@@ -2619,7 +2968,7 @@ window.insConf1 = [ // channelConf
     name: 'Conductor Ctrl 01', 
     kitNumber: 0, 
     color: '#51ACBD',       
-    controls: session1ConductorControls
+    controls: conductor16b //session1ConductorControls
   }] 
 }, 
 
@@ -3152,7 +3501,7 @@ window.insConf1 = [ // channelConf
 
 // blue channel
 
-{ channelName: 'Channel 3: bass', // channelName = "bass, high pitch sounds etc" - insName
+{ channelName: 'Channel 2: bass', // channelName = "bass, high pitch sounds etc" - insName
   //channelType: 'instrument', // conductor
   trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
   sound: 0, // 0: channel sound is muted/off at system startup
@@ -3203,7 +3552,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'Basse/C1.wav'
         }                     
       ],
-      controls: [ 
+      controls: window.launch.change_ptn_change_kit2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
@@ -3240,7 +3589,7 @@ window.insConf1 = [ // channelConf
 
 
 
-      ]            
+      ]  */          
     }, 
 
 
@@ -3283,7 +3632,7 @@ window.insConf1 = [ // channelConf
               }                                                                               
             ],
 
-            controls: [ // aka preset values
+            controls: aikeWebsynthControls2 /*[ // aka preset values
 
 
                 //
@@ -3388,7 +3737,7 @@ window.insConf1 = [ // channelConf
               min: 0,
               max: 1
           }                
-        }, */
+        }, /
 
 
 
@@ -3727,7 +4076,7 @@ window.insConf1 = [ // channelConf
                 //   }                
                 // },                     
 
-              ] // end of Kit controls              
+              ] // end of Kit controls  */            
           },
 
 
@@ -3765,7 +4114,7 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'Brass/C1.wav'
         }                     
       ],
-      controls: [ 
+      controls: window.launch.change_ptn_change_kit2 /*[ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -3781,7 +4130,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ]            
+      ] */           
     }, 
 
 
@@ -3842,7 +4191,7 @@ window.insConf1 = [ // channelConf
 
 // Green to blue channel
 
-{ channelName: 'Channel 4: 2nd bass channel (c2>c3)',  
+{ channelName: 'Channel 3: 2nd bass channel (c2>c3)',  
   trackSet: 0, 
   conf: [ 
             
@@ -4298,7 +4647,7 @@ window.insConf1 = [ // channelConf
 
 // Pink channel
 
-{ channelName: 'Channel 5: melodic percussions (c3>c4)',  
+{ channelName: 'Channel 4: melodic percussions (c3>c4)',  
   trackSet: 0, //1
   conf: [ 
   
@@ -4830,7 +5179,7 @@ window.insConf1 = [ // channelConf
 
 // Yellow cheesy channel: guitar, synth lead, etc
 
-{ channelName: 'Channel 6: c4>c5',  
+{ channelName: 'Channel 5: c4>c5',  
   trackSet: 1, 
   conf: [ 
 
@@ -5287,7 +5636,7 @@ window.insConf1 = [ // channelConf
 
 // Red channel
 
-{ channelName: 'Channel 7: c5>c6',  
+{ channelName: 'Channel 6: c5>c6',  
   trackSet: 1, 
   conf: [ 
     { type: 'synth',
@@ -5668,7 +6017,7 @@ window.insConf1 = [ // channelConf
 
 // Purple channel
 
-{ channelName: 'Channel 8: c6>c7',  
+{ channelName: 'Channel 7: c6>c7',  
   trackSet: 1, 
   conf: [ 
     { type: 'synth',
@@ -6034,13 +6383,68 @@ window.insConf1 = [ // channelConf
 
 
   ] // end of kits
-} // end of channel
+}, // end of channel
 //*/
 
+{ 
+  //sessionName: 'Test (99)',
+
+  channelName: 'Channel 8: Poly Synth', 
+  trackSet: 0, // 1 for  grid mode
+
+  /*defaultPreset: 0, 
+  presets: [
+    {"name":"TRI_Bass","classs":"channel","controls":{"1":100,"2":"0","3":24,"4":"1","5":81,"6":0,"7":26,"8":78,"9":43,"10":23,"11":51,"12":33,"13":13,"14":7,"15":29,"16":33,"992":1},"id":"2d4bc2e0-6677-11e6-89c6-9b6aaf4bf5b7"}, // "992":0 = patternSeq disabled
+    {"name":"Baonlle","classs":"channel","controls":{"1":10,"2":"2","3":46,"4":"1","5":76,"6":0,"7":10,"8":11,"9":16,"10":40,"11":68,"12":26,"13":25,"14":51,"15":20,"16":12},"id":"4f802750-667e-11e6-89c6-9b6aaf4bf5b7"}
+  ],
+
+  defaultPattern: 0, 
+  patterns: [ 
+    {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"tri_note_mellow","classs":"channel","id":"8577ef70-6677-11e6-89c6-9b6aaf4bf5b7","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]]},
+    {"name":"Pois sauteurs","classs":"channel","id":"70c15650-667e-11e6-89c6-9b6aaf4bf5b7","tracks":[[0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"la marche du clown","classs":"channel","id":"307c36c0-6681-11e6-ae54-5f50faffa605","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]}    
+  ], 
+
+  defaultPatternSeq: 0, 
+  patternSeq: [     
+    [ {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"},
+      {"name":"la marche du clown","classs":"channel","id":"307c36c0-6681-11e6-ae54-5f50faffa605"} ]
+  ],   */ 
+
+  conf: [
+
+
+    { 
+      type: 'synth',
+      instrumentName: 'CWilsoWAMidiSynth', 
+      instrumentUrl: 'https://webaudiodemos.appspot.com/midi-synth/index.html',
+      color: 'rgba(0, 161, 0, 1)',
+      name: 'keyboard (c4 > c7)', 
+      kitNumber: 0,      
+      tracks: window.draw.c4_c7_penta_minorCWilso,
+      inputMode: 'keyboard', // 'keyboard', 'grid'
+      controls: CWilsoWAMidiSynthControls //aikeWebsynthControls           
+    },
+
+     { 
+      type: 'synth',
+      instrumentName: 'CWilsoWAMidiSynth', 
+      instrumentUrl: 'https://webaudiodemos.appspot.com/midi-synth/index.html',
+      color: 'rgba(0, 161, 0, 1)',
+      name: 'synth (c4 > c7)', 
+      kitNumber: 1,      
+      tracks: window.draw.c4_c7_penta_minorCWilso,
+      inputMode: 'grid', // 'keyboard', 'grid'
+      controls: CWilsoWAMidiSynthControls //aikeWebsynthControls           
+    }   
+
+
+  ] 
+}, 
+
 ];
-
-
-
+//console.log('window.insConf1', window.insConf1);
 
 
 

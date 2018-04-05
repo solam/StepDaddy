@@ -50,22 +50,7 @@ Glide.prototype.set_on = function(val) {
 
 ///////////// Init Parameter /////////////////////
 //var stream_length = 4096;
-
-
-//*
-if (window.mobilecheck()) {
-
-var stream_length = 4096; //1024; // create larger buffer sizes for mobile devices
-  //var onMobile = checkIfMobile();
-
-//alert('mobile found: ', window.mobilecheck());
-
-} else {
-  var stream_length = 1024; //1024; // create larger buffer sizes for mobile devices
-}
-//*/
-
-
+var stream_length = 1024; //1024; // create larger buffer sizes for mobile devices
 
 ///////////// VCO /////////////////////
 var WAVE = {
@@ -300,14 +285,13 @@ EG.prototype.next = function() {
 ///////////// VOLUME /////////////////////
 var CTL_Volume = function(ctx) {
 	this.volume = ctx.createGain(); // createGainNode()
-    this.volume.gain.value = 0.5;
+    this.volume.gain.value = 0.1; // 0.5
     //this.volume.connect(window['audio_context']); // connect to _masterGainNode so that audio rec of samples + aike websynth channels can happen
     // fix previous line: that connection may duplicate audible audio from aike synth...
 };
 
 CTL_Volume.prototype.set = function(val) {
-    //console.log('val: ',val);
-    this.volume.gain.value = val; // val / 100.0    
+    this.volume.gain.value = val/2.5; // val / 100.0
 };
 
 CTL_Volume.prototype.connect = function(next_node) {
@@ -369,102 +353,27 @@ var CTL_Filter = function(ctx) {
 };
 
 CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 values
-//
-
-// anti bug mechanism
-if ( typeof f == 'undefined' || f !== f || isNaN(f)   ) {
-  console.log('f: ', f);  
-  var f=1;
-}  
-
-
 	this.base_freq = f;
 	this.freq = Math.min(100, this.base_freq/* + this.eg * 100*/);
 	this.lowpass.frequency.value = 200 + Math.pow(2.0, (this.freq + 30) / 10); // 300
-console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
+  //console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
   //this.lowpass.frequency.value = Math.pow(2, f);
 };
 
 CTL_Filter.prototype.set_q = function(q) {
-
-if (typeof q == 'undefined' || q !== q || isNaN(q) ) {
-  var q=10;
-}  
-
 	this.lowpass.Q.value = q / 3.5; // 5
 };
 
 CTL_Filter.prototype.set_eg = function(val) { 
-
-if ( typeof val == 'undefined' || val !== val || isNaN(val) ) {
-    
-  //var val=1;
-  val=1;
-  console.log('val: ', val);
-}  
-
-//console.log('set_eg: ', val);  
 	this.eg = val;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-
-
-if ( typeof this.freq == 'undefined' || this.freq !== this.freq || isNaN(this.freq) ) {
-  //this.freq=5000;
-  console.log('val: ', this.freq);
-  var daFreq= 500;
-  this.freq = 500;
-} else {
-  var daFreq= this.freq;
-}
-
-var calcIntermedos = 300 + Math.pow(2.0, (daFreq + 30) / 10);
-
-
-
-if (calcIntermedos !== calcIntermedos || typeof calcIntermedos == 'undefined' || isNaN(calcIntermedos) /*|| typeof calcIntermedos !== 'undefined' && calcIntermedos<20 || typeof calcIntermedos !== 'undefined' && calcIntermedos>15000*/) {
- console.log('calcIntermedos: ', calcIntermedos);
- var calcIntermedos = 100;
- console.log('calcIntermedos after: ', calcIntermedos);
-}  
-
-//  
-
-	this.lowpass.frequency.value = 800; // calcIntermedos; //1500; //calcIntermedos // this.freq
+	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
 };
 
 CTL_Filter.prototype.set_amount = function(val) {
-
-  console.log('val: ', val);  
-
-if (typeof val == 'undefined' || val !== val || isNaN(val) ) {
-  console.log('val: ', val);  
-  var val=40; //200
-}  
-
 	this.amount = val / 100;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-
-
-if (typeof this.freq == 'undefined' || this.freq !== this.freq || isNaN(this.freq)) {
-  //this.freq=5000;
-  console.log('val: ', this.freq);
-  var daFreq= 500;
-  this.freq = 500;
-} else {
-  var daFreq= this.freq;
-}
-
-var calcIntermedos = 300 + Math.pow(2.0, (daFreq + 30) / 10);
-
-
-if (calcIntermedos !== calcIntermedos || typeof calcIntermedos == 'undefined' || isNaN(calcIntermedos) /*|| typeof calcIntermedos !== 'undefined' && calcIntermedos<20 || typeof calcIntermedos !== 'undefined' && calcIntermedos>15000*/) {
- console.log('calcIntermedos: ', calcIntermedos);
- var calcIntermedos = 1000;
-}  
-
-
-
-	this.lowpass.frequency.value = 1200; // calcIntermedos; //300 + Math.pow(2.0, (this.freq + 30) / 10);
+	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
 };
 
 CTL_Filter.prototype.connect = function(next_node) {

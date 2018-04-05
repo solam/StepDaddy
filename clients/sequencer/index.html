@@ -39,14 +39,22 @@
   <img class="rounded" style="" src="../common/images/Loops_logo.png"><!-- width="220" height="220" -->
 
 
+
+<!--<div class="ins-right gfx">
+    <br/>To join <span>...Loops Jam Session</span>
+    <br/>1) Connect to <span>Wi-Fi ssid</span>: <span>loops (no password)</span>
+    <br/>2) On your <span>device Web browser</span> type: http://<span>10.42.0.1:8282/device/?rm/nomopo</span>
+    <br/>or scan the provided QR code<img style="margin-top: 20px; position:absolute; top:-20px; right: 5px; /* top: 60px left: 72px*/" src="../website/loops-connect.png" />
+  </div>-->
+
   <!--<div class="ins-right gfx" style="display:none; opacity:0;">
     <br/>Pour participer à l'<span>improvisation musicale:</span>
     <br/>1) Connecte-toi au <span>réseau Wi-Fi</span>: <span>loops (pas de mot de passe)</span>
     <br/>2) Sur ton <span>navigateur Web</span> tape l'adresse: http://<span>10.42.0.1:8282/device/?rm/nomopo</span>
-    <br/><!--ou scan--<img style="margin-top: 20px; position:absolute; top:60px; left: 72px" src="../website/loops-connect.png" />
+    <br/>ou scan <img style="margin-top: 20px; position:absolute; top:-20px; right: 5px; /* top: 60px left: 72px*/" src="../website/loops-connect.png" />
   </div>-->
 
-  <div class="ins-right gfx">
+  <div class="ins-right gfx"><!--  style="display:none; opacity:0;" -->
   <!--<h2>Open <span>Electro</span>nic Music <span>Jam</span> <span>Session</span> #1</h2>-->
   <!--<span style="color: white; font-size:40px;">pas de session d'impro en cours, revenez à telle heure !</span>-->
     <br/>Pour participer à l'<span>improvisation musicale:</span>
@@ -55,7 +63,7 @@
     <!--<br/><br/>* Si vous obtenez une @ IP erronée de type 169.254.x.x avec le DHCP, configurez en STATIQUE, comme suit:
     <br/>ip @: <span>192.168.2.x</span> [x: numéro aléatoire entre 30 et 240] subnet mask: <span>255.255.0.0</span> router: <span>192.168.2.1</span> dns: <span>192.168.2.1</span>
     <br/> galérez avec le DHCP -->
-    <br/>
+    <br/><div style="font-size: 20px; position:relative; top: 55px; left: 60%">Pour toute requête: <span>loops@solam.co</span></div><!-- left 50% for 1920px width -->
     <!--<span style="font-size: 0.65em; color: lightgrey;">Merci à Maël pour le "debug" du réseau Wi-Fi !</span>-->
   </div>
 
@@ -112,7 +120,7 @@
 
   <div id="audio-server-status" class="greenborder">
     <div style="display:none;" id="audio-server-ready"></div>
-    <span>Instrument(s) disponible(s): </span><!-- Available slots -->
+    <span>Available slot(s)</span><!--  Instrument(s) disponible(s): -->
     <div id="audio-server-available-slots"></div>
   </div>
 
@@ -349,7 +357,7 @@ var windowWidth = Number(windowWidth)-3;
 
 $('#audiovis-gen').css('width', windowWidth);
 
-console.log('windowWidth:', windowWidth);
+//console.log('windowWidth:', windowWidth);
 
 
 

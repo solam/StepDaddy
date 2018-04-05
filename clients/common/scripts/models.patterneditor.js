@@ -48,6 +48,8 @@ console.log('model ptn editor receving time:', startTimestamp);*/
       }
       //console.log('Got instrument tracks', data); // data.id
 
+      if (typeof data !== 'undefined') {
+
       var traacks = Object.keys(data.tracks); 
       var traacksLength = traacks.length;
 
@@ -55,7 +57,8 @@ console.log('model ptn editor receving time:', startTimestamp);*/
       var controols = Object.keys(data.controls); 
       var controolsLength = controols.length;
 
-
+      }
+      //console.log('Got instrument tracks', traacksLength);
       // send localStorage "user" patterns into session shared pattern store
 
 //
@@ -93,7 +96,7 @@ console.log('patternCount: ', patternCount);
 
 
 
-console.log('data.channelInfo', data.channelInfo);
+//console.log('data.channelInfo', data.channelInfo);
 
 
 if (typeof window.channelPatterns == 'undefined' && typeof data.channelInfo.channelPatterns !== 'undefined') { 
@@ -316,6 +319,8 @@ if (typeof window.patternId == 'undefined') {
 
   } else {    
 
+    //console.log('b');
+
     // by default select pattern of pattern list that matches data.channelInfo.patternId
     $('#patterns option[value="' + data.channelInfo.patternId + '"]').prop('selected',true); // window.patternId
     //$('#patterns option[value="fake-option"]').hide(); //css('visibility', 'hidden');
@@ -531,9 +536,11 @@ var startTimestamp = data.channelInfo.serverStartTime; // session start time
 
 
 
-var channelBarOffset = data.channelInfo.barOffset;
+var channelBarOffset = 0; // data.channelInfo.barOffset; force no bar offsets!!!!
 var kickoutBars = data.channelInfo.kickoutTime;
 //console.log('server start timeStamp + kickoutBars', startTimestamp, kickoutBars); 
+
+console.log('channelBarOffset', channelBarOffset);
 
 var millisecondsPerBar = (60.0 / bpm)*4000;
 var channelOffsetTime = startTimestamp + (millisecondsPerBar*channelBarOffset);
@@ -576,7 +583,7 @@ window.newtimer = setInterval(function () { // (e)
   var nowTimeStamp = d.getTime(); 
 
   //console.log('comp start time: ', channelOffsetTime);
-  console.log('server start timeStamp + kickoutBars', startTimestamp, kickoutBars);
+  //console.log('server start timeStamp + kickoutBars', startTimestamp, kickoutBars);
 
   if (nowTimeStamp < channelOffsetTime /*&& nowTimeStamp < (kickoutTime-fadeOutDelay)*/ ) {
     remainingBars = (channelOffsetTime - nowTimeStamp)/millisecondsPerBar;
@@ -757,45 +764,84 @@ window.newtimer = setInterval(function () { // (e)
         //window.sequencerBeat = data;
 
 
-  var check02 = window.localStorage.getItem("check02");
-
-  if (typeof check02 !== 'undefined' && check02==1 || typeof check02 == 'undefined' || check02==null) {
+var check02 = window.localStorage.getItem("check02");
 
 
 
-if (data.beat==0 || data.beat==4 || data.beat==8 || data.beat==12) {       
+  //if (data.beat==0 || data.beat==4 || data.beat==8 || data.beat==12) {       
 
-        var localBeat = data.beat;
+    var localBeat = data.beat;
 
-        /*if (data.beat==14) {
-          localBeat = 15;
-        }*/
+    /*if (data.beat==14) {
+      localBeat = 15;
+    }*/
 
-        var currTarget = localBeat + 2;
-        var lastTarget = localBeat -2; // +1; | -2: playhead at 1+5+9+13
+    var currTarget = localBeat + 2;
+    var lastTarget = localBeat +1; // +1; | -2: playhead at 1+5+9+13
 
-        if (currTarget==2) {
-          lastTarget = 14; // 17 | 14: playhead at 1+5+9+13
+    if (currTarget==2) {
+      lastTarget = 17; // 17 | 14: playhead at 1+5+9+13
+    }
+
+
+
+    //console.log('tr: ', $('tr:nth-child(1) td:nth-child(1)').text())
+
+
+
+    // highlight played note at playHead's passage
+    $('tr td').removeClass('highlight');
+
+    $('tr td:nth-child(' + (currTarget) + ')').each(function(index) {
+
+      if ( $(this).hasClass('active') ) {
+        if ( $('#pattern-editor tr').hasClass('play') ) {
+          $(this).addClass('highlight'); 
+        }
+      } else {
+
+        if ( $(this).hasClass('highlight') ) {
+           $(this).removeClass('highlight'); 
         }
 
-        var $thCurrTarget = $('th:nth-child(' + (currTarget) + ')');
-        var $thLastTarget = $('th:nth-child(' + (lastTarget) + ')');
+      }
+
+    });
 
 
-        $('th:nth-child(1)').text(data.bar);
+    if ( data.beat==0 ) {
+      $('th:nth-child(1)').text(data.bar);
+    }
+    
 
-        if (typeof $thCurrTarget.attr("id") == 'undefined') {
-          $thCurrTarget.attr("bgcolor", "darkgrey");   //.addClass('beat'); ="#FF0000"      
-        }
+    if (typeof check02 !== 'undefined' && check02==1 || typeof check02 == 'undefined' || check02==null) {
 
-        if (typeof $thLastTarget.attr("id") == 'undefined') {
-          $thLastTarget.attr("bgcolor", "#000000");  //.removeClass('beat');
-        }
+      var $thCurrTarget = $('th:nth-child(' + (currTarget) + ')');
+      var $thLastTarget = $('th:nth-child(' + (lastTarget) + ')');
+
+      if (typeof $thCurrTarget.attr("id") == 'undefined') {
+        $thCurrTarget.attr("bgcolor", "darkgrey");   //.addClass('beat'); ="#FF0000"      
+      }
+
+      if (typeof $thLastTarget.attr("id") == 'undefined') {
+        $thLastTarget.attr("bgcolor", "#000000");  //.removeClass('beat');
+      }
+
+    } // end of check02
 
         //console.log('seqBeat', lastTarget );        // data.beat, $thCurrTarget.attr("id")
-}
+  //} // end of quarter not limiting
 
-}
+
+
+
+
+
+
+
+
+
+
 
       /*$tds.on('webkitAnimationEnd', function () {
         $tds.removeClass('beat');
@@ -803,7 +849,36 @@ if (data.beat==0 || data.beat==4 || data.beat==8 || data.beat==12) {
       $tds.addClass('beat');*/
 
 
-if ($('body').hasClass('control') && data.beat==15 && data.bar==8) {
+if ( $('body').hasClass('control')  ) {
+
+
+/*
+      forIn(window['autoinc'], function(val, key, o) { 
+        if (window['autoinc'][key]['state']== 1 ) {
+          var incTime = $('#inc'+key).attr('data-inctime');
+
+          if (incTime==2) {
+              var timeArray = [2,4,6,8];
+          } else  if (incTime==8) {
+              var timeArray = [8];
+          }
+
+        }
+          
+      });
+*/
+
+
+      
+
+
+
+      //$.inArray( 8, timeArray )
+
+}      
+
+
+if ($('body').hasClass('control') && data.beat==15 /* && data.bar==8*/) {
 
 /*
 window['autoinc'].forEach(function(element) {
@@ -816,8 +891,71 @@ window['autoinc'].forEach(function(element) {
           var incType = $('#inc'+key).attr('data-inctype');
           var oldVal = $('#input'+key).val();
           var newVal = Number(oldVal)+Number(incType);
-          $('#input'+key).val(newVal);
-          $('#slider'+key).trigger("change");  
+
+
+          var incTime = $('#inc'+key).attr('data-inctime');
+
+          if (incTime==2) {
+              var timeArray = [2,4,6,8];
+          } else  if (incTime==8) {
+              var timeArray = [8];
+          } else  if (incTime==1) {
+              var timeArray = [1,2,3,4,5,6,7,8];
+          } else  if (incTime==4) {
+              var timeArray = [4,8];
+          }        
+
+
+          if ( timeArray.indexOf(data.bar) !=-1 ) { // $.inArray( data.bar, timeArray )==0
+            //console.log( data.bar, timeArray );
+            $('#input'+key).val(newVal); //.blur(); //.trigger(jQuery.Event('keypress', { keycode: 13 }));
+            $('#slider'+key).trigger("update"); //trigger("change"); - .on('update');    
+
+
+
+    if ( !$('#pattern-editor').hasClass('control') ) {
+
+        // send all controller/preset params at each individual param change
+        //var presetClass = $('#presets').find(":selected").attr('class');
+        //var KitNumber = $('#kits').find(":selected").val(); 
+
+        var presetId = $('#presets').find(":selected").val();
+        
+        if (typeof window.channelPresets !== 'undefined') {
+          if (window.channelPresets.length > 0) { // 
+          
+            window['userPreset']._name_ = window.channelPresets[0].name;//$('#preset-name').val();
+            window['userPreset'].id = window.channelPresets[0].id;//uuid.v1();
+            
+            var alphaAscSortedUserPreset = sortObj(window['userPreset'],'asc');
+            var preString = JSON.stringify(alphaAscSortedUserPreset); 
+            var preString = preString.replace('_name_', 'name');  
+
+            //window['userPreset'].name = $('#preset-name').val();
+
+          }
+        }
+
+    }    
+
+            // _self.emit
+            _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: key, x: newVal, y: 0, presetId: presetId, preset: preString});         
+
+
+            /*$('#slider'+key).trigger(function(){
+              console.log('stuff');
+              //$('#input'+key).trigger(jQuery.Event('keypress', { keycode: 13 }));
+
+            });  */
+
+            //$('#input'+key).trigger(jQuery.Event('keypress', { keycode: 13 }));
+            //$('#input'+key).focus().trigger(jQuery.Event('keypress', { keycode: 13 }));
+          }          
+
+
+
+
+
           //console.log('autoInc: ', incType, oldVal, newVal);        
         }
           
@@ -865,11 +1003,13 @@ $('#id999').trigger("change");*/
 
             // hardcoded defautl silence pattern id
             if (window.patternSequencer[nextPlayedPattern].id!= 'silence01') {
-              $('#pattern-editor tr td:not(:first)').not('.active').not('.notepitch').addClass('playedbar')
+              $('#pattern-editor tr td:not(:first)').not('.active').not('.notepitch').addClass('playedbar');
+              $('#pattern-editor tr').addClass('play');
               //.css('background', '#222');
               
             } else {
-              $('#pattern-editor tr td:not(:first)').not('.active').not('.notepitch').removeClass('playedbar')
+              $('#pattern-editor tr td:not(:first)').not('.active').not('.notepitch').removeClass('playedbar');
+              $('#pattern-editor tr').removeClass('play');
               //.css('background', '#000');
             }
 
@@ -1075,7 +1215,7 @@ window['userPatternEdit'].tracks[traackId][note] = volume;
            if(ptnStorage[i].id === window['userPatternEdit'].id){
                 ptnStorage.splice(i,1,window['userPatternEdit']);
                 added = true;
-                console.log('ptn found', classs);
+                //console.log('ptn found', classs);
                 break;
            }
         }

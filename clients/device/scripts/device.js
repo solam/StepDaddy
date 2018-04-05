@@ -59,7 +59,7 @@ var _onModifierChangeInput = function(data) {
 
       var rmid = url.query.concat(delim).concat(pwd).concat(delim).concat(window.pageId); 
 
-      console.log('url', rmid, url, pwd);
+      //console.log('url', rmid, url, pwd);
 
       if (rmid) { // url.query
         _conn.joinRoom(rmid, // url.query

@@ -111,6 +111,23 @@
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId, ptnSeq: ptnSeqString}); 
 
 
+
+
+         var attr = $('#'+selectId).find(":selected").attr('data-notemin');
+
+        // For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+        if (typeof attr !== typeof undefined && attr !== false) {
+          window['notesPerLine'] = {};
+          window['notesPerLine'].min = $('#'+selectId).find(":selected").attr('data-notemin');
+          window['notesPerLine'].max = $('#'+selectId).find(":selected").attr('data-notemax');
+
+          /*$("#notemin").html('noteMin: '+window['notesPerLine'].min); 
+          $("#notemax").html('noteMax: '+window['notesPerLine'].max); */         
+        }
+
+
+
+
         if (classs=='channel') {
           var ptnStorage = window.channelPatterns;
         } else if (classs=='session') {       
@@ -385,7 +402,7 @@ $('#kits').on('change', '#kits',function(e) {
     
     var _drawController = function(name) {
 
-      if (typeof controlObject !== 'undefined') {
+      if (typeof controlObject !== 'undefined' && controlObject !== null) {
 
         //console.log('ddmenu cont: ', $container.context.id);
 

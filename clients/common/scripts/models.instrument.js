@@ -73,6 +73,10 @@
       
       //} else { 
 
+
+
+
+    //if (typeof window[synthInstanceString]== 'undefined') {  // this condition may fuck in case of multiple diff kits per channel aka sampler to AWs1 etc...  
         // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
         switch (this.instrumentName) {
           case 'JoeSullivanDrumSynth':
@@ -81,9 +85,11 @@
             break;             
           case 'CWilsoWAMidiSynth':
             //initAudio(context);
+            //console.log('synth obj (re)creation');
             window[synthInstanceString] = new CWilsoWAMidiSynth(context);
             break;          
           case 'AikeWebsynth1':
+            console.log('synth obj creation');
             window[synthInstanceString] = new WebSynth(context);
             break;
           case 'MrSynth':
@@ -96,6 +102,8 @@
             window[synthInstanceString] = {};
             break;                        
         }  
+
+    //}   
 
         // only populate window[synthInstanceString]['controls'] at first instrument creation
         if (typeof window[synthInstanceString]['controls']== 'undefined') { 
@@ -257,6 +265,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
                   //console.log('valueX', valueX);   
                 }*/
 
+              if ( typeof valueX !== 'undefined' || valueX == valueX || !isNaN(valueX) ) {
                 if (usedControls[j].x.param!='[external]') {
                   switch (this.instrumentName) {
 
@@ -292,9 +301,9 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
 
                   // set channel volume to channel Sampler instance via duplicated sequencer object
                   if (window.childRoom != 2) { window['SEQ']['_insVol'+this.id] = instrumentInstanceVolume; } // 0.15879999;  
-                  //console.log('window[SEQ]', window['SEQ']['_insVol0']);
+                  //console.log('window[SEQ]', window['SEQ']['_insVol'+this.id]);
                 } 
-
+              }
 
 
           /*if (typeof synthInstance !== 'undefined') {
@@ -347,7 +356,15 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
             case 'AikeWebsynth1':
               //console.log('id', this.id, window[synthInstance]); 
                 //window[synthInstance].setVolume(0.1);
-                window[synthInstance].play(note);
+                if (typeof window['awsbug'] == 'undefined' || typeof window['awsbug'] !== 'undefined' && window['awsbug']==0) {
+                  window[synthInstance].play(note); // , String(synthInstance)
+                  //console.log('note:', synthInstance, note);
+                } else if (typeof window['awsbug'] !== 'undefined' && window['awsbug']==1) {
+                  //delete window[synthInstance];  
+                  console.log('deleted synth instance:', synthInstance);
+                  //window[synthInstance] = new WebSynth(window['audio_context2']);
+                  window['awsbug']==0; 
+                }
                 break;
             case 'MrSynth':
                 window[synthInstance].updateFrequency(notes[note]*0.5);

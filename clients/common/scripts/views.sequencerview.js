@@ -71,7 +71,7 @@
       $track = $('[data-instrument-id="' + data.id + '"][data-track-id="' + data.trackId + '"]');
       $note = $track.find('td').eq(data.noteId + 1);
 
-      console.log('!updateNote', /*$note,*/ data);
+      //console.log('!updateNote', /*$note,*/ data);
 
       $note.toggleClass('active', data.volume > 0);
     };

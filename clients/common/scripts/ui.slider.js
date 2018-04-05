@@ -132,6 +132,8 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
   var skwerotedValue = Math.floor(input.value);
 
+  //console.log('skwerotedValue', skwerotedValue);
+
 
   if (skwerotedValue!==0) { // exclude muting operation from being reced as old slider value before level cut operation
     window['oldSliVal'+_id] = skwerotedValue;
@@ -178,6 +180,7 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
                     case 'Object':
                       window['SEQ']['_insVol'+chId] = skwerotedValue/100;
+                      console.log('winSeq: ', window['SEQ']['_insVol'+chId]);
                       //console.log('sampler', skwerotedValue/100 );
                     break;                 
                   }
@@ -238,7 +241,7 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
 
 
-
+        console.log('skwerotedValue 244', skwerotedValue, _id);
 
 
     _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString});    
@@ -509,6 +512,10 @@ if (_solo!=0) {
         //alert(data.x);
         //console.log(data.value);
         var skwerotedValue = Math.floor(data.value);
+
+
+        console.log('skwerotedValue 517', skwerotedValue);
+
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0});
         }); 
 
@@ -630,6 +637,9 @@ var label = new Interface.Label({ // window.sliderArray[_id]['label'] - window.s
   //label.setValue( (this.value*100).toFixed() );
   var roundedValue = (this.value*100).toFixed();
   $("#slider"+_id+" label").html( roundedValue );  
+
+console.log('roundedValue', roundedValue);
+
   _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: roundedValue, y: 0});
 
    } // window.sliderLabelArray[_id]
@@ -658,7 +668,7 @@ $item.append('<div class="infoContainer"><label>'+_value+'</label><span>'+name+'
 //$item.append('<span>'+name+'</span>');
 //$item.css("height", 180); /* 170*/
 
-console.log('slider id: ',_id);
+//console.log('slider id: ',_id);
 
   
 

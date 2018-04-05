@@ -285,7 +285,7 @@ window.updateNote = function(data) {
 
 window.displayPattern = function(selectId) {
 
-  if ( !$('body').hasClass('control') ) {
+  if ( !$('body').hasClass('control') && $('#patternedit').length>0 ) { // !==null
 
       // remove [unsaved pattern] option
       /*if ($('#'+selectId+' option[value="0"]').length>0 ) { 
@@ -318,7 +318,7 @@ window.displayPattern = function(selectId) {
       
       if (typeof ptnStorage !== 'undefined') {
         if (typeof ptnStorage !== 'undefined' && ptnStorage.length>0) { // 1
-          console.log('ptnStorage', ptnStorage);
+          //console.log('ptnStorage', ptnStorage);
           var ptnStorage = ptnStorage.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set)); 
         }
       }
@@ -444,3 +444,84 @@ window.findObjectById = function(o, id) {
 
 
 window['autoinc']= [];
+
+
+
+
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+
+
+// var RateLimit
+
+//window.ratelimit = (function() {
+var RateLimit = (function() {  
+  var RateLimit = function(maxOps, interval, allowBursts) {
+    this._maxRate = allowBursts ? maxOps : maxOps / interval;
+    this._interval = interval;
+    this._allowBursts = allowBursts;
+
+    this._numOps = 0;
+    this._start = new Date().getTime();
+    this._queue = [];
+  };
+
+  RateLimit.prototype.schedule = function(fn) {
+    var that = this,
+        rate = 0,
+        now = new Date().getTime(),
+        elapsed = now - this._start;
+
+    if (elapsed > this._interval) {
+      this._numOps = 0;
+      this._start = now;
+    }
+
+    rate = this._numOps / (this._allowBursts ? 1 : elapsed);
+
+    if (rate < this._maxRate) {
+      if (this._queue.length === 0) {
+        this._numOps++;
+        fn();
+      }
+      else {
+        if (fn) this._queue.push(fn);
+
+        this._numOps++;
+        this._queue.shift()();
+      }
+    }
+    else {
+      if (fn) this._queue.push(fn);
+
+      setTimeout(function() {
+        that.schedule();
+      }, 1 / this._maxRate);
+    }
+  };
+
+  return RateLimit;
+})();
+
+
+
+//var rateLimit = new window.ratelimit(1, 10000, true); // 10 calls in 100 milliseconds allowed = 100 calls/sec - 1:10
+window.ratelimit = new RateLimit(1, 1, false); // 20 calls / sec : 1:50 - [1 : 70] - 1, 25
+//window.ratelimit = new RateLimit(99999999999999999, 1, true);
+
+// less tolerance for add preset at each slider change !
+window.ratelimitPresetChange = new RateLimit(1, 100, false); // [1 : 400] - 1, 100

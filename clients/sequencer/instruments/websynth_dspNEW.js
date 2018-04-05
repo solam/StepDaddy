@@ -50,7 +50,22 @@ Glide.prototype.set_on = function(val) {
 
 ///////////// Init Parameter /////////////////////
 //var stream_length = 4096;
-var stream_length = 1024; //1024; // create larger buffer sizes for mobile devices
+
+
+//*
+if (window.mobilecheck()) {
+
+var stream_length = 4096; //1024; // create larger buffer sizes for mobile devices
+  //var onMobile = checkIfMobile();
+
+//alert('mobile found: ', window.mobilecheck());
+
+} else {
+  var stream_length = 1024; //1024; // create larger buffer sizes for mobile devices
+}
+//*/
+
+
 
 ///////////// VCO /////////////////////
 var WAVE = {
@@ -291,7 +306,8 @@ var CTL_Volume = function(ctx) {
 };
 
 CTL_Volume.prototype.set = function(val) {
-    this.volume.gain.value = val; // val / 100.0
+    //console.log('val: ',val);
+    this.volume.gain.value = val; // val / 100.0    
 };
 
 CTL_Volume.prototype.connect = function(next_node) {
@@ -352,28 +368,151 @@ var CTL_Filter = function(ctx) {
 	this.lowpass.Q.value = 50 / 5;
 };
 
-CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 values
+CTL_Filter.prototype.set_freq = function(f, inst) { setfreq:{// 300 to 8000 hz with 0-100 values
+//
+
+//console.log('this: ', this, self);
+
+// anti bug mechanism
+if ( typeof f == 'undefined' || f !== f || isNaN(f)   ) {
+  console.log('inst: ', inst, f);
+  alert('aws bug, please restart');
+  //var self = new WebSynth(window['audio_context2']);
+  return null;
+  //this.volume.disconnect();
+  //this.delay.disconnect();  
+  if ( typeof inst !== 'undefined') { delete window[inst]; }
+  break setfreq;
+  //return false;
+  console.log('f: ', f);  
+  var f=1;
+}  
+
+
 	this.base_freq = f;
 	this.freq = Math.min(100, this.base_freq/* + this.eg * 100*/);
 	this.lowpass.frequency.value = 200 + Math.pow(2.0, (this.freq + 30) / 10); // 300
-  //console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
+//console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
   //this.lowpass.frequency.value = Math.pow(2, f);
+
+  } // setfreq
 };
 
-CTL_Filter.prototype.set_q = function(q) {
+CTL_Filter.prototype.set_q = function(q, inst) {
+
+  //console.log('inst: ', inst);
+
+if (typeof q == 'undefined' || q !== q || isNaN(q) ) {
+  //this.volume.disconnect();
+  //this.delay.disconnect();  
+  if ( typeof inst !== 'undefined') { delete window[inst]; }
+  //return false;
+  var q=10;
+}  
+
 	this.lowpass.Q.value = q / 3.5; // 5
 };
 
-CTL_Filter.prototype.set_eg = function(val) { 
+/*
+function myFunction() {myFunction:{
+    console.log('i get executed');
+    break myFunction;
+    console.log('i do not get executed');
+}}
+
+*/
+
+
+CTL_Filter.prototype.set_eg = function(val, inst) { seteg:{
+
+  //console.log('inst: ', inst);
+
+if ( typeof val == 'undefined' || val !== val || isNaN(val) ) {
+  //this.volume.disconnect();
+  //this.delay.disconnect();
+  if ( typeof inst !== 'undefined') { delete window[inst]; }
+  break seteg;
+  //return false;  
+  //var val=1;
+  val=1;
+  console.log('val: ', val);
+
+}  
+
+//console.log('set_eg: ', val);  
 	this.eg = val;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+
+
+if ( typeof this.freq == 'undefined' || this.freq !== this.freq || isNaN(this.freq) ) {
+  //return false;
+  //this.freq=5000;
+  console.log('val: ', this.freq);
+  var daFreq= 500;
+  this.freq = 500;
+} else {
+  var daFreq= this.freq;
+}
+
+var calcIntermedos = 300 + Math.pow(2.0, (daFreq + 30) / 10);
+
+
+
+if (calcIntermedos !== calcIntermedos || typeof calcIntermedos == 'undefined' || isNaN(calcIntermedos) /*|| typeof calcIntermedos !== 'undefined' && calcIntermedos<20 || typeof calcIntermedos !== 'undefined' && calcIntermedos>15000*/) {
+ console.log('calcIntermedos: ', calcIntermedos);
+ var calcIntermedos = 100;
+ console.log('calcIntermedos after: ', calcIntermedos);
+}  
+
+//  
+
+	this.lowpass.frequency.value = 900; // calcIntermedos; //1500; //calcIntermedos // this.freq - 800
+
+ } // seteg 
 };
 
-CTL_Filter.prototype.set_amount = function(val) {
+CTL_Filter.prototype.set_amount = function(val, inst) { setam:{
+
+  //console.log('val: ', val);  
+  //console.log('inst: ', inst);
+
+if (typeof val == 'undefined' || val !== val || isNaN(val) ) {
+  //this.volume.disconnect();
+  //this.delay.disconnect();  
+  //console.log('inst: ', inst);
+  if ( typeof inst !== 'undefined') { delete window[inst]; } // instead remove node from web audio context
+  break setam;
+  //return false;
+  console.log('val: ', val);  
+  var val=40; //200
+}  
+
 	this.amount = val / 100;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+
+
+if (typeof this.freq == 'undefined' || this.freq !== this.freq || isNaN(this.freq)) {
+  //return false;
+  //this.freq=5000;
+  console.log('val: ', this.freq);
+  var daFreq= 500;
+  this.freq = 500;
+} else {
+  var daFreq= this.freq;
+}
+
+var calcIntermedos = 300 + Math.pow(2.0, (daFreq + 30) / 10);
+
+
+if (calcIntermedos !== calcIntermedos || typeof calcIntermedos == 'undefined' || isNaN(calcIntermedos) /*|| typeof calcIntermedos !== 'undefined' && calcIntermedos<20 || typeof calcIntermedos !== 'undefined' && calcIntermedos>15000*/) {
+ console.log('calcIntermedos: ', calcIntermedos);
+ var calcIntermedos = 1000;
+}  
+
+
+
+	this.lowpass.frequency.value = 1300; // calcIntermedos; //300 + Math.pow(2.0, (this.freq + 30) / 10); 1200
+  } // setam
 };
 
 CTL_Filter.prototype.connect = function(next_node) {
@@ -422,7 +561,7 @@ var WebSynth = function(context) {
 
 };
 
-WebSynth.prototype.play = function(n) {
+WebSynth.prototype.play = function(n, inst) {
 	this.eg.note_on();
 	this.feg.note_on();
     var f1 = Math.pow(2.0, (this.vco1.oct + n - 4 + this.vco1.fine) / 12.0);
@@ -431,7 +570,31 @@ WebSynth.prototype.play = function(n) {
 	this.vco2.glide_init(f2);
 
 	var self = this;
-    this.root.onaudioprocess = function(event) {
+    if ( self !== self || typeof window['awsbug'] !== 'undefined' && window['awsbug']==1) { // isNaN(self)
+      console.log('self + bug signaled', self.feg.gain, inst);
+      //WebSynth(window['audio_context']);
+      //var self = new WebSynth(window['audio_context2']);
+      window['awsbug']=0;
+      //this.root.onaudioprocess = null;
+    } else {
+    this.root.onaudioprocess = function(event) { oap:{
+
+
+    if (typeof self.feg.gain == 'undefined' || self.feg.gain !== self.feg.gain || isNaN(self.feg.gain) ) {
+      //break oap;
+      if (typeof window['awsbug'] == 'undefined') {
+        window['awsbug']=1;
+      } else {
+        window['awsbug']=0; // 2
+      }
+      //console.log('oap', self.feg.gain); // , event
+      //WebSynth(window['audio_context']); //.prototype.stop();
+      //this.eg.note_off();
+      //this.feg.note_off();      
+      //return false; //null; 
+      //self.feg.gain = 1; // 0.5   
+    }
+
 		self.filter.set_eg(self.feg.gain);
         var Lch = event.outputBuffer.getChannelData(0);
         var Rch = event.outputBuffer.getChannelData(1);
@@ -451,7 +614,11 @@ WebSynth.prototype.play = function(n) {
 				self.feg.next();
 			}
 		}
+
+      } // end of oap
     };
+
+  }  
 };
 
 WebSynth.prototype.stop = function() {

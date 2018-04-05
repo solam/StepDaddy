@@ -1140,7 +1140,7 @@ body.session8 #ctrl6,
 body.session8 #ctrl11, /* resonance*/
 body.session8 #ctrl12,
 body.session8 #ctrl15,
-  /*body.session8 #thekits, */
+  body.session8 #thekits, /**/
   body.session8 #ctrl10, 
   body.session8 #ctrl13,
   body.session8 #ctrl14, /* change note + filters stuff */
@@ -1202,4 +1202,106 @@ body.session9.ctrlchange label {
 
 #pattern-editor tr td.playedbar {
   background: #222;
+}
+
+
+body.session10 li#tweak-menu, 
+body.session10 li#notes-menu,
+body.session10 #thepresets,
+body.session10 #patternedit,
+body.session10 #pattern-sequencer {
+  display: none;
+}
+
+body.session10 #pattern-editor {
+  opacity: 1;
+}
+
+
+.highlight {
+  background-color: #fff !important;
+}
+
+
+.session7 #pattern-sequencer,
+.session7 #thepatterns {
+  display: none;
+}
+
+.session1 #patternedit,
+.session1 #pattern-sequencer,
+.session1 #thepatterns,
+.session1 #button991,
+.session1 #button995 {
+  display: none;  
+}
+
+#sessiontips {
+  clear: both;
+  color: white;
+  font-size: 95%; /* 12px*/
+  line-height: 20px;
+}
+
+#sessiontips h3 {
+  margin-left: 0px;
+  margin-bottom: 10px;      
+}
+
+.session10.channel6 #thepatterns, 
+.session10.channel7 #thepatterns,
+.session10.channel8 #thepatterns,
+.session10.channel9 #thepatterns,
+.session10.channel10 #thepatterns, 
+.session10.channel11 #thepatterns,
+.session10.channel12 #thepatterns,
+.session10.channel13 #thepatterns,
+.session10.channel14 #thepatterns, 
+.session10.channel15 #thepatterns,
+.session10.channel16 #thepatterns,
+.session10.channel17 #thepatterns,
+.subinfo,
+#sessiontips .session {
+  display: none;
+}
+
+.session1 #sessiontips #s1,
+.session9 #sessiontips #s9,
+.session10 #sessiontips #s10 {
+  display: block;
+}
+
+
+
+.session10.channel10 #part9to12, 
+.session10.channel11 #part9to12,
+.session10.channel12 #part9to12,
+.session10.channel13 #part9to12,
+
+.session10.channel14 #part13to16, 
+.session10.channel15 #part13to16,
+.session10.channel16 #part13to16,
+.session10.channel17 #part13to16,
+
+.session10.channel6 #part5to8, 
+.session10.channel7 #part5to8,
+.session10.channel8 #part5to8,
+.session10.channel9 #part5to8,
+
+.channel1.session10 #sessiontips #part1to4,
+.channel3.session10 #sessiontips #part1to4,
+.channel4.session10 #sessiontips #part1to4,
+.channel5.session10 #sessiontips #part1to4
+ {
+  display: block;
+}
+
+
+body.session10.channel1 #pattern-editor,
+body.session10.channel3 #pattern-editor,
+body.session10.channel4 #pattern-editor,
+body.session10.channel5 #pattern-editor
+
+ {
+    opacity: 0.4 !important;
 }

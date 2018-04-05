@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../common/css/user.css" />
   <link rel="stylesheet" href="../common/lib/noUiSlider/nouislider.min.css" />
   
-  <script src="../common/lib/nexusUI.js"></script>
+  <!--<script src="../common/lib/nexusUI.js"></script>-->
 </head>
 <body id="bodey">
 
@@ -33,9 +33,10 @@ if (win) {
     <ul class="menu" id="fixed">
         <li id="info-menu"><a href="#notes" class="scrolltop" id="menu-notes">info</a></li><!-- ch annel info-->
         <li id="notes-menu"><a href="#pattern-editor">grille</a></li><!-- draw notes grid-->
-        <li id="control-menu"><a href="#modifiers">mod A</a></li><!-- snd & ptn control launch-->
-        <li id="tweak-menu"><a href="#slider1">snd A</a></li><!-- #slider1 tweakA-->
-        <li id="tweak-menu2"><a href="#id1">mod B</a></li><!-- soundB snd B -->
+        <li id="control-menu"><a href="#modifiers">mod 1</a></li><!-- snd & ptn control launch-->
+        <li id="tweak-menu"><a href="#slider1">snd 1</a></li><!-- #slider1 tweakA-->
+        <li id="tweak-menu2"><a href="#id1">mod 2</a></li><!-- soundB snd B -->
+        <li id="menu-sessiontips"><a href="#sessiontips">tips</a></li>
         <li id="exit"><a href="#">quitter</a></li>
         <!--<li><a href="#modulation">mod</a></li> instrument modulation-->
     </ul>
@@ -104,6 +105,67 @@ if (win) {
         <select id="kits" name="kits"></select>
       </div>-->
     </div>
+
+
+
+    <div id="sessiontips">
+
+      <div id="s9" class="session">
+        <h3>Session "Marimba"</h3>
+        * une <!--(parties 1 à 8)--> à deux note(s) <!--(partie 9 à 16)--> autorisée(s) par ligne 
+        <br>
+        * pour déplacer la note, l'effacer d'abord
+        <!--changer son déclenchement dans le temps effacer la note d'abord-->
+        <br>
+        * changer la tonalité <!--(hauteur) de la note via--> avec le menu déroulant <!--"hauteur note (pitch)"-->
+        <br>
+        * motif répêté toutes les 1, 2, 4, ou 8 mesures <!-- mesures -->
+
+        <!--
+        <br>
+        16 parties (16 joueurs simultanés maximum)
+        <br>
+        motif (pattern) de départ pré-programmé
+        <br>
+        Lorsqu'une partie qui se répête sur plusieurs mesures est abandonnée (un joueur quitte la session) elle se répête sur la mesure abandonnée (jusqu'à ce qu'un prochain joueur prenne le contrôle de la partie).-->      
+      </div>   
+
+
+      <div id="s1" class="session">
+        <h3>Session Impro "8 parties avec instruments différents":</h3>
+        * activer <!--une ou -->des cases de la grille pour déclencher <!--un ou--> des notes/percussions  
+        <br>
+        * changer d'instrument mélodique ou de kit de batterie avec le menu déroulant
+        <br>
+        * (si disponible) modifier les paramètres de synthétiseur avec les <i>sliders</i>
+      </div>   
+
+      <div id="s10" class="session">
+        <h3>Session "Batucada boîte à rythmes":</h3>
+        <div id="part1to4" class="subinfo">
+        * parties 1 à 4: changer le motif rythmique uniquement avec menu déroulant "Play pattern" (pas de placement de sons libre) 
+        </div> 
+        <div id="part5to8" class="subinfo">
+        * parties 5 à 8: zéro à deux note(s) autorisée(s) par ligne (pour déplacer une note, l'effacer d'abord)
+        <br>
+        * motif répêté toutes les mesures      
+        </div>    
+        <div id="part9to12" class="subinfo">
+        * parties 9 à 12: zéro à deux note(s) autorisée(s) par ligne (pour déplacer une note, l'effacer d'abord)
+        <br>
+        * motif répêté 1 mesure / 2 (alternance avec une mesure de silence)    
+        </div>       
+        <div id="part13to16" class="subinfo">
+        * parties 13 à 16: zéro à quatre note(s) autorisée(s) par ligne (pour déplacer une note, l'effacer d'abord)
+        <br>
+        * motif répêté 1 mesure / 4 (alternance avec 3 mesures de silence)        
+        </div>                    
+        * changer de son de batterie avec le menu déroulant "Change sound"
+      </div>   
+
+
+
+    </div>    
 
 
   <select class="dropdownSelect" id="midiIn">

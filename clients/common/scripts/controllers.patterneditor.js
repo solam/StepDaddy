@@ -242,6 +242,8 @@ if ( $('#pattern-editor').hasClass('control') ) {
 
 
         var tracks = _model.instrument.tracks;
+
+        //console.log('tracks: ', tracks);
         var container = document.getElementById('modifiers');    
         var controls = _model.instrument.controls;
         var input = 1;
@@ -273,7 +275,7 @@ if ( $('#pattern-editor').hasClass('control') ) {
           
         }
 
-        console.log('inputMode', inputMode);
+        //console.log('inputMode', inputMode);
 
 if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
 
@@ -387,7 +389,7 @@ $("#keybox").bind('touchmove mousemove', function(e) { //  canvas
 //*
 
 
-console.log('kits: ', kits);
+//console.log('kits: ', kits);
 
 if (typeof kits  !== 'undefined') {
   if (kits.length!=0) {    
@@ -893,7 +895,7 @@ if (typeof window.kits  !== 'undefined') { // kits
       var patternEditStateValue = controls[j].y.value;
     }      
 
-    console.log('ptnEditState: ', patternEditStateValue); // _model.instrument.channelInfo.patternEditState
+    //console.log('ptnEditState: ', patternEditStateValue); // _model.instrument.channelInfo.patternEditState
 
     if (patternEditStateValue==1) {
       window.ptnEdit=1;
@@ -903,7 +905,7 @@ if (typeof window.kits  !== 'undefined') { // kits
 
       //window.setTimeout(_displayPattern('selpatternedit'), 1000);
 
-      console.log('ptn edit: ', _model.instrument.channelInfo.patternEditState);
+      //console.log('ptn edit: ', _model.instrument.channelInfo.patternEditState);
 
       $('#pattern-editor table').toggleClass('ptn-edit');
     } else {
@@ -1335,7 +1337,7 @@ cbox.appendTo(ptnSeq); */
 //*
     var channelPatternSeq = _model.instrument.channelInfo.channelPatternSeqList; //['list']; 
     var ctrlchangeParent = document.getElementById('pattern-sequencer');
-    console.log("channelPatternSeq: ", channelPatternSeq);
+    //console.log("channelPatternSeq: ", channelPatternSeq);
 
     $item = $('<div id="played-ptns" class="select-container played"><select multiple class="multi" id="played-patterns" name="played-patterns">'); // $itemContainer - <div class="ctrlchange" id="played-sequencer">           
     $item.appendTo(ctrlchangeParent); // container   
@@ -1380,7 +1382,7 @@ cbox.appendTo(ptnSeq); */
       var patternSeqStateValue = controls[j].x.value;
     }      
 
-    console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
+    //console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
 
     if (patternSeqStateValue==1) {
       window.stepSeq=1;

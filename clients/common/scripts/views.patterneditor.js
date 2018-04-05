@@ -117,7 +117,7 @@
       window.notesAllowedMin = notesAllowedMin;
       window.notesAllowedMax = notesAllowed;
       
-      console.log('active, min, max:',  activeNotes , notesAllowedMin, notesAllowed);
+      //console.log('active, min, max:',  activeNotes , notesAllowedMin, notesAllowed);
 
       if (activeNotes == notesAllowedMin && activeNotes == notesAllowed && notesAllowedMin == notesAllowed && $(this).hasClass('active')) {
 //freezePtn = 1; //solution A
@@ -324,7 +324,7 @@ freezePtn = 0; //solution B
 
       $table.append($head);
 
-      console.log('$head', $head);
+      //console.log('$head', $head);
     };
 
     /**
