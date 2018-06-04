@@ -1,100 +1,131 @@
-(function() {
+(function()
+{
+	/**
+	* The events object holds all the enumerations for different events.
+	* @type {Object}
+	*/
+	mixr.enums.Events =
+	{
+		/**
+		* The BYEBYE event
+		* @type {String}
+		*/
+		BYEBYE: 'byebye',
 
-  /**
-   * The events object holds all the enumrations for different events.
-   * @type {Object}
-   */
-  mixr.enums.Events = {
+		/**
+		* The EMIT event
+		* @type {String}
+		*/
+		EMIT: 'emit',
 
-    /**
-     * The BYEBYE enum
-     * @type {String}
-     */
-    BYEBYE: 'byebye',
+		/**
+		* The CONNECT event
+		* @type {String}
+		*/
+		CONNECT: 'connect',
 
-    /**
-     * The EMIT enum
-     * @type {String}
-     */
-    EMIT: 'emit',
+		/**
+		* The DISCONNECT event
+		* @type {String}
+		*/
+		DISCONNECT: 'disconnect',
 
-    /**
-     * The CONNECT enum
-     * @type {String}
-     */
-    CONNECT: 'connect',
+		/**
+		* The REGISTER event
+		* @type {String}
+		*/
+		REGISTER: 'register',
 
-    /**
-     * The DISCONNECT enum
-     * @type {String}
-     */
-    DISCONNECT: 'disconnect',
+		/**
+		* The JOIN_ROOM event
+		* @type {String}
+		*/
+		JOIN_ROOM: 'join_room',
 
-    /**
-     * The REGISTER enum
-     * @type {String}
-     */
-    REGISTER: 'register',
+		/**
+		* The CREATE_ROOM event
+		* @type {String}
+		*/
+		CREATE_ROOM: 'create_room',
 
-    /**
-     * The JOIN_ROOM enum
-     * @type {String}
-     */
-    JOIN_ROOM: 'join_room',
+		/**
+		* The SEARCH event
+		* @type {String}
+		*/
+		SEARCH: 'search',
 
-    /**
-     * The CREATE_ROOM enum
-     * @type {String}
-     */
-    CREATE_ROOM: 'create_room',
+		/**
+		* The RESOLVE_URL event. Used for mapping the Spotify URIs to
+		* downloadable URLs of songs.
+		* @type {String}
+		*/
+		RESOLVE_URL: 'resolve_url',
 
-    /**
-     * The SEARCH enum
-     * @type {String}
-     */
-    SEARCH: 'search',
+		/**
+		* The EXECUTE event
+		* @type {String}
+		*/
+		EXECUTE: 'execute',
 
-    /**
-     * The RESOLVE_URL enum. Used for mapping the Spotify URIs to
-     * downloadable URLs of songs.
-     * @type {String}
-     */
-    RESOLVE_URL: 'resolve_url',
+		/**
+		* The ROOM_CLOSED event is triggered when the room owner
+		* of a room is disconnected from the room on purpose.
+		* @type {String}
+		*/
+		ROOM_CLOSED: 'room_closed',
 
-    /**
-     * The SEARCH enum
-     * @type {String}
-     */
-    EXECUTE: 'execute',
+		/**
+		* The CLIENT_JOINED event is send when a new client is connected to a room.
+		* @type {String}
+		*/
+		CLIENT_JOINED: 'client_joined',
 
-    /**
-     * The ROOM_CLOSED enum is triggered when the room owner
-     * of a room is disconnected from the room on purpose.
-     * @type {String}
-     */
-    ROOM_CLOSED: 'room_closed',
+		/**
+		* The CLIENT_LEFT event is send when a client leaves the room on purpose.
+		* @type {String}
+		*/
+		CLIENT_LEFT: 'client_left',
+		
+		/**
+		* The NOTE event
+		* @type {String}
+		*/
+		NOTE: 'note',
 
-    /**
-     * This event is send when a new client is connected to a room.
-     * @type {String}
-     */
-    CLIENT_JOINED: 'client_joined',
+		/**
+		* The GET_INSTRUMENT event
+		* @type {String}
+		*/
+		GET_INSTRUMENT: 'get_instrument',
 
-    /**
-     * This event is send when a client leaves the room on purpose.
-     * @type {String}
-     */
-    CLIENT_LEFT: 'client_left',
+		/**
+		* The INSTRUMENT event
+		* @type {String}
+		*/
+		INSTRUMENT: 'instrument',
 
-    NOTE: 'note',
+		/**
+		* The SEQUENCER_BEAT event
+		* @type {String}
+		*/
+		SEQUENCER_BEAT: 'seq_beat',
 
-    GET_INSTRUMENT: 'get_instrument',
+		/**
+		* The MODIFIER_CHANGE event
+		* @type {String}
+		*/
+		MODIFIER_CHANGE: 'modifier_change',
 
-    INSTRUMENT: 'instrument',
+		/**
+		* The GET_TRACKS event
+		* @type {String}
+		*/
+		GET_TRACKS: 'get_tracks',
 
-    SEQUENCER_BEAT: 'seq_beat',
-
-    MODIFIER_CHANGE: 'modifier_change'
-  };
-
+		/**
+		* The TRACKS event
+		* @type {String}
+		*/
+		TRACKS: 'tracks',
+	};
 }());
