@@ -1,312 +1,317 @@
-define([
-  'express',
-  'http',
-  'socket.io',
-  'sys',
-  'mixins.wrapper',
-  'services.rooms',
-  'net.client'
-], function(express, http, socket, sys, MixinsWrapper, RoomsManager, Client) {
+define(
+	['express', 'http', 'socket.io', 'sys', 'mixins.wrapper', 'services.rooms', 'net.client'],
+	function (express, http, socket, sys, MixinsWrapper, RoomsManager, Client)
+	{
+		/**
+		* The Connection class is responsible for creating a server
+		* and opening a port for the clients to connect to.
+		*
+		* @constructor
+		* @class Server
+		*/
+		var Server = function ()
+		{
+			/**
+			* The default port
+			*
+			* @private
+			* @type {Number}
+			*/
+			var PORT = 60000;
 
-  /**
-   * The Connection class is responsible for creating a server
-   * and opening a port for the clients to connect to.
-   *
-   * @constructor
-   * @class Server
-   */
-  var Server = function() {
+			/**
+			* The app
+			*
+			* @private
+			* @type {Object}
+			*/
+			var _app;
 
-    /**
-     * The default port
-     *
-     * @private
-     * @type {Number}
-     */
-    var PORT = 60000;
+			/**
+			* The http server
+			*
+			* @private
+			* @type {Object}
+			*/
+			var _server;
 
-    /**
-     * The app
-     *
-     * @private
-     * @type {Object}
-     */
-    var _app;
+			/**
+			* The websockets interface
+			*
+			* @private
+			* @type {Object}
+			*/
+			var _io;
 
-    /**
-     * The http server
-     *
-     * @private
-     * @type {Object}
-     */
-    var _server;
+			/**
+			* Holds this specific instance of this class
+			*
+			* @private
+			* @type {ConnectionsManager}
+			*/
+			var _self = this;
 
-    /**
-     * The websockets interface
-     *
-     * @private
-     * @type {Object}
-     */
-    var _io;
+			/**
+			* A hash map with all the sockets
+			*
+			* @private
+			* @type {Object}
+			*/
+			var _clients = {};
 
-    /**
-     * Holds this specific instance of this class
-     *
-     * @private
-     * @type {ConnectionsManager}
-     */
-    var _self = this;
+			/*var _sessionChannels = 9; // 8 controllers + 1 client as general audio renderer
+			var _clientJoinedCount = 0; // used to inform potential clients on available slots   */
 
-    /**
-     * A hash map with all the sockets
-     *
-     * @private
-     * @type {Object}
-     */
-    var _clients = {};
+			/**
+			* The rooms manager is responsible for managing all the rooms.
+			*
+			* @private
+			* @type {RoomsManager}
+			*/
+			var _roomsManager = new RoomsManager();
 
-    /*var _sessionChannels = 9; // 8 controllers + 1 client as general audio renderer
-    var _clientJoinedCount = 0; // used to inform potential clients on available slots   */
+			/**
+			* It adds all the event listeners to the connection
+			*
+			* @private
+			* @function
+			*/
+			var _addEventListeners = function ()
+			{
+				_io.sockets.on('connection', function (socket)
+				{
+					socket.on('register', function (data)
+					{
+						if (!data.client)
+						{
+							data.client = 'client_' + (new Date().getTime() + Math.floor(Math.random() * 1000));
+							console.log('I need to create a new id');
+						}
 
-    /**
-     * The rooms manager is responsible for managing all the rooms.
-     *
-     * @private
-     * @type {RoomsManager}
-     */
-    var _roomsManager = new RoomsManager();
+						console.log('Registering socket with id', data.client);
+						_self.register(data.client, socket);
+					});
+				});
+			};
 
-    /**
-     * It adds all the event listeners to the connection
-     *
-     * @private
-     * @function
-     */
-    var _addEventListeners = function() {
+			/**
+			* It is triggered when the client triggers an emit event
+			*
+			* @private
+			* @function
+			* @param {Object} data The data of the event.
+			*/
+			var _onClientEmit = function (data)
+			{
+				console.log('Emit', data);
+			};
 
-      _io.sockets.on('connection', function(socket) {
+			/**
+			* It is triggered when the client triggers a create_room event
+			*
+			* @private
+			* @function
+			* @param {Object} data The data of the event.
+			*/
+			var _onClientCreateRoom = function (data)
+			{
+				_roomsManager.createRoom(data.args.room, _clients[data.client],
+					function (response)
+					{
+						_clients[data.client].send('execute', {success: true, id: data.id, response: response});
+						/*
+						var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
+						fs.writeFile('./clients/sequencer/data.txt', _sessionChannels-1, function (err)
+						{
+						  if (err) throw err;
+							console.log('avail clients slot(s) at session start', _sessionChannels-1);
+						});
+					    
+						_clientJoinedCount = 1; // 0
+						//_clientJoinedCount++;
+						*/
+					},
+					function (error)
+					{
+						_clients[data.client].send('execute', {success: false, id: data.id, response: error});
+					});
+			};
 
-        socket.on('register', function(data) {
-          if (!data.client) {
-            data.client = 'client_' + (new Date().getTime() + Math.floor(Math.random() * 1000));
-            console.log('I need to create a new id');
-          }
-          console.log('Registering socket with id', data.client);
-          _self.register(data.client, socket);
-        });
+			/**
+			* It is triggered when the client triggers a join_room event
+			*
+			* @private
+			* @function
+			* @param {Object} data The data of the event.
+			*/
+			var _onClientJoinRoom = function (data)
+			{
+				_roomsManager.joinRoom(data.args.room, _clients[data.client],
+					function (response)
+					{
+						_clients[data.client].send('execute', {success: true, id: data.id, response: response});
+						/*
+						//console.log('data.id', data.id);
+						_clientJoinedCount++;
+						var fs = require('fs');
+						fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err)
+						{
+						  if (err) throw err;
+							console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
+						});
+						*/
 
-      });
-    };
+						//console.log('clts length', _self._clients.length);
+					},
+					function (error)
+					{
+						_clients[data.client].send('execute', {success: false, id: data.id, response: error});
+					});
+			};
 
-    /**
-     * It is triggered when the client triggers an emit event
-     *
-     * @private
-     * @function
-     * @param {Object} data The data of the event.
-     */
-    var _onClientEmit = function(data) {
-      console.log('Emit', data);
-    };
+			/**
+			* It is triggered when the client triggers a byebye event
+			*
+			* @private
+			* @function
+			* @param {Object} data The data of the event.
+			*/
+			var _onClientBye = function (data)
+			{
+				_self.unregister(data.client);
+				/*
+				_clientJoinedCount--;
+				var fs = require('fs');
+				fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err)
+				{
+				  if (err) throw err;
+					console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
+				});
+				*/
+			};
 
-    /**
-     * It is triggered when the client triggers a create_room event
-     *
-     * @private
-     * @function
-     * @param {Object} data The data of the event.
-     */
-    var _onClientCreateRoom = function(data) {
-      _roomsManager.createRoom(data.args.room, _clients[data.client],
-          function(response) {
-            _clients[data.client].send('execute', {success: true, id: data.id, response: response});
+			/**
+			* Is triggered when the client triggers the search event
+			*
+			* @private
+			* @function
+			* @param {Object} data The data.
+			*/
+			var _onSearch = function (data)
+			{
+				_clients[data.client].send('execute', {success: true, id: data.id, response: 'you searched for ' + data.args.keyword});
+			};
 
-            /*var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
-            fs.writeFile('./clients/sequencer/data.txt', _sessionChannels-1, function (err) {
-              if (err) throw err;
-                console.log('avail clients slot(s) at session start', _sessionChannels-1);
-            });
-            _clientJoinedCount = 1; // 0
-            //_clientJoinedCount++; */
+			/**
+			* Gets a uri and returns a url.
+			*
+			* @private
+			* @function
+			* @param {Object} data This data.
+			*/
+			var _onResolveURL = function (data)
+			{
+				_clients[data.client].send('execute', {success: true, id: data.id, response: 'http://localhost:8282/common/resources/Kavinsky - Nightcall (Feat. Lovefoxxx).mp3'});
+			};
 
-          }, function(error) {
-            _clients[data.client].send('execute', {success: false, id: data.id, response: error});
-          });
-    };
+			/**
+			* Registers a new connection/socket
+			*
+			* @private
+			* @function
+			* @param {String} clientId The id of the socket/client.
+			* @param {Object} socket The socket to register.
+			* @return {ConnectionsManager} This instance of the ConnectionManager.
+			*/
+			this.register = function (clientId, socket)
+			{
+				// If we are trying to register a client with an id that already is
+				// registered this probably means that the client lost connection
+				// and reconnected. So what we do is just update the client class
+				// with the new socket.
+				if (typeof _clients[clientId] !== 'undefined')
+				{
+					console.log('Client already exists, will just update the socket');
+					_clients[clientId].setSocket(socket);
+				}
+				else
+				{
+					// If this is a new socket then we create a new client
+					// class and register all the events to it.
+					_clients[clientId] = new Client(clientId, socket)
+						.on('emit', _onClientEmit)
+						.on('byebye', _onClientBye)
+						.on('disconnect', _onClientBye)
+						.on('create_room', _onClientCreateRoom)
+						.on('join_room', _onClientJoinRoom)
+						.on('search', _onSearch)
+						.on('resolve_url', _onResolveURL);
+				}
 
-    /**
-     * It is triggered when the client triggers a join_room event
-     *
-     * @private
-     * @function
-     * @param {Object} data The data of the event.
-     */
-    var _onClientJoinRoom = function(data) {
-      _roomsManager.joinRoom(data.args.room, _clients[data.client],
-          function(response) {
-            _clients[data.client].send('execute', {success: true, id: data.id, response: response});
+				_clients[clientId].send('register', clientId);
 
-            /*//console.log('data.id', data.id);
-            _clientJoinedCount++;
-            var fs = require('fs');
-            fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err) {
-              if (err) throw err;
-                console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
-            }); */
+				return this;
+			};
 
-            //console.log('clts length', _self._clients.length);
+			/**
+			* Unregisters an already existing connection/socket
+			*
+			* @private
+			* @function
+			* @param {String} id The id of the socket/client.
+			* @return {ConnectionsManager} This instance of the ConnectionManager.
+			*/
+			this.unregister = function (id)
+			{
+				console.log('Removing client with id', id);
 
-          }, function(error) {
-            _clients[data.client].send('execute', {success: false, id: data.id, response: error});
-          });
-    };
+				if (typeof _clients[id] !== 'undefined')
+				{
+					_clients[id] = null;
+					delete _clients[id];
+				}
 
-    /**
-     * It is triggered when the client triggers a byebye event
-     *
-     * @private
-     * @function
-     * @param {Object} data The data of the event.
-     */
-    var _onClientBye = function(data) {
-      _self.unregister(data.client);
+				return this;
+			};
 
-      /*_clientJoinedCount--;
-      var fs = require('fs');
-      fs.writeFile('./clients/sequencer/data.txt', _sessionChannels - _clientJoinedCount, function (err) {
-        if (err) throw err;
-          console.log('avail clients slot(s)', _sessionChannels - _clientJoinedCount);
-      }); */
+			/**
+			* Initializes the connection
+			*
+			* @public
+			* @function
+			* @return {Server} This instance of the server class.
+			*/
+			this.initialize = function ()
+			{
+				//initialisation de la librairie Express 
+				_app = express();
 
-    };
+				_server = http.createServer(_app); //creation d'un serveur
+				_io = socket.listen(_server); //attachement au serveur pour gérer un relation bidirectionnelle
+				_io.set('log level', 1);
 
-    /**
-     * Is triggered when the client triggers the search event
-     *
-     * @private
-     * @function
-     * @param {Object} data The data.
-     */
-    var _onSearch = function(data) {
-      _clients[data.client].send('execute', {success: true, id: data.id, response: 'you searched for ' + data.args.keyword});
-    };
+				_addEventListeners();
 
-    /**
-     * Gets a uri and returns a url.
-     *
-     * @private
-     * @function
-     * @param {Object} data This data.
-     */
-    var _onResolveURL = function(data) {
-      _clients[data.client].send('execute', {success: true, id: data.id, response: 'http://localhost:8282/common/resources/Kavinsky - Nightcall (Feat. Lovefoxxx).mp3'});
-    };
+				return this;
+			};
 
-    /**
-     * Registers a new connection/socket
-     *
-     * @private
-     * @function
-     * @param {String} clientId The id of the socket/client.
-     * @param {Object} socket The socket to register.
-     * @return {ConnectionsManager} This instance of the ConnectionManager.
-     */
-    this.register = function(clientId, socket) {
+			/**
+			* Opens a connection for the clients to connect to
+			* and listen to.
+			*
+			* @private
+			* @function
+			* @param {Number} port The port that will be used.
+			* @return {Server} This instance of the server class.
+			*/
+			this.start = function (port)
+			{
+				_server.listen(port || PORT);
+				return this;
+			};
+		};
 
-      // If we are trying to register a client with an id that already is
-      // registered this probably means that the client lost connection
-      // and reconnected. So what we do is just update the client class
-      // with the new socket.
-      if (typeof _clients[clientId] !== 'undefined') {
-        console.log('Client already exists, will just update the socket');
-        _clients[clientId].setSocket(socket);
-      } else {
-        // If this is a new socket then we create a new client
-        // class and register all the events to it.
-        _clients[clientId] = new Client(clientId, socket)
-          .on('emit', _onClientEmit)
-          .on('byebye', _onClientBye)
-          .on('disconnect', _onClientBye)
-          .on('create_room', _onClientCreateRoom)
-          .on('join_room', _onClientJoinRoom)
-          .on('search', _onSearch)
-          .on('resolve_url', _onResolveURL);
-      }
+		sys.inherits(Server, MixinsWrapper);
 
-      _clients[clientId].send('register', clientId);
-
-      return this;
-    };
-
-    /**
-     * Unregisters an already existing connection/socket
-     *
-     * @private
-     * @function
-     * @param {String} id The id of the socket/client.
-     * @return {ConnectionsManager} This instance of the ConnectionManager.
-     */
-    this.unregister = function(id) {
-      console.log('Removing client with id', id);
-      if (typeof _clients[id] !== 'undefined') {
-        _clients[id] = null;
-        delete _clients[id];
-      }
-
-      return this;
-    };
-
-    /**
-     * Initializes the connection
-     *
-     * @public
-     * @function
-     * @return {Server} This instance of the server class.
-     */
-    this.initialize = function() {
-
-      _app = express();
-      /*
-      _app.use(function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        next();
-      });*/
-      /*
-      _app.get('/', function(req, res, next) {
-        // Handle the get for this route
-      });
-
-      _app.post('/', function(req, res, next) {
-       // Handle the post for this route
-      }); */     
-
-      _server = http.createServer(_app);
-      _io = socket.listen(_server);
-      _io.set('log level', 1);
-
-      _addEventListeners();
-      return this;
-    };
-
-    /**
-     * Opens a connection for the clients to connect to
-     * and listen to.
-     *
-     * @private
-     * @function
-     * @param {Number} port The port that will be used.
-     * @return {Server} This instance of the server class.
-     */
-    this.start = function(port) {
-      _server.listen(port || PORT);
-      return this;
-    };
-
-  };
-
-  sys.inherits(Server, MixinsWrapper);
-
-  return Server;
-
-});
+		return Server;
+	});
