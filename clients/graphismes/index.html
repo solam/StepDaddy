@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+	<body>
+		<canvas id="canvas" height="600" width="800"></canvas>
+	</body>
+	
+	<!-- sera charge apres le body ==> existence du canvas -->
+	<!--<script type="text/javascript" src="script.js"></script>-->
+
+	<!--gère l'accès aux websockets-->
+	<script type="text/javascript" src="../common/lib/socket.io.js"></script>
+	<!--gère l'accès à mixr-->
+	<script type="text/javascript" src="../common/scripts/namespaces.js"></script>
+	<!--nécéssaire pour parser l'adresse de la page-->
+	<script type="text/javascript" src="../common/scripts/utils.js"></script>
+	<!--gère l'accès aux fonctions "on" et "emit"-->
+	<script type="text/javascript" src="../common/scripts/mixins.eventtarget.js"></script>
+	<!--est utilisé pour accéder aux fonctions ci-dessus : inutile, à supprimer-->
+	<script type="text/javascript" src="../common/scripts/mixins.wrapper.js"></script>
+	<!--accès aux énums-->
+	<script type="text/javascript" src="../common/scripts/enum.events.js"></script>
+	<!--response est nécéssaire pour net.connection.js-->
+	<script type="text/javascript" src="../common/scripts/net.response.js"></script>
+	<!--fonctionnalités de connexions-->
+	<script type="text/javascript" src="../common/scripts/net.connection.js"></script>
+	<!--gestion du graphisme-->
+	<script type="text/javascript" src="scripts/gestionCanvas.js"></script>
+	<script type="text/javascript" src="scripts/graphismes.js"></script>
+</html>
