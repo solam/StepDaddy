@@ -157,22 +157,36 @@
       _self.emit(mixr.enums.Events.GET_INSTRUMENT, data);
     };
 
-    var _onInstrument = function(data) {
+    var _onInstrument = function(data)
+    {
       _self.emit(mixr.enums.Events.INSTRUMENT, data);
     };
 
-    var _onNote = function(data) {
+    var _onNote = function(data)
+    {
       console.log('Mixer got a note', data);
       _self.emit(mixr.enums.Events.NOTE, data);
     };
 
-    var _onModifierChange = function(data) {
+    var _onModifierChange = function(data)
+    {
       _self.emit(mixr.enums.Events.MODIFIER_CHANGE, data);
     };
 
-    var _onSequencerBeat = function(data) {
-      _self.emit(mixr.enums.Events.SEQUENCER_BEAT, data.args.beat);
+    var _onSequencerBeat = function(data)
+    {
+      _self.emit(mixr.enums.Events.SEQUENCER_BEAT, data.args);
     };
+
+    var _onGetTracks = function(data)
+    {
+      _self.emit(mixr.enums.Events.GET_TRACKS, data);
+    }
+
+    var _onTracks = function(data)
+    {
+      _self.emit(mixr.enums.Events.TRACKS, data);
+    }
 
     /**
      * Is triggered when a command is executed and the results
@@ -187,13 +201,19 @@
       var response = new mixr.net.Response(data);
 
       var callbackObject = _calls[data.id];
-      if (typeof callbackObject !== 'undefined') {
-        if (response.success) {
-          if (typeof callbackObject.callback !== 'undefined') {
+      if(typeof callbackObject !== 'undefined') 
+      {
+        if(response.success)
+        {
+          if(typeof callbackObject.callback !== 'undefined')
+          {
             callbackObject.callback(response.data);
           }
-        } else {
-          if (typeof callbackObject.errback !== 'undefined') {
+        }
+        else
+        {
+          if(typeof callbackObject.errback !== 'undefined')
+          {
             callbackObject.errback(response.data);
           }
         }
@@ -225,7 +245,9 @@
       .on(mixr.enums.Events.INSTRUMENT, _onInstrument)
       .on(mixr.enums.Events.NOTE, _onNote)
       .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange)
-      .on(mixr.enums.Events.SEQUENCER_BEAT, _onSequencerBeat);
+      .on(mixr.enums.Events.SEQUENCER_BEAT, _onSequencerBeat)
+      .on(mixr.enums.Events.GET_TRACKS, _onGetTracks)
+      .on(mixr.enums.Events.TRACKS, _onTracks);
 
       return this;
     };
@@ -334,7 +356,5 @@
 
       return this;
     };
-
   };
-
 }(io));

@@ -1,3 +1,6 @@
 .DS_Store
 node_modules
 .sass-cache
+lancementClient.bat
+lancementServer.bat
+clients/favicon.ico
