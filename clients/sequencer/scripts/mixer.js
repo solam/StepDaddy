@@ -1066,7 +1066,6 @@
 			.on(mixr.enums.Events.SEQUENCER_BEAT, _onSequenceBeat)
 			.on(mixr.enums.Events.GET_TRACKS, _onGetTracks);
 
-
 			// new emplacement:
 			_sequencerView = new mixr.views.SequencerView(document.getElementById('sequencer-view')).initialize();
 			window['SEQVIEW'] = _sequencerView;      

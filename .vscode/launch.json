@@ -1,0 +1,52 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Salle sequencer maitre",
+            "url": "http://127.0.0.1:8282/sequencer/?rm/nochild",//http://192.168.0.10:8282/sequencer/?rm/nochild", //"url": "http://192.168.0.10:8282/sequencer/", //
+            //"url": "http://192.168.0.10:8282/device/?rm/nomopo/",
+            "webRoot": "${workspaceFolder}/clients",
+            "disableNetworkCache":true,
+            "runtimeArgs": ["--incognito"]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Precue",
+            "url": "http://127.0.0.1:8282/sequencer/?rm/child/nopageid",
+            "webRoot": "${workspaceFolder}/clients",
+            "disableNetworkCache":true,
+            "runtimeArgs": ["--incognito"]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Device",
+            "url": "http://127.0.0.1:8282/device/?rm/mopo/",
+            "webRoot": "${workspaceFolder}/clients",
+            "disableNetworkCache":true,
+            //"runtimeArgs": ["--incognito"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Côté server",
+            "program": "${workspaceFolder}/server\\main.js"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Graphismes",
+            "url": "http://127.0.0.1:8282/graphismes/?rm/mopo/",
+            "webroot": "${workspaceFolder}/clients",
+            "disableNetworkCache": true,
+            "runtimeArgs": ["--incognito"],
+        }
+    ]
+}
