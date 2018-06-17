@@ -1,6 +1,6 @@
 define(
-	['sys', 'mixins.wrapper'],
-	function (sys, MixinsWrapper)
+	['sys', 'events'],
+	function (sys, events)
 	{
 		/**
 		* A client is a wrapper for a socket. When a client connects to the server
@@ -132,7 +132,7 @@ define(
 			this.setSocket(socket);
 		};
 
-		sys.inherits(Client, MixinsWrapper);
+		sys.inherits(Client, events.EventEmitter);
 
 		return Client;
 	});

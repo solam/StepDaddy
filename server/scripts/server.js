@@ -1,6 +1,6 @@
 define(
-	['express', 'http', 'socket.io', 'sys', 'mixins.wrapper', 'services.rooms', 'net.client'],
-	function (express, http, socket, sys, MixinsWrapper, RoomsManager, Client)
+	['express', 'http', 'socket.io', 'sys', 'events', 'services.rooms', 'net.client'],
+	function (express, http, socket, sys, events, RoomsManager, Client)
 	{
 		/**
 		* The Connection class is responsible for creating a server
@@ -311,7 +311,7 @@ define(
 			};
 		};
 
-		sys.inherits(Server, MixinsWrapper);
+		sys.inherits(Server, events.EventEmitter);
 
 		return Server;
 	});

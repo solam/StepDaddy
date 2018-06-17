@@ -1,6 +1,6 @@
 define(
-	['sys', 'mixins.wrapper'],
-	function (sys, MixinsWrapper)
+	['sys', 'events'],
+	function (sys, events)
 	{
 		/**
 		* A room is responsible for holding a list of clients that connected
@@ -31,7 +31,7 @@ define(
 			var _self = this;
 
 			/**
-			* The client that created the room and that manages the entir room
+			* The client that created the room and that manages the entire room
 			*
 			* @private
 			* @type {Client}
@@ -44,8 +44,7 @@ define(
 			* @private
 			* @type {Object}
 			*/
-			var _roomOwners = {};
-			var _roomOwnerChilds = {};
+			var _roomOwnerChildren = {};
 			var _roomOwnerChildSolo = {};
 			//var _roomInstruments = {}; // instruments to client id matrix
 			var _instruments = {};
@@ -134,13 +133,13 @@ define(
 						console.log('idSolo', idSolo);
 						if (id==idSolo)
 						{ // exclude room child solos from receiving any new get instrument after the one they got by calling their solo child room in the 1st place
-							//delete _roomOwnerChilds[id];                              
+							//delete _roomOwnerChildren[id];                              
 						}
 						else
 						{
-							if (typeof _roomOwnerChilds[id] !== 'undefined')
+							if (typeof _roomOwnerChildren[id] !== 'undefined')
 							{
-								_roomOwnerChilds[id].send('get_instrument', {client: data.client});
+								_roomOwnerChildren[id].send('get_instrument', {client: data.client});
 							}
 						}
 						*/
@@ -148,22 +147,22 @@ define(
 					}
 				}
 
-				if (Object.keys(_roomOwnerChilds).length > 0)
+				if (Object.keys(_roomOwnerChildren).length > 0)
 				{
-					for (id in _roomOwnerChilds)
+					for (id in _roomOwnerChildren)
 					{
-						if (typeof _roomOwnerChilds[id].pageId !== 'undefined')
+						if (typeof _roomOwnerChildren[id].pageId !== 'undefined')
 						{
 							var rezzult = _include(soloClients, id);
 							if (typeof rezzult == 'undefined')
 							{
-								_roomOwnerChilds[id].send('get_instrument', {client: data.client});
+								_roomOwnerChildren[id].send('get_instrument', {client: data.client});
 							}
 
 						}
 						else
 						{
-							_roomOwnerChilds[id].send('get_instrument', {client: data.client});
+							_roomOwnerChildren[id].send('get_instrument', {client: data.client});
 						}
 					}
 				}
@@ -172,21 +171,8 @@ define(
 			var _onNote = function (data)
 			{
 				_roomOwnerClient.send('note', {client: data.client, args: data.args});
-
-				if (Object.keys(_roomOwnerChilds).length > 0)
-				{
-					//console.log('_roomOwnerChilds:', _roomOwnerChilds); 
-					for (id in _roomOwnerChilds)
-					{
-						_roomOwnerChilds[id].send('note', {client: data.client, args: data.args});
-						//console.log('child room id:', id);
-					}
-				}
-
-				for (id in _clients)
-				{
-					_self.notifyClient(id, 'note', data);
-				}
+				_self.notifyChildren('note', {client: data.client, args: data.args});
+				_self.notifyClients('note', data);
 			};
 
 			var _onInstrument = function (data)
@@ -209,11 +195,11 @@ define(
 			{
 				_roomOwnerClient.send('modifier_change', {client: data.client, args: data.args});
 
-				if (Object.keys(_roomOwnerChilds).length > 0)
+				if (Object.keys(_roomOwnerChildren).length > 0)
 				{
-					for (id in _roomOwnerChilds)
+					for (id in _roomOwnerChildren)
 					{
-						_roomOwnerChilds[id].send('modifier_change', {client: data.client, args: data.args});
+						_roomOwnerChildren[id].send('modifier_change', {client: data.client, args: data.args});
 						//console.log('child room id:', id);
 					}
 				}
@@ -229,14 +215,6 @@ define(
 			var _onGetTracks = function (data)
 			{
 				_roomOwnerClient.send('get_tracks', {client: data.client});
-
-				if (Object.keys(_roomOwnerChilds).length > 0)
-				{
-					for (id in _roomOwnerChilds)
-					{
-						_roomOwnerChilds[id].send('get_tracks', {client: data.client});
-					}
-				}
 			}
 
 			//réponse du séquencer, à destination du device
@@ -259,7 +237,8 @@ define(
 			*/
 			var _addEventListeners = function (client)
 			{
-				console.log('Registering room specific event listeners for client', client.id);
+				console.log('Adding room specific event listeners for client', client.id);
+
 				client.on('get_instrument', _onGetInstrument)
 					.on('instrument', _onInstrument)
 					.on('get_tracks', _onGetTracks) //permettant de demander les tracks en cours
@@ -272,7 +251,7 @@ define(
 			};
 
 			/**
-			* Registers a room owner
+			* Registers a room owner and its children
 			*
 			* @public
 			* @function
@@ -281,85 +260,50 @@ define(
 			* @param {Function} errback The callback to be executed on error.
 			* @return {Room} This instance.
 			*/
-			this.registerRoomOwner = function (id, client, callback, errback)
-			{
+			this.registerRoomOwnerAndRoomChildren = function (id, client, callback, errback)
+			{			
 				var alreadyExists = false;
-				console.log('Registering as room owner the client with id', client.id);
-
-				/*  
-				if (typeof _roomOwners[client.id] !== 'undefined')
-				{
-					_roomOwners[client.id] = null;
-					alreadyExists = true;
-				}
-				*/
-
 				var ids = id.split('_');
 
-				if (ids[1] == 'child' && typeof ids[2] !== 'undefined' && ids[2] !== 'nopageid')
+				if(ids[1] == 'nochild') // first room creation by client requested = becomes master room
 				{
-					client.pageId = ids[2];
-				}
-
-				// first room creation by client requested = becomes master room
-				if /*(Object.keys(_roomOwners).length==0)*/(ids[1] == 'nochild')
-				{
+					console.log('Registering as room owner the client with id', client.id);
 					_roomOwnerClient = client;
 				}
 				else if (ids[1] == 'child' && typeof ids[2] !== 'undefined' && ids[2] !== 'nopageid')
 				{
-					//_roomOwnerChildSolo[client.id] = client;
-					_roomOwnerChilds[client.id] = client;
+					client.pageId = ids[2];
 
-					for (id in _roomOwnerChilds)
+					_roomOwnerChildren[client.id] = client;
+
+					for (id in _roomOwnerChildren)
 					{
 						for (clientId in _clients)
 						{
-							if (_roomOwnerChilds[id].pageId == _clients[clientId].pageId /*&& typeof _clients[clientId].loaded == 'undefined'*/)
+							if (_roomOwnerChildren[id].pageId == _clients[clientId].pageId)
 							{
 								//console.log('pageId: ', id); //.pageId
 								client.loaded = 1;
 								_roomOwnerChildSolo[client.id] = client;
-								_roomOwnerChilds[id].send('get_instrument', {client: clientId, insId: _instruments[clientId].id});
+								_roomOwnerChildren[id].send('get_instrument', {client: clientId, insId: _instruments[clientId].id});
 								//console.log('ins sent to ins room solo');
 							}
 						}
 					}
 				}
-				else if (ids[1] == 'child' /*|| typeof ids[2] == 'undefined' ||*/ && ids[2] == 'nopageid')
-				{ // additional room creation requested = become slave rooms
-					_roomOwnerChilds[client.id] = client;
+				else if (ids[1] == 'child' && ids[2] == 'nopageid') // additional room creation requested = become slave room
+				{ 
+					console.log('Registering as room owner child the client with id', client.id);
+					_roomOwnerChildren[client.id] = client;
 				}
-
-				//_roomOwnerClient = client;
-
-				_roomOwners[client.id] = client;
 
 				if (!alreadyExists)
 				{
-					console.log('Adding event listeners for', client.id);
 					_addEventListeners(client);
 				}
 
 				callback({room: this.id, client: client.id});
 
-				/*
-				if (ids[1]=='child' && typeof ids[2] !== 'undefined' && ids[2]!=='nopageid')
-				{
-					for(id in _roomOwnerChilds)
-					{
-						for(clientId in _clients)
-						{
-							console.log('pageId: ', _instruments[clientId]); //.pageId
-							if(_roomOwnerChilds[id].pageId==_clients[clientId].pageId)
-							{
-								_roomOwnerChilds[id].send('get_instrument', {client: clientId});
-								//console.log('ins sent to ins room solo');
-							} 
-						}
-					}
-				}
-				*/
 				return this;
 			};
 
@@ -377,7 +321,7 @@ define(
 			{
 				var alreadyExists = false;
 
-				console.log('Need to register client!', client);
+				console.log('Need to register client', client.id, 'for room', id);
 
 				if (typeof _clients[client.id] !== 'undefined')
 				{
@@ -386,7 +330,6 @@ define(
 				}
 
 				_clients[client.id] = client;
-				//_clientsPageIds = client.pageId;
 
 				if (!alreadyExists)
 				{
@@ -395,23 +338,15 @@ define(
 
 				callback({room: this.id, client: client.id, pwd: client.pwd});
 
-				if (Object.keys(_roomOwnerChilds).length > 0)
+				_self.notifyChildren('client_joined', {client: client.id, pwd: client.pwd});
+			
+				if (_roomOwnerClient) // Inform the room owner that a new client has connected to the room
 				{
-					for (id in _roomOwnerChilds)
-					{
-						_roomOwnerChilds[id].send('client_joined', {client: client.id, pwd: client.pwd});
-					}
-				}
-
-				if (_roomOwnerClient)
-				{
-					// Inform the room owner that a new client has
-					// connected to the room
 					_roomOwnerClient.send('client_joined', {client: client.id, pwd: client.pwd});
 				}
 
 				return this;
-			};
+			}
 
 			/**
 			* Removes a client from this room
@@ -448,37 +383,73 @@ define(
 				{
 					_clients[id].send(messageType, args);
 				}
-			};
-
-			this.notifyChildRoom = function (id, messageType, args)
-			{
-				if (typeof _roomOwnerChilds[id] !== 'undefined')
-				{
-					_roomOwnerChilds[id].send(messageType, args);
-				}
-			};
+			}
 
 			/**
-			* Broadcasts to all clients a message
-			* @param {String} messageType The type of the message type  of the message
-			*     to send to the client.
+			* Notifies all the clients
+			*
+			* @public
+			* @function
+			* @param {String} messageType The type of the message type  of the message to send to the client.
 			* @param {Object} args The arguments to send to the client.
+			*/
+			this.notifyClients = function (messageType, args)
+			{
+				if (Object.keys(_clients).length > 0)
+				{
+					for (id in _clients)
+					{
+						_clients[id].send(messageType, args);
+					}
+				}
+			}
+
+			/**
+			* Notifies a child of the room
+			*
+			* @public
+			* @function
+			* @param {String} id The id of the child.
+			* @param {String} messageType The type of the message type of the message to send to the child.
+			* @param {Object} args The arguments to send to the child.
+			*/
+			this.notifyChild = function (id, messageType, args)
+			{
+				if (typeof _roomOwnerChildren[id] !== 'undefined')
+				{
+					_roomOwnerChildren[id].send(messageType, args);
+				}
+			}
+
+			/**
+			* Notifies all the children of the room
+			*
+			* @public
+			* @function
+			* @param {String} messageType The type of the message type of the message to send to the children.
+			* @param {Object} args The arguments to send to the children.
+			*/
+			this.notifyChildren = function (messageType, args)
+			{
+				if (Object.keys(_roomOwnerChildren).length > 0)
+				{
+					for (id in _roomOwnerChildren)
+					{
+						_roomOwnerChildren[id].send(messageType, args);
+					}
+				}
+			}
+
+			/**
+			* Broadcasts to all clients and children a message
+			* @param {String} messageType The type of the message to send to the clients and children.
+			* @param {Object} args The arguments to send to the clients and children.
 			* @return {Room} The instance of this class.
 			*/
 			this.broadcast = function (messageType, args)
 			{
-				for (id in _clients)
-				{
-					_self.notifyClient(id, messageType, args);
-				}
-
-				if (Object.keys(_roomOwnerChilds).length > 0)
-				{
-					for (id in _roomOwnerChilds)
-					{
-						_self.notifyChildRoom(id, messageType, args);
-					}
-				}
+				_self.notifyClients(messageType, args);
+				_self.notifyChildren(messageType, args);
 
 				return this;
 			};
@@ -499,7 +470,7 @@ define(
 			};
 		};
 
-		sys.inherits(Room, MixinsWrapper);
+		sys.inherits(Room, events.EventEmitter);
 
 		return Room;
 	});

@@ -1,6 +1,6 @@
 define(
-	['sys', 'mixins.wrapper', 'services.room'],
-	function (sys, MixinsWrapper, Room)
+	['sys', 'events', 'services.room'],
+	function (sys, events, Room)
 	{
 		/**
 		* The RoomsManager class is responsible managing
@@ -35,16 +35,13 @@ define(
 				var roomArrayB = id.split('_');
 				var roomIdB = roomArrayB[0];
 
-				/*client.pwd = roomArray[1]; 
-				client.pageId = roomArray[2];*/
-
+				//ne crée une salle que si l'id est nouveau
 				if (typeof _rooms[roomIdB] === 'undefined')
 				{
 					_rooms[roomIdB] = new Room(roomIdB);
 				}
 
-				//console.log('id: ', id);
-				_rooms[roomIdB].registerRoomOwner(id, client, callback, errback);
+				_rooms[roomIdB].registerRoomOwnerAndRoomChildren(id, client, callback, errback);
 
 				return this;
 			};
@@ -70,7 +67,6 @@ define(
 				if (typeof _rooms[roomId] !== 'undefined')
 				{
 					_rooms[roomId].registerClient(client, callback, errback);
-					//console.log('clt: ', client/*, callback*/);
 				}
 				else
 				{
@@ -103,7 +99,7 @@ define(
 			};
 		};
 
-		sys.inherits(RoomsManager, MixinsWrapper);
+		sys.inherits(RoomsManager, events.EventEmitter);
 
 		return RoomsManager;
 	});
