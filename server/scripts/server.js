@@ -1,6 +1,6 @@
 define(
-	['express', 'http', 'socket.io', 'sys', 'events', 'services.rooms', 'net.client'],
-	function (express, http, socket, sys, events, RoomsManager, Client)
+	['express', 'http', 'socket.io', 'sys', 'events', 'services.rooms', 'net.client', 'enum.events'],
+	function (express, http, socket, sys, events, RoomsManager, Client, enumEvents)
 	{
 		/**
 		* The Connection class is responsible for creating a server
@@ -78,9 +78,9 @@ define(
 			*/
 			var _addEventListeners = function ()
 			{
-				_io.sockets.on('connection', function (socket)
+				_io.sockets.on(global.Events.CONNECTION, function (socket)
 				{
-					socket.on('register', function (data)
+					socket.on(global.Events.REGISTER, function (data)
 					{
 						if (!data.client)
 						{
@@ -118,7 +118,7 @@ define(
 				_roomsManager.createRoom(data.args.room, _clients[data.client],
 					function (response)
 					{
-						_clients[data.client].send('execute', {success: true, id: data.id, response: response});
+						_clients[data.client].send(global.Events.EXECUTE, {success: true, id: data.id, response: response});
 						/*
 						var fs = require('fs'); // ./clients/sequencer/data.txt path might be unix dependant due to use of backslashes
 						fs.writeFile('./clients/sequencer/data.txt', _sessionChannels-1, function (err)
@@ -133,7 +133,7 @@ define(
 					},
 					function (error)
 					{
-						_clients[data.client].send('execute', {success: false, id: data.id, response: error});
+						_clients[data.client].send(global.Events.EXECUTE, {success: false, id: data.id, response: error});
 					});
 			};
 
@@ -149,7 +149,7 @@ define(
 				_roomsManager.joinRoom(data.args.room, _clients[data.client],
 					function (response)
 					{
-						_clients[data.client].send('execute', {success: true, id: data.id, response: response});
+						_clients[data.client].send(global.Events.EXECUTE, {success: true, id: data.id, response: response});
 						/*
 						//console.log('data.id', data.id);
 						_clientJoinedCount++;
@@ -165,7 +165,7 @@ define(
 					},
 					function (error)
 					{
-						_clients[data.client].send('execute', {success: false, id: data.id, response: error});
+						_clients[data.client].send(global.Events.EXECUTE, {success: false, id: data.id, response: error});
 					});
 			};
 
@@ -199,7 +199,7 @@ define(
 			*/
 			var _onSearch = function (data)
 			{
-				_clients[data.client].send('execute', {success: true, id: data.id, response: 'you searched for ' + data.args.keyword});
+				_clients[data.client].send(global.Events.EXECUTE, {success: true, id: data.id, response: 'you searched for ' + data.args.keyword});
 			};
 
 			/**
@@ -211,7 +211,7 @@ define(
 			*/
 			var _onResolveURL = function (data)
 			{
-				_clients[data.client].send('execute', {success: true, id: data.id, response: 'http://localhost:8282/common/resources/Kavinsky - Nightcall (Feat. Lovefoxxx).mp3'});
+				_clients[data.client].send(global.Events.EXECUTE, {success: true, id: data.id, response: 'http://localhost:8282/common/resources/Kavinsky - Nightcall (Feat. Lovefoxxx).mp3'});
 			};
 
 			/**
@@ -239,16 +239,16 @@ define(
 					// If this is a new socket then we create a new client
 					// class and register all the events to it.
 					_clients[clientId] = new Client(clientId, socket)
-						.on('emit', _onClientEmit)
-						.on('byebye', _onClientBye)
-						.on('disconnect', _onClientBye)
-						.on('create_room', _onClientCreateRoom)
-						.on('join_room', _onClientJoinRoom)
-						.on('search', _onSearch)
-						.on('resolve_url', _onResolveURL);
+						.on(global.Events.EMIT, _onClientEmit)
+						.on(global.Events.BYEBYE, _onClientBye)
+						.on(global.Events.DISCONNECT, _onClientBye)
+						.on(global.Events.CREATE_ROOM, _onClientCreateRoom)
+						.on(global.Events.JOIN_ROOM, _onClientJoinRoom)
+						.on(global.Events.SEARCH, _onSearch)
+						.on(global.Events.RESOLVE_URL, _onResolveURL);
 				}
 
-				_clients[clientId].send('register', clientId);
+				_clients[clientId].send(global.Events.REGISTER, clientId);
 
 				return this;
 			};

@@ -1,6 +1,6 @@
 define(
-	['sys', 'events'],
-	function (sys, events)
+	['sys', 'events', 'enum.events'],
+	function (sys, events, enumEvents)
 	{
 		/**
 		* A room is responsible for holding a list of clients that connected
@@ -74,7 +74,7 @@ define(
 			{
 				for (id in _clients)
 				{
-					_self.notifyClient(id, 'room_closed', {room: _self.id});
+					_self.notifyClient(id, global.Events.ROOM_CLOSED, {room: _self.id});
 					_self.removeClient(id);
 				}
 
@@ -105,7 +105,7 @@ define(
 				else
 				{
 					// Inform the room creator that a client left.
-					_roomOwnerClient.send('client_left', {client: data.client});
+					_roomOwnerClient.send(global.Events.CLIENT_LEFT, {client: data.client});
 				}
 
 				//console.log('_onClientBye: ', data, _clients[data.client]);
@@ -121,7 +121,7 @@ define(
 
 			var _onGetInstrument = function (data)
 			{
-				_roomOwnerClient.send('get_instrument', {client: data.client});
+				_roomOwnerClient.send(global.Events.GET_INSTRUMENT, {client: data.client});
 
 				var soloClients = [];
 
@@ -156,13 +156,13 @@ define(
 							var rezzult = _include(soloClients, id);
 							if (typeof rezzult == 'undefined')
 							{
-								_roomOwnerChildren[id].send('get_instrument', {client: data.client});
+								_roomOwnerChildren[id].send(global.Events.GET_INSTRUMENT, {client: data.client});
 							}
 
 						}
 						else
 						{
-							_roomOwnerChildren[id].send('get_instrument', {client: data.client});
+							_roomOwnerChildren[id].send(global.Events.GET_INSTRUMENT, {client: data.client});
 						}
 					}
 				}
@@ -170,9 +170,9 @@ define(
 
 			var _onNote = function (data)
 			{
-				_roomOwnerClient.send('note', {client: data.client, args: data.args});
-				_self.notifyChildren('note', {client: data.client, args: data.args});
-				_self.notifyClients('note', data);
+				_roomOwnerClient.send(global.Events.NOTE, {client: data.client, args: data.args});
+				_self.notifyChildren(global.Events.NOTE, {client: data.client, args: data.args});
+				_self.notifyClients(global.Events.NOTE, data);
 			};
 
 			var _onInstrument = function (data)
@@ -181,7 +181,7 @@ define(
 
 				if (receiver)
 				{
-					receiver.send('instrument', data.args.instrument);
+					receiver.send(global.Events.INSTRUMENT, data.args.instrument);
 					_instruments[receiver.id] = data.args.instrument;
 				}
 
@@ -193,13 +193,13 @@ define(
 
 			var _onModifierChange = function (data)
 			{
-				_roomOwnerClient.send('modifier_change', {client: data.client, args: data.args});
+				_roomOwnerClient.send(global.Events.MODIFIER_CHANGE, {client: data.client, args: data.args});
 
 				if (Object.keys(_roomOwnerChildren).length > 0)
 				{
 					for (id in _roomOwnerChildren)
 					{
-						_roomOwnerChildren[id].send('modifier_change', {client: data.client, args: data.args});
+						_roomOwnerChildren[id].send(global.Events.MODIFIER_CHANGE, {client: data.client, args: data.args});
 						//console.log('child room id:', id);
 					}
 				}
@@ -207,14 +207,14 @@ define(
 
 			var _onSeqencerBeat = function (data)
 			{
-				_self.broadcast('seq_beat', data);
+				_self.broadcast(global.Events.SEQUENCER_BEAT, data);
 				//_self.broadcast('note', data);
 			};
 
 			//demande de tracks venant du device, vers le sequencer
 			var _onGetTracks = function (data)
 			{
-				_roomOwnerClient.send('get_tracks', {client: data.client});
+				_roomOwnerClient.send(global.Events.GET_TRACKS, {client: data.client});
 			}
 
 			//réponse du séquencer, à destination du device
@@ -224,7 +224,7 @@ define(
 
 				if (receiver)
 				{
-					receiver.send('tracks', data.args.tracks);
+					receiver.send(global.Events.TRACKS, data.args.tracks);
 				}
 			}
 
@@ -239,15 +239,15 @@ define(
 			{
 				console.log('Adding room specific event listeners for client', client.id);
 
-				client.on('get_instrument', _onGetInstrument)
-					.on('instrument', _onInstrument)
-					.on('get_tracks', _onGetTracks) //permettant de demander les tracks en cours
-					.on('tracks', _onTracks) //permettant de recevoir les tracks en cours
-					.on('modifier_change', _onModifierChange)
-					.on('note', _onNote)
-					.on('disconnect', _onClientBye)
-					.on('byebye', _onClientBye)
-					.on('seq_beat', _onSeqencerBeat);
+				client.on(global.Events.GET_INSTRUMENT, _onGetInstrument)
+					.on(global.Events.INSTRUMENT, _onInstrument)
+					.on(global.Events.GET_TRACKS, _onGetTracks) //permettant de demander les tracks en cours
+					.on(global.Events.TRACKS, _onTracks) //permettant de recevoir les tracks en cours
+					.on(global.Events.MODIFIER_CHANGE, _onModifierChange)
+					.on(global.Events.NOTE, _onNote)
+					.on(global.Events.DISCONNECT, _onClientBye)
+					.on(global.Events.BYEBYE, _onClientBye)
+					.on(global.Events.SEQUENCER_BEAT, _onSeqencerBeat);
 			};
 
 			/**
@@ -285,7 +285,7 @@ define(
 								//console.log('pageId: ', id); //.pageId
 								client.loaded = 1;
 								_roomOwnerChildSolo[client.id] = client;
-								_roomOwnerChildren[id].send('get_instrument', {client: clientId, insId: _instruments[clientId].id});
+								_roomOwnerChildren[id].send(global.Events.GET_INSTRUMENT, {client: clientId, insId: _instruments[clientId].id});
 								//console.log('ins sent to ins room solo');
 							}
 						}
@@ -338,11 +338,11 @@ define(
 
 				callback({room: this.id, client: client.id, pwd: client.pwd});
 
-				_self.notifyChildren('client_joined', {client: client.id, pwd: client.pwd});
+				_self.notifyChildren(global.Events.CLIENT_JOINED, {client: client.id, pwd: client.pwd});
 			
 				if (_roomOwnerClient) // Inform the room owner that a new client has connected to the room
 				{
-					_roomOwnerClient.send('client_joined', {client: client.id, pwd: client.pwd});
+					_roomOwnerClient.send(global.Events.CLIENT_JOINED, {client: client.id, pwd: client.pwd});
 				}
 
 				return this;
@@ -465,7 +465,7 @@ define(
 			this.dispose = function ()
 			{
 				_removeAllFromRoom();
-				_roomOwnerClient.send('room_closed', {room: this.id});
+				_roomOwnerClient.send(global.Events.ROOM_CLOSED, {room: this.id});
 				_roomOwnerClient = null;
 			};
 		};

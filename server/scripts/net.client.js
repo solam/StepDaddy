@@ -1,6 +1,6 @@
 define(
-	['sys', 'events'],
-	function (sys, events)
+	['sys', 'events', 'enum.events'],
+	function (sys, events, enumEvents)
 	{
 		/**
 		* A client is a wrapper for a socket. When a client connects to the server
@@ -66,26 +66,26 @@ define(
 			var _addEventListeners = function ()
 			{
 				//quand le socket recoit l'ordre "emit", il emet l'ordre "emit" défini sur le client par le server
-				_socket.on('emit', function (data)
+				_socket.on(global.Events.EMIT, function (data)
 				{
-					_self.emit('emit', data);
+					_self.emit(global.Events.EMIT, data);
 				});
 
 				//quand le socket recoit l'ordre "byebye", il emet l'ordre "byebye" défini sur le client par le server, et le socket se deconnecte
-				_socket.on('byebye', function (data)
+				_socket.on(global.Events.BYEBYE, function (data)
 				{
-					_self.emit('byebye', {client: _self.id});
+					_self.emit(global.Events.BYEBYE, {client: _self.id});
 					_socket.disconnect();
 				});
 
 				//quand le socket recoit l'ordre "disconnect", il emet l'ordre "disconnect" défini sur le client par le server
-				_socket.on('disconnect', function ()
+				_socket.on(global.Events.DISCONNECT, function ()
 				{
 					this.isConnected = false;
-					_self.emit('disconnect', {client: _self.id});
+					_self.emit(global.Events.DISCONNECT, {client: _self.id});
 				});
 
-				_socket.on('execute', _onExecute);
+				_socket.on(global.Events.EXECUTE, _onExecute);
 			};
 
 			/**
