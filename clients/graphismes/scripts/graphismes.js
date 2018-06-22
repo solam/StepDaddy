@@ -72,23 +72,18 @@
 
         //fonction appelée lors d'un signal SEQUENCER_BEAT
         var _onSequencerBeat = function(data)
-        {
-            _canvas.definitionCouleur(0,0,0);
-            _canvas.dessinerRectangle(-1, -1, -1, -1, true);
-            
-            for(var numInstru=0; numInstru<_tracks.length; numInstru++)
+        {            
+            for(var numInstru=0; numInstru<_tracks.length; numInstru++) //parcours des instruments
             {
-                for(var numPiste=0; numPiste<_tracks[numInstru].length; numPiste++)
+                for(var numPiste=0; numPiste<_tracks[numInstru].length; numPiste++) //parcours des tracks sur un instrument
                 {
-                    if(_tracks[numInstru][numPiste] !== 'undefined')
+                    if (_tracks[numInstru][numPiste] !== 'undefined') //vérification que cet instrument a bien des tracks
                     {
-                        _canvas.definitionCouleur(255, 255, 255);
-                        _canvas.dessinerRectangle(numInstru*20, numPiste*30, 10, 10, true);
-
-                        if(_tracks[numInstru][numPiste].notes[data.beat]==1)
+                        if (_tracks[numInstru][numPiste].notes[data.beat] == 1) //vérification que la note (1 à 16) renvoyée par data.beat est active
                         {
-                            _canvas.definitionCouleur(4, 12, 240);
-                            _canvas.dessinerRectangle(numInstru*20, numPiste*30, 10, 10, true);
+                            //_canvas.affichage1(numInstru, _tracks.length, numPiste, _tracks[numInstru].length, data.beat);
+                            //_canvas.affichage2(numInstru, numPiste, data.beat);
+                            _canvas.affichage3(numInstru, numPiste, data.beat);
                         }
                     }
                 }
@@ -109,6 +104,10 @@
         var _onTracks = function(data)
         {
             _tracks = data;
+
+            //_canvas.initAffichage1(_tracks);
+            //_canvas.initAffichage2(_tracks);
+            _canvas.initAffichage3(_tracks);
         }
 
         var _onNote = function(data)
