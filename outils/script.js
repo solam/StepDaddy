@@ -44,109 +44,13 @@
         //on récupère la conf
         var insConf = window["insConf" + numConf];
 
-        gestionCanaux(divInsConf, insConf);
-    }
+        //gestionCanaux(divInsConf, insConf);
+        boucleParsing(insConf, divInsConf);
 
-    //cette fonction parcourt les canaux, creant un nouveau div pour chaque nouveau canal, puis va plonger dans chaque canal
-    var gestionCanaux = function (divInsConf, insConf)
-    {
-        parcourirTableau(insConf, function (canal)
-        {
-            var divCanal = creationNoeudEtAjout("div", null, divInsConf, "canal couleurFond" + insConf.indexOf(canal) % 2, null, null);
-            gestionPropertiesCanal(divCanal, canal);
-        });
+        gestionCouleur(divInsConf, 0);
+        gestionPosition(divInsConf);
     }
     
-    //cette fonction va parcourir les parametres du canal, creant un div pour chaque parametre, 
-    //puis plonge quand il rencontre "conf" ou "patterns", qui sont également des tableaux d'objets
-    var gestionPropertiesCanal = function(divCanal, canal)
-    {
-        parcourirObjet(canal, function (nomProp, contenuProp)
-        {
-            var divPropertyCanal = creationNoeudEtAjout("div", null, divCanal, null, nomProp, null);
-
-            switch (nomProp)
-            {
-                case 'conf':
-                    gestionConfs(divPropertyCanal, contenuProp);
-                    break;
-                case 'patterns':
-                    parcoursTableauDObjets(divPropertyCanal, contenuProp);
-                    break;
-                default:
-                    creationNoeudEtAjout("input", {type: "text"}, divPropertyCanal, "decalageAbsolu", null, contenuProp);
-                    break;
-            }
-        });
-    }
-
-    var gestionConfs = function(divProperty, confs)
-    {
-        parcourirTableau(confs, function (conf)
-        {
-            var divConf = creationNoeudEtAjout("div", null, divProperty, "decalageRelatif", null, null);
-            gestionPropertiesConf(divConf, conf);
-        });
-        
-        //divProperty.appendChild(document.createElement("br"));
-    }
-
-    var gestionPropertiesConf = function(divConf, conf)
-    {
-        parcourirObjet(conf, function (nomProp, contenuProp)
-        {
-            var divPropertyConf = creationNoeudEtAjout("div", null, divConf, null, nomProp, null);
-
-            switch (nomProp)
-            {
-                case 'tracks':
-                    parcoursTableauDObjets(divPropertyConf, contenuProp);
-                    break;
-                case 'controls':
-                    parcoursTableauDObjets(divPropertyConf, contenuProp);
-                    break;
-                default:
-                    creationNoeudEtAjout("input", {type: "text"}, divPropertyConf, "decalageAbsolu", null, contenuProp);
-                    break;
-            }
-        });
-    }
-
-    /*
-    var gestionPatterns = function (divProperty, patterns)
-    {
-        parcourirTableau(patterns, function (pattern)
-        {
-            var divPattern = creationNoeudEtAjout("div", null, divProperty, "decalageRelatif", null, null);
-            gestionPropertiesPattern(divPattern, pattern);
-        });
-    }
-
-    var gestionPropertiesPattern= function(divPattern, pattern)
-    {
-        parcourirObjet(pattern, function (nomProp, contenuProp)
-        {
-            var divPropertyPattern = creationNoeudEtAjout("text", null, divPattern, null, nomProp, null);
-            creationNoeudEtAjout("input", {type: "text"}, divPropertyPattern, "decalageAbsolu", null, contenuProp);
-        });
-    }
-    */
-
-    //fonction parcourant un tableau qui contient des objets sans profondeur (pas de tableaux à l'intérieur de l'objet)
-    var parcoursTableauDObjets = function (div, tabObjets)
-    {
-        parcourirTableau(tabObjets, function (objet)
-        {
-            var divObjet = creationNoeudEtAjout("div", null, div, "decalageRelatif", null, null);
-
-            parcourirObjet(objet, function (nomProp, contenuProp)
-            {
-                var divProperty = creationNoeudEtAjout("div", null, divObjet, null, nomProp, null);
-                creationNoeudEtAjout("input", {type: "text"}, divProperty, "decalageAbsolu", null, contenuProp);
-            });
-        });
-    }
-
     //fonction parcourant un tableau et appliquant une fonction à chaque élement
     var parcourirTableau = function(tableauAParcourir, fonctionAAppliquerAuxElementsDuTableau)
     {
@@ -159,6 +63,65 @@
     {
         for (var prop in objet)
             fonctionAAppliquerALaPropriete(prop, objet[prop]);
+    }
+
+    //fonction récursive parcourant successivement tout le contenu de la config, et prenant en compte 3 cas : c'est un tableau, c'est un objet, c'est un element tout seul
+    var boucleParsing = function (element, div)
+    {
+        if (Array.isArray(element)) //cas 1 : tableau
+        {
+            parcourirTableau(element, function (objet)
+            {
+                var divObjet = creationNoeudEtAjout("div", null, div, "elementTableau", null, null);
+
+                boucleParsing(objet, divObjet);
+            });
+        }
+        else
+        {
+            if (typeof element === "object" && !(element instanceof Array)) //cas 2 : objet
+            {
+                parcourirObjet(element, function (nomProp, contenuProp)
+                {
+                    var divProperty = creationNoeudEtAjout("div", null, div, "proprieteObjet", nomProp, null);
+
+                    boucleParsing(contenuProp, divProperty);
+                });
+            }
+            else
+            {
+                creationNoeudEtAjout("input", {type: "text"}, div, "decalageAbsolu", null, element);
+            }
+        }
+    }
+
+    var gestionCouleur = function (div, niveau)
+    {
+        for (var i = 0; i < div.childNodes.length; i++)
+        {
+            if (div.childNodes[i].nodeName == "DIV") //en gros, tant qu'on manipule un div
+            {
+                div.childNodes[i].style.backgroundColor = 'rgb(' + (100 + niveau * 20).toString() + "," + (200 + niveau * 20).toString() + "," + (niveau * 20).toString() + ")";
+                gestionCouleur(div.childNodes[i], niveau + 1);
+            }
+        }
+    }
+
+    //fonction gérant la position des blocs en fonction de leurs fonctions
+    var gestionPosition = function (div)
+    {
+        for (var i = 0; i < div.childNodes.length; i++)
+        {
+            if (div.childNodes[i].nodeName == "DIV") //en gros, tant qu'on manipule un div
+            {
+                if (div.className.includes("proprieteObjet") && (div.childNodes[i].className.includes("elementTableau") || div.childNodes[i].className.includes("proprieteObjet")))
+                {
+                    div.childNodes[i].className += " decalageRelatif";
+                }
+
+                gestionPosition(div.childNodes[i]);
+            }
+        }
     }
 
     //fonction creant un nouveau noeud, ses paramètres, lui appliquant une classe, une valeur, donnant son contenu texte et l'inserant sous le bon tag

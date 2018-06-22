@@ -35,17 +35,28 @@
 	background-color:#74D0F1;
 }
 
+.couleurFond10
+{
+	background-color:#74D0E1;
+}
+
+.couleurFond11
+{
+	background-color:#74D101;
+}
+
 #insConf
 {
     position:relative;
     width:100%;
 }
 
-.canal
+/*.canal
 {
     position:relative;
     width:100%;
 }
+*/
 
 .decalageRelatif
 {
