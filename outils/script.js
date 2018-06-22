@@ -37,6 +37,12 @@
         //on nettoie le contenu que ce tag peut contenir (exécution préalable de ce code, par exemple)
         divInsConf.innerHTML = "";
 
+        //on ajoute la gestion du double-click sur un élement texte de divInsConf
+        divInsConf.addEventListener("dblclick", (e) => _onDoubleClick(e));
+
+        //on ajoute la gestion du enter sur un élement texte de divInsConf
+        divInsConf.addEventListener("keypress", (e) => _onKeyPress(e));
+
         //on récupère le numéro de la conf sélectionnée
         var select = document.querySelector("select");
         var numConf = select.options[select.selectedIndex].value;
@@ -49,6 +55,40 @@
 
         gestionCouleur(divInsConf, 0);
         gestionPosition(divInsConf);
+    }
+
+    var _onDoubleClick = function (e)
+    {
+        var texte = e.target.childNodes[0].textContent;
+        var elementARajouter = document.createElement("input");
+        elementARajouter.setAttribute("type", "text");
+        elementARajouter.setAttribute("value", texte);
+
+        //substitution
+        e.target.removeChild(e.target.childNodes[0]);
+        e.target.insertBefore(elementARajouter, e.target.firstChild);
+
+        //surlignage du texte
+        elementARajouter.select();
+    }
+
+    var _onKeyPress = function (e)
+    {
+        if(e.keyCode == 13)
+        {
+            _onEnter(e);
+        }
+    }
+
+    var _onEnter = function (e)
+    {
+        var texte = e.target.value;
+        var elementARajouter = document.createTextNode(texte);
+
+        //substitution
+        var nodeParent = e.target.parentNode;
+        e.target.parentNode.removeChild(e.target);
+        nodeParent.insertBefore(elementARajouter, nodeParent.firstChild);
     }
     
     //fonction parcourant un tableau et appliquant une fonction à chaque élement
@@ -127,11 +167,12 @@
     //fonction creant un nouveau noeud, ses paramètres, lui appliquant une classe, une valeur, donnant son contenu texte et l'inserant sous le bon tag
     var creationNoeudEtAjout = function (nomTag, parametres, tagParent, classe, texte, valeur)
     {
+        var tag = document.createElement(nomTag);
+
         if (parametres !== null)
-            var tag = document.createElement(nomTag, parametres);
-        else
-            var tag = document.createElement(nomTag);
-        
+            for (var prop in parametres)
+                tag.setAttribute(prop, parametres[prop]);
+            
         if(classe !== null)
             tag.className = classe;
 
@@ -139,7 +180,7 @@
             tag.textContent = texte;
         
         if (valeur !== null)
-            tag.value = valeur;
+            tag.setAttribute("value", valeur);
         
         tagParent.appendChild(tag);
 
