@@ -1,0 +1,60 @@
+.root
+{
+
+}
+
+/* gestion des visibilités */
+.visible
+{
+    visibility:visible;
+}
+
+.invisible
+{
+    visibility:hidden;
+}
+
+/* gestion des couleurs */
+.couleurFond0
+{
+	background-color:#FFE4C4;
+}
+
+.couleurFond00
+{
+	background-color:#FFE4B4;
+}
+
+.couleurFond01
+{
+	background-color:#FFE4D4;
+}
+
+.couleurFond1
+{
+	background-color:#74D0F1;
+}
+
+#insConf
+{
+    position:relative;
+    width:100%;
+}
+
+.canal
+{
+    position:relative;
+    width:100%;
+}
+
+.decalageRelatif
+{
+    position:relative;
+    left:50px;
+}
+
+.decalageAbsolu
+{
+    position:absolute;
+    left:150px;
+}
