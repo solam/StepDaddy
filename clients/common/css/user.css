@@ -1248,6 +1248,7 @@ body.session10 #pattern-editor {
   margin-bottom: 10px;      
 }
 
+/*
 .session10.channel6 #thepatterns, 
 .session10.channel7 #thepatterns,
 .session10.channel8 #thepatterns,
@@ -1259,11 +1260,11 @@ body.session10 #pattern-editor {
 .session10.channel14 #thepatterns, 
 .session10.channel15 #thepatterns,
 .session10.channel16 #thepatterns,
-.session10.channel17 #thepatterns,
+.session10.channel17 #thepatterns,*/
 .subinfo,
 #sessiontips .session {
   display: none;
-}
+} 
 
 .session1 #sessiontips #s1,
 .session9 #sessiontips #s9,

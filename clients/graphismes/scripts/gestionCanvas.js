@@ -95,7 +95,7 @@
 			dessinerRectangle(xCentre - w / 2, yCentre - h / 2, w, h, plein);
 		}
 
-		function rectangleTournant(xCentre, yCentre, w, h, plein, )
+		function rectangleTournant(xCentre, yCentre, w, h, plein )
 		{
 			var w = wMin + (wMax - wMin) * (compteur % (nbPeriodesW * rafraichissement) / (nbPeriodesW * rafraichissement));
 			var h = hMin + (hMax - hMin) * (compteur % (nbPeriodesH * rafraichissement) / (nbPeriodesH * rafraichissement));

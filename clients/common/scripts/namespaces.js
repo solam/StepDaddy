@@ -1,5 +1,10 @@
-﻿window.SERVER = '127.0.0.1:60000';
-window.CLIENTS = '127.0.0.1:8282/sequencer';
+ip = '192.168.1.48';
+
+window.ip = ip;
+
+// It is useful not to use as IP a value like '127.0.0.1' so that (for instance) mobile devices (on same Wi-Fi network) may connect to the right machine hosting the ...Loops app
+window.SERVER = 'http://'+ip+':60000'; //  
+window.CLIENTS = 'http://'+ip+':8282/sequencer'; // 
 /**
  * The mixr namespace
  * @type {Object}

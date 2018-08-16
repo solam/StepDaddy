@@ -32,7 +32,9 @@
 
     var _onInstrument = function(data) {
 
+//alert(window.ip);      // 'ip: ', 'string', 
 
+window.instrumentdata = data;
 
 /*var startDate = new Date();
 var startTimestamp = startDate.getTime();
@@ -470,6 +472,13 @@ var countdownMode = data.channelInfo.countdownMode;
 
 if (data.instrumentName=='Conductor') {
   var countdownMode = 0; // 0: no countdown on conductor
+}
+
+window.gfxMode = 'local'; // vs. global
+
+if (data.instrumentName=='gfx') {  
+  window['instrumentType'] = 'gfx';
+  new Graphismes().initialize();
 }
 
 

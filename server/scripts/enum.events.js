@@ -127,5 +127,19 @@
             * @type {String}
             */
             TRACKS: 'tracks',
+
+            /**
+            * The GET_SESSION event
+            * @type {String}
+            */
+            GET_SESSION: 'get_session',
+
+            /**
+            * The SESSION event
+            * @type {String}
+            */
+            SESSION: 'session',
+
+
         });
 }());

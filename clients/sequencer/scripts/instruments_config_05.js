@@ -3944,6 +3944,29 @@ window.insConf10 = [
 }, 
 
 
+
+{ 
+  channelName: '01b gfx',   // first gfx user channel
+  trackSet: 0,
+  audiolink: 0,
+  conf: [{ 
+    type: 'gfx', 
+    instrumentName: 'gfx', 
+    name: 'gfx 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: sess10ConductorCtrls //session7ConductorControls
+  }] 
+
+  //, trackSet: 0, defaultPreset: 0, presets: s9preset, defaultPattern: 0, defaultPatternSeq: 0, 
+
+}, 
+
+
+
+
+
+//*
 { 
   channelName: '02 (1bar/1) static patterns', conf: window['s10NoPtnEdit_Ch2'], trackSet: 0, defaultPreset: 0, presets: window['s9DefPresetCh1'], defaultPattern: 1, defaultPatternSeq: 0, // fixed
   patterns: [
@@ -3953,8 +3976,30 @@ window.insConf10 = [
     {"name":"7-15 hits","classs":"channel","id":"s10_ch2_bar1_ptn03","notenb":[2,2],"tracks":[[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0]]},
   ],      
 }, 
+//*/
 
 
+
+{ 
+  channelName: '02b gfx', // gfx user ch 02    
+  audiolink: 3,
+  trackSet: 0,
+  conf: [{ 
+    type: 'gfx', 
+    instrumentName: 'gfx', 
+    name: 'gfx 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: sess10ConductorCtrls //session7ConductorControls
+  }] 
+
+  //, trackSet: 0, defaultPreset: 0, presets: s9preset, defaultPattern: 0, defaultPatternSeq: 0, 
+
+}, 
+
+
+
+//*
 { 
   channelName: '03 (1bar/1) static patterns', conf: window['s10NoPtnEdit_Ch3'], trackSet: 0, defaultPreset: 0, presets: window['s9DefPresetCh1'], defaultPattern: 1, defaultPatternSeq: 0, // fixed
   patterns: [
@@ -3963,8 +4008,470 @@ window.insConf10 = [
     {"name":"techno hihats","classs":"channel","id":"s10_ch3_bar1_ptn02","notenb":[4,4],"tracks":[[0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0]]},
   ],      
 }, 
+//*/
 
 
+
+{ 
+  channelName: '03b gfx',     
+  audiolink: 5,
+  trackSet: 0,
+  conf: [{ 
+    type: 'gfx', 
+    instrumentName: 'gfx', 
+    name: 'gfx 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: sess10ConductorCtrls
+  }] 
+
+
+}, 
+
+
+
+
+{ sessionName: 'The Chase',
+  channelName: 'Ch4 | Bassline',  
+  trackSet: 0, 
+  defaultPattern: 1, 
+  patterns: [ // channel patterns
+    {"name":"reset",      "classs":"channel", "id":"2fb82950-36f3-11e6-aa68-d355ddb21e83", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
+    {"name":"bassline b", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f", "tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]]}
+  ],  
+
+  defaultPatternSeq: 0, 
+  patternSeq: [     
+    [ {"name":"bassline a", "classs":"channel", "id":"712cc380-3d17-11e6-bd11-650c5a0c542f"},
+      {"name":"bassline a", "classs":"channel", "id":"01627d00-3d18-11e6-bd11-650c5a0c542f"} ]
+  ], 
+
+  conf: [ // kits 
+
+              { // Kit
+            type: 'synth',
+            instrumentName: 'AikeWebsynth1', // aike_ws_01
+            url:'http://aikelab.net/websynth/',
+
+            color: 'rgba(0, 171, 157, 0.95)',
+            name: '303 square bass', // preset name
+            kitNumber: 1,     
+
+
+
+      tracks: [
+        { name: 'D#3',
+          note:  10
+        },       
+        { name: 'C3',
+          note:  7
+        },  
+        { name: 'A#2',
+          note:  5
+        }, 
+        { name: 'G2',
+          note:  2
+        }, 
+        { name: 'F2',
+          note:  0
+        }
+      ],
+
+/*
+            tracks: [
+              { name: 'C2',
+                note: -5 
+              },  
+              { name: 'B1',
+                note: -6
+              }, 
+              { name: 'A1',
+                note: -8
+              }, 
+              { name: 'G1',
+                note: -10
+              }, 
+              { name: 'F1',
+                note: -12
+              },   
+              { name: 'E1',
+                note: -13
+              }, 
+              { name: 'D1',
+                note: -15
+              },  
+              { name: 'C1',
+                note: -17
+              }                                                                               
+            ],
+*/
+            controls: [ // aka preset values
+
+
+                //
+        { name: 'Change preset',
+          id: 998,
+          type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
+          x: {
+            name: 'Kit change',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, // 0: off | 1: on                   
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },
+
+        { name: 'Change pattern',
+          id: 994,
+          type: 'ddmenu', 
+          x: {
+            name: 'Pattern change',
+            param: '[external]', 
+            value: 0,
+            stepSize: 0, 
+            interpolate: 0, 
+            displayedRangeMin: 0,
+            displayedRangeMax: '[calc]',
+            min: 0,
+            max: '[calc]'
+          }                 
+        },  
+
+
+        { 
+          name: 'Pattern sequencer',
+          id: 992,
+
+          type: 'multiselect', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Sequence',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        }, 
+
+
+        { 
+          name: 'Save Pattern',
+          id: 995,
+
+          type: 'contact', // nexus push button
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Save Pattern',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, 
+              interpolate: 0 
+          }                 
+        },
+
+
+       
+
+
+           
+
+
+                { 
+                  name: 'osc1 waveform',
+                  id: 1,
+                  type: 'ddmenu',                                    
+                  x: {
+                    name: 'osc1 waveform',
+                    param: 'vco1.set_wave',                     
+                    value: 1,
+                    stepSize: 1, 
+                    interpolate: 0, 
+                    min: 0,
+                    max: 2, // 124        
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    }  
+
+                  }                
+                },  
+
+                { 
+                  name: 'osc2 waveform',
+                  id: 2,
+                  type: 'ddmenu',                                    
+                  x: {
+                    name: 'osc2 waveform',
+                    param: 'vco2.set_wave',                     
+                    value: 2,
+                    stepSize: 1, 
+                    interpolate: 0, 
+                    min: 0,
+                    max: 2,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    }                                          
+
+                  }                
+                }, 
+
+
+                { 
+                  name: 'osc1 vol',
+                  id: 3,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'osc1 vol',
+                    param: 'vco1.set_gain',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },
+
+  
+
+
+                { 
+                  name: 'osc2 vol',
+                  id: 4,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'osc2 vol',
+                    param: 'vco2.set_gain',                     
+                    value: 35,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },
+
+  
+
+                { 
+                  name: 'osc2 pitch',
+                  id: 5,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'osc2 pitch',
+                    param: 'vco2.set_pitch',                     
+                    value: 76, // -30 for high pitcehd notes
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },  
+
+
+
+                { 
+                  name: 'env attack',
+                  id: 6,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'env attack',
+                    param: 'eg.set_a',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'env decay',
+                  id: 7,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'env decay',
+                    param: 'eg.set_d',                     
+                    value: 5,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'env sustain',
+                  id: 8,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'env sustain',
+                    param: 'eg.set_s',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'env release',
+                  id: 9,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'env release',
+                    param: 'eg.set_r',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },                                                                                                             
+
+
+
+                { 
+                  name: 'filter cutoff',
+                  id: 10,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter cutoff',
+                    param: 'filter.set_freq',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },  
+
+                { 
+                  name: 'filter resonance',
+                  id: 11,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter resonance',
+                    param: 'filter.set_q',                     
+                    value: 75,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },  
+                
+
+
+                { 
+                  name: 'filter eg amount',
+                  id: 13,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter eg amount',
+                    param: 'filter.set_amount',                     
+                    value: 100,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },  
+
+
+
+                { 
+                  name: 'filter env attack',
+                  id: 14,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter env attack',
+                    param: 'feg.set_a',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'filter env decay',
+                  id: 15,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter env decay',
+                    param: 'feg.set_d',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'filter env sustain',
+                  id: 16,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter env sustain',
+                    param: 'feg.set_s',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                },   
+
+                { 
+                  name: 'filter env release',
+                  id: 17,
+                  type: 'slider',                                    
+                  x: {
+                    name: 'filter env release',
+                    param: 'feg.set_r',                     
+                    value: 0,
+                    //stepSize: 0, 
+                    interpolate: 0, 
+
+                  }                
+                }
+
+
+                  
+
+              ] // end of Kit controls              
+          },
+
+  ] // close kits
+}, // close channel
+
+
+{ 
+  channelName: '04b gfx', // gfx user ch 02    
+  audiolink: 7,
+  trackSet: 0,
+  conf: [{ 
+    type: 'gfx', 
+    instrumentName: 'gfx', 
+    name: 'gfx 01', 
+    kitNumber: 0, 
+    color: '#51ACBD',       
+    controls: sess10ConductorCtrls //session7ConductorControls
+  }] 
+
+  //, trackSet: 0, defaultPreset: 0, presets: s9preset, defaultPattern: 0, defaultPatternSeq: 0, 
+
+}, 
+
+
+
+
+/*
 { 
   channelName: '04 (1bar/1) static patterns', conf: window['s10NoPtnEdit_Ch4'], trackSet: 0, defaultPreset: 0, presets: window['s9DefPresetCh1'], defaultPattern: 1, defaultPatternSeq: 0, // fixed
   patterns: [
@@ -3972,20 +4479,22 @@ window.insConf10 = [
     {"name":"5-13 hits","classs":"channel","id":"s10_ch2_bar1_ptn02","notenb":[2,2],"tracks":[[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]]},
     {"name":"5-15 hits","classs":"channel","id":"s10_ch2_bar1_ptn01","notenb":[2,2],"tracks":[[0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0]]},    
     {"name":"7-15 hits","classs":"channel","id":"s10_ch2_bar1_ptn03","notenb":[2,2],"tracks":[[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0]]},
-    {"name":"multi claps","classs":"channel","id":"s10_ch3_bar1_ptn01","notenb":[8,8],"tracks":[[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]]}, /* hip hop hihats */
+    {"name":"multi claps","classs":"channel","id":"s10_ch3_bar1_ptn01","notenb":[8,8],"tracks":[[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]]}, // hip hop hihats 
   ],      
 }, 
+*/
 
-
-
+/*
 { 
   channelName: '05 (1bar/1) editable patterns', conf: window['s10KitsCh5'], trackSet: 2, defaultPreset: 0, presets: window['s9DefPresetCh4'], defaultPattern: 0, defaultPatternSeq: 0, 
   patterns: [
     {"name":"s10_ch5_bar1","classs":"channel","id":"s10_ch5_bar1", "notenb":[0,2],"tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},    
   ],    
   patternSeq: [ [{"name":"s10_ch5_bar1","classs":"channel","id":"s10_ch5_bar1"}] ]  
-}, 
+}, */
 
+
+/*
 
 { 
   channelName: '06 (1bar/1) editable patterns', conf: window['s10KitsCh6'], trackSet: 0, defaultPreset: 0, presets: window['s9DefPresetCh4'], defaultPattern: 0, defaultPatternSeq: 0, 
@@ -4003,6 +4512,9 @@ window.insConf10 = [
   patternSeq: [ [{"name":"s10_ch7_bar1","classs":"channel","id":"s10_ch7_bar1"}] ]  
 }, 
 
+*/
+
+/*
 { 
   channelName: '08 (1bar/1) editable patterns', conf: window['s10KitsCh8'], trackSet: 0, defaultPreset: 0, presets: window['s9DefPresetCh4'], defaultPattern: 0, defaultPatternSeq: 0, 
   patterns: [
@@ -4011,10 +4523,10 @@ window.insConf10 = [
   patternSeq: [ [{"name":"s10_ch8_bar1","classs":"channel","id":"s10_ch8_bar1"}] ]  
 }, 
 
+*/
 
 
-
-
+/*
 { 
   channelName: '09 (1bar/2) editable patterns', conf: window['s10KitsCh1'], trackSet: 0, defaultPreset: 0, presets: s9preset, defaultPattern: 1, defaultPatternSeq: 0, 
   patterns: [
@@ -4023,6 +4535,8 @@ window.insConf10 = [
   ],    
   patternSeq: [ [{"name":"s10_ch9_bar1","classs":"channel","id":"s10_ch9_bar1"}, {"name":"reset","classs":"channel","id":"silence01"}, ] ]  
 }, 
+
+*/
 
 { 
   channelName: '10 (1bar/2) editable patterns', conf: window['s10KitsCh2'], trackSet: 0, defaultPreset: 0, presets: s9preset, defaultPattern: 1, defaultPatternSeq: 0, 

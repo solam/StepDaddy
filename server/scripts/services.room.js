@@ -228,6 +228,28 @@ define(
 				}
 			}
 
+
+
+      //demande d'orchestration venant du device, vers le sequencer
+      var _onGetSession = function (data)
+      {
+        //console.log('_onGetSession');
+        _roomOwnerClient.send(global.Events.GET_SESSION, {client: data.client});
+      }
+
+      //réponse du séquencer, à destination du device
+      var _onSession = function (data)
+      {
+        //console.log('_onSession');
+        var receiver = _clients[data.args.receiver];
+
+        if (receiver)
+        {
+          receiver.send(global.Events.SESSION, data.args.session);
+        }
+      }
+
+
 			/**
 			* Registers all the event listeners for a client
 			*
@@ -243,6 +265,8 @@ define(
 					.on(global.Events.INSTRUMENT, _onInstrument)
 					.on(global.Events.GET_TRACKS, _onGetTracks) //permettant de demander les tracks en cours
 					.on(global.Events.TRACKS, _onTracks) //permettant de recevoir les tracks en cours
+          .on(global.Events.GET_SESSION, _onGetSession) //permettant de demander l'orchestration en cours
+          .on(global.Events.SESSION, _onSession) //permettant de recevoir l'orchestration en cours          
 					.on(global.Events.MODIFIER_CHANGE, _onModifierChange)
 					.on(global.Events.NOTE, _onNote)
 					.on(global.Events.DISCONNECT, _onClientBye)

@@ -91,11 +91,11 @@
 		
 		// _countdownMode vs. rotation only mode
 		
-		this._countdownMode = 1; // ven 16 step 2016: 0 puis 1 > 1 > 1      // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+		this._countdownMode = 0; // ven 16 step 2016: 0 puis 1 > 1 > 1      // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
 		
 		// if all channels' offsets are set to 0: offSetMode = off while rotation = on
 
-		this._sessionNumber = 99; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
+		this._sessionNumber = 10; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
 
 		// ven 16 step 2016: 6 > 5 > 1 (with /mopo)
 		/*
@@ -642,7 +642,7 @@
 				// this._instrumentsConfig[i].tracks[this._instrumentsConfig[i].trackSet]
 				var type = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type; 
 				
-				if (type=='control')
+				if (type=='control' || type=='gfx')
 				{
 					var tracks = [];
 				}
@@ -2768,6 +2768,12 @@
 
 			return tracks;
 		}
+
+    this.getSession = function() {
+      //console.log('getSession');
+      return window['insConf'];
+    }
+
 
 		this.initialize();
 	};

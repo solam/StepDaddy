@@ -70,6 +70,7 @@
     var _onConnect = function() {
       _self.isConnected = true;
       console.log('Connected!');
+      //alert('Connected!');
       _self.send(mixr.enums.Events.REGISTER, {client: null});
     };
 
@@ -188,6 +189,16 @@
       _self.emit(mixr.enums.Events.TRACKS, data);
     }
 
+    var _onGetSession = function(data)
+    {
+      _self.emit(mixr.enums.Events.GET_SESSION, data);
+    }
+
+    var _onSession = function(data)
+    {
+      _self.emit(mixr.enums.Events.SESSION, data);
+    }    
+
     /**
      * Is triggered when a command is executed and the results
      * are being send from the server.
@@ -246,6 +257,8 @@
       .on(mixr.enums.Events.NOTE, _onNote)
       .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange)
       .on(mixr.enums.Events.SEQUENCER_BEAT, _onSequencerBeat)
+      .on(mixr.enums.Events.GET_SESSION, _onGetSession) //permettant de demander l'orchestration en cours
+      .on(mixr.enums.Events.SESSION, _onSession)
       .on(mixr.enums.Events.GET_TRACKS, _onGetTracks)
       .on(mixr.enums.Events.TRACKS, _onTracks);
 

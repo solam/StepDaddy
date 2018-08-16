@@ -74,6 +74,14 @@ if (win) {
 
   <!--<div id="notes" class="menu-location">&nbsp;</div>-->
 
+<!--<canvas id="canvas" height="600" width="800"></canvas>-->
+
+    <div id="gfx"><span id="instruction">Click to fullscreen me</span></div>
+
+    <script>
+
+    </script>
+
     <section id="pattern-editor">
       <table>
       </table>
@@ -242,6 +250,10 @@ if (win) {
   <script src="../common/scripts/models.patterneditor.js"></script>
   <script src="../common/scripts/controllers.patterneditor.js"></script>
   <script src="../common/scripts/views.patterneditor.js"></script>
+
+  <!--<script src="../graphismes/scripts/gestionCanvas.js"></script>-->
+  <script src="../graphismes/scripts/graphismes.js"></script>
+
 
   <script>
 
@@ -511,6 +523,11 @@ var noSleep = new NoSleep();
 noSleep.enable();
 
 
+$('#gfx').click(function(e){
+    $('#gfx').toggleClass('fullscreen'); 
+});
+
+
 /*
 $("a[href='#menu-at-modulation']").click(function() {
   //$("html, body").animate({ scrollTop: 0 }, "slow"); 
@@ -568,10 +585,21 @@ $(function() {
 
 
 
+    if (typeof window['instrumentType'] !== 'undefined' && window['instrumentType'] == 'gfx' ) {
+      console.log('gfx call in index.html');
+      new Graphismes().initialize();
+
+    }
 
 
 
+/*
+$( document ).ready(function() {
+    //console.log( "ready!" );
+    alert('ip: ',window.ip);
+});*/
 
+//alert(window.ip);      // 'ip: ', 'string', 
 
 
   </script>

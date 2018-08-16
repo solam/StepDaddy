@@ -187,7 +187,44 @@ button {
             /*width: 100px;*/ } }
 
 
+#gfx {
+  width: 100px;
+  height: 100px;
+}
 
+
+#gfx.fullscreen{
+    z-index: 9999; 
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+ }
+
+#instruction {
+  display: block;
+  color:white;
+  opacity: 1!important;
+}  
+
+#gfx.fullscreen #instruction {
+  display: none;
+}  
+ 
+
+body #gfx {
+  display:none;
+} 
+
+body.gfx #gfx {
+  display:block;
+} 
+
+body.gfx #modifiers,
+body.gfx #pattern-editor {
+  display:none;  
+}
       
 
 

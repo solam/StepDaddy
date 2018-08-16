@@ -54,7 +54,7 @@
 			//dans le cas ou c'est le premier lancement de la page
 			if(window.childRoom==0)
 			{
-				window.open('http://127.0.0.1:8282/sequencer/?rm/child/nopageid/gfxonly', 'window name', 'window settings');
+				//window.open('http://127.0.0.1:8282/sequencer/?rm/child/nopageid/gfxonly', 'window name', 'window settings');
 			}
 			
 			console.log('The room was created:', data.room);
@@ -395,7 +395,13 @@
 		var _onGetTracks = function(data)
 		{
 			_conn.execute(mixr.enums.Events.TRACKS, {receiver: data.client, tracks: _sequencer.getTracks()});
+      //console.log('_onGetTracks: ', data);
 		}
+
+    var _onGetSession = function(data) {
+      console.log('_onGetSession: ', data);
+      _conn.execute(mixr.enums.Events.SESSION, {receiver: data.client, session: _sequencer.getSession()});
+    }    
 
 		var _updateChannels = function()
 		{ // aka force refreshing each client instrument/page
@@ -1064,6 +1070,7 @@
 			.on(mixr.enums.Events.NOTE, _onNote)
 			.on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChange)
 			.on(mixr.enums.Events.SEQUENCER_BEAT, _onSequenceBeat)
+      .on(mixr.enums.Events.GET_SESSION, _onGetSession)
 			.on(mixr.enums.Events.GET_TRACKS, _onGetTracks);
 
 			// new emplacement:

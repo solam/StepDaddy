@@ -98,6 +98,12 @@
           case 'Conductor':
             window[synthInstanceString] = {};
             break;   
+          case 'gfx':
+            //console.log('gfx');
+            window[synthInstanceString] = {};
+            //window.instrumentType = 'gfx';
+            //window['instrumentType'] = 'gfx';
+            break;             
           case 'Sampler':
             window[synthInstanceString] = {};
             break;                        

@@ -287,7 +287,8 @@ define(
 				_app = express();
 
 				_server = http.createServer(_app); //creation d'un serveur
-				_io = socket.listen(_server); //attachement au serveur pour gérer un relation bidirectionnelle
+        // , { 'destroy buffer size': Infinity } = avoid warn: websocket parser forced user kick: max buffer size reached: https://github.com/socketio/socket.io/issues/1592
+				_io = socket.listen(_server, { 'destroy buffer size': Infinity }); //attachement au serveur pour gérer un relation bidirectionnelle
 				_io.set('log level', 1);
 
 				_addEventListeners();

@@ -79,6 +79,30 @@ var _onModifierChangeInput = function(data) {
       _isJoinedToRoom = null;
     };
 
+
+
+
+        var _onSequencerBeat = function(data)
+        {      
+
+
+          //_conn.execute(mixr.enums.Events.GET_SESSION, {});
+
+          // refresh tracks every bar  
+          //if (data.beat == 0) {            
+            _conn.execute(mixr.enums.Events.GET_TRACKS, {});
+          //}
+          
+        
+
+
+        }
+
+
+
+
+
+
     var _onRoomJoined = function(data) {
       $('body').css("opacity", 1);
       _isJoinedToRoom = data.room;
@@ -89,6 +113,9 @@ var _onModifierChangeInput = function(data) {
       _patternEditor = new mixr.controllers.PatternEditor(_model).initialize();
       //_patternEditor = new mixr.controllers.PatternEditor(new mixr.models.PatternEditor(_conn)).initialize();
       _patternEditor.show();
+
+      _conn.execute(mixr.enums.Events.GET_TRACKS, {});
+      _conn.execute(mixr.enums.Events.GET_SESSION, {});
 
 
       //console.log('controls', _model.instrument.controls); // _patternEditor.returnInstrument()
@@ -115,7 +142,10 @@ if (!_padsAreInitialized) {
       _conn.connect(window.SERVER)
       .on(mixr.enums.Events.REGISTER, _onRegistered)
       .on(mixr.enums.Events.ROOM_CLOSED, _onRoomClosed)
+//.on(mixr.enums.Events.TRACKS, _onTracks);
+.on(mixr.enums.Events.SEQUENCER_BEAT, _onSequencerBeat)
       .on(mixr.enums.Events.MODIFIER_CHANGE, _onModifierChangeInput);
+
 /*
       setTimeout(function() {
         window.scrollTo(0, 1);
@@ -135,6 +165,13 @@ if (!_padsAreInitialized) {
 
   new mixr.Device().initialize();
   //setTimeout(function(){ new mixr.Device().initialize() }, 4000);
+
+    if (typeof window['instrumentType'] !== 'undefined' && window['instrumentType'] == 'gfx' ) {
+      console.log('gfx call in device.js');
+      new Graphismes().initialize();
+
+    } 
+
 
 }());
 
