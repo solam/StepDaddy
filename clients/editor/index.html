@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://davidjbradshaw.com/iframe-resizer/example/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+		 
+		<title>...Loops song editor: Giorgio Moroder - The Chase</title> 
+		<meta name="description" content="iFrame message passing test"> 
+		<meta name="viewport" content="width=device-width">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<script src="../common/lib/jquery-1.9.0.min.js"></script>-->
+		<script type="text/javascript">
+
+    ip = '192.168.1.47';
+    //ip = '127.0.0.1';
+    //ip = 'localhost';
+
+    roomaId = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+
+			//MDN PolyFil for IE8 (This is not needed if you use the jQuery version)
+			if (!Array.prototype.forEach){
+				Array.prototype.forEach = function(fun /*, thisArg */){
+				"use strict";
+				if (this === void 0 || this === null || typeof fun !== "function") throw new TypeError();
+				
+				var
+				t = Object(this),
+				len = t.length >>> 0,
+				thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+
+				for (var i = 0; i < len; i++)
+				if (i in t)
+					fun.call(thisArg, t[i], i, t);
+				};
+			}
+		</script>
+    <style>
+    /*button {
+      z-index: 50;
+    } */
+    button,
+    a.link {
+      /*position: relative;
+      z-index: 50;*/
+    }
+    /*body {
+      background-color: darkgrey;    
+      background-image: url("../common/images/studio+moroder.jpg");  
+      background-repeat: no-repeat;
+      background-position: center;
+    } */
+
+#button,
+h2 {
+  /*padding-left: 40px;*/
+  margin-left: 40px;
+}
+
+#addlinks {
+  /*clear:both;
+  float:none;*/
+
+    /*position: absolute;
+    bottom: 80px;
+    right: 40px;*/
+
+}
+
+#addlinks span,
+#addlinks a {
+  background-color: lightgrey;
+  color:black;
+  text-decoration: none;
+  padding:4px;
+}
+
+body {
+  background-image: url("../common/images/studio+moroder_bright-45_contrast-m30.jpg"); 
+  background-attachment: fixed;
+  background-size: cover; 
+  background-position: center center;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#background_opacity {
+/*position: fixed;*/
+z-index: -10;
+top: 0; left: 0; right: 0; bottom: 0;
+background-color: rgba(200, 200, 200, 0.4); /* L'opacite se regle ici */
+/*padding-left: 40px;*/
+padding-right: 40px;
+}
+
+#rela {
+  position:relative;
+}
+
+a:link {
+  color:black; // lightgrey
+}
+
+a:visited {
+ color:darkgrey;
+}
+
+
+    #button {display:none;}
+    #list {
+        /*overflow:auto;
+        overflow: hidden;*/        
+        margin: 0;
+        padding: 0;  
+        padding-left: 40px;   
+    }
+    #list li {
+        float:left;
+        /*margin-right:10px;*/
+/*width: 25%;*/
+        list-style: none;
+        /*margin-right:5%;*/
+width: 800px;   
+margin-right:-19%;     
+    }
+    ul#list li div {
+/*width:800px;
+height:800px;*/
+        /*border:1px solid gray;*/
+        position:relative;
+        height: 300px;
+    }
+    .row li {
+/*margin-top: -450px;*/
+/*margin-top: -20%;*/
+    }
+    iframe {
+/*width:100%;
+height:75% !important;*/
+        /*width: 1800px;
+        height: 1000px;*/
+        /*border: 1px solid black display:block;*/
+        /*-moz-transform: scale(0.25);
+        -moz-transform-origin: 0 0;
+        -o-transform: scale(0.25);
+        -o-transform-origin: 0 0;*/
+        -webkit-transform: scale(0.5);
+        -webkit-transform-origin: 0 0;
+        /*border: 0;*/
+        border: darkgrey 20px solid;
+        display:none;
+width:100%; /* 200% */ 
+height: 400px;        /* !important */
+
+
+/*
+    -webkit-transform: scale(0.75);
+    width: 150%;
+    height: 550px !important;
+*/
+
+    }
+
+    div.maximized iframe {
+      /*height:200% !important;*/ /*100%*/
+      height:2400px !important;
+      /*-webkit-transform: scale(0.5);*/
+    }
+
+    span.togglebutton {
+        position:absolute;
+        left:0;
+        top:0;
+        background-color:black;
+        padding:3px;
+        color:white;
+        opacity: 0.5;
+    }
+    ul#list li div.maximized {
+        position:absolute; /* fixed */
+        top:45px; /*0*/
+        left:0;
+        width:100%;
+        /*height:100%;*/
+        -webkit-transform: scale(2);
+        -webkit-transform-origin: 0 0;
+        border:0 none;
+        z-index:9;
+    }
+
+/*
+
+
+ .youtube-player {
+        position: relative;
+        padding-bottom: 56.23%;
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin: 5px;
+    }
+    
+    .youtube-player iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background: transparent;
+    }
+    
+    .youtube-player img {
+        bottom: 0;
+        display: block;
+        left: 0;
+        margin: auto;
+        max-width: 100%;
+        width: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: none;
+        height: auto;
+        cursor: pointer;
+        -webkit-transition: .4s all;
+        -moz-transition: .4s all;
+        transition: .4s all;
+    }
+    
+    .youtube-player img:hover {
+        -webkit-filter: brightness(75%);
+    }
+    
+    .youtube-player .play {
+        height: 72px;
+        width: 72px;
+        left: 50%;
+        top: 50%;
+        margin-left: -36px;
+        margin-top: -36px;
+        position: absolute;
+        background: url("//i.imgur.com/TxzC70f.png") no-repeat;
+        cursor: pointer;
+    }
+
+
+
+*/
+
+
+    </style>    
+	</head> 
+	<body> 
+
+  <div id="background_opacity">
+
+    <div id="rela">
+
+		<h2>...Loops song editor (for multiplayer live performances)</h2>
+
+    <button id="button" type="button">Click me to "play music" (sound off by default on Chrome 70+: Autoplay Policy)</button>
+
+    <!--<br/>
+    <br/>-->
+
+		<!--parts' Play music allow music to be played <div class="iframcont" style="margin:20px; width:20%">
+			<iframe src="http://127.0.0.1:8282/device/?rm/nomopo" width="100%" scrolling="no" id="iFrameResizer0" style="overflow: hidden; height: 50px;"></iframe>
+		</div>-->
+
+    <!--<div style="margin:20px; width:20%; height:20%">
+      <iframe src="http://127.0.0.1:8282/device/?rm/nomopo" width="100%"></iframe>
+    </div>-->
+
+
+
+<ul id="list">
+
+
+
+
+    <li>
+        <div class="fram">
+            <iframe id="d0" class="device" scrolling="yes"></iframe>
+        </div>
+    </li>
+    <li>
+      <div class="fram">
+            <iframe id="d2" class="device" scrolling="yes"></iframe>
+      </div>
+    </li>
+    <li>
+        <div class="fram">
+            <iframe id="d3" class="device" scrolling="yes"></iframe>
+        </div>
+    </li>
+    <li>
+      <div class="fram">
+            <iframe id="d4" class="device" scrolling="yes"></iframe>
+      </div>
+    </li>  
+  <!--<div class="row">--><!-- jquery apply class starting at 5th item -->    
+
+    <!--  
+    <li>
+        <div>
+            <iframe id="d5" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+
+
+
+    <li>
+      <div>
+            <iframe id="d6" class="device" scrolling="no"></iframe>
+      </div>
+    </li>
+
+    
+    <li>
+        <div>
+            <iframe id="d7" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+    <li>
+      <div>
+            <iframe id="d8" class="device" scrolling="no"></iframe>
+      </div>
+    </li>
+    -->
+
+
+
+<!--
+
+    <li>
+        <div>
+            <iframe id="d9" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+    <li>
+      <div>
+            <iframe id="d10" class="device" scrolling="no"></iframe>
+      </div>
+    </li>
+    <li>
+        <div>
+            <iframe id="d11" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+    <li>
+      <div>
+            <iframe id="d12" class="device" scrolling="no"></iframe>
+      </div>
+    </li>  
+      
+    <li>
+        <div>
+            <iframe id="d13" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+    <li>
+      <div>
+            <iframe id="d14" class="device" scrolling="no"></iframe>
+      </div>
+    </li>
+    <li>
+        <div>
+            <iframe id="d15" class="device" scrolling="no"></iframe>
+        </div>
+    </li>
+    <li>
+      <div>
+            <iframe id="d16" class="device" scrolling="no"></iframe>
+      </div>
+    </li>
+
+-->
+
+
+
+
+
+
+<!--<hr>-->
+
+    <li>
+
+
+        <div class="fram">
+            <!--<iframe src="http://127.0.0.1:8282/sequencer/?rm/nochild" scrolling="no"></iframe>-->
+            <!--<iframe src="http://192.168.1.47:8282/sequencer/?rm/nochild" scrolling="no" allow="autoplay"></iframe>-->
+            <iframe id="soundgen" scrolling="no"></iframe>
+            <!--<iframe id="soundgen" scrolling="no"></iframe>-->
+
+        </div>
+    </li>
+
+    <li>
+        <div class="fram">
+            <iframe id="conductor" scrolling="yes"></iframe><!--src="http://127.0.0.1:8282/device/?rm/mopo"-->
+        </div>
+    </li>    
+
+
+    <li>
+        <!--<div>
+          <!--<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="500" height="100" type="text/html" src="https://www.youtube.com/embed/ViN2bRGrBx8?autoplay=0&fs=1&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&vq=hd720"></iframe>-->
+             
+          <!--<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" type="text/html" src="player.html"></iframe>--> 
+          <!--<iframe src="https://www.youtube.com/embed/ViN2bRGrBx8"></iframe>   
+        </div>-->
+        <!--<div class="youtube-player" data-id="ViN2bRGrBx8"></div>-->
+
+<div id="addlinks">
+        <a class="link" href="https://www.youtube.com/watch?v=ViN2bRGrBx8" target="_blank" >Giorgio Moroder - The Chase</a>
+        <br/><br/>
+        <button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button><!-- ' MODE -->
+<br/><br/>
+<!--<span>Use Chrome as browser on a (desktop) computer with a cable network connection (no Wi-Fi as network latency not short enough)</span>-->       
+
+</div>        
+
+    </li>  
+
+  <!--</div>-->   
+
+
+
+
+
+</ul>
+
+
+
+<!--
+
+<a class="toggle2" id="soundgen3" href="http://127.0.0.1:8282/sequencer/?rm/nochild" onclick="window.open('http://127.0.0.1:8282/sequencer/?rm/nochild','newwindow','width=500,height=420,top=100,left=850');return false;" target="_blank">yoyoyyoyo </a>
+
+<!-- alert('yo!'); 
+<a class="toggle2" id="soundgen" href="http://127.0.0.1:8282/sequencer/?rm/nochild" onclick="window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank');return false;" target="_blank">yoyoyyoyo </a>
+
+-->
+
+<!--<button id="soundgen2" onclick="window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank')">Go!</button>-->
+
+<!--
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+-->
+		<!--<p id="callback"><b>Frame ID:</b> iFrameResizer0 <b>Height:</b> 210 <b>Width:</b> 1864 <b>Event type:</b> mutationObserver</p>-->
+		<!--<div style="margin: 8px 0;font-size:13px;">
+			For details on how this works, see
+			<a href="http://davidjbradshaw.github.io/iframe-resizer/">http://davidjbradshaw.github.io/iframe-resizer/</a>.
+		</div>-->
+
+		<script src="./index_files/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="./index_files/iframeResizer.min.js"></script>--> 
+
+		<script type="text/javascript">
+
+
+
+
+
+
+
+    /* Light YouTube Embeds by @labnol */
+    /* Web: http://labnol.org/?p=27941 */
+/*
+    document.addEventListener("DOMContentLoaded",
+        function() {
+            var div, n,
+                v = document.getElementsByClassName("youtube-player");
+            for (n = 0; n < v.length; n++) {
+                div = document.createElement("div");
+                div.setAttribute("data-id", v[n].dataset.id);
+                div.innerHTML = labnolThumb(v[n].dataset.id);
+                div.onclick = labnolIframe;
+                v[n].appendChild(div);
+            }
+        });
+
+    function labnolThumb(id) {
+        var thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
+            play = '<div class="play"></div>';
+        return thumb.replace("ID", id) + play;
+    }
+
+    function labnolIframe() {
+        var iframe = document.createElement("iframe");
+        var embed = "https://www.youtube.com/embed/ID?autoplay=1";
+        iframe.setAttribute("src", embed.replace("ID", this.dataset.id));
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allowfullscreen", "1");
+        this.parentNode.replaceChild(iframe, this);
+    }
+
+
+*/
+
+
+
+
+//$('#button')[0].click(); // get(0).click(); // .trigger('click');  
+//setTimeout(function(){ $('#button').trigger('click')}, 100);    
+
+/*
+			iFrameResize({
+				log                     : false,                  // Enable console logging
+				enablePublicMethods     : true,                  // Enable methods within iframe hosted page
+				resizedCallback         : function(messageData){ // Callback fn when resize is received
+					$('p#callback').html(
+						'<b>Frame ID:</b> '    + messageData.iframe.id +
+						' <b>Height:</b> '     + messageData.height +
+						' <b>Width:</b> '      + messageData.width + 
+						' <b>Event type:</b> ' + messageData.type
+					);
+				},
+				messageCallback         : function(messageData){ // Callback fn when message is received
+					$('p#callback').html(
+						'<b>Frame ID:</b> '    + messageData.iframe.id +
+						' <b>Message:</b> '    + messageData.message
+					);
+					alert(messageData.message);
+				},
+				closedCallback         : function(id){ // Callback fn when iFrame is closed
+					$('p#callback').html(
+						'<b>IFrame (</b>'    + id +
+						'<b>) removed from page.</b>'
+					);
+				}
+			});
+*/
+
+
+//*
+
+$('#list div.fram').each(function () {
+    $(this).append('<span class="togglebutton">Toggle</span>');
+});
+
+//*/
+
+$("span.togglebutton").hide();
+
+$("span.togglebutton").click(function () {
+    $(this).closest("li").children("div").toggleClass("maximized");
+});      
+
+
+
+jQuery.fn.simulateClick = function() {
+    return this.each(function() {
+        if('createEvent' in document) {
+            var doc = this.ownerDocument,
+                evt = doc.createEvent('MouseEvents');
+            evt.initMouseEvent('click', true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+            this.dispatchEvent(evt);
+            //alert('somethin happens!');
+        } else {
+            this.click(); // IE
+        }
+    });
+}
+
+
+
+
+$(document).ready(function(){
+
+ 
+jQuery('#button').show();
+
+  document.querySelector('button').addEventListener('click', function() {
+
+
+    //alert('yo !');
+
+    window.webaudio = 'enabled';
+    console.log(window.webaudio);
+
+    webaudio = 'enabled';
+
+    localStorage.setItem('webaudio', 'enabled');
+
+    //$(this).attr("class", "enabled");
+    $('#button').addClass("enabled");
+
+  //if ( typeof window['audio_context'].resume() !== 'undefined' ) {
+    /*
+    window['audio_context'].resume().then(() => {
+      console.log('Playback resumed successfully');
+
+
+/*
+
+//$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?rm/nochild'); 
+//sleep(1500);
+
+        //$('iframe#d0').attr('src', 'http://'+ip+':8282/device/?rm/0');
+        //sleep(800);
+        
+        $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?rm/2');
+        sleep(800);
+
+        
+        $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?rm/3');
+
+
+        sleep(800);
+        $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?rm/4');
+
+
+        sleep(800);
+        $('iframe#d5').attr('src', 'http://'+ip+':8282/device/?rm/5');
+        sleep(800);
+        $('iframe#d6').attr('src', 'http://'+ip+':8282/device/?rm/6');
+        sleep(800);
+
+        $('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?rm/1');
+
+// /
+
+
+
+
+
+    });  
+
+    */
+
+  //}  
+
+
+});
+
+
+$('#buttonDISABLED').click(function() {
+
+    window.webaudio = 'enabled';
+    console.log(window.webaudio);
+
+    //$(this).attr("class", "enabled");
+    $('#button').addClass("enabled");
+
+    localStorage.setItem('webaudio', 'enabled2');
+
+});  
+
+
+
+
+  $('#buttonDISABLED').on('click', function (e) {
+      e.preventDefault();
+
+    window.webaudio = 'enabled';
+    console.log(window.webaudio);
+
+    localStorage.setItem('webaudio', 'enabled3');
+
+    //$(this).attr("class", "enabled");
+    $('#button').addClass("enabled");
+
+  });  
+
+
+
+//jQuery('#button').simulateClick('click'); //.alert('click');
+
+
+//$('#soundgen').trigger('click');
+
+//$('#soundgen').get(0).click();
+
+//$('#soundgen2')[0].click();
+
+//document.getElementById('soundgen').click();
+
+
+
+//*
+  /*var win*/ //e = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank');
+
+  //window.parent.opener.focus();
+
+//e = window;
+//while (e.frameElement !== null) {e = e.parent;}
+//e.parent.focus();  
+
+//*/
+
+
+
+  //window.open('http://127.0.0.1:8282/sequencer/?rm/nochild','newwindow','width=500,height=420,top=100,left=850');
+
+
+//window.open('http://127.0.0.1:8282/device/?rm/1','newwindow','width=500,height=420,top=100,left=850');
+
+  //$('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/1');
+
+  //Object.assign(document.createElement('a'), { target: '_blank', href: 'http://127.0.0.1:8282/sequencer/?rm/nochild'}).click();
+
+
+/*
+//var win = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank');
+var win = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild','newwindow','width=500,height=420,top=100,left=850');
+if (win) {
+    //Browser has allowed it to be opened
+    //win.focus();
+} else {
+    //Browser has blocked it
+    alert('Please allow popups for this website');
+}
+//*/
+
+
+  function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        break;
+      }
+    }
+  }
+
+/*
+   window.setTimeout(function () {
+        $('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/mopo');
+    }, 300); 
+*/
+
+
+
+
+
+/*
+if ( typeof window.webaudio !== 'undefined' ) {
+
+  if (window.webaudio == 'enabled' ) {
+
+  } else {
+    location.reload(true);
+  }
+
+
+} else {
+  location.reload(true);
+} 
+*/
+
+
+
+
+  //$('#ptnmode').on('click', function (e) {
+  $('#ptnmode').click(function(e) {
+      e.preventDefault();
+
+      roomaId2 = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+
+      //console.log('clicked!');
+      //alert('clicked!');
+      $('iframe#soundgen').attr('src', '../website/index.htm');
+
+
+  window.setTimeout(function () {
+      var nexturl = 'http://'+ip+':8282/sequencer/?'+roomaId2+'/nochild/ptnmode11';
+      window.location.replace(nexturl); 
+  }, 2000); 
+
+
+
+
+
+
+  });  
+
+
+
+
+
+//http://192.168.1.47:8282/sequencer/?rm/nochild
+$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?'+roomaId+'/nochild');
+
+
+window.setTimeout(function () {
+
+
+
+
+  window.setTimeout(function () {
+    jQuery('#button').remove();
+    $('iframe#d0').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/0').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+  }, 2000); 
+
+  window.setTimeout(function () {
+    $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/2');
+  }, 4000); 
+
+  window.setTimeout(function () {
+    $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/3');
+  }, 6000); 
+
+  window.setTimeout(function () {
+    $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/4');
+  }, 8000); 
+
+  window.setTimeout(function () {
+    $('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/1');
+/*
+    $('#list div').each(function () {
+        $(this).append('<span class="togglebutton">Toggle</span>');
+    });
+*/
+
+  $("span.togglebutton").show();
+  $("iframe").show();
+
+  }, 10000); 
+
+
+}, 1000);
+
+
+//*
+   window.setTimeout(function () { // DISABLED 
+        //$('iframe.device').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo'); // en désordre
+        //sleep(300);
+
+/*
+window.open('http://127.0.0.1:8282/device/?rm/0','newwindow1', 'width=300,height=200,top=50,left=50');
+sleep(500);
+
+window.open('http://127.0.0.1:8282/device/?rm/2','newwindow2', 'width=300,height=200,top=50,left=350');
+sleep(500);
+
+window.open('http://127.0.0.1:8282/device/?rm/3','newwindow3', 'width=300,height=200,top=50,left=650');
+sleep(500);
+
+window.open('http://127.0.0.1:8282/device/?rm/4','newwindow4', 'width=300,height=200,top=250,left=950');
+sleep(500);
+
+window.open('http://127.0.0.1:8282/device/?rm/5','newwindow5', 'width=300,height=200,top=250,left=550');
+sleep(500);
+
+window.open('http://127.0.0.1:8282/device/?rm/6','newwindow6', 'width=300,height=200,top=250,left=350');
+
+sleep(500);
+
+*/
+
+/*
+var win1 = window.open('http://127.0.0.1:8282/device/?rm/0', '_blank');
+
+var win2 = window.open('http://127.0.0.1:8282/device/?rm/2', '_blank');
+
+var win3 = window.open('http://127.0.0.1:8282/device/?rm/3', '_blank');
+
+var win4 = window.open('http://127.0.0.1:8282/device/?rm/4', '_blank');
+
+*/
+
+//$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?rm/nochild'); 
+//sleep(1500);
+
+
+//jQuery('#button').hide();
+
+
+
+
+
+
+/*  
+
+
+        $('iframe#d0').attr('src', 'http://'+ip+':8282/device/?rm/0');
+        sleep(4000);
+
+
+        
+        $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?rm/2');
+        sleep(4000);
+
+        
+        $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?rm/3');
+
+        // use this page for global paramz
+        //$('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/waiting-room.html');
+
+        
+
+        
+        sleep(4000);
+        $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?rm/4');
+
+
+
+        //sleep(1800);
+        $('iframe#d5').attr('src', 'http://'+ip+':8282/device/?rm/5');
+        //sleep(1800);
+        $('iframe#d6').attr('src', 'http://'+ip+':8282/device/?rm/6');
+        //sleep(2000);
+
+        
+        //$('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/7');
+        //sleep(2000);
+        //$('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/8');  
+        
+
+
+sleep(4000);
+        //$('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/mopo');
+$('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?rm/1');
+// */
+
+        /*sleep(1000);
+        $('iframe#d1').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d2').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        /*sleep(1000);
+        $('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d4').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d5').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d6').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(1000);
+        $('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');*/                
+    }, 1000);  // 500 800
+//*/
+/*        
+        sleep(1000);
+        $('iframe#d1').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d2').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d4').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d5').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d6').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
+        sleep(2000);
+        $('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');    
+*/
+});
+
+//console.log(window.webaudio, webaudio);
+
+		</script>
+
+</div><!-- end of rela -->   
+</div>	 
+</body></html>

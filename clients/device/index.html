@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Instrument - ...Loops</title><!-- Control Kit  -->
+
+<!-- prevent caching during/on dev context -->
+<meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
+
   <meta name="viewport" content="width=device-width"> <!-- , initial-scale=1.0  height=device-height , user-scalable=no  : in portrait mode will adjust to maximum avail screen width | , maximum-scale=1.0: might forbid changing from portrait to landscape modes -->
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="../common/css/user.css" />
@@ -11,6 +17,8 @@
   <!--<script src="../common/lib/nexusUI.js"></script>-->
 </head>
 <body id="bodey">
+
+
 
 <script>
 /*
@@ -31,6 +39,9 @@ if (win) {
 
   <div id="left">
     <ul class="menu" id="fixed">
+        <!---->
+        
+        
         <li id="info-menu"><a href="#notes" class="scrolltop" id="menu-notes">info</a></li><!-- ch annel info-->
         <li id="notes-menu"><a href="#pattern-editor">grille</a></li><!-- draw notes grid-->
         <li id="control-menu"><a href="#modifiers">mod 1</a></li><!-- snd & ptn control launch-->
@@ -38,6 +49,7 @@ if (win) {
         <li id="tweak-menu2"><a href="#id1">mod 2</a></li><!-- soundB snd B -->
         <li id="menu-sessiontips"><a href="#sessiontips">tips</a></li>
         <li id="exit"><a href="#">quitter</a></li>
+        <!--<li id="exit"><a href='#' onclick="if ('parentIFrame' in window) window.parentIFrame.size(500);return false;">Size(500)</a></li>-->
         <!--<li><a href="#modulation">mod</a></li> instrument modulation-->
     </ul>
   </div>
@@ -209,13 +221,13 @@ if (win) {
 
   <script src="../common/scripts/additional.functions.js"></script>
   <script src="../common/lib/socket.io.js"></script>
-  <script src="../common/lib/jquery-1.9.0.min.js"></script>
+  <script src="../common/lib/jquery-2.2.4.min.js"></script><!-- jquery-1.9.0.min.js -->
   <script src="../common/lib/interface.min.js"></script>
   <script src="../common/lib/fastclick.js"></script>
   <script src="../common/lib/wNumb.js"></script>
   <script src="../common/lib/noUiSlider/nouislider.min.js"></script>
   <script src="../common/lib/NoSleep.min.js"></script>
-  
+  <script src="../common/lib/iframeResizer.contentWindow.min.js"></script>
   
 
   <script src="../common/scripts/namespaces.js"></script>
@@ -591,7 +603,8 @@ $(function() {
 
     }
 
-
+$("#ctrl1 #input1").trigger("focus");
+//document.getElementById("input1").focus();
 
 /*
 $( document ).ready(function() {
@@ -600,6 +613,69 @@ $( document ).ready(function() {
 });*/
 
 //alert(window.ip);      // 'ip: ', 'string', 
+
+
+
+
+
+
+// Your CSS as text
+var styles = `
+* {
+    -o-transition-property: none !important;
+    -moz-transition-property: none !important;
+    -ms-transition-property: none !important;
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+}
+
+
+
+* {
+    -o-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+}
+
+
+* {
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: none !important;
+    animation: none !important;
+}
+`
+
+var styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = styles;
+
+if ( top !== self ) { // we are in the iframe
+  window.inIframe = 1;
+  //console.log('in iFrame');
+} else { // not an iframe
+  window.inIframe = 0;
+  //console.log('not in iFrame');
+}
+
+
+if ( window.inIframe == 1 ) {
+
+  document.head.appendChild(styleSheet);
+
+}
+
+
+
+
+
+
+
+
+
 
 
   </script>

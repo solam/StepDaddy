@@ -229,8 +229,7 @@
 
 		var _onClientJoined = function(data)
 		{
-			window.ratelimit.schedule(function()
-			{      
+			//window.ratelimit.schedule(function() {      
 				//console.log('sysptns at client join room:', _sequencer._systemPatterns); 
 				//console.log('mixer.js _onClientJoined:', data); 
 
@@ -273,13 +272,12 @@
 				}
 				//console.log('_clients', _clients);
 				//_updateChannels();
-			}); // window.ratelimit.schedule  
+			//}); // window.ratelimit.schedule  
 		};
 
 		var _onClientLeft = function(data)
 		{
-			window.ratelimit.schedule(function()
-			{
+			//window.ratelimit.schedule(function() {
 				console.log('A client with id', data.client, 'left the room');
 				var instrument = _instruments[data.client];
 				
@@ -308,21 +306,17 @@
 				//console.log('out: win avail slots',window._availableInstruments.length);
 				//console.log('avSlots', window.availSlots);
 				//_updateChannels();
-			}); // window.ratelimit.schedule      
+			//}); // window.ratelimit.schedule      
 		};
 
 		var _onGetInstrument = function(data)
 		{
-			window.ratelimit.schedule(function()
-			{
+			//window.ratelimit.schedule(function() {
 				//console.log('Got a request for an instrument', data);  
 
-				if(typeof data.insId !== 'undefined')
-				{
+				if ( typeof data.insId !== 'undefined' ) {
 					_sequencer.getInstrumentById(data.client, data.insId);
-				}
-				else
-				{
+				} else {
 					var pwd = _clients[data.client];
 			
 					/*
@@ -337,11 +331,10 @@
 					//var instrument.channelInfo = 'test !!!!';
 					//console.log("_onGetInstrument (mixer.js): ", instrument);
 
-					if(instrument)
-					{
+					if (instrument) {
 
-						if (window.childRoom==0)
-						{
+						if (window.childRoom==0) {
+              console.log('update instrument');
 							_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
 						}
 
@@ -352,12 +345,10 @@
 						*/
 
 						//console.log('>>> Instrument', instrument, _totalInstruments);
-						if(typeof _instruments[data.client] === 'undefined')
-						{
+						if (typeof _instruments[data.client] === 'undefined') {
 							_totalInstruments++;
 
-							if (window.graphixMode==1)
-							{          
+							if (window.graphixMode==1) {          
 								_sequencerView.addInstrument(instrument) // remove audio stuttering
 							}
 							
@@ -365,20 +356,17 @@
 							$('#roomId').hide();
 							$("#audio-server-available-slots").html(window.availSlots - Object.keys(_instruments).length);
 						}
-					}
-					else
-					{
+					} else {
 						console.log('No more instruments available.');
 						
-						if(window.childRoom==0)
-						{
-							_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
+						if ( window.childRoom==0 ) {
+//_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
 						}
 					} //*/
 					//_updateChannels();
 				}      
 
-			}); // window.ratelimit.schedule
+			//}); // window.ratelimit.schedule
 		};
 
 		var _onNote = function(data){
@@ -399,7 +387,7 @@
 		}
 
     var _onGetSession = function(data) {
-      console.log('_onGetSession: ', data);
+      //console.log('_onGetSession: ', data);
       _conn.execute(mixr.enums.Events.SESSION, {receiver: data.client, session: _sequencer.getSession()});
     }    
 
@@ -456,8 +444,7 @@
 			//console.log('data.args: ', data.args);
 
 			// if 'channel change' id from conductor role
-			if(data.args.id==997)
-			{
+			if ( data.args.id == 997 ) {
 				//console.log('_clients before client kick', _clients);
 				//_totalInstruments 
 
@@ -529,8 +516,165 @@
 
 				//console.log('(after channelChange) avail ins', _sequencer._availableInstruments.length);
 
-				// if 'program/preset/kit change' id from any instrument channel
-			}
+				// part save
+      } else if (data.args.id==987) {
+
+        var claients = Object.keys(_clients);
+
+        //var clientCount = 0;
+
+        var clientCount = 0;
+
+        var part = [];
+
+        for(var i = 0; i < claients.length; i++)
+        {
+          var caydi = claients[i];
+          
+
+          if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type !== 'control' ) {
+
+            console.log('claients'+i, claients[i], _instruments[caydi]);
+
+            /* if (window.childRoom==0)
+            {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: 'savePart'});
+            } */
+
+            var partObj = {};
+
+            partObj.channelId = _instruments[caydi].id; 
+            partObj.presetId = _instruments[caydi].channelInfo.presetId;
+            partObj.kitId = _instruments[caydi].kitNumber;
+
+
+            if ( typeof _instruments[caydi].channelInfo.currentPtnSeq == 'undefined' ) {
+              var currPtnSeq = _instruments[caydi].channelInfo.channelPatternSeqList;
+            } else {
+              var currPtnSeq = _instruments[caydi].channelInfo.currentPtnSeq;
+            }
+            
+
+            partObj.ptnSeqList = currPtnSeq;
+            
+
+            part.push(partObj);
+
+            //clientCount++;
+            //console.log(claients[i], instrument);
+          } else if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type == 'control' ) {
+            var conductorId = claients[i];
+          }  
+
+        }
+
+
+
+        if ( typeof conductorId !== 'undefined' ) {
+            if (window.childRoom==0) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: conductorId, instrument: part }); // 'savePart'
+              //console.log('claients'+i, claients[i], _instruments[caydi]);
+            }          
+        }
+
+       
+
+
+      // "puppet/puppy master" play 
+      } else if (data.args.id==986) {
+
+
+        parts = JSON.parse(data.args.part);
+
+        //console.log('part play: ', data.args, parts, _instruments);
+
+        /* */
+
+        if (parts) {
+
+//*
+        var claients = Object.keys(_clients);
+
+        //var clientCount = 0;
+
+        var clientCount = 0;
+
+        var part = [];
+
+        for(var i = 0; i < claients.length; i++)
+        {
+          var caydi = claients[i];
+          
+
+          if ( typeof _instruments[caydi] !== 'undefined' /*&& _instruments[caydi].type !== 'control'*/ ) {
+
+            //console.log('payload: ', parts.payload, parts.payload.length);
+
+          //if (!parts) {  
+
+            for ( var j = 0; j < parts.payload.length; j++ ) {
+
+              //console.log('claients'+i/*, claients[i], _instruments[caydi]*/, caydi, parts.payload[i].channelId, _instruments[caydi].id);
+
+              if ( parts.payload[j].channelId == _instruments[caydi].id ) {
+
+                parts.payload[j].clockts = parts.clockts;
+                parts.payload[j].bar = parts.bar;
+                //console.log('presetId: ', parts.payload[i].presetId, _instruments[caydi].channelInfo.presetId);
+                //_instruments[caydi].channelInfo.presetId = parts.payload[i].presetId;
+
+                if (window.childRoom==0) {
+                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: parts.payload[i] }); // 'savePart'
+                  
+                }     
+
+
+
+                //console.log('presetId: ', _instruments[caydi].channelInfo.presetId);
+              }
+
+
+            }
+
+          //}  
+
+            /*console.log('claients'+i, claients[i], _instruments[caydi]);
+
+
+
+            var partObj = {};
+
+            partObj.channelId = _instruments[caydi].id; 
+            partObj.presetId = _instruments[caydi].channelInfo.presetId;
+            partObj.kitId = _instruments[caydi].kitNumber;
+            
+
+            part.push(partObj);*/
+
+            //clientCount++;
+            //console.log(claients[i], instrument);
+          } /*else if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type == 'control' ) {
+            var conductorId = claients[i];
+          } */ 
+
+        }
+
+      }
+
+        /*if ( typeof conductorId !== 'undefined' ) {
+            if (window.childRoom==0) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: conductorId, instrument: part }); // 'savePart'
+              //console.log('claients'+i, claients[i], _instruments[caydi]);
+            }          
+        } */
+
+//*/       
+
+
+
+      }
+
+      // if 'program/preset/kit change' id from any instrument channel
 			else if (data.args.id==998)
 			{
 				//console.log(data);
@@ -541,8 +685,7 @@
 				if(typeof window['clockStarted'] !== 'undefined')
 				{ 
 
-					window.ratelimit.schedule(function()
-					{
+					//window.ratelimit.schedule(function() {
 
 						console.log('change kit happens');
 
@@ -552,7 +695,7 @@
 						}
 						//console.log('>>> Instrument', instrument);
 						_instruments[data.client] = instrument; 
-					});
+					//});
 				}
 
 				//*
@@ -584,17 +727,40 @@
 				}
 				//*/
 				// change preset
-			}
-			else if (data.args.id==992)
-			{
+			} else if (data.args.id==992) {
 
 				//console.log('update preset', data);
 
+
+      if ( typeof window.presetBuffer === 'undefined' ) {
+        window.presetBuffer = [];
+      }  
+
+      window.presetBuffer.push(data);
+        
+
+        //_sequencer.updatePresetLean(data.args, data.client);
+        //_sequencer.directInfoChange(data);
+
+
+
+        /*
 				var instrument = _sequencer.updatePreset(data.args, data.client);
 				if (window.childRoom==0) {        
 					_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
 				} 
 				_instruments[data.client] = instrument; 
+        */
+
+
+
+
+
+
+
+
+
+
 
 				/*
 				// import notes from old instr to new one (so theyr are displayed on seq view)  
@@ -612,9 +778,62 @@
 					}
 				}
 				*/
-			}
-			else if (data.args.id==996)
-			{
+
+
+
+
+      } else if (data.args.id==985) {
+
+        //console.log('update preset', data);
+
+        
+        /*
+        _sequencer.updatePresetLean(data.args, data.client);
+        _sequencer.directInfoChange(data);
+        */
+
+
+
+        //*
+        var instrument = _sequencer.updatePreset(data.args, data.client);
+        if (window.childRoom==0) {        
+          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+        } 
+        _instruments[data.client] = instrument; 
+        //*/
+
+
+
+
+
+
+
+
+
+
+
+        //*
+        // import notes from old instr to new one (so theyr are displayed on seq view)  
+        for (var i = 0; i < instrument.tracks.length; i++)
+        {          
+          for (var j = 0; j < instrument.tracks[i].notes.length; j++)
+          {            
+            var dataObj =
+            { 
+              'id': instrument.id, // channel id
+              'trackId': instrument.tracks[i].id, 
+              'noteId': j , // step number 0-15 - instrument.tracks[i].note
+              'volume': instrument.tracks[i].notes[j]
+            };  
+          }
+        }
+        //*/
+
+
+
+
+
+			} else if (data.args.id==996) {
 				_sequencer.changeSession(data.args, data.client);
 				/*
 				// target channel start bar offset info  
@@ -671,12 +890,21 @@
 					}
 				} 
 			}
+      // change pattern
 			else if (data.args.id==994)
 			{
-				//console.log('data 994:', data);   
+				//console.log('receive ptn change, data 994:', data);   
+
+      if ( typeof window.patternBuffer === 'undefined' ) {
+        window.patternBuffer = [];
+      }  
+
+      window.patternBuffer.push(data);
+
+                
 
 				//_sequencerView.updateNotes(data); // .args
-				var notes = _sequencer.updateNotes(data);   
+//var notes = _sequencer.updateNotes(data);   
 
 				/*
 				for (var a = 0; a < notes.length; a += 1) {
@@ -758,7 +986,7 @@
 					}
 				}
 			}
-			else if (data.args.id==201 || data.args.id==202 || data.args.id==203)
+			else if (data.args.id==201 || data.args.id==202 || data.args.id==203 || data.args.id==204)
 			{  
 				//console.log('data mixer752: ', data);
 				_sequencer.directInfoChange(data);
@@ -787,10 +1015,62 @@
 				{
 					if (typeof window['clockStarted'] !== 'undefined')
 					{ 
-						window.ratelimit.schedule(function() {
-							//console.log('data', data.args.x); //
+						//window.ratelimit.schedule(function() {
+							//console.log('data', data.args, data.args.x); //
 							_sequencer.updateFxParam(data.args, data.client);     
-						});
+						//});
+
+
+            if ( data.args.id == 999 ) {
+
+
+
+        window.lastrecedbpm = data.args.x;     
+
+
+        var claients = Object.keys(_clients);
+
+        var clientCount = 0;
+
+        //var part = [];
+
+        for ( var i = 0; i < claients.length; i++ ) {
+          var caydi = claients[i];
+          
+          if ( typeof _instruments[caydi] !== 'undefined' ) {
+
+            //for ( var j = 0; j < parts.payload.length; j++ ) {
+
+              //console.log('claients'+i/*, claients[i], _instruments[caydi]*/, caydi, parts.payload[i].channelId, _instruments[caydi].id);
+
+              //if ( parts.payload[j].channelId == _instruments[caydi].id ) {
+
+                obj = {};
+                obj.bpm = data.args.x;
+
+
+                if (window.childRoom==0) {
+                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+                }     
+              //}
+            //}
+          } 
+        }
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
 					}            
 				}  
 
@@ -813,9 +1093,9 @@
 					// at each slider change update presets gets invoked which overloads the system                                                                        
 					if (typeof window['clockStarted'] !== 'undefined') { 
 
-						window.ratelimitPresetChange.schedule(function() {
+						//window.ratelimitPresetChange.schedule(function() {
 							_sequencer.directInfoChange(data);   
-						});
+						//});
 					}
 				}
 			} 
@@ -986,7 +1266,7 @@
 
 		};
 
-		var gestionParametres = function(param)
+		var gestionParametres = function(param) // SettingManagement
 		{
 			if(param[5] === 'child')
 			{
@@ -996,6 +1276,34 @@
 				//on ajoute à body la classe "child"
 				$('body').addClass('child');
 			}
+
+
+if ( typeof param[6] !== 'undefined' ) {
+
+var slas1 = param[6].slice(0,7);
+var slas2 = param[6].slice(7,param[6].length);
+
+console.log('slas', slas1, slas2);
+
+if ( param[6].slice(0,7) === 'ptnmode' ) {
+  window.ptnmode = 1;
+}      
+
+/*
+
+if ( typeof param[7] !== 'undefined' ) {
+  window.sessionid = param[7];
+} */
+
+//window.ptnmode = 1;
+window.sessionid = slas2; //1;
+
+}
+
+
+//window.ptnmode = 1;
+//window.sessionid = 11;
+      
 
 			//if (typeof _arrUrl[5] !== 'undefined' && _arrUrl[5]=='gfxonly') {
 			/*
@@ -1031,6 +1339,7 @@
 			}
 
 			_room_id = param[4].replace("?", "");
+      window.roomId = _room_id;
 		};
 
 		this.initialize = function()
@@ -1093,12 +1402,12 @@
 
 				_sequencer.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat)
 				{
-					if(typeof window['clockStarted'] == 'undefined')
+					if ( typeof window['clockStarted'] == 'undefined' )
 					{
 						window['clockStarted']=1;
 					}
 
-					if(window['clockStarted']==1)
+					if ( window['clockStarted'] == 1 )
 					{
 						console.log('clock started!');
 					}
@@ -1111,16 +1420,153 @@
 						window.barcount=0;
 					}
 
-					if (beat==0)
-					{
+
+
+
+          if ( beat == 3 ) { // 7
+
+
+
+
+        // send bar pulse to all channels    
+        var claients = Object.keys(_clients);
+
+        var clientCount = 0;
+
+        //var part = [];
+
+        for ( var i = 0; i < claients.length; i++ ) {
+          var caydi = claients[i];
+          
+          if ( typeof _instruments[caydi] !== 'undefined' ) {
+
+            obj = {};
+            obj.bpm = window.lastrecedbpm; //data.args.x;
+            obj.bar = window.barcount;
+
+
+            if (window.childRoom==0) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+            }     
+
+          } 
+        }
+
+      }  
+
+
+
+					if ( beat == 0 ) {
+
+
+
+/*
+        // send bar pulse to all channels    
+        var claients = Object.keys(_clients);
+
+        var clientCount = 0;
+
+        //var part = [];
+
+        for ( var i = 0; i < claients.length; i++ ) {
+          var caydi = claients[i];
+          
+          if ( typeof _instruments[caydi] !== 'undefined' ) {
+
+            obj = {};
+            obj.bpm = window.lastrecedbpm; //data.args.x;
+            obj.bar = window.barcount;
+
+
+            if (window.childRoom==0) {
+              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+            }     
+
+          } 
+        }
+*/
+
+
+
+
+
+
+
+
+
+
 						window.barcount++;
+
+            /*
+            // bar duration calc (revealed an unstable clock: +- 1 bpm at 126bpm base)
+            if ( typeof window.taaaaam !== 'undefined' ) {
+              var barDiff = Date.now() - window.taaaaam;
+              console.log('last bar duration:', barDiff);
+            }  
+
+            window.taaaaam = Date.now();
+            */
+
+
+            // quantizing feature!!!!
+            //console.log(window.patternBuffer);
+
+            if ( typeof window.patternBuffer !== 'undefined' ) {
+              if ( window.patternBuffer.length > 0 ) {
+                for ( var j = 0; j < window.patternBuffer.length; j++ ) {
+                  _sequencer.updateNotes(window.patternBuffer[j]);   
+                }
+              }          
+            }
+
+            window.patternBuffer = [];
+
+
+
+
+
+
+
+
+
 					}
+
+
+
+if ( beat == 15 ) {
+          
+
+            if ( typeof window.presetBuffer !== 'undefined' ) {
+              if ( window.presetBuffer.length > 0 ) {
+                for ( var j = 0; j < window.presetBuffer.length; j++ ) {
+                  _sequencer.updatePresetLean(window.presetBuffer[j].args, window.presetBuffer[j].client);
+                  _sequencer.directInfoChange(window.presetBuffer[j]);   
+                }
+              }          
+            }
+
+            window.presetBuffer = [];
+
+}
+
+
+
+
+
+          /*
+          // reset quantizing feature
+          if ( beat == 7 ) {
+            window.patternBuffer = [];
+          } */
+
+
+
 
 					//console.log('beat', beat, window.barcount);
 
 					//_sequencerView.drawPlayhead(beat); // remove audio stuttering
 					
-					_conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
+//_conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
 				});
 			}  
 			/*

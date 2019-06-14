@@ -2,6 +2,38 @@
 window.draw = { // window.noteRanges 
   c1_c2_major: [{ name: 'C2', note: -5 }, { name: 'B1', note: -6 }, { name: 'A1', note: -8 }, { name: 'G1', note: -10 }, { name: 'F1', note: -12 }, { name: 'E1', note: -13 }, { name: 'D1', note: -15 }, { name: 'C1', note: -17 } ],
   
+  c1_c7_major: [
+          { name: 'C7', note:  55 }, { name: 'B6', note:  54 }, { name: 'A6', note:  52 }, { name: 'G6', note:  50 }, { name: 'F6', note:  48 }, { name: 'E6', note:  47 }, { name: 'D6', note:  45 }, 
+          { name: 'C6', note:  43 }, { name: 'B5', note:  42 }, { name: 'A5', note:  40 }, { name: 'G5', note:  38 }, { name: 'F5', note:  36 }, { name: 'E5', note:  35 }, { name: 'D5', note:  33 },
+          { name: 'C5', note:  31 }, { name: 'B4', note:  30 }, { name: 'A4', note:  28 }, { name: 'G4', note:  26 }, { name: 'F4', note:  24 }, { name: 'E4', note:  23 }, { name: 'D4', note:  21 },
+          { name: 'C4', note:  19 }, { name: 'B3', note:  18 }, { name: 'A3', note:  16 }, { name: 'G3', note:  14 }, { name: 'F3', note:  12 }, { name: 'E3', note: 11 }, { name: 'D3', note:  9 },
+          { name: 'C3', note:  7 }, { name: 'B2', note:  6 }, { name: 'A2', note:  4 }, { name: 'G2', note:  2 }, { name: 'F2', note:  0 }, { name: 'E2', note: -1 }, { name: 'D2', note: -3 },
+          { name: 'C2', note: -5 }, { name: 'B1', note: -6 }, { name: 'A1', note: -8 }, { name: 'G1', note: -10 }, { name: 'F1', note: -12 }, { name: 'E1', note: -13 }, { name: 'D1', note: -15 }, { name: 'C1', note: -17 }
+  ],
+
+  c1_c7_majorSharp: [
+          { name: 'C7', note: 55 }, { name: 'B6', note: 54 }, { name: 'A#6', note: 53 }, { name: 'A6', note: 52 }, { name: 'G#6', note: 51 }, { name: 'G6', note: 50 }, { name: 'F#6', note: 49 }, { name: 'F6', note: 48 }, { name: 'E6', note: 47 }, { name: 'D#6', note: 46 }, { name: 'D6', note: 45 }, { name: 'C#6', note: 44 }, 
+          { name: 'C6', note: 43 }, { name: 'B5', note: 42 }, { name: 'A#5', note: 41 }, { name: 'A5', note: 40 }, { name: 'G#5', note: 39 }, { name: 'G5', note: 38 }, { name: 'F#5', note: 37 }, { name: 'F5', note: 36 }, { name: 'E5', note: 35 }, { name: 'D#5', note: 34 }, { name: 'D5', note: 33 }, { name: 'C#5', note: 32 }, 
+          { name: 'C5', note: 31 }, { name: 'B4', note: 30 }, { name: 'A#4', note: 29 }, { name: 'A4', note: 28 }, { name: 'G#4', note: 27 }, { name: 'G4', note: 26 }, { name: 'F#4', note: 25 }, { name: 'F4', note: 24 }, { name: 'E4', note: 23 }, { name: 'D#4', note: 22 }, { name: 'D4', note: 21 }, { name: 'C#4', note: 20 }, 
+          { name: 'C4', note: 19 }, { name: 'B3', note: 18 }, { name: 'A#3', note: 17 }, { name: 'A3', note: 16 }, { name: 'G#3', note: 15 }, { name: 'G3', note: 14 }, { name: 'F#3', note: 13 }, { name: 'F3', note: 12 }, { name: 'E3', note: 11 }, { name: 'D#3', note: 10 }, { name: 'D3', note:  9 }, { name: 'C#3', note:  8 }, 
+          { name: 'C3', note:  7 }, { name: 'B2', note:  6 }, { name: 'A#2', note:  5 }, { name: 'A2', note:  4 }, { name: 'G#2', note:  3 }, { name: 'G2', note:  2 }, { name: 'F#2', note:  1 }, { name: 'F2', note:  0 }, { name: 'E2', note: -1 }, { name: 'D#2', note: -2 }, { name: 'D2', note: -3 }, { name: 'C#2', note: -4 }, 
+          { name: 'C2', note: -5 }, { name: 'B1', note: -6 }, { name: 'A#1', note: -7 }, { name: 'A1', note: -8 }, { name: 'G#1', note: -9 }, { name: 'G1', note:-10 }, { name: 'F#1', note:-11 }, { name: 'F1', note:-12 }, { name: 'E1', note:-13 }, { name: 'D#1', note:-14 }, { name: 'D1', note:-15 }, { name: 'C#1', note:-16 }, 
+          { name: 'C1', note:-17 }
+  ],
+
+
+
+  c1_c7_majorSharpCWilso: [
+          { name: 'C7', note: 79 }, { name: 'B6', note: 78 }, { name: 'A#6', note: 77 }, { name: 'A6', note: 76 }, { name: 'G#6', note: 75 }, { name: 'G6', note: 74 }, { name: 'F#6', note: 73 }, { name: 'F6', note: 72 }, { name: 'E6', note: 71 }, { name: 'D#6', note: 70 }, { name: 'D6', note: 69 }, { name: 'C#6', note: 68 }, 
+          { name: 'C6', note: 67 }, { name: 'B5', note: 66 }, { name: 'A#5', note: 65 }, { name: 'A5', note: 64 }, { name: 'G#5', note: 63 }, { name: 'G5', note: 62 }, { name: 'F#5', note: 61 }, { name: 'F5', note: 60 }, { name: 'E5', note: 59 }, { name: 'D#5', note: 58 }, { name: 'D5', note: 57 }, { name: 'C#5', note: 56 }, 
+          { name: 'C5', note: 55 }, { name: 'B4', note: 54 }, { name: 'A#4', note: 53 }, { name: 'A4', note: 52 }, { name: 'G#4', note: 51 }, { name: 'G4', note: 50 }, { name: 'F#4', note: 49 }, { name: 'F4', note: 48 }, { name: 'E4', note: 47 }, { name: 'D#4', note: 46 }, { name: 'D4', note: 45 }, { name: 'C#4', note: 44 }, 
+          { name: 'C4', note: 43 }, { name: 'B3', note: 42 }, { name: 'A#3', note: 41 }, { name: 'A3', note: 40 }, { name: 'G#3', note: 39 }, { name: 'G3', note: 38 }, { name: 'F#3', note: 37 }, { name: 'F3', note: 36 }, { name: 'E3', note: 35 }, { name: 'D#3', note: 34 }, { name: 'D3', note: 33 }, { name: 'C#3', note: 32 }, 
+          { name: 'C3', note: 31 }, { name: 'B2', note: 30 }, { name: 'A#2', note: 29 }, { name: 'A2', note: 28 }, { name: 'G#2', note: 27 }, { name: 'G2', note: 26 }, { name: 'F#2', note: 25 }, { name: 'F2', note: 24 }, { name: 'E2', note: 23 }, { name: 'D#2', note: 22 }, { name: 'D2', note: 21 }, { name: 'C#2', note: 20 }, 
+          { name: 'C2', note: 19 }, { name: 'B1', note: 18 }, { name: 'A#1', note: 17 }, { name: 'A1', note: 16 }, { name: 'G#1', note: 15 }, { name: 'G1', note: 14 }, { name: 'F#1', note: 13 }, { name: 'F1', note: 12 }, { name: 'E1', note: 11 }, { name: 'D#1', note: 10 }, { name: 'D1', note:  9 }, { name: 'C#1', note:  8 }, 
+          { name: 'C1', note:  7 }
+  ],  
+
+
   c1_c2_major_for_penta_minor: [{ name: 'C2', note: -5 }, { name: 'G1', note: -10 }, { name: 'C1', note: -17 } ],
   c2_c3_major_for_penta_minor: [{ name: 'C3', note: 7 },  { name: 'G2', note: 2 }, { name: 'C2', note: -5 } ],
   c3_c4_major_for_penta_minor: [{ name: 'C4', note: 19 }, { name: 'G3', note: 14 }, { name: 'C3', note: 7 } ],
@@ -487,7 +519,1169 @@ change_ptn_change_kit2:
         } */
 
 
+    ],
+
+
+
+
+
+
+
+  editor_controls:
+    [           
+
+//*
+      { name: 'Choose pattern', 
+        id: 994,
+        type: 'ddmenu', 
+        x: {
+          name: 'Pattern',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+      { 
+        name: 'Save pattern',
+        id: 995,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Pattern',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },    
+
+
+              { 
+        name: 'Sequence patterns',
+        id: 9920,
+
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Sequence',
+            param: '[external]', 
+            midicc: 0,                      
+value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+//*
+      { name: 'Change note range/pitch', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+
+
+
+{ 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'vco1.set_gain',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'vco2.set_gain',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'vco1.set_wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'triangle',
+                1: 'sawtooth',                     
+                2: 'square',
+              },               
+              max: 2 // 124                    
+            }                
+          },  
+
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'vco2.set_wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },                 
+              max: 2                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch',
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'vco2.set_pitch',                     
+              value: 76, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'eg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'eg.set_d',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'eg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'eg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'filter.set_freq',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'filter.set_q',                     
+              value: 75, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter eg amount',
+            id: 12,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter env attack',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'feg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'feg.set_d',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'feg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'feg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+
+
+
+      { name: 'Choose preset', 
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },      
+
+      { 
+        name: 'Save preset',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },           
+
+
+/*
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+
+//*/
+  
+
+
+
+
+
+
+/*
+{ 
+          name: 'Time Shift',
+          id: 990,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Time Shift',
+              param: '[external]', // [external] = does not change timbre generator param
+              //midicc: 7,  // 74                    
+              value: 0, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              //muteKey: 49, // beware fr,fr azerty keyboard
+              //muteNote: 48,
+              displayedRangeMin: -50,
+              displayedRangeMax: 50,
+              min: -50,
+              max: 150
+          }                
+        } */
+
+
+    ],
+
+
+
+
+
+
+
+  editor_controls_no_preset:
+    [           
+
+//*
+      { name: 'Choose pattern', 
+        id: 994,
+        type: 'ddmenu', 
+        x: {
+          name: 'Pattern',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+      { 
+        name: 'Save pattern',
+        id: 995,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Pattern',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },    
+
+
+              { 
+        name: 'Sequence patterns',
+        id: 9920,
+
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Sequence',
+            param: '[external]', 
+            midicc: 0,                      
+value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+//*
+      { name: 'Change note range/pitch', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+
+
+/*
+{ 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'vco1.set_gain',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'vco2.set_gain',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'vco1.set_wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'triangle',
+                1: 'sawtooth',                     
+                2: 'square',
+              },               
+              max: 2 // 124                    
+            }                
+          },  
+
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'vco2.set_wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+                    option: {
+                      0: 'triangle',
+                      1: 'sawtooth',                     
+                      2: 'square',
+                    },                 
+              max: 2                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch',
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'vco2.set_pitch',                     
+              value: 76, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'eg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'eg.set_d',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'eg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'eg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'filter.set_freq',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'filter.set_q',                     
+              value: 75, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter eg amount',
+            id: 12,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'filter env attack',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'feg.set_a',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'feg.set_d',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'feg.set_s',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'feg.set_r',                     
+              value: 0, 
+              interpolate: 0, 
+            }                
+          },
+
+
+
+      { name: 'Choose preset', 
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },      
+
+      { 
+        name: 'Save preset',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },           
+*/
+
+/*
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+
+//*/
+  
+
+
+
+
+
+
+/*
+{ 
+          name: 'Time Shift',
+          id: 990,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Time Shift',
+              param: '[external]', // [external] = does not change timbre generator param
+              //midicc: 7,  // 74                    
+              value: 0, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              //muteKey: 49, // beware fr,fr azerty keyboard
+              //muteNote: 48,
+              displayedRangeMin: -50,
+              displayedRangeMax: 50,
+              min: -50,
+              max: 150
+          }                
+        } */
+
+
+    ],
+
+
+
+
+
+
+  editor_controls_CWilso_Polysynth:
+    [           
+
+//*
+      { name: 'Choose pattern', 
+        id: 994,
+        type: 'ddmenu', 
+        x: {
+          name: 'Pattern',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+      { 
+        name: 'Save pattern',
+        id: 995,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Pattern',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },    
+
+
+              { 
+        name: 'Sequence patterns',
+        id: 9920,
+
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Sequence',
+            param: '[external]', 
+            midicc: 0,                      
+value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+//*
+      { name: 'Change note range/pitch', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+      
+
+{ 
+            name: 'osc1 vol',
+            id: 1,
+            type: 'slider',                                    
+            x: {
+              name: 'osc1 vol',
+              param: 'onUpdateOsc1Mix',                     
+              value: 15, 
+              interpolate: 0, 
+            }                
+          },
+
+          { 
+            name: 'osc2 vol',
+            id: 3,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 vol',
+              param: 'onUpdateOsc2Mix',                     
+              value: 35, 
+              interpolate: 0, 
+            }                
+          },
+          
+          { 
+            name: 'osc1 waveform',
+            id: 2,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc1 waveform',
+              param: 'onUpdateOsc1Wave',                     
+              value: 1,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'sine',
+                1: 'square',                     
+                2: 'sawtooth',
+                3: 'triangle'                
+              },               
+              max: 3                    
+            }                
+          },  
+
+          { 
+            name: 'osc2 waveform',
+            id: 4,
+            type: 'ddmenu',                                    
+            x: {
+              name: 'osc2 waveform',
+              param: 'onUpdateOsc2Wave',                     
+              value: 2,
+              stepSize: 1, 
+              interpolate: 0, 
+              min: 0,
+              option: {
+                0: 'sine',
+                1: 'square',                     
+                2: 'sawtooth',
+                3: 'triangle'
+              },                 
+              max: 3                    
+            }                
+          },     
+          { 
+            name: 'osc2 pitch', // aka detune
+            id: 5,
+            type: 'slider',                                    
+            x: {
+              name: 'osc2 pitch',
+              param: 'onUpdateOsc2Detune',                     
+              value: 0, // -30 for high pitcehd notes 
+              interpolate: 0, 
+            }                
+          },  
+          { 
+            name: 'env attack',
+            id: 6,
+            type: 'slider',                                    
+            x: {
+              name: 'env attack',
+              param: 'onUpdateEnvA',                     
+              value: 1, // 0: bug
+              interpolate: 0, 
+            }                
+          },   
+
+          { 
+            name: 'env decay',
+            id: 7,
+            type: 'slider',                                    
+            x: {
+              name: 'env decay',
+              param: 'onUpdateEnvD',                     
+              value: 50, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env sustain',
+            id: 8,
+            type: 'slider',                                    
+            x: {
+              name: 'env sustain',
+              param: 'onUpdateEnvS',                     
+              value: 70, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'env release',
+            id: 9,
+            type: 'slider',                                    
+            x: {
+              name: 'env release',
+              param: 'onUpdateEnvR',                     
+              value: 30, 
+              interpolate: 0, 
+            }                
+          },                                                                                                             
+          { 
+            name: 'filter cutoff',
+            id: 10,
+            type: 'slider',                                    
+            x: {
+              name: 'filter cutoff',
+              param: 'onUpdateFilterCutoff',                     
+              value: 14, //0
+              interpolate: 0, 
+            }                
+          },  
+
+          { 
+            name: 'filter resonance',
+            id: 11,
+            type: 'slider',                                    
+            x: {
+              name: 'filter resonance',
+              param: 'onUpdateFilterQ',                     
+              value: 5, 
+              interpolate: 0, 
+            }                
+          },  
+          /*{ 
+            name: 'filter eg amount',
+            id: 12,
+            type: 'slider',                                    
+            x: {
+              name: 'filter eg amount',
+              param: 'filter.set_amount',                     
+              value: 100, 
+              interpolate: 0, 
+            }                
+          },  */
+          { 
+            name: 'filter env attack',
+            id: 13,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env attack',
+              param: 'onUpdateFilterEnvA',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env decay',
+            id: 14,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env decay',
+              param: 'onUpdateFilterEnvD',                     
+              value: 1, // Time constant must be a finite positive number
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env sustain',
+            id: 15,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env sustain',
+              param: 'onUpdateFilterEnvS',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          },   
+          { 
+            name: 'filter env release',
+            id: 16,
+            type: 'slider',                                    
+            x: {
+              name: 'filter env release',
+              param: 'onUpdateFilterEnvR',                     
+              value: 1, 
+              interpolate: 0, 
+            }                
+          },
+
+
+
+      { name: 'Choose preset', 
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },      
+
+      { 
+        name: 'Save preset',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },           
+
+
+/*
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+
+//*/
+  
+
+
+
+
+
+
+/*
+{ 
+          name: 'Time Shift',
+          id: 990,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'Time Shift',
+              param: '[external]', // [external] = does not change timbre generator param
+              //midicc: 7,  // 74                    
+              value: 0, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              //muteKey: 49, // beware fr,fr azerty keyboard
+              //muteNote: 48,
+              displayedRangeMin: -50,
+              displayedRangeMax: 50,
+              min: -50,
+              max: 150
+          }                
+        } */
+
+
     ]
+
+
+
+
+
+
+
+
+
+
 };
 
 
@@ -2301,7 +3495,7 @@ conductor16a: [ //
 
 
         { 
-          name: 'General Per line Note MIN',
+          name: 'General Per line Note Min',
           id: 698,
 
           type: 'input', // 
@@ -2350,6 +3544,550 @@ conductor16a: [ //
         },           
 
 
+      { 
+        name: 'Part sequencer ',
+        id: 9953,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Part',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+
+
+      { 
+        name: 'Save part',
+        id: 987,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save part',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },  
+
+
+
+
+
+
+      { 
+        name: 'Song sequencer ',
+        id: 9952,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save song',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+
+
+      { 
+        name: 'Save song',
+        id: 986,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save song',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },        
+
+
+
+
+      ],  
+
+
+
+
+
+
+
+
+
+
+conductor4: [ // 
+
+        { // control
+          name: 'Sounding channel number',
+          id: 500,
+          type: 'hidden', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // 
+          },   
+          x: {
+              name: 'scn',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 17,
+              stepSize: 0, // 
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+                                    
+
+{ 
+          name: 'Ch1 vol',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch1 vol',
+              param: '_insVol0', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'
+              }, 
+
+              midicc: 7,  // 74                    
+              value: 40, // 60
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              muteKey: 49, // beware fr,fr azerty keyboard
+              muteNote: 48,
+              solo: 1,               
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Ch2 vol',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch2 vol',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              }, 
+
+              midicc: 4,  // 71                    
+              value: 25,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on 
+              mute: 1,        
+              muteKey: 50,    
+              muteNote: 50,   
+              solo: 1,   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch3 vol',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch3 vol',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 19, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              midicc: 3,
+              mute: 1,        
+              muteKey: 51,                
+              muteNote: 52,
+              solo: 1,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch4 vol',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'ch4 vol',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 15, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              midicc: 13,
+              mute: 1,        
+              muteKey: 52,  
+              muteNote: 53,
+              solo: 1,
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+/*
+
+        { 
+          name: 'Ch5 vol',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'ch5 vol',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 14,
+              mute: 1,        
+              muteKey: 53,                
+              muteNote: 55,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch6 vol',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch6 vol',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 40,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 15,
+              mute: 1,        
+              muteKey: 54,                
+              muteNote: 57,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+*/
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 126, // 100 - 85 110 - 119 - 125.41
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 220, // 400
+              min: 60,
+              max: 220, // 400
+              autoValIncMode: 0, // 0: off | 1: on 
+              autoValIncBy: 4, // -1 - 1
+              autoValIncTime: 8,
+          }               
+        },
+
+        { // control
+          name: 'Channel change',
+          id: 997,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'Channel change',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+
+        /*
+        { // control
+          name: 'Session change',
+          id: 996,
+
+          type: 'ddmenu', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session', //  dest (1>2) - Pick session
+              param: '[external]', 
+              midicc: 0,                      
+              value: 2, // starting at session 001
+              stepSize: 0, 
+              interpolate: 0, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 1,
+              max: 2
+          }                 
+        }, */
+
+
+                                                       
+
+        { 
+          name: 'Rotation', // General Bar kickout time
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'rotation (in bars)', // General kickout time
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 99999999999999999999999999, // 90 ? don't - 32
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+
+
+        { 
+          name: 'General Per line Note Min',
+          id: 698,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Min',
+              param: '_noteMin', // [external]
+              midicc: 0,                      
+              value: 0, // 
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },    
+
+
+        { 
+          name: 'General Per line Note Max',
+          id: 697,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Max',
+              param: '_noteMax', // [external]
+              midicc: 0,                      
+              value: 16, // 16
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },           
+
+
+      { 
+        name: 'Part sequencer ',
+        id: 9953,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Part',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+
+
+      { 
+        name: 'Save part',
+        id: 987,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save part',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },  
+
+
+
+
+
+
+      { 
+        name: 'Song sequencer ',
+        id: 9952,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save song',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+
+
+      { 
+        name: 'Save song',
+        id: 986,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save song',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },        
+
+
+
 
       ]  
 
@@ -2363,6 +4101,27 @@ conductor16a: [ //
       
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 var c1_e1_3_notes = (JSON.parse(JSON.stringify(window.draw.c1_c2_major)));
@@ -2489,6 +4248,284 @@ window.conductor16b = (JSON.parse(JSON.stringify(window.tweak.conductor16a)));
   // rotation PARAM
   var param699 = window.findObjectById(window.conductor16b, 699);
   param699.x.value = 48;        
+
+
+
+var changePattern = CWilsoWAMidiSynthControls[0];
+CWilsoWAMidiSynthControls[0] = CWilsoWAMidiSynthControls[1];
+CWilsoWAMidiSynthControls[1] = changePattern;
+CWilsoWAMidiSynthControls[0].name = 'Change mode';
+
+
+var changePattern= (JSON.parse(JSON.stringify(window.launch.change_ptn_change_kit)));
+changePattern.splice(1, 1);
+
+
+
+
+
+
+
+
+window.kits = {
+  drum:
+  [
+
+{ type: 'samples', // 
+      instrumentName: 'Sampler', 
+      name: 'TheCheebacabra1', // (kitName)
+      kitNumber: 0, // number 
+      color: 'rgba(253, 118, 8, 1)', // (kitColor)
+      tracks: [
+        { name: 'Tom 3',
+          sampleUrl: 'TheCheebacabra1/tom3.wav'            
+        },
+        { name: 'Tom 2',
+          sampleUrl: 'TheCheebacabra1/tom2.wav'            
+        },
+        { name: 'Tom 1',
+          sampleUrl: 'TheCheebacabra1/tom1.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: 'TheCheebacabra1/snare.wav'            
+        },
+        { name: 'Hihat',
+          sampleUrl: 'TheCheebacabra1/hihat.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: 'TheCheebacabra1/kick.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    }, // close kit
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'CR78', 
+      kitNumber: 1, 
+      color: 'rgba(253, 118, 8, 0.95)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'CR78/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'CR78/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'CR78/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'CR78/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'CR78/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'CR78/kick.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    }, 
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'breakbeat13', 
+      kitNumber: 2, 
+      color: 'rgba(253, 118, 8, 0.9)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'breakbeat13/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'breakbeat13/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'breakbeat13/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'breakbeat13/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'breakbeat13/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'breakbeat13/kick.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    },   
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'LINN', 
+      kitNumber: 3, 
+      color: 'rgba(253, 118, 8, 0.85)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'LINN/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'LINN/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'LINN/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'LINN/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'LINN/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'LINN/kick.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    },  
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'Kit8', 
+      kitNumber: 4, 
+      color: 'rgba(253, 118, 8, 0.8)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'Kit8/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'Kit8/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'Kit8/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'Kit8/snare.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'Kit8/hihat.wav'            
+        },
+        {
+          name: 'Kick',
+          sampleUrl: 'Kit8/kick.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    },     
+
+    { type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: '909', 
+      kitNumber: 5, 
+      color: 'rgba(253, 118, 8, 0.7)', // (kitColor)
+      tracks: [
+        /*{ name: 'Cymbal',
+          sampleUrl: 'Drums/Ah1 Ride.wav'            
+        },
+        { name: 'Rimshot',
+          sampleUrl: 'Drums/Ch1 RimShot.wav'            
+        },*/      
+        { name: 'Rimshot',
+          sampleUrl: '12-TR-909/909 RIM.wav'            
+        },
+        { name: 'Opened hihat',
+          sampleUrl: '12-TR-909/909 HHOP.wav'            
+        },
+        { name: 'Clap',
+          sampleUrl: '12-TR-909/909 CLAP.wav'            
+        },  
+        { name: 'Snare',
+          sampleUrl: '12-TR-909/909 SD10.wav'            
+        },
+        { name: 'Closed hihat',
+          sampleUrl: '12-TR-909/909 HHCL 1.wav'            
+        },
+        { name: 'Kick',
+          sampleUrl: '12-TR-909/909 KIK2.wav' // 909 KIK7           
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset // window.launch.sample_prg2          
+    },
+
+    { 
+      type: 'synth',
+      instrumentName: 'JoeSullivanDrumSynth', 
+      instrumentUrl: 'http://tiny-808.com/',
+      color: 'rgba(0, 81, 0, 1)',
+      name: 'JoeSullivanDrumSynth', 
+      kitNumber: 6,      
+      tracks: window.draw.drumsynth_01,
+      inputMode: 'grid', // 'keyboard', 'grid'
+      controls: window.launch.editor_controls_no_preset //changePattern //aikeWebsynthControls patternSeqOff          
+    }
+
+    ,{ type: 'samples', 
+      instrumentName: 'Sampler', 
+      name: 'LINN (GM - The Chase adjusted)', 
+      kitNumber: 7, 
+      color: 'rgba(253, 118, 8, 0.85)', 
+      tracks: [
+        {
+          name: 'Tom 3',
+          sampleUrl: 'LINN/tom3.wav'            
+        },
+        {
+          name: 'Tom 2',
+          sampleUrl: 'LINN/tom2.wav'            
+        },
+        {
+          name: 'Tom 1',
+          sampleUrl: 'LINN/tom1.wav'            
+        },  
+        {
+          name: 'Snare',
+          sampleUrl: 'LINN/snare_gm_chase.wav'            
+        },
+        {
+          name: 'Hihat',
+          sampleUrl: 'LINN/hihat.wav'            
+        },
+        {
+          name: 'kick_gm_chase',
+          sampleUrl: 'LINN/kick_gm_chase.wav'            
+        }                      
+      ],
+      controls: window.launch.editor_controls_no_preset         
+    }  
+
+
+
+  ],
+
+
+};
+
+
+
+
+
 
 
 window.insConf1 = [ // channelConf

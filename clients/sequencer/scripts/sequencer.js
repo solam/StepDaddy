@@ -16,6 +16,8 @@
 		
 		//this._availableInstruments = _availableInstruments;
 		//window._availableInstruments = _availableInstruments;
+
+    window['conn_mgmt'] = [];
 		
 		var _tracks = {};
 
@@ -24,9 +26,13 @@
 		var _patterns = [];
 		this._patterns = [];
 		this._systemPatterns = [];
+
+    this._parts = [];
+    this._systemParts = [];    
 		
 		//window.systemPatterns = [];
 		this._patternSequencer = [];
+    this._songSequencer = [];
 		var _presets = [];
 		this._presets = [];
 		this._systemPresets = [];    
@@ -95,7 +101,16 @@
 		
 		// if all channels' offsets are set to 0: offSetMode = off while rotation = on
 
-		this._sessionNumber = 10; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
+
+    if ( typeof window.sessionid == 'number' ) {
+      this._sessionNumber = window.sessionid; 
+    } else {
+      this._sessionNumber = 11; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
+    }
+
+
+    //console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);
+		
 
 		// ven 16 step 2016: 6 > 5 > 1 (with /mopo)
 		/*
@@ -175,15 +190,29 @@
 
 		var defaultShift = 0;
 
-		console.log("sound", sound);
+		//console.log("sound", sound);
 
 		this._channelName = [];
+
+
 		this._channelPatterns = [];
 		var achannelPatterns = [];
+
+    this._channelParts = [];
+    var achannelParts = [];    
+
+
 		this._channelPresets = [];
 		var achannelPresets = [];
+
 		this._channelpatternSeq = [];
 		var achannelpatternSeq = [];
+
+    this._channelsongSeq = [];
+    var achannelsongSeq = [];    
+
+
+
 		this._instrumentsSoundModes = [];
 		this._audioChannelShift = [];
 
@@ -211,12 +240,23 @@
 				this._channelName[b]=[];
 				this._channelName[b]['name']= this._instrumentsConfig[b].channelName;
 				this._channelName[b]['color']= this._instrumentsConfig[b].conf[0]['color'];
+
 				this._channelPatterns[b]= this._instrumentsConfig[b].patterns;
 				achannelPatterns[b]= JSON.stringify(this._instrumentsConfig[b].patterns);
+
+
+        this._channelParts[b]= this._instrumentsConfig[b].parts;
+        achannelParts[b]= JSON.stringify(this._instrumentsConfig[b].parts);        
+
 				this._channelPresets[b]= this._instrumentsConfig[b].presets;
 				achannelPresets[b]= JSON.stringify(this._instrumentsConfig[b].presets);
 				this._channelpatternSeq[b]= this._instrumentsConfig[b].patternSeq;
 				achannelpatternSeq[b]= JSON.stringify(this._instrumentsConfig[b].patternSeq);
+
+        this._channelsongSeq[b]= this._instrumentsConfig[b].songs;
+        achannelsongSeq[b]= JSON.stringify(this._instrumentsConfig[b].songs);
+
+
 				this._instrumentsSoundModes[b]= sound;
 				this._audioChannelShift[b]= defaultShift;
 				// 10 params processed
@@ -481,7 +521,13 @@
 		//console.log(this._insBarOffset[0]);
 		//console.log(this._channelPatterns); // this._channelName
 		window.chPatternsAtStartup = achannelPatterns;
+
+    window.chPartsAtStartup = achannelParts;
+
 		window.chPresetsAtStartup = achannelPresets;
+
+
+    //console.log('_channelsongSeq', this._channelsongSeq);
 
 		this._channelInfo = [];
 		this._channelInfo['bpm']=this._tempo;
@@ -701,8 +747,27 @@
 					//console.log("channelInfo.channelPatternSeq: ", channelInfo.channelPatternSeq, this._channelpatternSeq[i], this._channelpatternSeq[i]['defaultPatternSeq'] /*,channelInfo.channelPatternSeq*/);           
 				}
 
+
+//*
+        if ( typeof this._channelsongSeq[i] !== 'undefined' ) {           
+          //channelInfo.channelSongSeqList = this._channelsongSeq[i][this._instrumentsConfig[i].defaultSong]; //;
+          channelInfo.channelSongSeqList = this._channelsongSeq[i];
+
+          channelInfo.defaultSong = this._instrumentsConfig[i].defaultSong;
+
+          this._songSequencer.push(channelInfo.channelsongSeqList);
+
+        }
+//*/
+
+
 				channelInfo.patterns = this._patterns;     
 				channelInfo.channelPatterns = this._channelPatterns[i];   
+
+        channelInfo.parts = this._parts;     
+        channelInfo.channelParts = this._channelParts[i];   
+
+
 				channelInfo.channelKits = this.getKitNames(i);
 				channelInfo.presets = this._presets;     
 				channelInfo.channelPresets = this._channelPresets[i];              
@@ -723,6 +788,18 @@
 					}  
 					//window.systemPatterns = this._systemPatterns;
 				}
+
+
+        if ( typeof this._channelParts[i] !== 'undefined' ) {
+
+          for(var k = 0; k < this._channelParts[i].length; k++)
+          {
+            var chptn = this._channelParts[i][k];  
+            this._systemParts.push(chptn);
+          }  
+        }
+
+
 				
 				//console.log('sys ptns @ ins creation: ', this._systemPatterns);
 
@@ -953,11 +1030,27 @@
 
 			// Do not give Conductor role/instrument unless provided pwd is mopo
 			if (pwd!='mopo' && _availableInstruments[0].instrumentName=='Conductor')
+      //if (pwd=='nomopo' && _availableInstruments[0].instrumentName=='Conductor')        
 			{
 				var nextInstrument = _availableInstruments[1];
 				_availableInstruments.splice(1, 1);
 			}
-			else
+//*
+      else if (pwd !== 'mopo' && pwd !== 'nomopo') // prevent conductor role/device from loading frome here - && pwd !== 2
+      {
+        /*if ( pwd === 1 ) {
+          var substract = 1; // substract == add, in fact!
+        } else {
+          var substract = 0;
+        }*/
+
+        //var substract = 0;
+
+        var nextInstrument = _instruments[pwd]; // +substract pwd-1
+      }
+//*/
+
+			else //if (pwd=='mopo')
 			{
 				var nextInstrument = _availableInstruments[0]; // get first available instrument
 				_availableInstruments.shift(); // and remove it from available instrument list
@@ -965,6 +1058,8 @@
 				_self._availableInstruments.shift();
 				window._availableInstruments.shift();          
 			}
+
+
 
 			if (typeof nextInstrument !== 'undefined')
 			{
@@ -1068,6 +1163,10 @@
 		// by channel
 		this.directInfoChange = function(data)
 		{ // modify instrument object params withou reloading instruments, etc...
+
+
+    if (typeof _clients[data.client] !== 'undefined') {
+
 			var channelId = _clients[data.client].id;
 			
 			if (data.args.id==201)
@@ -1077,12 +1176,20 @@
 
 				//_instruments[channelId].patternEditState = data.args.ptnEditState;
 				//_instruments[channelId].channelInfo.patternEditState = data.args.ptnEditState;
-			}
-			else if (data.args.id==202)
-			{
+			} else if (data.args.id==202) {
 				_instruments[channelId].patternEditId = data.args.ptnEditId;
-				_instruments[channelId].channelInfo.patternEditId = data.args.ptnEditId;        
-			}
+				_instruments[channelId].channelInfo.patternEditId = data.args.ptnEditId;     
+
+      // save current pattern seq state for one channel  
+      } else if (data.args.id==204) {
+
+        var ptnSeqObjFromStr = JSON.parse(data.args.currentPtnSeq);
+        //channelInfo.ptnSeq = data.ptnSeq;
+        //channelInfo.channelPatternSeq = [];            
+        //channelInfo.channelPatternSeqList = ptnSeqObjFromStr.list;     
+        _instruments[channelId].channelInfo.currentPtnSeq = ptnSeqObjFromStr; //.list;
+        //console.log("curr ptn seq id 204: ", _instruments[channelId].channelInfo.currentPtnSeq, data.args);
+      }
 			else if (data.args.id==203 && typeof data.args.ptnEditState !== 'undefined')
 			{
 				_instruments[channelId].patternEditState = data.args.ptnEditState;
@@ -1098,6 +1205,8 @@
 					this.addPreset(data, data.client);
 				}
 			}
+
+      }    
 		}
 
 		// id: _id, x: $('#patterns').find(":selected").val(), y: 0, pattern: 1, classs: $('#patterns').find(":selected").attr('class'), kitNumber: $('#id998').find("input").val()  
@@ -1105,6 +1214,8 @@
 		this.updateNotes = function(data)
 		{ // update various notes
 			
+      if (typeof _clients[data.client] !== 'undefined') {
+      
 			var channelId = _clients[data.client].id;
 
 			// transport patternId (unsaved or saved pattern states) across channel changes  
@@ -1184,7 +1295,7 @@
 				//console.log('ptn + sys ptns after: ', /*channelId, data.args.x, result[0], this._systemPatterns, data*/ window.chPatternsAtStartup); // , tempSysPatterns , window.systemPatterns
 
 				// first reset played tracks of processed channel
-				var maxTrackNumber = 30; // Beware Hardcoded value!
+				var maxTrackNumber = 90; // Beware Hardcoded value! 30
 				for (var n = 0, len = maxTrackNumber; n < len; n += 1) {
 					var notesNumber = 16;//result[0].tracks[n].length;
 					//var traack = result[0].tracks[n];        
@@ -1259,12 +1370,16 @@
 					//anextInstrument.tracks[n].setNotes(notes);
 				} 
 				//console.log("notesObject: ", notesObject);
-				return notesObject;
+//return notesObject;
 			} // end of exlude conductor channel (channel 1 aka 2nd channel)    
 
 			//var trackId = data.trackId.split('-')[1];
 			//var instrumentId = data.trackId.split('-')[0];
 			//_instruments[data.client].tracks[trackId].notes[data.noteId] = data.volume; 
+
+
+    }
+
 		};
 
 		this.updateInstrument = function(data, clientId)
@@ -1305,7 +1420,7 @@
 
 			} //else {
 
-			console.log("l1173 debug: ", this._instrumentsConfig[prevKit].conf[trackSet].tracks);  // this._instrumentsConfig[prevKit].conf[trackSet], prevKit, trackSet
+			//console.log("l1173 debug: ", this._instrumentsConfig[prevKit].conf[trackSet].tracks);  // this._instrumentsConfig[prevKit].conf[trackSet], prevKit, trackSet
 
 			// retrieve track info from destination kit and override source kit with that info
 			var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type); 
@@ -1363,6 +1478,11 @@
 
 			channelInfo.patterns = this._patterns;
 			channelInfo.channelPatterns = this._channelPatterns[prevKit];
+
+      channelInfo.parts = this._parts;
+      channelInfo.channelParts = this._channelParts[prevKit];
+
+
 			channelInfo.channelKits = this.getKitNames(prevKit);
 
 			if (typeof data.kitNumber !== 'undefined') { channelInfo.presetId = data.kitNumber; }
@@ -1467,6 +1587,65 @@
 			return anextInstrument;
 		};    
 
+
+
+    this.updatePresetLean = function(data, clientId) {
+
+      if (typeof data.preset !== 'undefined') { 
+        //var trackSet = data.kitNumber; 
+
+        if (data.classs=='channel') {
+          var preStorage = this._systemPresets;
+        } else {  
+          var preStorage = this._presets;
+        }
+        
+        var result = $.grep(preStorage, function(e){ return e.id == data.presetId; }); // data.x
+
+        if (typeof result[0] !== 'undefined') { 
+
+        //console.log("preset: ", result[0].controls);
+
+        //var objentries = Object.entries(result[0].controls);
+
+          if (typeof window['clockStarted'] !== 'undefined') { 
+
+            var ctrlKeyzz = Object.keys(result[0].controls);
+
+
+            for ( var j = 0; j < ctrlKeyzz.length; j++ ) {
+            //for (const key of objentries) {
+
+            //for (let [key, value] of Object.entries(result[0].controls)) {
+                //console.log(key, value);
+
+                //console.log(ctrlKeyzz[j], result[0].controls[ctrlKeyzz[j]]);
+
+              newObj = {}  ;
+
+              newObj.x = result[0].controls[ctrlKeyzz[j]];
+              newObj.id = ctrlKeyzz[j];
+
+                //window.ratelimit.schedule(function() {
+                  //console.log('data', newObj); //
+                  this.updateFxParam(newObj, clientId); // data.client   
+                //});
+
+            }  
+          //}            
+
+          }
+
+        //console.log("matchin preset", data, result[0], this._systemPresets, this._presets);   // .tracks          
+
+        } 
+
+    }
+
+  }  
+
+
+
 		this.updatePreset = function(data, clientId)
 		{ // changePreset
 
@@ -1526,8 +1705,22 @@
 				channelInfo.channelPatternSeq = this._channelpatternSeq[prevKit][this._instrumentsConfig[prevKit].defaultPatternSeq];               
 			}
 
+
+      if (typeof this._channelsongSeq[prevKit] !== 'undefined') {
+        channelInfo.defaultSong = this._instrumentsConfig[prevKit].defaultSong;                 
+        //channelInfo.channelSongSeq = this._channelsongSeq[prevKit][this._instrumentsConfig[prevKit].defaultSong];               
+        channelInfo.channelSongSeq = this._channelsongSeq;
+      }
+
+
 			channelInfo.patterns = this._patterns;
 			channelInfo.channelPatterns = this._channelPatterns[prevKit];
+
+
+      channelInfo.parts = this._parts;
+      channelInfo.channelParts = this._channelParts[prevKit];
+
+
 			channelInfo.channelKits = this.getKitNames(prevKit);
 
 			if (typeof data.presetId !== 'undefined') { channelInfo.presetId = data.presetId; }
@@ -1672,6 +1865,14 @@
 						channelInfo.channelPatternSeq = this._channelpatternSeq[channelNumber][this._instrumentsConfig[channelNumber].defaultPatternSeq]; // i              
 					}
 
+
+          if (typeof this._channelsongSeq[channelNumber] !== 'undefined') {    
+            channelInfo.defaultSong = this._instrumentsConfig[channelNumber].defaultSong;             
+            //channelInfo.channelSongSeq = this._channelsongSeq[channelNumber][this._instrumentsConfig[channelNumber].defaultSong]; // i   
+            channelInfo.channelSongSeq = this._channelsongSeq;           
+          }
+
+
 					if (typeof _instruments[channelNumber].patternSeqState !== 'undefined') {  
 						channelInfo.patternSeqState = _instruments[channelNumber].patternSeqState; // i
 					} 
@@ -1682,8 +1883,12 @@
 					}          
 
 					channelInfo.patterns = this._patterns;   
-
 					channelInfo.channelPatterns = this._channelPatterns[channelNumber];
+
+          channelInfo.parts = this._parts;   
+          channelInfo.channelParts = this._channelParts[channelNumber];
+
+
 					channelInfo.channelKits = this.getKitNames(channelNumber);
 
 					if (typeof this._instrumentsConfig[channelNumber].conf[kitNumber].instrumentUrl !== 'undefined') { channelInfo.instrumentUrl = this._instrumentsConfig[channelNumber].conf[kitNumber].instrumentUrl; }   
@@ -1876,7 +2081,9 @@
 
 			var tempo = _self._tempo; //170
 
-			var tempo = tempo*6; // speed up clock so that it goes 6 times faster to get 24 pulses/quarter note
+//var tempo = tempo*6; // speed up clock so that it goes 6 times faster to get 24 pulses/quarter note
+
+      //var tempo = tempo; // no midi clock (pulse) mode
 			//var signature = 4
 			var beatDur = 60/tempo/4 // /4
 			var barDur = _self._signature * beatDur
@@ -1892,16 +2099,19 @@
 			}
 			*/
 
-			if (window.childRoom==0)
-			{
-				clock = new WAAClock(_context, {toleranceEarly: 0.1}); // 0.1:needed value to delay main sequencer audio ouput start so that solo child rooms trigger window seq... - 10
-				
-				// midi out clock sync: start command
-				if (typeof midiDevice !== 'undefined')
-				{
-					midiDevice.send( [0xFA] );
-				}
-				
+			if ( window.childRoom == 0 ) {
+
+        window.lastrecedbpm = tempo;
+
+        clock = new WAAClock(_context, {toleranceEarly: 0.1}); // 0.1:needed value to delay main sequencer audio ouput start so that solo child rooms trigger window seq... - 10
+
+
+/*				
+// midi out clock sync: start command
+if (typeof midiDevice !== 'undefined') {
+	midiDevice.send( [0xFA] );
+} 
+*/				
 				//midiDevice.send([0xF8]);
 				window.quarterNotePulse=0;
 				window.startOnceCount=0;
@@ -1910,7 +2120,7 @@
 
 				uiEvent = clock.callbackAtTime(_self.uiNextBeat, _self.nextBeatTime(0))
 				.repeat(beatDur)
-				.tolerance({late: 1}) // 1 - 100 - 10	
+        .tolerance({late: 1}) // 1 - 100 - 10	
 				
 				// */       
 
@@ -1926,9 +2136,7 @@
 					}, 3000); // 3000
 				//
 				*/
-			}
-			else
-			{
+			} else {
 
 				/*_clock2 = new WAAClock(_context); // window['SEQ']._context - window['audio_context']
 				_clock2.start();  */
@@ -1975,20 +2183,20 @@
 			if (window.childRoom==0 && window.barcount==8 && _self._beatCount==0 && window.quarterNotePulse==0 /*&& window.startOnceCount==0*/)
 			{ // window.barcount==0 = will only pop once
 				// midi out clock sync: start command 
-				if (typeof midiDevice !== 'undefined')
-				{
-					midiDevice.send( [0xFA] );
-				}       
+/*if ( typeof midiDevice !== 'undefined' ) {
+	midiDevice.send( [0xFA] );
+} */      
 				
 				//console.log('midi clock start, beat & bar: ', _self._beatCount, window.barcount);
 				window.startOnceCount++;
 			}      
 
-			// midi clock sync pulse should be emitted 6 times pers 1/16th nore or 24 times per quarter note
-			if (typeof midiDevice !== 'undefined')
-			{
-				midiDevice.send([0xF8]);
-			}      
+/*
+// midi clock sync pulse should be emitted 6 times pers 1/16th note or 24 times per quarter note
+if ( typeof midiDevice !== 'undefined' ) {
+	midiDevice.send([0xF8]);
+}  
+*/    
 			
 			//console.log('pulse', window.quarterNotePulse);
 			//console.log('bar: ', window.barcount);
@@ -2002,8 +2210,7 @@
 			}
 			*/   
 
-			if (window.quarterNotePulse==4 && window.childRoom==0 || window.childRoom!=0)
-			{ // window.quarterNotePulse==4 for midi clock output audio sync
+//if (window.quarterNotePulse==4 && window.childRoom==0 || window.childRoom!=0) { // window.quarterNotePulse==4 for midi clock output audio sync
 
 				//console.log('next beat');
 
@@ -2019,15 +2226,13 @@
 				if (window.childRoom==0)
 				{
 					_self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
+          window.clockbeat  = _noteIndex;
 				} //*/
 
 				// force minimum bpm to 60 so that app does not bug
-				if (this._tempo<60)
-				{
+				if ( this._tempo < 60 ) {
 					var bpm = 60;
-				}
-				else
-				{
+				} else {
 					var bpm = this._tempo;
 				}
 
@@ -2051,12 +2256,9 @@
 				//console.log(contextPlayTime, currentTime);
 
 				// adjust sample "click" to happen in sync with beat seq animation by advancing trigger time by 1 beat (16th bar)
-				if (_self._tempo<60)
-				{
+				if ( _self._tempo<60 ) {
 					var bpm = 60;
-				}
-				else
-				{
+				} else {
 					var bpm = _self._tempo;
 				}
 				
@@ -2127,16 +2329,14 @@
 						}
 					}
 				}
-			} // end of 1/6 quarter pulse
+//} // end of 1/6 quarter pulse
 
-			if (window.childRoom==0)
-			{
+			if ( window.childRoom == 0 ) {
 				// increment variable
 				window.quarterNotePulse++;
 
 				// reset pulse "every 6 times"
-				if (window.quarterNotePulse==6)
-				{
+				if ( window.quarterNotePulse == 6 ) {
 					window.quarterNotePulse=0;
 				}  
 			}
@@ -2144,8 +2344,7 @@
 
 		this.schedule = function()
 		{
-			if (_self._clockMode == 1)
-			{
+			if (_self._clockMode == 1) {
 				var currentTime = _context.currentTime;
 
 				//console.log('currentTime', currentTime); 
@@ -2392,7 +2591,48 @@
 
 
 			// Connect the volume node to the destination. // gain
-			volumeNode.connect(_masterGainNode); // gainNode
+//volumeNode.connect(_masterGainNode); // gainNode
+
+       conn = volumeNode.connect(window['audio_context']);
+
+       //window['conn_mgmt'].push(channelId);
+
+
+/*
+       // trying to kill audio nodes to free memory and avoid sound greeches
+       // this might be "in vain"
+       if ( typeof window['conn_mgmt'][channelId] !== 'undefined' ) {
+
+          var chlen = window['conn_mgmt'][channelId].length;
+          var chlenm1 = chlen-1;
+
+          if ( chlen > 1 ) {
+
+
+            window['conn_mgmt'][channelId][0] = null;
+            //window['conn_mgmt'][channelId][chlenm1].disconnect();
+            window['conn_mgmt'][channelId][chlenm1] = null;
+
+
+            //*
+            const index = window['conn_mgmt'][channelId].indexOf(window['conn_mgmt'][channelId][chlenm1]);
+
+            if (index !== -1) {
+              window['conn_mgmt'][channelId].splice(index, 1);              
+            } 
+
+          }  
+          // /      
+
+       } else {
+          window['conn_mgmt'][channelId] = [];
+       }
+
+       window['conn_mgmt'][channelId].push(conn); 
+//*/
+       
+
+       
 
 
 			// Reduce the volume.
@@ -2400,6 +2640,12 @@
 
 			// voice.connect(_context.destination);
 			//console.log('noteTime: ', noteTime);
+
+      if (noteTime < 0 ) {
+         noteTime = 0.1; 
+      }
+
+
 			voice.start(noteTime); // Uncaught InvalidAccessError: Failed to execute 'start' on 'AudioBufferSourceNode': The start time provided (-0.663311) is less than the minimum bound (0).
 			
 		};
@@ -2521,6 +2767,8 @@
 		};
 
 		this.updateFxParam = function(data, clientId) { // updateParam
+
+      //console.log(data, clientId);
 			
 			//console.log('limited/throtled call', data.x);
 			//console.log('clt id:', _clients[clientId].instrumentName);
@@ -2667,6 +2915,8 @@
 									} else {
 										var oldTempo = this._tempo;
 										this[controls[j].x.param] = valueX;
+
+                    //window.lastrecedbpm = valueX;
 
 										if (data.id==999 && window.childRoom==0) { // if tempo change
 											//console.log('tempi:', oldTempo, this._tempo);

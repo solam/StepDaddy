@@ -110,6 +110,7 @@ keypressSlider.noUiSlider.on('update', function( values, handle ) {
 /*
 if (typeof document.getElementById('presets') !== 'undefined' && window.changeParamMode=='manual') {
 
+
   if (typeof window.channelPresets[0].id !== 'undefined') { // this may have unexpected secondary effects on other play steup context
     var optValue = window.channelPresets[0].id;
   } else {
@@ -126,7 +127,8 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
       $itemOptionUnsaved.appendTo(document.getElementById('presets'));
       $('#presets option[value="'+optValue+'"]').prop('selected',true);
 
-} */
+} 
+//*/
 
   var presetId = $('#presets').find(":selected").val();
 
@@ -241,7 +243,7 @@ if (typeof document.getElementById('presets') !== 'undefined' && window.changePa
 
 
 
-        console.log('skwerotedValue 244', skwerotedValue, _id);
+        //console.log('skwerotedValue 244', skwerotedValue, _id);
 
 
     _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString});    

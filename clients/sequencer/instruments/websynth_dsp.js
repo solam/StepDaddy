@@ -353,7 +353,29 @@ var CTL_Filter = function(ctx) {
 };
 
 CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 values
-	this.base_freq = f;
+
+
+  let valCheckkk = parseFloat(f);
+
+  if (isFinite(valCheckkk)) {
+    this.base_freq = f;
+  } else {
+    
+    if (typeof f == 'undefined') {
+      //console.log(f);
+      //alert('a bug probably happened on an instance of aike web synth 1: please restart sound engine!');
+      var f = 600;
+      f = 600;
+      this.base_freq = 300;
+    } 
+
+    this.base_freq = 300; // 0.9 - 300
+  }
+
+
+
+
+	//this.base_freq = f;
 	this.freq = Math.min(100, this.base_freq/* + this.eg * 100*/);
 	this.lowpass.frequency.value = 200 + Math.pow(2.0, (this.freq + 30) / 10); // 300
   //console.log('monosynth freq: ', this.lowpass.frequency.value, this.freq, f, this.eg);
@@ -361,19 +383,121 @@ CTL_Filter.prototype.set_freq = function(f) { // 300 to 8000 hz with 0-100 value
 };
 
 CTL_Filter.prototype.set_q = function(q) {
-	this.lowpass.Q.value = q / 3.5; // 5
+
+  let valCheckkk = parseFloat(q);
+
+  if (isFinite(valCheckkk)) {
+    this.lowpass.Q.value = q / 3.5; // 5
+  } else {
+    //console.log(q);
+    this.lowpass.Q.value = 70 / 3.5; // 5
+    var q = 70;
+    q = 70;
+  }
+
+
+
+	//this.lowpass.Q.value = q / 3.5; // 5
 };
 
 CTL_Filter.prototype.set_eg = function(val) { 
-	this.eg = val;
+
+
+  let valCheckkk = parseFloat(val);
+
+  if ( isFinite(valCheckkk) ) { // && val > 0
+    //console.log(val);
+    if (val > 0 ) {
+      this.eg = val;
+    } else {
+      this.eg = 0.8;
+    }
+
+    
+  } else {
+    console.log(val);
+    val = 0.8;
+    var val = 0.8;
+    this.eg = 0.8;
+    this.base_freq = 300;
+    this.amount = 0.5;
+    alert('Aike Websynth probably encountered a bug. Please refresh your browser page.');
+  }
+
+
+  let valCheckkk54 = parseFloat(this.amount);
+
+  if (isFinite(valCheckkk54)) {
+
+  } else {
+    this.amount = 0.5;
+  }
+
+
+
+
+  /*let valCheckkk2 = parseFloat(this.freq);
+
+  if (isFinite(valCheckkk2)) {
+    //this.freq = this.freq;
+  } else {
+    console.log(this.freq);
+    this.freq = 5000;
+  }*/
+
+
+  
+	//this.eg = val;
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+
+  let valCheckkk2 = parseFloat(this.freq);
+
+  if (isFinite(valCheckkk2)) {
+    var teFreq = this.freq;
+  } else {
+    console.log(this.freq, this.base_freq, this.eg, this.amount); // we should also kill currently "bugged" synth instance
+    this.freq = 0.5;
+    var teFreq = 0.5;
+  }  
+
+
+	//this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+  this.lowpass.frequency.value = 300 + Math.pow(2.0, (teFreq + 30) / 10);
 };
 
 CTL_Filter.prototype.set_amount = function(val) {
-	this.amount = val / 100;
+
+
+  this.amount = val / 100;
+
+  //console.log(this.freq, this.base_freq, this.eg, this.amount);
+  let valCheckkk55 = parseFloat(this.amount);
+
+  if (isFinite(valCheckkk55)) {
+
+  } else {
+    this.amount = 0.5;
+  }
+
+  //console.log(this.freq, this.base_freq, this.eg, this.amount);
+
+	
 	this.freq = Math.min(100, this.base_freq + this.eg * this.amount * 100);
-	this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+
+  let valCheckkk2 = parseFloat(this.freq);
+
+  if (isFinite(valCheckkk2)) {
+    var teFreq = this.freq;
+  } else {
+    console.log(this.freq, this.base_freq, this.eg, this.amount);
+    var teFreq = 0.5;
+    var val = 0.5;
+    val = 0.5;
+    this.freq = 0.5;
+  }
+  
+	//this.lowpass.frequency.value = 300 + Math.pow(2.0, (this.freq + 30) / 10);
+  this.lowpass.frequency.value = 300 + Math.pow(2.0, (teFreq + 30) / 10);
 };
 
 CTL_Filter.prototype.connect = function(next_node) {
@@ -432,7 +556,66 @@ WebSynth.prototype.play = function(n) {
 
 	var self = this;
     this.root.onaudioprocess = function(event) {
+
+
+  let valCheckkk147 = parseFloat(self.feg.gain);
+
+  if ( isFinite(valCheckkk147) ) { 
+    
+    if (self.feg.gain > 0 ) {
+      //var gggain = self.feg.gain;
+    } else {
+      var gggain = 0.8;
+      self.feg.gain = 0.8;
+    }
+
+  } else {
+
+    alert('Aike Websynth bug. Please refresh system!');
+
+if ( window['channel_0'] instanceof WebSynth ) {
+  console.log('kill ch 0');
+  window['channel_0'] = null;
+}
+
+if ( window['channel_2'] instanceof WebSynth ) {
+  console.log('kill ch 2');
+  window['channel_2'] = null;
+}
+
+if ( window['channel_3'] instanceof WebSynth ) {
+  console.log('kill ch 3');
+  window['channel_3'] = null;
+}
+
+if ( window['channel_4'] instanceof WebSynth ) {
+  console.log('kill ch 4');
+  window['channel_4'] = null;
+}
+
+if ( window['channel_5'] instanceof WebSynth ) {
+  console.log('kill ch 5');
+  window['channel_5'] = null;
+}
+
+if ( window['channel_6'] instanceof WebSynth ) {
+  console.log('kill ch 6');
+  window['channel_6'] = null;
+}
+
+
+
+
+
+    console.log(self.feg.gain);
+    self.eg.note_off(); 
+    self.feg.note_off();    
+    var gggain = 0.8;
+    self.feg.gain = 0.8;
+  } 
+
 		self.filter.set_eg(self.feg.gain);
+    //self.filter.set_eg(gggain);
         var Lch = event.outputBuffer.getChannelData(0);
         var Rch = event.outputBuffer.getChannelData(1);
         var s1 = self.vco1.next(f1);

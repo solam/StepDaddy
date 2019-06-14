@@ -165,7 +165,7 @@
 
     var _onNote = function(data)
     {
-      console.log('Mixer got a note', data);
+      //console.log('Mixer got a note', data);
       _self.emit(mixr.enums.Events.NOTE, data);
     };
 

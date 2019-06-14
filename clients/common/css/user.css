@@ -635,7 +635,7 @@ div#channelinfo div#channelname {
   clear:both;
 }
 
-select.multi {
+.ctrlchange select.multi {
   /*height: 200px;*/
   width: 100px; /*115*/
 }
@@ -643,6 +643,7 @@ select.multi {
 #pattern-sequencer {
   width: 200px; /*289 - 230*/
   margin-right: 0;
+  padding-right: 20px;  
 }
 
 #pattern-sequencer a.trigger-button {
@@ -1204,6 +1205,7 @@ body.session9.ctrlchange label {
   background: #222;
 }
 
+/*
 
 body.session10 li#tweak-menu, 
 body.session10 li#notes-menu,
@@ -1212,6 +1214,8 @@ body.session10 #patternedit,
 body.session10 #pattern-sequencer {
   display: none;
 }
+
+*/
 
 body.session10 #pattern-editor {
   opacity: 1;
@@ -1306,3 +1310,98 @@ body.session10.channel5 #pattern-editor
  {
     opacity: 0.4 !important;
 }
+
+
+.option span {
+  color: black;
+  background-color: white;
+  font-size: 13px;
+  width: 120px;
+}
+
+.option span.selected {
+  background-color: #3FB8AF; /* lightgrey*/
+}  
+
+.option div,
+.option input,
+.option span {
+    display: inline-block;
+    /*float: left;*/
+}
+
+
+.option .roundedTwo input {
+  height: 0 !important;
+}
+
+.option .roundedTwo input {
+  position: absolute !important;
+}
+
+.option .roundedTwo {
+  margin-bottom: 0;
+  margin-left: 0;
+  /*float:right;*/
+
+}
+
+input.barloopnb {
+  /*float:right;*/
+}
+
+/* trying to reduce css changes that greeches sound */
+
+/*
+
+* {
+    -o-transition-property: none !important;
+    -moz-transition-property: none !important;
+    -ms-transition-property: none !important;
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+}
+
+
+
+* {
+    -o-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+}
+
+
+* {
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: none !important;
+    animation: none !important;
+}
+
+
+*/
+
+.session11 #exit
+,.session11 #menu-sessiontips
+,.session11 #tweak-menu
+,.channel2.session11 #id699
+,.channel2.session11 #id698
+,.channel2.session11 #id697 {
+  display:none !important;
+}
+
+
+
+
+.session11 .ctrlchange select.multi {
+  height: 100px; /*200*/
+  width: 200px;
+}
+
+
+.session11 #pattern-sequencer {
+    width: 360px;
+}    

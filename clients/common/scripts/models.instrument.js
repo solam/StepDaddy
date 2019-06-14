@@ -86,7 +86,12 @@
           case 'CWilsoWAMidiSynth':
             //initAudio(context);
             //console.log('synth obj (re)creation');
-            window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+
+            if ( typeof CWilsoWAMidiSynth === 'function' ) {
+              window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+            }
+
+
             break;          
           case 'AikeWebsynth1':
             console.log('synth obj creation');
@@ -350,7 +355,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
         //var synthInstance = this.instrumentName + '_' + this.id;
         var synthInstance = 'channel_' + this.id; // synthInstanceString
 
-      if (typeof window[synthInstance]!== 'undefined') { // window[synthInstance]
+      if (typeof window[synthInstance] !== 'undefined') { // window[synthInstance]
 
         switch (this.instrumentName) {
             case 'JoeSullivanDrumSynth':
@@ -429,7 +434,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
 
         var synthInstance = 'channel_' + this.id; // this.instrumentName + '_' + this.id;
 
-        if (typeof window[synthInstance]!== 'undefined') {
+        if (typeof window[synthInstance] !== 'undefined') {
 
           switch (this.instrumentName) {
             case 'JoeSullivanDrumSynth':

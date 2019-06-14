@@ -68,7 +68,7 @@ this.compressor = null;
 
 
 
-
+//window['conn_mgmt'] = [];
 
 
 
@@ -115,7 +115,7 @@ this.currentRev = 32;
 this.currentVol = 75;
 // end initial patch
 
-this.currentOctave = 3;
+this.currentOctave = 3; // 3
 this.modOscFreqMultiplier = 1;
 this.moDouble = false;
 this.moQuadruple = false;
@@ -165,11 +165,35 @@ this.moQuadruple = false;
     this.onUpdateReverb( {currentTarget:{value:this.currentRev}} );
 
     this.volNode.connect( this.compressor );
-    this.compressor.connect(  window['audio_context'] ); // this.context.destination
+
+
+/*
+if ( typeof window['conn_mgmt'] !== 'undefined' ) {
+
+  if ( window['conn_mgmt'][0] == 1 ) {
+
+  } else {
+    this.compressor.connect(  window['audio_context'], 0, 0 ); 
+    window['conn_mgmt'][0] = 1;
+  }
+
+} else {
+  this.compressor.connect(  window['audio_context'], 0, 0 );
+  window['conn_mgmt'][0] = 1;
+} */
+
+console.log('pass');
+
+    this.compressor.connect(  window['audio_context'], 0, 0 ); // this.context.destination
+
+
+    
+
+
     this.onUpdateVolume( {currentTarget:{value:this.currentVol}} );
 
     // reverb to be fixed when not on a mobile device
-    if (!isMobile) {
+  /*  if (!isMobile) {
     irRRequest = new XMLHttpRequest();
     irRRequest.open("GET", "instruments/midi-synth-master/sounds/irRoom.wav", true);
     irRRequest.responseType = "arraybuffer";
@@ -178,7 +202,7 @@ this.moQuadruple = false;
           function(buffer) { if (this.revNode) this.revNode.buffer = buffer; else console.log("no revNode ready!")} );
     }
     irRRequest.send();
-  }
+  } */
 
 }
 
@@ -192,7 +216,11 @@ this.moQuadruple = false;
 
 
 function frequencyFromNoteNumber( note ) {
-	return 440 * Math.pow(2,(note-69)/12);
+  //return 440 * Math.pow(2,(note-69)/12);
+  var frekk = 440 * Math.pow(2,(note-28)/12);
+  //console.log(frekk);
+  return frekk;
+	//return 440 * Math.pow(2,(note-28)/12);
 }
 
 
@@ -221,6 +249,8 @@ CWilsoWAMidiSynth.prototype.noteOff = function(note, channelId) {
 		/*var e = document.getElementById( "k" + note );
 		if (e)
 			e.classList.remove("pressed");*/
+
+//
 	}
 
 }
@@ -375,28 +405,36 @@ CWilsoWAMidiSynth.prototype.onUpdateModOsc2 = function(ev) {
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterCutoff = function(ev) {
 //function onUpdateFilterCutoff( ev ) { // could stay function onUpdateFilterCutoff( ev, channelId ) with added channelId
-	var value = ev.currentTarget ? ev.currentTarget.value : ev;
-//	console.log( "currentFilterCutoff= " + currentFilterCutoff + "new cutoff= " + value );
-	this.currentFilterCutoff = value;
 
-  console.log('onUpdateFilterCutoff', ev, value, this.voices);
+  if ( typeof ev !== 'undefined' ) {
 
-	for (var i=0; i<255; i++) {
-		if (this.voices[i] != null) {
-			this.voices[i].setFilterCutoff( value );
-		}
-	}
+  	var value = ev.currentTarget ? ev.currentTarget.value : ev;
+  //	console.log( "currentFilterCutoff= " + currentFilterCutoff + "new cutoff= " + value );
+  	this.currentFilterCutoff = value;
+
+    //console.log('onUpdateFilterCutoff', ev, value, this.voices);
+
+  	for (var i=0; i<255; i++) {
+  		if (this.voices[i] != null) {
+  			this.voices[i].setFilterCutoff( value );
+  		}
+  	}
+
+  }
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterQ = function(ev) {
-//function onUpdateFilterQ( ev ) {
-	var value = ev.currentTarget ? ev.currentTarget.value : ev;
-	this.currentFilterQ = value;
-	for (var i=0; i<255; i++) {
-		if (this.voices[i] != null) {
-			this.voices[i].setFilterQ( value );
-		}
-	}
+
+  if ( typeof ev !== 'undefined' ) {  
+  //function onUpdateFilterQ( ev ) {
+  	var value = ev.currentTarget ? ev.currentTarget.value : ev;
+  	this.currentFilterQ = value;
+  	for (var i=0; i<255; i++) {
+  		if (this.voices[i] != null) {
+  			this.voices[i].setFilterQ( value );
+  		}
+  	}
+  }
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterMod = function(ev) {
@@ -452,14 +490,20 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc1Detune = function(ev) {
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Mix = function(value) {
 //function onUpdateOsc1Mix( value ) {
-	if (value.currentTarget)
-		value = value.currentTarget.value;
-	this.currentOsc1Mix = value;
-	for (var i=0; i<255; i++) {
-		if (this.voices[i] != null) {
-			this.voices[i].updateOsc1Mix( value );
-		}
-	}
+
+if ( typeof value !== 'undefined' ) {
+
+  	if (value.currentTarget)
+  		value = value.currentTarget.value;
+  	this.currentOsc1Mix = value;
+  	for (var i=0; i<255; i++) {
+  		if (this.voices[i] != null) {
+  			this.voices[i].updateOsc1Mix( value );
+  		}
+  	}
+
+
+  }  
 }
 
 
@@ -499,14 +543,19 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc2Detune = function(ev) {
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Mix = function(value) {
 //function onUpdateOsc2Mix( ev ) {
 	//var value = ev.currentTarget.value;
-  if (value.currentTarget)
-    value = value.currentTarget.value;  
-	this.currentOsc2Mix = value;
-	for (var i=0; i<255; i++) {
-		if (this.voices[i] != null) {
-			this.voices[i].updateOsc2Mix( value );
-		}
-	}
+
+if ( typeof value !== 'undefined' ) {
+
+    if (value.currentTarget)
+      value = value.currentTarget.value;  
+  	this.currentOsc2Mix = value;
+  	for (var i=0; i<255; i++) {
+  		if (this.voices[i] != null) {
+  			this.voices[i].updateOsc2Mix( value );
+  		}
+  	}
+
+  }
 }
 
 
@@ -561,14 +610,29 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterEnvR = function(ev) {
 
 CWilsoWAMidiSynth.prototype.onUpdateDrive = function(value) {
 //function onUpdateDrive( value ) {
-  console.log('value onUpdateDrive',value);
+  //console.log('value onUpdateDrive',value);
 	currentDrive = value;
     this.waveshaper.setDrive( 0.01 + (currentDrive*currentDrive/500.0) );
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateVolume = function(ev) {
 //function onUpdateVolume( ev ) {  
-	this.volNode.gain.value = (ev.currentTarget ? ev.currentTarget.value : ev)/100; // ev/100; //
+
+
+  let valCheckkk3479 = parseFloat(ev);
+
+
+  if ( isFinite(valCheckkk3479) ) {
+    var euve = (ev.currentTarget ? ev.currentTarget.value : ev)/100;
+
+  } else {    
+    var euve = 0.4;
+  }
+
+  this.volNode.gain.value = euve;
+
+
+	//this.volNode.gain.value = (ev.currentTarget ? ev.currentTarget.value : ev)/100; // ev/100; //
   //console.log('onUpdateVolume:', ev, this.volNode.gain.value);
 }
 
@@ -635,7 +699,16 @@ var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
 	// create osc 1
 	this.osc1 = audioContext.createOscillator();
 	this.updateOsc1Frequency();
-	this.osc1.type = waveforms[this.instance.currentOsc1Waveform];
+
+
+if ( typeof waveforms[this.instance.currentOsc1Waveform] == 'undefined' ) {
+  var wafo = "triangle"; // default preset param
+} else {
+  var wafo = waveforms[this.instance.currentOsc1Waveform];
+}  
+
+	//this.osc1.type = waveforms[this.instance.currentOsc1Waveform];
+  this.osc1.type = wafo;
 
 	this.osc1Gain = audioContext.createGain();
 	this.osc1Gain.gain.value = 0.005 * this.instance.currentOsc1Mix;
@@ -645,7 +718,17 @@ var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
 	// create osc 2
 	this.osc2 = audioContext.createOscillator();
 	this.updateOsc2Frequency();
-	this.osc2.type = waveforms[this.instance.currentOsc2Waveform];
+
+
+
+if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
+  var wafo = "triangle"; // default preset param
+} else {
+  var wafo = waveforms[this.instance.currentOsc2Waveform];
+}  
+
+  //this.osc2.type = waveforms[this.instance.currentOsc2Waveform];
+  this.osc2.type = wafo;
 
 	this.osc2Gain = audioContext.createGain();
 	this.osc2Gain.gain.value = 0.005 * this.instance.currentOsc2Mix;
@@ -698,11 +781,59 @@ var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
 
 	// set up the volume and filter envelopes
 	var now = audioContext.currentTime;
-	var envAttackEnd = now + (this.instance.currentEnvA/20.0);
+
+
+
+
+if ( typeof this.instance.currentEnvA == 'undefined' ) {
+  var currEnvA = 40; // default preset param
+  currEnvA = 40;
+  this.instance.currentEnvA = 40;
+} else {
+  var currEnvA = this.instance.currentEnvA;
+}  
+
+
+	//var envAttackEnd = now + (this.instance.currentEnvA/20.0);
+
+  var envAttackEnd = now + (currEnvA/20.0);
+
+
+
+
+
+
+
 
 	this.envelope.gain.value = 0.0;
 	this.envelope.gain.setValueAtTime( 0.0, now );
-	this.envelope.gain.linearRampToValueAtTime( 1.0, envAttackEnd );
+
+  let valCheckkk = parseFloat(envAttackEnd);
+
+  //console.log('envAttackEnd: ', valCheckkk, this.instance.currentEnvA, now);
+
+  if ( isFinite(valCheckkk) ) {
+    this.envelope.gain.linearRampToValueAtTime( 1.0, envAttackEnd );
+  } else {    
+    this.envelope.gain.linearRampToValueAtTime( 1.0, 1.0 );
+    alert('CWilso polysynth probably encountered a bug. Please refresh your browser page.');
+  }
+
+  //console.log('log:: ', this.instance.currentEnvS, envAttackEnd, this.instance.currentEnvD);
+
+
+if ( typeof this.instance.currentEnvS == 'undefined' ) {
+  this.instance.currentEnvS = 200; // default preset param
+} 
+
+if ( typeof this.instance.currentEnvD == 'undefined' ) {
+  this.instance.currentEnvD = 180; // default preset param
+} 
+
+
+
+
+	//this.envelope.gain.linearRampToValueAtTime( 1.0, envAttackEnd );
 	this.envelope.gain.setTargetAtTime( (this.instance.currentEnvS/100.0), envAttackEnd, (this.instance.currentEnvD/100.0)+0.001 );
 
 	var filterAttackLevel = this.instance.currentFilterEnv*72;  // Range: 0-7200: 6-octave range
@@ -723,7 +854,28 @@ var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
 	this.filter1.detune.linearRampToValueAtTime( filterAttackLevel, now+filterAttackEnd );
 	this.filter2.detune.setValueAtTime( 0, now );
 	this.filter2.detune.linearRampToValueAtTime( filterAttackLevel, now+filterAttackEnd );
+
+
+  //console.log('log:: ', filterSustainLevel, filterAttackEnd, this.instance.currentFilterEnvD);
+
+if ( typeof this.instance.currentFilterEnvD == 'undefined' ) {
+  this.instance.currentFilterEnvD = 140; // default preset param
+}   
+
+  let valCheckkk2 = parseFloat(filterSustainLevel);
+
+
+  if ( isFinite(valCheckkk2) ) {
+
+  } else {    
+    filterSustainLevel = 0.6; // default preset param
+  }
+
+
+
 	this.filter1.detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.instance.currentFilterEnvD/100.0) );
+
+
 	this.filter2.detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.instance.currentFilterEnvD/100.0) );
 
 	this.osc1.start(0);
@@ -772,7 +924,21 @@ Voice.prototype.setOsc2Waveform = function( value ) {
 
 Voice.prototype.updateOsc2Frequency = function( value ) {
 	this.osc2.frequency.value = (this.originalFrequency*Math.pow(2,this.instance.currentOsc2Octave-1));
-	this.osc2.detune.value = this.instance.currentOsc2Detune + currentPitchWheel * 500;	// value in cents - detune major fifth.
+
+
+  var detVaal = this.instance.currentOsc2Detune + currentPitchWheel * 500;
+
+  let valCheckkk = parseFloat(detVaal);
+
+  //console.log('currentOsc2Detune + currentPitchWheel * 500: ', detVaal);
+
+  if ( isFinite(valCheckkk) ) {
+    this.osc2.detune.value = detVaal;
+  } else {    
+    this.osc2.detune.value = 0; // default preset param
+  }
+
+	//this.osc2.detune.value = this.instance.currentOsc2Detune + currentPitchWheel * 500;	// value in cents - detune major fifth.
 }
 
 Voice.prototype.updateOsc2Mix = function( value ) {
@@ -780,7 +946,7 @@ Voice.prototype.updateOsc2Mix = function( value ) {
 }
 
 Voice.prototype.setFilterCutoff = function( value ) {
-  console.log('setFilterCutoff', value);
+  //console.log('setFilterCutoff', value);
 	var now =  audioContext.currentTime;
 	var filterFrequency = Math.pow(2, value);
 //	console.log("Filter cutoff: orig:" + this.filter1.frequency.value + " new:" + filterFrequency + " value: " + value );
@@ -806,14 +972,48 @@ Voice.prototype.noteOff = function() {
 //    console.log("noteoff: now: " + now + " val: " + this.filter1.frequency.value + " initF: " + initFilter + " fR: " + currentFilterEnvR/100 );
 	this.envelope.gain.cancelScheduledValues(now);
 	this.envelope.gain.setValueAtTime( this.envelope.gain.value, now );  // this is necessary because of the linear ramp
+
+
+  //console.log('log:: ', now, this.instance.currentEnvR);
+
+if ( typeof this.instance.currentEnvR == 'undefined' ) {
+  this.instance.currentEnvR = 280; // default preset param
+}
+
+
 	this.envelope.gain.setTargetAtTime(0.0, now, (this.instance.currentEnvR/100));
+
+
 	this.filter1.detune.cancelScheduledValues(now);
+
+
+if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
+  this.instance.currentFilterEnvR = 210; // default preset param
+}
+
 	this.filter1.detune.setTargetAtTime( 0, now, (this.instance.currentFilterEnvR/100.0) );
+
+
 	this.filter2.detune.cancelScheduledValues(now);
 	this.filter2.detune.setTargetAtTime( 0, now, (this.instance.currentFilterEnvR/100.0) );
 
+  //console.log('log:: ', release);
+
+
+  let valCheckkk3 = parseFloat(release);
+
+
+  if ( isFinite(valCheckkk3) ) {
+
+  } else {    
+    release = 0.6; // default preset param
+  }
+
+
 	this.osc1.stop( release );
 	this.osc2.stop( release );
+
+//this.context.disconnect();
 }
 
 

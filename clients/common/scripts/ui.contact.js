@@ -64,11 +64,11 @@
 
          //window['userPattern'].name = $('#pattern-name').val();
 
-         //console.log('ptnString', ptnString);
+         console.log('ptnString', ptnString);
 
         _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: $item.find("input").val(), y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId, ptnSeq: ptnSeqString});
         localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
-        //window.localPatterns.push(window['userPattern']);
+        window.localPatterns.push(window['userPattern']);
 
         //console.log('userPattern + local ptns at save: ', window['userPattern'], window.localPatterns);
 
@@ -78,9 +78,30 @@
           $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
           //console.log('ch info: ', data.channelInfo);
         }
-      } 
 
-      else if (_id==991) {
+
+
+
+        // append newly saved pattern to pattern seq "avail ptns" column
+
+        var containerpatterns = document.getElementById('avail-patterns');
+
+        if (typeof containerpatterns !== 'undefined') { 
+          $option = $('<option id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern']._name_+'</option>'); // 
+          $option.appendTo(containerpatterns);
+        }
+
+
+
+
+
+
+
+
+
+
+
+      } else if (_id==991) {
 
         var presetClass = $('#presets').find(":selected").attr('class');
 
@@ -95,7 +116,7 @@
         //window['userPreset'].name = $('#preset-name').val();
 
 
-
+        window.allPresets.push(window['userPreset']);
 
         //console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
 
@@ -106,7 +127,83 @@
         if( $('#presets').length ) {
           $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true);
         }
+
+
+
+    // save song (conductor role)
+    } else if (_id==986) {
+
+
+
+
+
+        var currts = Date.now();
+
+        window['song_'+currts] = {};
+        window['song_'+currts].id = uuid.v1();
+        window['song_'+currts]._name_ = $('#song-name').val();
+        window['song_'+currts].payload = window.partSequencer; // data;
+
+        var alphaAscSortedUserPreset = sortObj(window['song_'+currts],'asc');
+        var preString = JSON.stringify(alphaAscSortedUserPreset); 
+        var preString = preString.replace('_name_', 'name');  
+
+        localStorage.setItem('Loops-sng_' + window['song_'+currts].id, preString);
+
+        // append song to select option:
+        var containersongs = document.getElementById('avail-songs');                
+
+        $option = $('<option id="option'+window['song_'+currts].id+'" value="'+window['song_'+currts].id+'">'+window['song_'+currts]._name_+'</option>'); // 
+        $option.prependTo(containersongs);
+
+
+
+      // save part (conductor role)  
+      } else if (_id==987) {
+
+
+        /*
+        var presetClass = $('#presets').find(":selected").attr('class');
+
+        var KitNumber = $('#kits').find(":selected").val(); 
+        */
+
+
+
+
+
+/*
+      var uuidVar = uuid.v1(); // this var is only generated after 1 get instruement event
+      window['userPattern'].id=uuidVar; 
+      window['userPattern']._name_=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4);
+*/        
+        
+        
+
+
+        // window.allPresets.push(window['userPreset']);
+        
+
+        //console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
+
+        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id/*, x: $item.find("input").val(), y: 0, preset: preString, classs: presetClass, kitNumber: KitNumber, triggerMode: 'manual', patternId: patternId, presetId: window['userPreset'].id, ptnSeq: ptnSeqString*/});
+
+        
+
+
+        /*
+        $itemOption = $('<option class="user" id="option'+window['userPreset'].id+'" value="'+window['userPreset'].id+'">'+window['userPreset']._name_+'</option>');
+        $itemOption.appendTo(document.getElementById('presets'));
+        if( $('#presets').length ) {
+          $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true);
+        }
+        */
+
+
       }
+
+
+
 
 
 
@@ -152,11 +249,20 @@ var classs = $('#patterns').find(":selected").attr('class');
         $item.append('<input type="text" class="save" id="pattern-name" value="'+ window['userPattern']._name_ +'"/><label>Type pattern name</label><a href="#" class="trigger-button">Save pattern</a>'); // new <div class="input-container">
       
       } else if (_id==991) {      
-        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type sound name</label><a href="#" class="trigger-button">Save sound</a>'); 
+        //$item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type sound name</label><a href="#" class="trigger-button">Save sound</a>'); 
+        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type preset name</label><a href="#" class="trigger-button">Save preset</a>');
       
       }  else if (_id==997) {  
         $item.append('<a href="#" class="trigger-button">Change Channel</a>'); // Switch
 
+
+      } else if (_id==987) {      
+        // '+ window['userPart']._name_ +'
+        $item.append('<input type="text" class="save" id="part-name" value=""/><label>Type part name</label><a href="#" class="trigger-button">Save part</a>');
+      
+      } else if (_id==986) {      
+        // '+ window['userPart']._name_ +'
+        $item.append('<input type="text" class="save" id="song-name" value=""/><label>Type song name</label><a href="#" class="trigger-button">Save song</a>');
       }  
 
 

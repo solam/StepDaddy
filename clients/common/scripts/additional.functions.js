@@ -525,3 +525,14 @@ window.ratelimit = new RateLimit(1, 1, false); // 20 calls / sec : 1:50 - [1 : 7
 
 // less tolerance for add preset at each slider change !
 window.ratelimitPresetChange = new RateLimit(1, 100, false); // [1 : 400] - 1, 100
+
+
+
+window.sleep = function (milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        break;
+      }
+    }
+  }

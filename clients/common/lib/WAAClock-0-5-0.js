@@ -132,6 +132,8 @@ Event.prototype._execute = function() {
   else {
     if (this.onexpired) this.onexpired(this)
     console.warn('event expired')
+    //alert('Clock probably drifted. Please refresh system!');
+    location.reload(true);
   }
   // In the case `schedule` is called inside `func`, we need to avoid
   // overrwriting with yet another `schedule` 

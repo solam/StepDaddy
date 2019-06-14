@@ -49,8 +49,20 @@ var _onModifierChangeInput = function(data) {
 
       var url = mixr.Utils.parseURL(location.href);
 
+      paraam = url.url.split('/');
+
+if ( typeof paraam[5] !== 'undefined' ) {
+  var pwd = paraam[5];
+}  
+
+
+
+
+
+
+
       // http://127.0.0.1:8282/device/?rm/mopo will give mopo as pwd
-      var pwd = url.url.split("/").pop();
+//var pwd = url.url.split("/").pop();
       
       //var rmid = JSON.stringify(url.query) + '/' + JSON.stringify(pwd); // rm/mopo
       
@@ -59,7 +71,7 @@ var _onModifierChangeInput = function(data) {
 
       var rmid = url.query.concat(delim).concat(pwd).concat(delim).concat(window.pageId); 
 
-      //console.log('url', rmid, url, pwd);
+      //console.log('url', rmid, url, pwd, paraam);
 
       if (rmid) { // url.query
         _conn.joinRoom(rmid, // url.query

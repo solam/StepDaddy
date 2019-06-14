@@ -3,6 +3,11 @@
 <head>
   <!--<script src="http://192.168.1.6:8080/target/target-script-min.js#anonymous"></script> mobile device debug -->
   <meta charset="UTF-8">
+
+  <!-- prevent caching during/on dev context -->
+  <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+  <meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+
   <title>Sounds & visuals generator - ...Loops</title><!-- Sequencer -->
   <link rel="stylesheet" href="../common/css/user.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -24,7 +29,11 @@
       margin-top: 10px;
     }
 
- 
+ .golo {
+  width:320px;
+  display:inline-block;
+  margin-bottom: 30px;
+}
 
   </style>
 </head>
@@ -76,6 +85,7 @@
 
   <div class="ins-right soundgen">
   <h1>Sound Generator</h1> <!--(browser tab) (1)-->
+  <button id="button" type="button" class="golo">Play music (sound off by default on Chrome 70+)</button>
   </div>  
 
   <div class="ins-right precuemixer">
@@ -171,7 +181,7 @@
   <script src="../common/scripts/additional.functions.js"></script>
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/WAAClock-0-5-0.js"></script>  
-  <script src="../common/lib/jquery-1.9.0.min.js"></script>
+  <script src="../common/lib/jquery-2.2.4.min.js"></script><!-- jquery-1.9.0.min.js -->
   <script src="../common/lib/wNumb.js"></script>
   <script src="../common/lib/noUiSlider/nouislider.min.js"></script>
   <!--<script type="text/javascript">var smoothie = {'requirePath':['/','./instruments/jsdrumsynth/']};</script>-->
@@ -376,6 +386,137 @@ NV1Engine.create( AudioContext, store, function( dEngine, pLibrary ) {
 } );
 
 */
+/*
+
+  document.querySelector('button').addEventListener('click', function() {
+
+  //if ( typeof window['audio_context'].resume !== 'undefined' ) {
+  
+    window['audio_context'].resume().then(() => {
+      console.log('Playback resumed successfully');
+    });  
+
+  //}  
+
+
+});
+
+*/
+
+
+var state = history.state || {};
+var reloadCount = state.reloadCount || 0;
+if (performance.navigation.type === 1) { // Reload
+    state.reloadCount = ++reloadCount;
+    history.replaceState(state, null, document.URL);
+} else if (reloadCount) {
+    delete state.reloadCount;
+    reloadCount = 0;
+    history.replaceState(state, null, document.URL);
+}
+
+/*
+if (reloadCount >= 2) {
+    // Now, do whatever you want...
+    alert('The page was reloaded more than twice!');
+} */
+
+console.log('reloadCount, window.sessionId : ', reloadCount, window.sessionid );
+
+
+
+
+
+var relo = localStorage.getItem('rreellooaadd');  
+
+
+if ( typeof relo !== 'undefined' ) {
+
+  if ( relo == 0 ) {
+    reloadCount = 0;
+
+
+      /*
+      window.setTimeout(function () {    
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/nomopo', '_blank');
+        window.open('http://'+ip+':8282/device/?'+window.roomId+'/nomopo/noptnseq', '_blank');
+      }, 1000); 
+      */  
+
+
+  }  
+
+}
+
+ip = '192.168.1.47';
+
+
+
+
+setTimeout(function(){ 
+
+  if ( window['audio_context'].context.state == "running" ) {
+    console.log(window['audio_context'].context.state);
+
+
+  if ( typeof window.ptnmode !== 'undefined' && typeof window.roomId !== 'undefined' && typeof window.childRoom !== 'undefined' && typeof window.loadedTabs === 'undefined' 
+    && reloadCount == 0) { 
+
+    //window.rreellooaadd = 1;
+    localStorage.setItem("rreellooaadd", 1);
+
+    if ( window.ptnmode == 1 ) {
+
+      //*
+
+      window.setTimeout(function () {    
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0', '_blank');
+        var tab1 = window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/noptnseq', '_blank');
+        //var tab1 = null;
+      }, 500); 
+//*
+      window.setTimeout(function () {    
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/2', '_blank');
+        window.open('http://'+ip+':8282/device/?'+window.roomId+'/2/noptnseq', '_blank');
+      }, 4000); 
+
+      window.setTimeout(function () {    
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/3', '_blank');
+        window.open('http://'+ip+':8282/device/?'+window.roomId+'/3/noptnseq', '_blank');
+      }, 6000); 
+
+      window.setTimeout(function () {    
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/4', '_blank');
+        window.open('http://'+ip+':8282/device/?'+window.roomId+'/4/noptnseq', '_blank');
+      }, 8000);     
+
+      //*
+      window.setTimeout(function () {
+        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/1/mopo', '_blank');
+        window.open('http://'+ip+':8282/device/?'+window.roomId+'/1', '_blank');        
+      }, 10000);  
+      //*/                   
+//*/
+      //window.loadedTabs = 1; // beware multiple call to this page = keeps loading new tabs...
+
+      //*/
+
+
+    }
+
+  }
+
+  } else {
+    localStorage.setItem("rreellooaadd", 0);
+    //location.reload(true); // (under Song editor on main page) 
+    alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
+    //window.rreellooaadd = 0;
+    
+  }
+
+
+}, 5000); 
+
 
 
 

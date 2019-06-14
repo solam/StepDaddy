@@ -265,7 +265,7 @@ button.stop_rec {
     padding: 5px 10px 5px 10px;
     font-weight: bold;
     position: relative;
-    top: -2px;
+    /*top: -2px;*/
     right: -20px;
     opacity: .80;
     &:hover {

@@ -236,7 +236,7 @@ window.insConf3 = [ // channelConf
 
     { type: 'samples', 
       instrumentName: 'Sampler', 
-      name: 'LINN', 
+      name: 'LINN (GM - The Chase adjusted)', 
       kitNumber: 3, 
       color: 'rgba(253, 118, 8, 0.85)', 
       tracks: [
