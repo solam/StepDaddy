@@ -43,6 +43,8 @@
 			//var pwd = url.url.split("/").pop();
 
 			var pwd = _arrUrl[4]; //arr[arr.length-2]; // ?rm
+      // var pwd = _arrUrl[5]; // online version
+
 			var pwd = pwd.replace("?", ""); // rm
 			
 			//return result.split('').reverse().join('');
@@ -1296,7 +1298,7 @@ if ( typeof param[7] !== 'undefined' ) {
 } */
 
 //window.ptnmode = 1;
-window.sessionid = slas2; //1;
+window.sessionid = parseInt(slas2, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
 
 }
 
@@ -1342,12 +1344,120 @@ window.sessionid = slas2; //1;
       window.roomId = _room_id;
 		};
 
+
+
+
+
+
+
+
+
+
+
+    /* online version
+    var gestionParametres = function(param) { // SettingManagement 
+
+
+
+      console.log('param', param);
+
+      if ( param[6] === 'child') {
+
+
+        _childRoom = 1;
+        window.childRoom = 1;
+
+        //on ajoute à body la classe "child"
+        $('body').addClass('child');
+      }
+
+
+if ( typeof param[7] !== 'undefined' ) {
+
+
+var slas1 = param[7].slice(0,7);
+
+var slas2 = param[7].slice(7,param[6].length);
+
+
+console.log('slas', slas1, slas2);
+
+if ( param[7].slice(0,7) === 'ptnmode' ) {
+
+  window.ptnmode = 1;
+}      
+
+
+
+var stripTekst = param[7].replace(/\D/g,'');
+window.sessionid =  parseInt(stripTekst, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
+
+
+}
+
+
+
+      if(typeof param[7] === 'undefined' || param[7] === '')
+
+      {
+        param[7] = 'nopageid';
+
+      } 
+
+      if(window.childRoom == 1 && param[7] === 'nopageid')
+
+      {
+        window.childRoom = 2;
+
+        //on ajoute à body la classe "precue"
+        $('body').addClass('precue');
+      }
+
+      // && _arrUrl[6]=='gfxonly'
+
+      if(param[6] === 'child' && param[8] === 'gfxonly')
+
+      {
+        window.childRoom = 1;
+        window.gfxonly = 1;
+
+        //on ajoute à body la classe "gfx"
+        $('body').addClass('gfx');
+      }
+
+      _room_id = param[5].replace("?", "");
+
+      window.roomId = _room_id;
+
+      var kjap = param[5].slice(1)+'_'+param[6]+'_'+param[7];
+
+      return kjap;
+
+    };
+
+//*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		this.initialize = function()
 		{
 			var _url = mixr.Utils.parseURL(location.href);  
 			var _arrUrl = _url.url.split('/'); // _self.
 
-			gestionParametres(_arrUrl);
+			gestionParametres(_arrUrl); // comment this line for online version
 
 			$('#roomId').find('span').html(_room_id);
 			/*
@@ -1364,8 +1474,10 @@ window.sessionid = slas2; //1;
 			*/
 			var delim = '_';
 			// rm _ child|no _ [randomPwd]|no
-			var rmid = _room_id.concat(delim).concat(_arrUrl[5]).concat(delim).concat(_arrUrl[6]); 
+			var rmid = _room_id.concat(delim).concat(_arrUrl[5]).concat(delim).concat(_arrUrl[6]); // comment this line for online version
 			//console.log(rmid);
+
+      // var rmid = gestionParametres(_arrUrl); // online version
 
 			_conn = new mixr.net.Connection();
 			_conn.connect(window.SERVER)
@@ -1565,8 +1677,27 @@ if ( beat == 15 ) {
 					//console.log('beat', beat, window.barcount);
 
 					//_sequencerView.drawPlayhead(beat); // remove audio stuttering
+
 					
-//_conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients
+
+
+
+//console.log('window.sessionid: ', window.sessionid);
+if ( typeof window.sessionid !== 'undefined' ) {  
+
+  if ( window.sessionid == 10 ) { 
+    // beware this is used by gfx instruments (that render graphics depending/linked on sounding ins/channels
+    //console.log('beat & bar: ', beat, window.barcount);
+    _conn.execute(mixr.enums.Events.SEQUENCER_BEAT, {beat: beat, bar: window.barcount}); // lighten data transmitted to clients 
+
+  }
+}
+
+
+
+
+
+
 				});
 			}  
 			/*

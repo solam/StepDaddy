@@ -123,12 +123,20 @@
 
                   var devChNb = window.instrumentdata.id; // 0 - devicechannelNumber
 
-                  var srcChNb = _session[devChNb].audiolink;
-                  //console.log("srcChNb", srcChNb);
+
+                  if ( typeof _session !== 'undefined' && typeof devChNb !== 'undefined') {
+                    //console.log(devChNb);
+                    window.audiolink = _session[devChNb].audiolink;
+                  } 
+
+                  var srcChNb = window.audiolink;
+
+                  //var srcChNb = _session[devChNb].audiolink;
+                  //console.log("srcChNb", srcChNb, devChNb, _session[devChNb]);
 
                   var srcChColor = _session[srcChNb].conf[0].color; // 'white'
 
-                  
+                  console.log('gfx feature is happening');
 
 
                 var noLight = 0;  

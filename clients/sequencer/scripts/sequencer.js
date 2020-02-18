@@ -105,11 +105,11 @@
     if ( typeof window.sessionid == 'number' ) {
       this._sessionNumber = window.sessionid; 
     } else {
-      this._sessionNumber = 11; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
+      this._sessionNumber = 12; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
     }
 
 
-    //console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);
+    console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);
 		
 
 		// ven 16 step 2016: 6 > 5 > 1 (with /mopo)
@@ -126,6 +126,7 @@
 		8: 16 participants: AWS1
 		9: 16 particpants: marimba / piano
 		10: 16 participants drumbox
+    11: Giorgio Moroder - The Chase (song editor mode)
 		99: test
 		*/
 
@@ -230,6 +231,220 @@
 			this['_insVol' + g] = this.interpolate2(window['insVol' + g +'X'].value, window['insVol' + g +'X'].min, window['insVol' + g +'X'].max, window['insVol' + g +'X'].displayedRangeMin, window['insVol' + g +'X'].displayedRangeMax);       
 		}  
 
+
+
+
+
+
+if ( typeof window['insConf'][1].songs !== 'undefined' ) {
+
+
+
+        //var paartCount = 0;
+
+        //var partArray = [];
+        var preset = [];
+        //var presetObj = [];
+        var pattern = [];
+        //var patternObj = [];
+
+      var songPresets = [];
+
+      var songPatterns = [];
+
+
+
+    var songs = Object.keys(window['insConf'][1].songs);
+
+    //console.log(songs);
+
+    for ( var h = 0; h < songs.length; h++ ) {
+
+
+    var partsFromConductorCh = window['insConf'][1].songs[h].parts; 
+
+    var part = [];
+    part[1] = window['insConf'][1].songs[h].parts;
+
+    if ( typeof part[1] !== 'undefined' ) {
+//*
+        var paarts = Object.keys(partsFromConductorCh);
+
+
+
+        for ( var i = 0; i < paarts.length; i++ ) {
+          /*var partInSongOrder = window.partSequencer[i];           
+          var partFromLocStor = localStorage.getItem('Loops-par_' + partInSongOrder.id);
+          //partArray.push(partFromLocStor);
+
+          var partStrToJsObj = JSON.parse(partFromLocStor);
+
+          if ( partStrToJsObj != null ) {
+            partArray.push(partStrToJsObj);
+          } */
+
+          //if ( partStrToJsObj != null ) {
+
+            var partChannels = Object.keys(partsFromConductorCh[i].payload);
+
+            for ( var j = 0; j < partChannels.length; j++ ) {
+              var channelInPart = partsFromConductorCh[i].payload[j];   
+              var chNumber = partsFromConductorCh[i].payload[j].channelId;
+              //console.log(chNumber);
+
+if ( typeof pattern[chNumber] == 'undefined' ) {
+  pattern[chNumber] = [];
+  //console.log(chNumber, patternnn.id);
+}                
+
+              if ( typeof channelInPart.presetId !== 'undefined' ) {
+
+                /*var preFromLocStor = localStorage.getItem('Loops-pre_' + channelInPart.presetId);
+                var pretStrToJsObj = JSON.parse(preFromLocStor);
+
+                if ( pretStrToJsObj != null ) {
+                  presetArray.push(pretStrToJsObj);
+                } */
+
+                if ( typeof preset[chNumber] == 'undefined' ) {
+                  preset[chNumber] = [];
+                  
+                }  
+
+                preset[chNumber].push(channelInPart.presetId);
+
+              }
+
+
+              if ( typeof channelInPart.ptnSeqList !== 'undefined' ) {
+
+                var chPatterns = Object.keys(channelInPart.ptnSeqList);
+
+                for ( var k = 0; k < chPatterns.length; k++ ) {
+                  var patternnn = channelInPart.ptnSeqList[k];  
+
+                  //console.log(chNumber, patternnn.id);
+
+                  /*var ptnFromLocStor = localStorage.getItem('Loops-ptn_' + patternnn.id);
+                  var ptntStrToJsObj = JSON.parse(ptnFromLocStor);
+                  
+                  if ( ptntStrToJsObj != null ) {
+                    patternArray.push(ptntStrToJsObj);
+                  }*/
+
+                /*if ( typeof pattern[chNumber] == 'undefined' ) {
+                  pattern[chNumber] = [];
+                  //console.log(chNumber, patternnn.id);
+                }  */
+
+                  pattern[chNumber].push(patternnn.id);
+                }
+              }
+            }  
+          //}
+        }  
+// */
+
+
+//var songPresets = window['insConf'][1].songs[h].presets;
+
+//var songPatterns = window['insConf'][1].songs[h].patterns;
+
+
+songPresets.push(window['insConf'][1].songs[h].presets);
+
+//console.log(window['insConf'][1].songs[h].presets);
+
+songPatterns.push(window['insConf'][1].songs[h].patterns);
+
+
+//console.log(pattern/*,songPatterns*/);
+
+
+  }
+
+}
+
+
+//songPresets.flat();
+
+//songPatterns.flat();
+
+// Flattening multidimensional Arrays
+var songPatterns = [].concat.apply([], songPatterns);
+var songPresets = [].concat.apply([], songPresets);
+
+
+
+
+for ( var l = 0; l < preset.length; l++ ) {
+
+  //let preset[l] = new Set(preset[l]);
+  if ( typeof preset[l] !== 'undefined' ) {
+
+    preset[l] = preset[l].filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+
+    preset[l] = songPresets.filter(function(item) { // presetObj[l]
+        return preset[l].indexOf(item.id) !== -1;
+    });
+
+    if ( preset[l].length == 0 ) {
+      preset.splice(l, 1);
+    }    
+
+  }  
+
+}  
+
+
+
+
+
+//*
+
+//console.log(pattern[2]);
+
+for ( var m = 0; m < pattern.length; m++ ) {
+
+  //let pattern[l] = new Set(pattern[l]);
+  if ( typeof pattern[m] !== 'undefined' ) {
+
+    pattern[m] = pattern[m].filter(function(elem, index, self) {
+      return index === self.indexOf(elem);
+    });
+
+    pattern[m] = songPatterns.filter(function(item) { // patternObj[l]
+        return pattern[m].indexOf(item.id) !== -1;
+    });
+
+    /*if ( pattern[l].length == 0 ) {
+      //pattern[l] = null;
+      pattern.splice(l, 1);
+    } */
+
+
+  }  
+
+}  
+//*/
+
+//console.log(pattern);
+
+//console.log(pattern[0], songPatterns);
+
+}
+
+//console.log(pattern, songPatterns); //  songPresets , pattern preset, songPresets
+
+
+
+
+
+
+
+
 		//console.log('volch16:', window['insVol0X'], this._insVol0);
 
 		//var sndChannelStart = 800;
@@ -241,15 +456,72 @@
 				this._channelName[b]['name']= this._instrumentsConfig[b].channelName;
 				this._channelName[b]['color']= this._instrumentsConfig[b].conf[0]['color'];
 
-				this._channelPatterns[b]= this._instrumentsConfig[b].patterns;
-				achannelPatterns[b]= JSON.stringify(this._instrumentsConfig[b].patterns);
+
+				this._channelPatterns[b] = this._instrumentsConfig[b].patterns;
 
 
-        this._channelParts[b]= this._instrumentsConfig[b].parts;
-        achannelParts[b]= JSON.stringify(this._instrumentsConfig[b].parts);        
+    if ( typeof window['insConf'][1].songs !== 'undefined' ) {
 
-				this._channelPresets[b]= this._instrumentsConfig[b].presets;
-				achannelPresets[b]= JSON.stringify(this._instrumentsConfig[b].presets);
+        if ( typeof this._channelPatterns[b] == 'undefined' ) {
+          this._channelPatterns[b] = [];
+        }  
+
+
+        if ( typeof pattern[b] !== 'undefined' ) {
+          for ( var l = 0; l < pattern[b].length; l++ ) {
+            this._channelPatterns[b].push(pattern[b][l]);
+          }  
+
+        }  
+
+    }    
+        //console.log(this._channelPatterns[b]); 
+				achannelPatterns[b]= JSON.stringify(this._channelPatterns[b]); // this._instrumentsConfig[b].patterns
+
+
+
+        this._channelParts[b] = this._instrumentsConfig[b].parts;
+
+    if ( typeof window['insConf'][1].songs !== 'undefined' ) {  
+
+        // in case not channel parts where defined in session of ins_conf.js
+        if ( typeof this._channelParts[b] == 'undefined' ) {
+          this._channelParts[b] = [];
+        }  
+
+
+        if ( typeof part[b] !== 'undefined' ) {
+          for ( var l = 0; l < part[b].length; l++ ) {
+            this._channelParts[b].push(part[b][l]);
+          }  
+        }  
+
+    }    
+        achannelParts[b]= JSON.stringify(this._channelParts[b]); // this._instrumentsConfig[b].parts
+
+
+
+				this._channelPresets[b] = this._instrumentsConfig[b].presets;
+
+
+    if ( typeof window['insConf'][1].songs !== 'undefined' ) {    
+
+        if ( typeof this._channelPresets[b] == 'undefined' ) {
+          this._channelPresets[b] = [];
+        }        
+
+        if ( typeof preset[b] !== 'undefined' ) {
+          for ( var l = 0; l < preset[b].length; l++ ) {
+            this._channelPresets[b].push(preset[b][l]);
+          }  
+        } 
+
+    }    
+
+				achannelPresets[b]= JSON.stringify(this._channelPresets[b]); // this._instrumentsConfig[b].presets
+
+
+
 				this._channelpatternSeq[b]= this._instrumentsConfig[b].patternSeq;
 				achannelpatternSeq[b]= JSON.stringify(this._instrumentsConfig[b].patternSeq);
 
@@ -285,236 +557,7 @@
 
 		//console.log('res:',elVal);
 		//this._insBarOffset0 = elVal.x.value;
-		/*
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset1 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset2 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset3 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset4 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset5 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset6 = elVal.x.value;
-			var elVal = window.findObjectById(this._instrumentsConfig, 999);
-			this._insBarOffset7 = elVal.x.value;
-		*/
 
-		//console.log('tempo:', this._tempo);
-
-		//this._insVol0 = 0.7; // ch1 vol retrieve from window.insConf (conductor role) via trackset value
-		/*
-			var insVol0X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
-			this._insVol0 = this.interpolate2(insVol0X.value, insVol0X.min, insVol0X.max, insVol0X.displayedRangeMin, insVol0X.displayedRangeMax);    
-
-			var insVol2X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol2 = this.interpolate2(insVol2X.value, insVol2X.min, insVol2X.max, insVol2X.displayedRangeMin, insVol2X.displayedRangeMax);
-
-			var insVol3X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol3 = this.interpolate2(insVol3X.value, insVol3X.min, insVol3X.max, insVol3X.displayedRangeMin, insVol3X.displayedRangeMax);
-
-			var insVol4X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol4 = this.interpolate2(insVol4X.value, insVol4X.min, insVol4X.max, insVol4X.displayedRangeMin, insVol4X.displayedRangeMax);    
-
-			var insVol5X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol5 = this.interpolate2(insVol5X.value, insVol5X.min, insVol5X.max, insVol5X.displayedRangeMin, insVol5X.displayedRangeMax);        
-
-			var insVol6X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol6 = this.interpolate2(insVol6X.value, insVol6X.min, insVol6X.max, insVol6X.displayedRangeMin, insVol6X.displayedRangeMax);    
-
-			var insVol7X = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[1].x; // ! hardcoded value: conductor channel may change !
-			this._insVol7 = this.interpolate2(insVol7X.value, insVol7X.min, insVol7X.max, insVol7X.displayedRangeMin, insVol7X.displayedRangeMax);                
-		*/
-		
-		//this._insVol2 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[2].x.value;
-		//console.log("bpm", this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x);
-
-		// start of factorised into loop functions CODE
-		/*
-			//this._insBarOffset = [];
-			this._insBarOffset0 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[10].x.value; // ! hardcoded value - this._insBarOffset[0]
-			this._insBarOffset1 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[11].x.value;
-			this._insBarOffset2 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[12].x.value;
-			this._insBarOffset3 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[13].x.value;
-			this._insBarOffset4 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[14].x.value;
-			this._insBarOffset5 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[15].x.value;  
-			this._insBarOffset6 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[16].x.value;
-			this._insBarOffset7 = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[17].x.value;
-
-			this._channelName = [];
-
-			this._channelName[0]= [];
-			this._channelName[1]= [];
-			this._channelName[2]= [];
-			this._channelName[3]= [];
-			this._channelName[4]= [];
-			this._channelName[5]= [];
-			this._channelName[6]= [];
-			this._channelName[7]= [];
-
-			//this._channelName[0]['name']= this._instrumentsConfig[0].channelName;
-			//this._channelName[1]['name']= this._instrumentsConfig[1].channelName;
-			//this._channelName[2]['name']= this._instrumentsConfig[2].channelName;
-			//this._channelName[3]['name']= this._instrumentsConfig[3].channelName;
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {this._channelName[0]['name']= this._instrumentsConfig[0].channelName; }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {this._channelName[1]['name']= this._instrumentsConfig[1].channelName; }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {this._channelName[2]['name']= this._instrumentsConfig[2].channelName; }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {this._channelName[3]['name']= this._instrumentsConfig[3].channelName; }
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelName[4]['name']= this._instrumentsConfig[4].channelName; }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelName[5]['name']= this._instrumentsConfig[5].channelName; }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelName[6]['name']= this._instrumentsConfig[6].channelName; }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelName[7]['name']= this._instrumentsConfig[7].channelName; }
-
-			//this._channelName[0]['color']= this._instrumentsConfig[0].conf[0]['color'];
-			//this._channelName[1]['color']= this._instrumentsConfig[1].conf[0]['color'];
-			//this._channelName[2]['color']= this._instrumentsConfig[2].conf[0]['color'];
-			//this._channelName[3]['color']= this._instrumentsConfig[3].conf[0]['color'];
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {this._channelName[0]['color']= this._instrumentsConfig[0].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {this._channelName[1]['color']= this._instrumentsConfig[1].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {this._channelName[2]['color']= this._instrumentsConfig[2].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {this._channelName[3]['color']= this._instrumentsConfig[3].conf[0]['color']; }        
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelName[4]['color']= this._instrumentsConfig[4].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelName[5]['color']= this._instrumentsConfig[5].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelName[6]['color']= this._instrumentsConfig[6].conf[0]['color']; }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelName[7]['color']= this._instrumentsConfig[7].conf[0]['color']; }    
-
-			//console.log('ch color:',this._channelName[0], this._channelName[0]['color']/*, this._instrumentsConfig[0].conf[0]['color']/);
-
-			this._channelPatterns = [];
-
-			//this._channelPatterns[0]= this._instrumentsConfig[0].patterns;
-			//this._channelPatterns[1]= this._instrumentsConfig[1].patterns;
-			//this._channelPatterns[2]= this._instrumentsConfig[2].patterns;
-			//this._channelPatterns[3]= this._instrumentsConfig[3].patterns;
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {this._channelPatterns[0]= this._instrumentsConfig[0].patterns; }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {this._channelPatterns[1]= this._instrumentsConfig[1].patterns; }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {this._channelPatterns[2]= this._instrumentsConfig[2].patterns; }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {this._channelPatterns[3]= this._instrumentsConfig[3].patterns; } 
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelPatterns[4]= this._instrumentsConfig[4].patterns; }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelPatterns[5]= this._instrumentsConfig[5].patterns; }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelPatterns[6]= this._instrumentsConfig[6].patterns; }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelPatterns[7]= this._instrumentsConfig[7].patterns; } 
-
-			var achannelPatterns = [];
-			//achannelPatterns[0]= JSON.stringify(this._instrumentsConfig[0].patterns);
-			//achannelPatterns[1]= JSON.stringify(this._instrumentsConfig[1].patterns);
-			//achannelPatterns[2]= JSON.stringify(this._instrumentsConfig[2].patterns);
-			//achannelPatterns[3]= JSON.stringify(this._instrumentsConfig[3].patterns);
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {achannelPatterns[0]= JSON.stringify(this._instrumentsConfig[0].patterns); }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {achannelPatterns[1]= JSON.stringify(this._instrumentsConfig[1].patterns); }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {achannelPatterns[2]= JSON.stringify(this._instrumentsConfig[2].patterns); }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {achannelPatterns[3]= JSON.stringify(this._instrumentsConfig[3].patterns); }     
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {achannelPatterns[4]= JSON.stringify(this._instrumentsConfig[4].patterns); }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {achannelPatterns[5]= JSON.stringify(this._instrumentsConfig[5].patterns); }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {achannelPatterns[6]= JSON.stringify(this._instrumentsConfig[6].patterns); }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {achannelPatterns[7]= JSON.stringify(this._instrumentsConfig[7].patterns); }
-
-			this._channelPresets = [];
-			//this._channelPresets[0]= this._instrumentsConfig[0].presets;
-			//this._channelPresets[1]= this._instrumentsConfig[1].presets;
-			//this._channelPresets[2]= this._instrumentsConfig[2].presets;
-			//this._channelPresets[3]= this._instrumentsConfig[3].presets;
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {this._channelPresets[0]= this._instrumentsConfig[0].presets; }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {this._channelPresets[1]= this._instrumentsConfig[1].presets; }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {this._channelPresets[2]= this._instrumentsConfig[2].presets; }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {this._channelPresets[3]= this._instrumentsConfig[3].presets; } 
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelPresets[4]= this._instrumentsConfig[4].presets; }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelPresets[5]= this._instrumentsConfig[5].presets; }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelPresets[6]= this._instrumentsConfig[6].presets; }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelPresets[7]= this._instrumentsConfig[7].presets; } 
-
-			var achannelPresets = [];
-			//achannelPresets[0]= JSON.stringify(this._instrumentsConfig[0].presets);
-			//achannelPresets[1]= JSON.stringify(this._instrumentsConfig[1].presets);
-			//achannelPresets[2]= JSON.stringify(this._instrumentsConfig[2].presets);
-			//achannelPresets[3]= JSON.stringify(this._instrumentsConfig[3].presets);
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {achannelPresets[0]= JSON.stringify(this._instrumentsConfig[0].presets); }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {achannelPresets[1]= JSON.stringify(this._instrumentsConfig[1].presets); }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {achannelPresets[2]= JSON.stringify(this._instrumentsConfig[2].presets); }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {achannelPresets[3]= JSON.stringify(this._instrumentsConfig[3].presets); }     
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {achannelPresets[4]= JSON.stringify(this._instrumentsConfig[4].presets); }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {achannelPresets[5]= JSON.stringify(this._instrumentsConfig[5].presets); }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {achannelPresets[6]= JSON.stringify(this._instrumentsConfig[6].presets); }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {achannelPresets[7]= JSON.stringify(this._instrumentsConfig[7].presets); }
-
-			this._channelpatternSeq = [];
-
-			//this._channelpatternSeq[0]= this._instrumentsConfig[0].patternSeq;
-			//this._channelpatternSeq[1]= this._instrumentsConfig[1].patternSeq;
-			//this._channelpatternSeq[2]= this._instrumentsConfig[2].patternSeq;
-			//this._channelpatternSeq[3]= this._instrumentsConfig[3].patternSeq;
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {this._channelpatternSeq[0]= this._instrumentsConfig[0].patternSeq; }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {this._channelpatternSeq[1]= this._instrumentsConfig[1].patternSeq; }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {this._channelpatternSeq[2]= this._instrumentsConfig[2].patternSeq; }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {this._channelpatternSeq[3]= this._instrumentsConfig[3].patternSeq; }      
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {this._channelpatternSeq[4]= this._instrumentsConfig[4].patternSeq; }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {this._channelpatternSeq[5]= this._instrumentsConfig[5].patternSeq; }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {this._channelpatternSeq[6]= this._instrumentsConfig[6].patternSeq; }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {this._channelpatternSeq[7]= this._instrumentsConfig[7].patternSeq; }  
-			
-			//console.log('this._channelpatternSeq: ', this._channelpatternSeq);
-
-			var achannelpatternSeq = [];
-
-			//achannelpatternSeq[0]= JSON.stringify(this._instrumentsConfig[0].patternSeq);
-			//achannelpatternSeq[1]= JSON.stringify(this._instrumentsConfig[1].patternSeq);
-			//achannelpatternSeq[2]= JSON.stringify(this._instrumentsConfig[2].patternSeq);
-			//achannelpatternSeq[3]= JSON.stringify(this._instrumentsConfig[3].patternSeq);
-
-			if (typeof this._instrumentsConfig[0] !== 'undefined') {achannelpatternSeq[0]= JSON.stringify(this._instrumentsConfig[0].patternSeq); }
-			if (typeof this._instrumentsConfig[1] !== 'undefined') {achannelpatternSeq[1]= JSON.stringify(this._instrumentsConfig[1].patternSeq); }
-			if (typeof this._instrumentsConfig[2] !== 'undefined') {achannelpatternSeq[2]= JSON.stringify(this._instrumentsConfig[2].patternSeq); }
-			if (typeof this._instrumentsConfig[3] !== 'undefined') {achannelpatternSeq[3]= JSON.stringify(this._instrumentsConfig[3].patternSeq); }
-			if (typeof this._instrumentsConfig[4] !== 'undefined') {achannelpatternSeq[4]= JSON.stringify(this._instrumentsConfig[4].patternSeq); }
-			if (typeof this._instrumentsConfig[5] !== 'undefined') {achannelpatternSeq[5]= JSON.stringify(this._instrumentsConfig[5].patternSeq); }
-			if (typeof this._instrumentsConfig[6] !== 'undefined') {achannelpatternSeq[6]= JSON.stringify(this._instrumentsConfig[6].patternSeq); }
-			if (typeof this._instrumentsConfig[7] !== 'undefined') {achannelpatternSeq[7]= JSON.stringify(this._instrumentsConfig[7].patternSeq); }
-
-			if (this._countdownMode == 1)
-			{ 
-				var sound = 0;  
-			}
-			else
-			{
-				var sound = 1;
-			} 
-			
-			this._instrumentsSoundModes = [];
-			this._instrumentsSoundModes[0]= sound;//this._instrumentsConfig[0].sound;
-			this._instrumentsSoundModes[1]= sound;//this._instrumentsConfig[1].sound;
-			this._instrumentsSoundModes[2]= sound;// this._instrumentsConfig[2].sound;
-			this._instrumentsSoundModes[3]= sound;//this._instrumentsConfig[3].sound;
-			this._instrumentsSoundModes[4]= sound;//this._instrumentsConfig[4].sound;
-			this._instrumentsSoundModes[5]= sound;//this._instrumentsConfig[5].sound;
-			this._instrumentsSoundModes[6]= sound;//this._instrumentsConfig[6].sound;
-			this._instrumentsSoundModes[7]= sound;//this._instrumentsConfig[7].sound;
-			this._instrumentsSoundModes[8]= sound;
-
-			var defaultShift = 0;
-			this._audioChannelShift = [];
-			this._audioChannelShift[0]= 0;
-			this._audioChannelShift[1]= 0; // -12.5
-			this._audioChannelShift[2]= 0;
-			this._audioChannelShift[3]= 0; // 35
-			this._audioChannelShift[4]= 0;
-			this._audioChannelShift[5]= defaultShift;
-			this._audioChannelShift[6]= 0;
-			this._audioChannelShift[7]= 0;
-			this._audioChannelShift[8]= defaultShift;    
-
-			this._insKickoutTime = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[18].x.value; // ! hardcoded value
-
-			this._tempo = this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[7].x.value //109; // 110 118 // ! hardcoded value: conductor channel + control id may change !    
-//*/
 
 		//var ptns = this._channelPatterns;  
 
@@ -724,9 +767,16 @@
 				channelInfo.noteMax = this._noteMax;    
 				channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
 				channelInfo.countdownMode = this._countdownMode;
+
+if ( typeof this._channelName[i] !== 'undefined' ) {
+
 				channelInfo.channelName = this._channelName[i]['name'];
+        channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
+
+}
+
 				channelInfo.channelNumber = i;
-				channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
+
 				channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
 				channelInfo.sessionList = this._sessionList;//Serialized;
 
@@ -776,7 +826,7 @@
 				//console.log("ch name: ", channelInfo.channelName);
 				//console.log("ch ptn: ", channelInfo.channelPatterns);
 
-				if(typeof this._channelPatterns[i] !== 'undefined')
+				if ( typeof this._channelPatterns[i] !== 'undefined' && typeof this._channelPatterns[i][this._instrumentsConfig[i].defaultPattern] !== 'undefined' )
 				{
 					channelInfo.patternId = this._channelPatterns[i][this._instrumentsConfig[i].defaultPattern].id;
 
@@ -803,7 +853,7 @@
 				
 				//console.log('sys ptns @ ins creation: ', this._systemPatterns);
 
-				if(typeof this._channelPresets[i] !== 'undefined')
+				if(typeof this._channelPresets[i] !== 'undefined' && typeof this._channelPresets[i][this._instrumentsConfig[i].defaultPreset] !== 'undefined' )
 				{
 					channelInfo.presetId = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset].id;
 					channelInfo.preset = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset];
@@ -1153,11 +1203,11 @@
 
 		this.changeSession = function(data, clientId) {
 			var sessNumber = parseInt(data.x) + 1;
-			//console.log("sessNumber: ", sessNumber);
+console.log("changed session to sessNumber: ", sessNumber);
 			window['insConf'] = window['insConf'+sessNumber];
 			this['_instrumentsConfig'] = window['insConf'];
 			this._sessionNumber = sessNumber;
-			//this.createInstruments(); // Update general instruments' object
+//this.createInstruments(); // Update general instruments' object
 		};    
 
 		// by channel
@@ -1276,7 +1326,14 @@
 				//console.log('ptnStj', ptnStorage, data.args.x ); // data.args.classs, ptnStorage, data.args.x - this._patterns
 
 				var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
+
+
+      if ( typeof result[0] !== 'undefined' ) {
+
 				var trackNumber = result[0].tracks.length; 
+
+      }
+
 				var channelTrackLength = _instruments[channelId].tracks.length;
 
 

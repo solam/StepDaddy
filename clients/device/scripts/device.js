@@ -51,12 +51,31 @@ var _onModifierChangeInput = function(data) {
 
       paraam = url.url.split('/');
 
+      //console.log('paraam', paraam);
+
 if ( typeof paraam[5] !== 'undefined' ) {
   var pwd = paraam[5];
 }  
 
 
+// comment this section for online version
+if ( typeof paraam[6] !== 'undefined' ) {
 
+  if ( paraam[6] == 'edt') {
+    $('body').addClass(paraam[6]);
+  }
+  
+}  
+
+/* online version
+if ( typeof paraam[7] !== 'undefined' ) {
+
+  if ( paraam[7] == 'edt') {
+    $('body').addClass(paraam[7]);
+  }
+  
+}  
+//*/
 
 
 
@@ -70,6 +89,22 @@ if ( typeof paraam[5] !== 'undefined' ) {
       var delim = '_';
 
       var rmid = url.query.concat(delim).concat(pwd).concat(delim).concat(window.pageId); 
+
+
+      /* online version
+      var rmid = paraam[5].slice(1)+'_'+paraam[6]+'_'+paraam[7];
+
+      //var rmid = 'rm125_nomopo_undefined';
+
+      //var rmid = paraam[5].slice(1)+'_'+paraam[6]+'_'+window.pageId; '_undefined';
+
+      console.log('url', rmid, url, pwd, paraam, window.pageId);
+      */
+
+
+
+
+
 
       //console.log('url', rmid, url, pwd, paraam);
 
@@ -149,6 +184,8 @@ if (!_padsAreInitialized) {
     };
 
     this.initialize = function() {
+
+      // window.pageId = uuid.v1(); // online version
 
       _conn = new mixr.net.Connection();
       _conn.connect(window.SERVER)

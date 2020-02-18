@@ -142,9 +142,9 @@
         window['song_'+currts] = {};
         window['song_'+currts].id = uuid.v1();
         window['song_'+currts]._name_ = $('#song-name').val();
-        window['song_'+currts].payload = window.partSequencer; // data;
+        window['song_'+currts].payload = window.partSequencer; // data; // window.partSequencer is a dynamic array used for parts' playback: array order may nor reflect initial saved part sequence by user
 
-        var alphaAscSortedUserPreset = sortObj(window['song_'+currts],'asc');
+        var alphaAscSortedUserPreset = sortObj(window['song_'+currts],'asc'); // properties/params of object are alpha sorted (only for top/1st level in case of nested objects)
         var preString = JSON.stringify(alphaAscSortedUserPreset); 
         var preString = preString.replace('_name_', 'name');  
 
@@ -155,6 +155,163 @@
 
         $option = $('<option id="option'+window['song_'+currts].id+'" value="'+window['song_'+currts].id+'">'+window['song_'+currts]._name_+'</option>'); // 
         $option.prependTo(containersongs);
+
+
+
+
+
+/*
+{"name":"mr f - reset part","id":"f140ddf0-00cc-11ea-9b3e-7fa0357ae18f","payload":[
+{"channelId":"0","presetId":"986c48c0-0092-11ea-93d4-6d3f19ef8d52","kitId":0,"ptnSeqList":[{"name":"reset","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]},
+{"channelId":"2","kitId":0,"ptnSeqList":[{"name":"reset","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]},
+{"channelId":"3","presetId":"399faf60-87a9-11e9-b6bb-4301b3e57a4f","kitId":0,"ptnSeqList":[{"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]},
+{"channelId":"4","presetId":"399faf60-87a9-11e9-b6bb-4301b3e57a4f","kitId":0,"ptnSeqList":[{"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]},
+{"channelId":"5","presetId":"399faf60-87a9-11e9-b6bb-4301b3e57a4f","kitId":0,"ptnSeqList":[{"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]}]}
+*/
+
+/*
+
+{"name":"G","id":"14d80190-0022-11ea-a3a1-81b692587e37","payload":[
+{"channelId":"0","presetId":"baae08f0-b9f3-11e9-8ff1-c78c1850856a","kitId":0,"ptnSeqList":[{"name":"mr fingers - bassline pattern","id":"eb91e770-b9f3-11e9-8ff1-c78c1850856a"}]},
+{"channelId":"2","kitId":5,"ptnSeqList":[{"name":"de","id":"f5942a30-0016-11ea-b44f-ffd52ad2a0f0"}]},
+{"channelId":"3","presetId":"b875cc10-ffd7-11e9-882b-9339974c6950","kitId":0,"ptnSeqList":[{"name":"mr fingers - pad 1&2 b","id":"ec047f40-ffd7-11e9-882b-9339974c6950"},{"name":"mr fingers - pad 1&2 b","id":"ec047f40-ffd7-11e9-882b-9339974c6950"},{"name":"mr fingers - pad - bar 3","id":"215c80c0-ffd8-11e9-882b-9339974c6950"},{"name":"mr fingers - pad - bar 4","id":"5bed2dc0-ffd8-11e9-882b-9339974c6950"}]},
+{"channelId":"4","presetId":"399faf60-87a9-11e9-b6bb-4301b3e57a4f","kitId":0,"ptnSeqList":[{"name":"reset","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]},
+{"channelId":"5","presetId":"399faf60-87a9-11e9-b6bb-4301b3e57a4f","kitId":0,"ptnSeqList":[{"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83"}]}]}
+
+*/
+
+/*
+function removeDuplicates(array, key) {
+    let lookup = {};
+    let result = [];
+    array.forEach(element => {
+        if(!lookup[element[key]]) {
+            lookup[element[key]] = true;
+            result.push(element);
+        }
+    });
+    return result;
+}
+
+//*/
+
+
+        // Save song to file section // We can only save and export to.json file a song for which its parts, patterns & presets where previously saved to localstorage by user
+        // it's not possible to resave a song that was loaded through ins_conf.js (song for which its parts, patterns & presets where not saved into localstorage)
+//*
+        var paarts = Object.keys(window.partSequencer);
+
+        //var paartCount = 0;
+
+        var partArray = [];
+        var presetArray = [];
+        var patternArray = [];
+
+        for ( var i = 0; i < paarts.length; i++ ) {
+          var partInSongOrder = window.partSequencer[i];           
+          var partFromLocStor = localStorage.getItem('Loops-par_' + partInSongOrder.id);
+          //partArray.push(partFromLocStor);
+
+          var partStrToJsObj = JSON.parse(partFromLocStor);
+
+          if ( partStrToJsObj != null ) {
+            partArray.push(partStrToJsObj);
+          }
+
+          if ( partStrToJsObj != null ) {
+
+            var partChannels = Object.keys(partStrToJsObj.payload);
+
+            for ( var j = 0; j < partChannels.length; j++ ) {
+              var channelInPart = partStrToJsObj.payload[j];      
+
+              if ( typeof channelInPart.presetId !== 'undefined' ) {
+
+                var preFromLocStor = localStorage.getItem('Loops-pre_' + channelInPart.presetId);
+                var pretStrToJsObj = JSON.parse(preFromLocStor);
+
+                if ( pretStrToJsObj != null ) {
+                  presetArray.push(pretStrToJsObj);
+                }
+
+              }
+
+
+              if ( typeof channelInPart.ptnSeqList !== 'undefined' ) {
+
+                var chPatterns = Object.keys(channelInPart.ptnSeqList);
+
+                for ( var k = 0; k < chPatterns.length; k++ ) {
+                  var patternnn = channelInPart.ptnSeqList[k];  
+
+                  var ptnFromLocStor = localStorage.getItem('Loops-ptn_' + patternnn.id);
+                  var ptntStrToJsObj = JSON.parse(ptnFromLocStor);
+                  
+                  if ( ptntStrToJsObj != null ) {
+                    patternArray.push(ptntStrToJsObj);
+                  }
+                }
+              }
+            }  
+          }
+        }  
+        //patternArray
+        //console.log(getUnique(patternArray,'id'));
+        //console.log(removeDuplicates(patternArray, 'id'));
+        //console.log(removeDuplicates(presetArray, 'id'));
+        //console.log(removeDuplicates(partArray, 'id'));
+
+
+var noDupPattern = removeDuplicates(patternArray, 'id');
+
+noDupPattern.forEach(function (element) {
+  element.classs = "channel";
+});       
+
+/*
+Object.keys(noDupPattern).forEach(function (key){
+  Object.defineProperty(noDupPattern[key], "classs", { value: "channel"});
+});
+*/
+
+var noDupPreset = removeDuplicates(presetArray, 'id');
+
+noDupPreset.forEach(function (element) {
+  element.classs = "channel";
+});     
+
+//console.log(noDupPattern, noDupPreset);
+
+
+
+        alphaAscSortedUserPreset.parts = removeDuplicates(partArray, 'id');
+        alphaAscSortedUserPreset.patterns = noDupPattern;
+        alphaAscSortedUserPreset.presets = noDupPreset;
+
+        var songStr = JSON.stringify(alphaAscSortedUserPreset); 
+        var songStr = songStr.replace('_name_', 'name');  
+
+
+//console.log(removeDuplicatesBy(x => x.id, patternArray));        
+
+        //partStrToJsObj
+        //partArray
+
+// */
+
+    //var text = document.getElementById("text-val").value;
+    var filename = window['song_'+currts]._name_+".json";
+    
+    download(filename, songStr);
+
+
+
+
+
+
+
+
+
 
 
 

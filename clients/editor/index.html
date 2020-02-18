@@ -9,7 +9,8 @@
     <!--<script src="../common/lib/jquery-1.9.0.min.js"></script>-->
 		<script type="text/javascript">
 
-    ip = '192.168.1.47';
+    ip = '192.168.1.16:8282';
+  //ip = 'loops.solam.co/editor'; // online version
     //ip = '127.0.0.1';
     //ip = 'localhost';
 
@@ -48,13 +49,39 @@
       background-position: center;
     } */
 
+
+/* old local version
 #button,
 h2 {
-  /*padding-left: 40px;*/
+
   margin-left: 40px;
 }
 
 #addlinks {
+
+
+}
+
+*/
+
+h2 {
+  /*padding-left: 40px;*/
+  /*margin-left: 40px;*/
+  top: 13px;
+  position: relative;  
+  z-index: 5;
+}
+
+#button {
+  margin-left: 40px;  
+
+  /*margin-top: -20px;*/
+  position:relative;
+  top: -10px;
+}
+
+#addlinks {
+  margin-top: 5px;
   /*clear:both;
   float:none;*/
 
@@ -73,7 +100,8 @@ h2 {
 }
 
 body {
-  background-image: url("../common/images/studio+moroder_bright-45_contrast-m30.jpg"); 
+  background-image: url("../common/images/studio+moroder_bright-45_contrast-m30.jpg");  
+/*background-image: url("./common/images/studio+moroder_bright-45_contrast-m30.jpg"); online version */
   background-attachment: fixed;
   background-size: cover; 
   background-position: center center;
@@ -95,7 +123,7 @@ padding-right: 40px;
 }
 
 a:link {
-  color:black; // lightgrey
+  color:black; /* lightgrey */
 }
 
 a:visited {
@@ -175,7 +203,10 @@ height: 400px;        /* !important */
     }
     ul#list li div.maximized {
         position:absolute; /* fixed */
-        top:45px; /*0*/
+        /*top:45px; old local version */
+
+        top:133px; /*0 45*/
+
         left:0;
         width:100%;
         /*height:100%;*/
@@ -247,6 +278,54 @@ height: 400px;        /* !important */
 */
 
 
+
+
+.title {
+  padding-left: 0;  
+  display: inline-block;  
+  float:left;
+  margin: 0;
+  margin-bottom: -1px;
+  margin-right: 12px;
+  /*margin-left:-55px;*/
+  margin-top: 1px;
+  margin-bottom: 20px;
+  /*position: relative;*/
+  position: relative;
+  z-index: 10;  
+}
+
+.rounded {
+  border-radius: 50px;
+  opacity: 1; /*0.96*/
+  background-color: #383232;
+  /*left: -7px;*/ 
+  position:relative;
+  top: -5px;
+}
+
+
+
+
+h1 span {
+  padding:0;
+  margin:0;
+  position: absolute;
+  text-indent:-9999em; 
+  /*display: inline-block;*/
+}
+
+
+#tatol {
+    display: inline-block;
+    height: 120px;
+    width: 100%;
+    padding-left: 40px;
+    padding-top: 20px;
+}
+
+
+
     </style>    
 	</head> 
 	<body> 
@@ -255,7 +334,16 @@ height: 400px;        /* !important */
 
     <div id="rela">
 
-		<h2>...Loops song editor (for multiplayer live performances)</h2>
+		<!--<h2>...Loops song editor (for multiplayer live performances)</h2> local version -->
+
+<div id="tatol">
+<a title="Documentation on ...Loops" href="http://solam.co/loops/"><h1 class="title"><span style="">...Loops</span>
+  <img class="rounded" style="" src="http://solam.co/loops/Loops-logo-fond_transparent_160px.png" width="100" height="100"> <!-- Loops-logo_white.png --> 
+</h1></a>    
+
+    <h2>song editor (for multiplayer live performances)</h2>
+
+</div>        
 
     <button id="button" type="button">Click me to "play music" (sound off by default on Chrome 70+: Autoplay Policy)</button>
 
@@ -411,7 +499,7 @@ height: 400px;        /* !important */
         <!--<div class="youtube-player" data-id="ViN2bRGrBx8"></div>-->
 
 <div id="addlinks">
-        <a class="link" href="https://www.youtube.com/watch?v=ViN2bRGrBx8" target="_blank" >Giorgio Moroder - The Chase</a>
+        <a class="link" id="trackauthor" href="https://www.youtube.com/watch?v=ViN2bRGrBx8" target="_blank" >Giorgio Moroder - The Chase</a>
         <br/><br/>
         <button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button><!-- ' MODE -->
 <br/><br/>
@@ -565,6 +653,16 @@ jQuery.fn.simulateClick = function() {
 
 
 $(document).ready(function(){
+
+
+var parts = window.location.search.substr(1).split("&");
+var $_GET = {};
+for (var i = 0; i < parts.length; i++) {
+    var temp = parts[i].split("=");
+    $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+}
+
+console.log('session: ',$_GET['session']);  
 
  
 jQuery('#button').show();
@@ -748,6 +846,29 @@ if ( typeof window.webaudio !== 'undefined' ) {
 
 
 
+if ( typeof $_GET['session'] !== 'undefined' ) {
+
+  var sess = '/session'+$_GET['session'];
+
+  if ( sess == '/session12' ) {
+    $('body').css("background-image", "url('../common/images/Larry_Heard.jpg')");  
+    //$('body').css("background-image", "url('./common/images/Larry_Heard.jpg')"); // online version
+    $("#trackauthor").attr("href", "https://www.youtube.com/watch?v=UeiH9Mm0E5Y").html('Mr Fingers - Can You Feel It');
+    document.title = 'Mr Fingers - Can You Feel It (...Loops song editor)';
+    
+    
+  }
+
+
+
+
+} else {
+  var sess = '';
+} 
+
+
+
+
 
   //$('#ptnmode').on('click', function (e) {
   $('#ptnmode').click(function(e) {
@@ -758,10 +879,11 @@ if ( typeof window.webaudio !== 'undefined' ) {
       //console.log('clicked!');
       //alert('clicked!');
       $('iframe#soundgen').attr('src', '../website/index.htm');
+      //$('iframe#soundgen').attr('src', './website/index.htm'); // online version
 
 
   window.setTimeout(function () {
-      var nexturl = 'http://'+ip+':8282/sequencer/?'+roomaId2+'/nochild/ptnmode11';
+      var nexturl = 'http://'+ip+'/sequencer/?'+roomaId2+'/nochild/ptnmode11';
       window.location.replace(nexturl); 
   }, 2000); 
 
@@ -776,8 +898,9 @@ if ( typeof window.webaudio !== 'undefined' ) {
 
 
 
+
 //http://192.168.1.47:8282/sequencer/?rm/nochild
-$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?'+roomaId+'/nochild');
+$('iframe#soundgen').attr('src', 'http://'+ip+'/sequencer/?'+roomaId+'/nochild'+sess).attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
 
 
 window.setTimeout(function () {
@@ -787,23 +910,23 @@ window.setTimeout(function () {
 
   window.setTimeout(function () {
     jQuery('#button').remove();
-    $('iframe#d0').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/0').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+    $('iframe#d0').attr('src', 'http://'+ip+'/device/?'+roomaId+'/0/edt/').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
   }, 2000); 
 
   window.setTimeout(function () {
-    $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/2');
+    $('iframe#d2').attr('src', 'http://'+ip+'/device/?'+roomaId+'/2/edt/');
   }, 4000); 
 
   window.setTimeout(function () {
-    $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/3');
+    $('iframe#d3').attr('src', 'http://'+ip+'/device/?'+roomaId+'/3/edt/');
   }, 6000); 
 
   window.setTimeout(function () {
-    $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/4');
+    $('iframe#d4').attr('src', 'http://'+ip+'/device/?'+roomaId+'/4/edt/');
   }, 8000); 
 
   window.setTimeout(function () {
-    $('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?'+roomaId+'/1');
+    $('iframe#conductor').attr('src', 'http://'+ip+'/device/?'+roomaId+'/1/edt/');
 /*
     $('#list div').each(function () {
         $(this).append('<span class="togglebutton">Toggle</span>');

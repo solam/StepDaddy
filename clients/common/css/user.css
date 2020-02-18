@@ -1405,3 +1405,25 @@ input.barloopnb {
 .session11 #pattern-sequencer {
     width: 360px;
 }    
+
+
+
+
+.session12.edt #exit
+,.session12.edt #left /*ul.menu - left jump menu for mobile phone ux */
+,.session12.edt #button995 /* pattern save */
+,.session12.edt #button991 /* preset save */
+,.session12.edt #button987 /* part save (conductor) */
+,.session12.edt #button986 /* song save (conductor) */
+,.session12.edt #thekits
+/*,.session11 #menu-sessiontips
+,.session11 #tweak-menu*/
+,.channel2.session12.edt #id699
+,.channel2.session12.edt #id698
+,.channel2.session12.edt #id697 {
+  display:none !important;
+}
+
+.session12.edt #right {
+  float:none !important;
+}
