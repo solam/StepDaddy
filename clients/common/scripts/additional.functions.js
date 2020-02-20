@@ -153,16 +153,13 @@ gcoCheck = contains.call(supportedGCO, 'multiply'); // true - false
 
 
 
-
-//<script type="text/javascript">
-
 function rotate( array , times ){
   while( times-- ){
     var temp = array.shift();
     array.push( temp )
   }
 }
-//</script>
+
 
 
 /**
@@ -266,19 +263,7 @@ window.mobilecheck = function() {
 window.updateNote = function(data) {
   $track = $('[data-id="' + data.trackId + '"]');
   $note = $track.find('td').eq(data.noteId + 1);
-
-  //console.log('!updateNote', /*$note,*/ data);
-
-
-    //var activeNotes2 = $("#pattern-editor tr[data-id='"+data.trackId+"'] td.active").length;
-
-    //console.log('add fct pass:', activeNotes2, window.notesAllowedMin, window.notesAllowedMax);  
-
-    //if (window.notesAllowedMin != activeNotes2 || window.notesAllowedMin != activeNotes2-1  || typeof window.notesAllowedMin == 'undefined')  {
   $note.toggleClass('active', data.volume > 0);
-    //}
-
-
 };  
 
 
@@ -286,11 +271,6 @@ window.updateNote = function(data) {
 window.displayPattern = function(selectId) {
 
   if ( !$('body').hasClass('control') && $('#patternedit').length>0 ) { // !==null
-
-      // remove [unsaved pattern] option
-      /*if ($('#'+selectId+' option[value="0"]').length>0 ) { 
-        $('#'+selectId+' option[value="0"]').remove();
-      }  */
 
       var classs = $('#'+selectId).find(":selected").attr('class');
       var elementId = $('#'+selectId).find(":selected").val();
@@ -305,14 +285,6 @@ window.displayPattern = function(selectId) {
         var ptnHolder = 'userPatternEdit';
       }  
 
-      /*if (classs=='channel') {
-        var ptnStorage = window.channelPatterns;
-      } else if (classs=='session') {       
-        var ptnStorage = window.sessionPatterns;   
-      } else {  
-        var ptnStorage = window.localPatterns;
-      }  */     
-
       var ptnStorage = window.sessionPatterns.concat(window.channelPatterns);
       //var ptnStorage = window.localPatterns.concat(window.sessionPatterns.concat(window.channelPatterns)); //window.channelPatterns.concat(window.sessionPatterns).concat(window.localPatterns);
       
@@ -323,28 +295,22 @@ window.displayPattern = function(selectId) {
         }
       }
 
-if (typeof ptnStorage !== 'undefined' && ptnStorage.length>0) { // 1
+      if (typeof ptnStorage !== 'undefined' && ptnStorage.length>0) { // 1
 
-      var result = $.grep(ptnStorage, function(e){ return e.id == elementId; });
-      if (typeof result[0] !== 'undefined') {
-        var trackNumber = result[0].tracks.length; 
-      } else {
-        var trackNumber = 0;
+        var result = $.grep(ptnStorage, function(e){ return e.id == elementId; });
+        if (typeof result[0] !== 'undefined') {
+          var trackNumber = result[0].tracks.length; 
+        } else {
+          var trackNumber = 0;
+        }
+
+        if ($('#'+selectId+' option[value="0"]').length>0 ) { 
+          result[0] = {};
+          result[0].tracks = window['userPattern'].tracks;
+        }      
       }
-
-      //console.log('res0: ', result[0]);
-
-      //console.log(elementId);
-      //if (elementId=='option00001') {
-
-      if ($('#'+selectId+' option[value="0"]').length>0 ) { 
-        result[0] = {};
-        result[0].tracks = window['userPattern'].tracks;
-      }      
-
-}
         
-    if (typeof result[0]   == 'undefined') { return }   // result[0]  - result[0]  
+      if (typeof result[0]   == 'undefined') { return }   // result[0]  - result[0]  
 
       var channelId = $('#pattern-editor tr').first().attr('data-id').split('-')[0]; 
 
@@ -396,33 +362,24 @@ if (typeof ptnStorage !== 'undefined' && ptnStorage.length>0) { // 1
       } 
 
 
-         var classs = 'user';//$('#selpatternedit').find(":selected").attr('class');
-         var patternId = $('#selpatternedit').find(":selected").val();
+     var classs = 'user';//$('#selpatternedit').find(":selected").attr('class');
+     var patternId = $('#selpatternedit').find(":selected").val();
 
-         window['userPatternEdit'].name = $('#selpatternedit').find(":selected").text();
-         window['userPatternEdit'].id = patternId;
-         window['userPatternEdit'].classs = classs;
-
-
+     window['userPatternEdit'].name = $('#selpatternedit').find(":selected").text();
+     window['userPatternEdit'].id = patternId;
+     window['userPatternEdit'].classs = classs;
 
 
-         var attr = $('#'+selectId).find(":selected").attr('data-notemin');
+     var attr = $('#'+selectId).find(":selected").attr('data-notemin');
 
-        // For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
-        if (typeof attr !== typeof undefined && attr !== false) {
-          window['notesPerLine'] = {};
-          window['notesPerLine'].min = $('#'+selectId).find(":selected").attr('data-notemin');
-          window['notesPerLine'].max = $('#'+selectId).find(":selected").attr('data-notemax');
-
-          /*$("#notemin").html('noteMin: '+window['notesPerLine'].min); 
-          $("#notemax").html('noteMax: '+window['notesPerLine'].max); */         
-        }
-
-
-} // end of conductor role exclusion
-
-
-    };  // end of fct
+     // For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+     if (typeof attr !== typeof undefined && attr !== false) {
+      window['notesPerLine'] = {};
+      window['notesPerLine'].min = $('#'+selectId).find(":selected").attr('data-notemin');
+      window['notesPerLine'].max = $('#'+selectId).find(":selected").attr('data-notemax');    
+     }
+    } // end of conductor role exclusion
+  };  // end of fct
 
 
 window.findObjectById = function(o, id) {

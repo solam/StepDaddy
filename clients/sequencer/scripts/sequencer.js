@@ -8,20 +8,10 @@
 		mixr.mixins.EventTarget.call(this);
 
 		var _clients = {};
-		var _instruments = [];
-		
-		//this._instruments = _instruments;
-		
-		var _availableInstruments = [];
-		
-		//this._availableInstruments = _availableInstruments;
-		//window._availableInstruments = _availableInstruments;
 
-    window['conn_mgmt'] = [];
-		
+		var _instruments = [];		
+		var _availableInstruments = [];				
 		var _tracks = {};
-
-		//this._instrumentsSoundModes = [];
 
 		var _patterns = [];
 		this._patterns = [];
@@ -30,22 +20,16 @@
     this._parts = [];
     this._systemParts = [];    
 		
-		//window.systemPatterns = [];
 		this._patternSequencer = [];
     this._songSequencer = [];
 		var _presets = [];
 		this._presets = [];
 		this._systemPresets = [];    
 
-		//var _trackSet = {}; // track kit
-
 		var _currentTime = 0;
 		var _noteTime = 1;
 		this._noteTime = 0; // 1
-		this._noteTimes = [];
-		
-		//this._noteTimes[0] = 0;
-		
+		this._noteTimes = [];				
 		this._noteChannelIndex = [];
 		this._noteTrigger = 1;
 		this._noteTriggers = [];
@@ -54,17 +38,14 @@
 		var _startTime = 0;
 		this._startTime = 0;
 		
-		//var _tempo = 110;
-
 		this._beatCount = -1;
-		this._signature = 16
+		this._signature = 16;
 		this._Ins01Volume = 1;
 		
 		var startDate = new Date();
 		
 		this._audioServerStartTimestamp = startDate.getTime();
 		var _clock2 = null;    
-		//this._synthFreq = 20;
 		var _loopLength = 16;
 		var _started = false;
 		var _lastDrawTime = -1;
@@ -73,104 +54,88 @@
 		var samplesPath = '../common/resources/';
 
 		this.interpolate2 = function(value, outputMin, outputMax, displayedMin, displayedMax)
-		{
-			//console.log('interpolate:', valueX);
+		{			
 			$res = (outputMin + (outputMax - outputMin) * value) / displayedMax;
 
-			if($res <= 0.01)
-			{
+			if ($res <= 0.01) {
 				$res = 0; 
 			}
 
 			return $res;
+      // console.log('interpolate:', valueX);
 			// (0 + (1-0) * 50)100 : 0.5
-			// what to do if outputMax is greater than displayedMax ?
 		}  
 
-		//var this._instrumentsConfig = window.insConf02;
-		//window['insConf'] = window.insConf2;
-		//
-		//window['sessionNumber'] = 2;  
 
-		this._clockMode = 2; // 0: simple clock 1: multi clock for sounding channel time-shifts - 2: WAAClock
+		this._clockMode = 2; // 0: simple clock - 1: multi clock for sounding channel time-shifts - 2: WAAClock
 		window.graphixMode = 0; // ven 16 sept 2016: 0 > 1 > 1
 		
 		// _countdownMode vs. rotation only mode
 		
-		this._countdownMode = 0; // ven 16 step 2016: 0 puis 1 > 1 > 1      // 0: direc access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) 
+		this._countdownMode = 0; // 0: direct access mode | 1: some channel users may have to wait before their patern editor is fully visible (as to delay their contribution to the current session) // ven 16 step 2016: 0 puis 1 > 1 > 1      
 		
 		// if all channels' offsets are set to 0: offSetMode = off while rotation = on
 
 
+  // select which session to select at app startup
     if ( typeof window.sessionid == 'number' ) {
       this._sessionNumber = window.sessionid; 
     } else {
-      this._sessionNumber = 12; // 9_0 , 1_1 (pas de vue générale ensemble des notes jouées) , 10_1 (23 09 2017)
+
+    // ven 16 step 2016: 6 > 5 > 1 (with /mopo)
+    /*
+    1: Pitch instruments A (for apéro SdCC janvier 2016)
+
+    2: Batucada (for apéro SdCC juin 2016)
+    3: The Chase (draft, only 4 channels)
+    4: Summerlab (using lab sounds)
+    5: perf NDW 2016 
+    6: workshop NDW 2016 
+    7: AperoCC_fev_2017 / EJS #1
+
+    8: 16 participants: AWS1
+    9: 16 particpants: marimba / piano
+    10: 16 participants drumbox
+    11: Giorgio Moroder - The Chase (song editor mode)
+    12: Mr Fingers - Can You Feel It (song editor mode)
+    99: test
+    */
+
+      this._sessionNumber = 12; 
     }
 
-
     console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);
-		
-
-		// ven 16 step 2016: 6 > 5 > 1 (with /mopo)
-		/*
-		1: Pitch instruments A (for apéro SdCC janvier 2016)
-
-		2: Batucada (for apéro SdCC juin 2016)
-		3: The Chase (draft, only 4 channels)
-		4: Summerlab (using lab sounds)
-		5: perf NDW 2016 
-		6: workshop NDW 2016 
-		7: AperoCC_fev_2017 / EJS #1
-
-		8: 16 participants: AWS1
-		9: 16 particpants: marimba / piano
-		10: 16 participants drumbox
-    11: Giorgio Moroder - The Chase (song editor mode)
-		99: test
-		*/
-
 		//console.log('window.graphixMode, window.childRoom', window.graphixMode, window.childRoom);
 
 		if (window.childRoom == 1)
-		{ //  // window.gfxonly == 1
+		{ // window.gfxonly == 1
 			window.graphixMode = 1;
 		}
 
-		this._instrumentsConfig = window['insConf' + this._sessionNumber]; //window.insConf;
+		this._instrumentsConfig = window['insConf' + this._sessionNumber]; 
 		
-		window['insConf'] = this._instrumentsConfig; // window.insConf2 - select which session to select at app startup
+		window['insConf'] = this._instrumentsConfig; 
 
-		//console.log('session number: ', this._sessionNumber, this._instrumentsConfig);
-		// HARDCODED VALUE SECTION
-		// _noteMin _noteMax
-		
-		/*var searchedEl = 999;
-		var resInsConf = $.grep(this._instrumentsConfig, function(e){ return e.id == searchedEl; });
-		if (typeof resInsConf[0] !== 'undefined') {
-			console.log('res:', resInsConf[0]);
-		} else {
-			console.log('res:',resInsConf[0]);
-		} */
-		
-		//console.log('res:',elVal, this._tempo);
 
+  // Arbitrarily define number of channels for session to be loaded
 		if (typeof soundingChannelNumber !== 'undefined')
 		{ 
 			var soundingChannelNumber = window.findObjectById(this._instrumentsConfig, 500);
 			var soundingChannelNumber = soundingChannelNumber.x.value;
-
 		}
-		else if(typeof soundingChannelNumber== 'undefined')
+		else if (typeof soundingChannelNumber == 'undefined')
 		{  
 			var soundingChannelNumber = 17; // 16
 		}
+
+
+  // Defining number of bars from app start until a specific channel is allowed to sound/play (in case _countdownMode is on)
 
 		if (this._countdownMode == 1)
 		{ 
 			var sound = 1; // 0 
 			
-			// this code seciton was out of condition if (this._countdownMode == 1) {  previously
+			// this code section was out of condition if (this._countdownMode == 1) {  previously
 			var barOffsetStart = 700;
 			
 			for (var b=0; b<soundingChannelNumber; b++)
@@ -183,25 +148,19 @@
 				}
 				barOffsetStart++;
 			}
-		}
-		else
-		{
+		} else {
 			var sound = 1;
 		} 
 
 		var defaultShift = 0;
 
-		//console.log("sound", sound);
-
 		this._channelName = [];
-
 
 		this._channelPatterns = [];
 		var achannelPatterns = [];
 
     this._channelParts = [];
     var achannelParts = [];    
-
 
 		this._channelPresets = [];
 		var achannelPresets = [];
@@ -212,12 +171,11 @@
     this._channelsongSeq = [];
     var achannelsongSeq = [];    
 
-
-
 		this._instrumentsSoundModes = [];
 		this._audioChannelShift = [];
 
-		//console.log('offset15:', this['_insBarOffset15']);
+
+  // Defining default channel volumes at app startup
 
 		var insVol0X = window.findObjectById(this._instrumentsConfig, 800).x; // this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
 		
@@ -235,84 +193,45 @@
 
 
 
+  // Extracting song information (list of parts) from channel 1 AKA "puppet master/ conductor" channel from selected default session
+    if ( typeof window['insConf'][1].songs !== 'undefined' ) {
 
-if ( typeof window['insConf'][1].songs !== 'undefined' ) {
-
-
-
-        //var paartCount = 0;
-
-        //var partArray = [];
-        var preset = [];
-        //var presetObj = [];
-        var pattern = [];
-        //var patternObj = [];
-
+      var preset = [];
+      var pattern = [];
       var songPresets = [];
-
       var songPatterns = [];
+      var songs = Object.keys(window['insConf'][1].songs);
 
+      for ( var h = 0; h < songs.length; h++ ) {
 
+        var partsFromConductorCh = window['insConf'][1].songs[h].parts; 
+        var part = [];
+        part[1] = window['insConf'][1].songs[h].parts;
 
-    var songs = Object.keys(window['insConf'][1].songs);
+        if ( typeof part[1] !== 'undefined' ) {
 
-    //console.log(songs);
+          var paarts = Object.keys(partsFromConductorCh);
 
-    for ( var h = 0; h < songs.length; h++ ) {
-
-
-    var partsFromConductorCh = window['insConf'][1].songs[h].parts; 
-
-    var part = [];
-    part[1] = window['insConf'][1].songs[h].parts;
-
-    if ( typeof part[1] !== 'undefined' ) {
-//*
-        var paarts = Object.keys(partsFromConductorCh);
-
-
-
-        for ( var i = 0; i < paarts.length; i++ ) {
-          /*var partInSongOrder = window.partSequencer[i];           
-          var partFromLocStor = localStorage.getItem('Loops-par_' + partInSongOrder.id);
-          //partArray.push(partFromLocStor);
-
-          var partStrToJsObj = JSON.parse(partFromLocStor);
-
-          if ( partStrToJsObj != null ) {
-            partArray.push(partStrToJsObj);
-          } */
-
-          //if ( partStrToJsObj != null ) {
+          for ( var i = 0; i < paarts.length; i++ ) {
 
             var partChannels = Object.keys(partsFromConductorCh[i].payload);
 
             for ( var j = 0; j < partChannels.length; j++ ) {
               var channelInPart = partsFromConductorCh[i].payload[j];   
               var chNumber = partsFromConductorCh[i].payload[j].channelId;
-              //console.log(chNumber);
 
-if ( typeof pattern[chNumber] == 'undefined' ) {
-  pattern[chNumber] = [];
-  //console.log(chNumber, patternnn.id);
-}                
+              if ( typeof pattern[chNumber] == 'undefined' ) {
+                pattern[chNumber] = [];
+                //console.log(chNumber, patternnn.id);
+              }                
 
               if ( typeof channelInPart.presetId !== 'undefined' ) {
 
-                /*var preFromLocStor = localStorage.getItem('Loops-pre_' + channelInPart.presetId);
-                var pretStrToJsObj = JSON.parse(preFromLocStor);
-
-                if ( pretStrToJsObj != null ) {
-                  presetArray.push(pretStrToJsObj);
-                } */
-
                 if ( typeof preset[chNumber] == 'undefined' ) {
-                  preset[chNumber] = [];
-                  
+                  preset[chNumber] = [];                  
                 }  
 
                 preset[chNumber].push(channelInPart.presetId);
-
               }
 
 
@@ -322,181 +241,119 @@ if ( typeof pattern[chNumber] == 'undefined' ) {
 
                 for ( var k = 0; k < chPatterns.length; k++ ) {
                   var patternnn = channelInPart.ptnSeqList[k];  
-
-                  //console.log(chNumber, patternnn.id);
-
-                  /*var ptnFromLocStor = localStorage.getItem('Loops-ptn_' + patternnn.id);
-                  var ptntStrToJsObj = JSON.parse(ptnFromLocStor);
-                  
-                  if ( ptntStrToJsObj != null ) {
-                    patternArray.push(ptntStrToJsObj);
-                  }*/
-
-                /*if ( typeof pattern[chNumber] == 'undefined' ) {
-                  pattern[chNumber] = [];
-                  //console.log(chNumber, patternnn.id);
-                }  */
-
                   pattern[chNumber].push(patternnn.id);
                 }
               }
-            }  
-          //}
+
+            }              
+          }  
+
+          songPresets.push(window['insConf'][1].songs[h].presets);
+          //console.log(window['insConf'][1].songs[h].presets);
+
+          songPatterns.push(window['insConf'][1].songs[h].patterns);
+          //console.log(pattern/*,songPatterns*/);
+
+        }
+
+      }
+
+
+      // Flattening multidimensional Arrays
+      var songPatterns = [].concat.apply([], songPatterns);
+      var songPresets = [].concat.apply([], songPresets);
+
+
+      for ( var l = 0; l < preset.length; l++ ) {
+
+        if ( typeof preset[l] !== 'undefined' ) {
+
+          preset[l] = preset[l].filter(function(elem, index, self) {
+            return index === self.indexOf(elem);
+          });
+
+          preset[l] = songPresets.filter(function(item) { // presetObj[l]
+              return preset[l].indexOf(item.id) !== -1;
+          });
+
+          if ( preset[l].length == 0 ) {
+            preset.splice(l, 1);
+          }    
         }  
-// */
-
-
-//var songPresets = window['insConf'][1].songs[h].presets;
-
-//var songPatterns = window['insConf'][1].songs[h].patterns;
-
-
-songPresets.push(window['insConf'][1].songs[h].presets);
-
-//console.log(window['insConf'][1].songs[h].presets);
-
-songPatterns.push(window['insConf'][1].songs[h].patterns);
-
-
-//console.log(pattern/*,songPatterns*/);
-
-
-  }
-
-}
-
-
-//songPresets.flat();
-
-//songPatterns.flat();
-
-// Flattening multidimensional Arrays
-var songPatterns = [].concat.apply([], songPatterns);
-var songPresets = [].concat.apply([], songPresets);
+      }  
 
 
 
+      for ( var m = 0; m < pattern.length; m++ ) {
 
-for ( var l = 0; l < preset.length; l++ ) {
+        if ( typeof pattern[m] !== 'undefined' ) {
 
-  //let preset[l] = new Set(preset[l]);
-  if ( typeof preset[l] !== 'undefined' ) {
+          pattern[m] = pattern[m].filter(function(elem, index, self) {
+            return index === self.indexOf(elem);
+          });
 
-    preset[l] = preset[l].filter(function(elem, index, self) {
-      return index === self.indexOf(elem);
-    });
-
-    preset[l] = songPresets.filter(function(item) { // presetObj[l]
-        return preset[l].indexOf(item.id) !== -1;
-    });
-
-    if ( preset[l].length == 0 ) {
-      preset.splice(l, 1);
-    }    
-
-  }  
-
-}  
+          pattern[m] = songPatterns.filter(function(item) { // patternObj[l]
+              return pattern[m].indexOf(item.id) !== -1;
+          });
+        }  
+      }  
 
 
-
-
-
-//*
-
-//console.log(pattern[2]);
-
-for ( var m = 0; m < pattern.length; m++ ) {
-
-  //let pattern[l] = new Set(pattern[l]);
-  if ( typeof pattern[m] !== 'undefined' ) {
-
-    pattern[m] = pattern[m].filter(function(elem, index, self) {
-      return index === self.indexOf(elem);
-    });
-
-    pattern[m] = songPatterns.filter(function(item) { // patternObj[l]
-        return pattern[m].indexOf(item.id) !== -1;
-    });
-
-    /*if ( pattern[l].length == 0 ) {
-      //pattern[l] = null;
-      pattern.splice(l, 1);
-    } */
-
-
-  }  
-
-}  
-//*/
-
-//console.log(pattern);
-
-//console.log(pattern[0], songPatterns);
-
-}
-
-//console.log(pattern, songPatterns); //  songPresets , pattern preset, songPresets
+    }
+    //console.log(pattern, songPatterns); //  songPresets , pattern preset, songPresets
 
 
 
 
 
 
-
-
-		//console.log('volch16:', window['insVol0X'], this._insVol0);
+   // Looping through all session channel data to store corresponding/specific data into arrays (patterns, parts, presets,)
 
 		//var sndChannelStart = 800;
-		for(var b=0; b<soundingChannelNumber; b++)
-		{
-			if(typeof window['insConf'][b] !== 'undefined') { // this._instrumentsConfig[b] - this['_instrumentsConfig['+b+']']
+		for (var b=0; b<soundingChannelNumber; b++) {
+			if (typeof window['insConf'][b] !== 'undefined') { 
 				//console.log('ok');
 				this._channelName[b]=[];
 				this._channelName[b]['name']= this._instrumentsConfig[b].channelName;
 				this._channelName[b]['color']= this._instrumentsConfig[b].conf[0]['color'];
 
-
 				this._channelPatterns[b] = this._instrumentsConfig[b].patterns;
 
 
-    if ( typeof window['insConf'][1].songs !== 'undefined' ) {
+        if ( typeof window['insConf'][1].songs !== 'undefined' ) {
 
-        if ( typeof this._channelPatterns[b] == 'undefined' ) {
-          this._channelPatterns[b] = [];
-        }  
-
-
-        if ( typeof pattern[b] !== 'undefined' ) {
-          for ( var l = 0; l < pattern[b].length; l++ ) {
-            this._channelPatterns[b].push(pattern[b][l]);
+          if ( typeof this._channelPatterns[b] == 'undefined' ) {
+            this._channelPatterns[b] = [];
           }  
 
-        }  
 
-    }    
+          if ( typeof pattern[b] !== 'undefined' ) {
+            for ( var l = 0; l < pattern[b].length; l++ ) {
+              this._channelPatterns[b].push(pattern[b][l]);
+            }  
+          }  
+
+        }    
         //console.log(this._channelPatterns[b]); 
 				achannelPatterns[b]= JSON.stringify(this._channelPatterns[b]); // this._instrumentsConfig[b].patterns
 
-
-
         this._channelParts[b] = this._instrumentsConfig[b].parts;
 
-    if ( typeof window['insConf'][1].songs !== 'undefined' ) {  
+        if ( typeof window['insConf'][1].songs !== 'undefined' ) {  
 
-        // in case not channel parts where defined in session of ins_conf.js
-        if ( typeof this._channelParts[b] == 'undefined' ) {
-          this._channelParts[b] = [];
-        }  
-
-
-        if ( typeof part[b] !== 'undefined' ) {
-          for ( var l = 0; l < part[b].length; l++ ) {
-            this._channelParts[b].push(part[b][l]);
+          // in case no channel parts where defined in session of ins_conf.js
+          if ( typeof this._channelParts[b] == 'undefined' ) {
+            this._channelParts[b] = [];
           }  
-        }  
 
-    }    
+
+          if ( typeof part[b] !== 'undefined' ) {
+            for ( var l = 0; l < part[b].length; l++ ) {
+              this._channelParts[b].push(part[b][l]);
+            }  
+          }  
+
+        }    
         achannelParts[b]= JSON.stringify(this._channelParts[b]); // this._instrumentsConfig[b].parts
 
 
@@ -504,23 +361,20 @@ for ( var m = 0; m < pattern.length; m++ ) {
 				this._channelPresets[b] = this._instrumentsConfig[b].presets;
 
 
-    if ( typeof window['insConf'][1].songs !== 'undefined' ) {    
+        if ( typeof window['insConf'][1].songs !== 'undefined' ) {    
 
-        if ( typeof this._channelPresets[b] == 'undefined' ) {
-          this._channelPresets[b] = [];
-        }        
+          if ( typeof this._channelPresets[b] == 'undefined' ) {
+            this._channelPresets[b] = [];
+          }        
 
-        if ( typeof preset[b] !== 'undefined' ) {
-          for ( var l = 0; l < preset[b].length; l++ ) {
-            this._channelPresets[b].push(preset[b][l]);
-          }  
-        } 
+          if ( typeof preset[b] !== 'undefined' ) {
+            for ( var l = 0; l < preset[b].length; l++ ) {
+              this._channelPresets[b].push(preset[b][l]);
+            }  
+          } 
+        }    
 
-    }    
-
-				achannelPresets[b]= JSON.stringify(this._channelPresets[b]); // this._instrumentsConfig[b].presets
-
-
+				achannelPresets[b]= JSON.stringify(this._channelPresets[b]); 
 
 				this._channelpatternSeq[b]= this._instrumentsConfig[b].patternSeq;
 				achannelpatternSeq[b]= JSON.stringify(this._instrumentsConfig[b].patternSeq);
@@ -532,11 +386,13 @@ for ( var m = 0; m < pattern.length; m++ ) {
 				this._instrumentsSoundModes[b]= sound;
 				this._audioChannelShift[b]= defaultShift;
 				// 10 params processed
-			}
-			//sndChannelStart++;
+			}			
 		}
-		// 802
 
+
+
+  // General (non channel dependent) parameters
+		// 802
 		var elVal = window.findObjectById(this._instrumentsConfig, 699);
 		this._insKickoutTime = elVal.x.value;
 
@@ -555,22 +411,9 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			this._noteMax = elVal.x.value;    
 		}        
 
-		//console.log('res:',elVal);
-		//this._insBarOffset0 = elVal.x.value;
-
-
-		//var ptns = this._channelPatterns;  
-
-		//console.log(this._insBarOffset[0]);
-		//console.log(this._channelPatterns); // this._channelName
 		window.chPatternsAtStartup = achannelPatterns;
-
     window.chPartsAtStartup = achannelParts;
-
 		window.chPresetsAtStartup = achannelPresets;
-
-
-    //console.log('_channelsongSeq', this._channelsongSeq);
 
 		this._channelInfo = [];
 		this._channelInfo['bpm']=this._tempo;
@@ -579,10 +422,9 @@ for ( var m = 0; m < pattern.length; m++ ) {
 		this._channelInfo['NoteMin']=this._noteMin;
 		this._channelInfo['NoteMax']=this._noteMax;
 
-		//window.generalChannelInfo = this._channelInfo;
-		
-		//console.log(this._channelInfo);
 
+
+  // Populating list of all available session names [from ins.conf file(s)]
 		this._sessionList = [];
 
 		for(var a=1; a<99; a++)
@@ -593,9 +435,8 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			}
 		}
 
-		//this._sessionListSerialized = JSON.stringify(this._sessionList);
 
-		//console.log('this._sessionList', this._sessionList);
+  // Various default general/main Web Audio renderer settings
 
 		var _context = null;
 		var _masterGainNode = null;
@@ -617,42 +458,31 @@ for ( var m = 0; m < pattern.length; m++ ) {
 		this._delayTime = 0;
 		var effectsConfig = window.fxConf;
 		
-    	// FX
+    // FX
 		this.initialize = function()
 		{
 			// Create context.
 			_context = new AudioContext();
 
-			//window['audio_context2'] = _context;
-			//window['audio_context'] = _context;
-			//window['audio_rec_gal'] = new Recorder(_context);
-			/*
-				TANGUY = new TANGUY(_context); // TANGUYGenerator
-				TANGUY.build_synth();
-				TANGUY.order_programs();
-			*/
-
 			// Create master gain control.
 			_masterGainNode = _context.createGain();
-			_masterGainNode.gain.value = 0.7;
+			_masterGainNode.gain.value = 0.7;      
 
-			//window['audio_context'] = _compressor; // _masterGainNode; // _context.destination
-			//create lowpass filter
-			  
-			/*
-        		_lowpassFilter = _context.createBiquadFilter();
-		    	_lowpassFilter.frequency.value = 300;
-        		_lowpassFilter.Q.value = 300;
-      		*/
+
+			// create lowpass filter			  			
+      //   _lowpassFilter = _context.createBiquadFilter();
+		  // _lowpassFilter.frequency.value = 300;
+      //   _lowpassFilter.Q.value = 300;
       
-      		// _masterGainNode.connect(_lowpassFilter);
+      // _masterGainNode.connect(_lowpassFilter);
 
-			// create lowpass filter
+			// create highpass filter
 			// _highpassFilter = _context.createBiquadFilter();
 			// _highpassFilter.type = 1;
 			// _highpassFilter.frequency.value = _highpassFilterFreq;
+      
 
-			//create compressor
+			// create compressor
 			_compressor = _context.createDynamicsCompressor();
 			_compressor.treshold = -20;
 			_compressor.attack = 1;
@@ -664,9 +494,9 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			_compressor.connect(_context.destination); //_context.destination = zone de rendu audio / connect = relie le _compressor à la zone de rendu
 			//_lowpassFilter.connect(_compressor);
 			//_masterGainNode.connect(_lowpassFilter);
-			_masterGainNode.connect(_compressor); //relie le _masterGainNode au _compressor
+			_masterGainNode.connect(_compressor); // relie le _masterGainNode au _compressor
 
-			window['audio_context'] = _compressor; // _masterGainNode; // _context.destination; causes recorder.js:72 Uncaught IndexSizeError: Failed to execute 'connect' on 'AudioNode': output index (0) exceeds number of outputs (0).
+			window['audio_context'] = _compressor; // _masterGainNode; causes recorder.js:72 Uncaught IndexSizeError: Failed to execute 'connect' on 'AudioNode': output index (0) exceeds number of outputs (0).
 
 			// Create master wet and dry.
 			// _masterDry = _context.createGain();
@@ -691,7 +521,7 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			// _delay.connect(_masterDelaySend);
 			// _reverb.connect(_masterWet);
 
-			//connect lowpass filter
+			// Connect lowpass filter
 			// _lowpassFilter.connect(_masterDry);
 			// _lowpassFilter.connect(_masterWet);
 			// _lowpassFilter.connect(_masterDelaySend);
@@ -699,7 +529,7 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			// _highpassFilter.connect(_lowpassFilter);
 			// _masterGainNode.connect(_highpassFilter);
 
-			//this.setFxValues();
+			// this.setFxValues();
 
 			this.createInstruments();
 
@@ -709,17 +539,19 @@ for ( var m = 0; m < pattern.length; m++ ) {
 				} 
 			*/
 
-			//console.log(this._audioServerStartTimestamp);
+			// console.log(this._audioServerStartTimestamp);
 		};
 
-		this.setFxValues = function() {
+
+		/*this.setFxValues = function() {
 
 			// _delay.delayTime.value = _delayTime;
 			// _masterDelaySend.gain.value = _delayAmount;
 			_lowpassFilter.frequency.value = this._filterFreq;
 			_lowpassFilter.Q.value = this._q;
 			// console.log('_filterFreq', this._filterFreq, _lowpassFilter.frequency.value);
-		}
+		} */
+
 
 		this.createInstruments = function()
 		{
@@ -727,84 +559,58 @@ for ( var m = 0; m < pattern.length; m++ ) {
 			
 			for(var i = 0; i < this._instrumentsConfig.length; i++)
 			{
-				//var tracks = this.createTracks(i, this._instrumentsConfig[i].tracks, this._instrumentsConfig[i].type);
-				// this._instrumentsConfig[i].tracks[this._instrumentsConfig[i].trackSet]
 				var type = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type; 
 				
-				if (type=='control' || type=='gfx')
-				{
+				if (type=='control' || type=='gfx') {
 					var tracks = [];
-				}
-				else
-				{
-					if (typeof this._instrumentsConfig[i].patterns !== 'undefined')
-					{
+				} else {
+					if (typeof this._instrumentsConfig[i].patterns !== 'undefined') {
 						var pattern = this._instrumentsConfig[i].patterns[this._instrumentsConfig[i].defaultPattern].tracks;
-						//console.log('ptn', pattern, this._instrumentsConfig[i].defaultPattern);
-					}
-					else
-					{
+					} else {
 						var pattern = null;
-					}
-					
-					//console.log('trkkkkz before', this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].tracks);
-
+					}				
+          // 1 "track" corresponds to a (16) step/note sequencer time "line", AKA 1 bar of potential sounding events
 					var tracks = this.createTracks(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].tracks, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type, pattern);
-					//console.log('trkkkkz après:', tracks);
 				}
 
-				/*
-				var channelInfo = this._channelInfo;
-				channelInfo['barOffset']= this._insBarOffset[0]; //i 
-				console.log("create ins: ", channelInfo);
-				*/
 
-				channelInfo = {};channelInfo = {};
-				channelInfo.bpm = this._tempo; //window.generalChannelInfo; 
+
+				channelInfo = {};
+				channelInfo.bpm = this._tempo; 
 				channelInfo.serverStartTime = this._audioServerStartTimestamp;
 				channelInfo.kickoutTime = this._insKickoutTime;
 				channelInfo.noteMin = this._noteMin;
 				channelInfo.noteMax = this._noteMax;    
-				channelInfo.barOffset = eval('this._insBarOffset'+i); //this._insBarOffset[0]; - 
+				channelInfo.barOffset = eval('this._insBarOffset'+i); 
 				channelInfo.countdownMode = this._countdownMode;
 
-if ( typeof this._channelName[i] !== 'undefined' ) {
-
-				channelInfo.channelName = this._channelName[i]['name'];
-        channelInfo.channelColor = this._channelName[i]['color']; // 'testttt'; //
-
-}
+        if ( typeof this._channelName[i] !== 'undefined' ) {
+  				channelInfo.channelName = this._channelName[i]['name'];
+          channelInfo.channelColor = this._channelName[i]['color']; 
+        }
 
 				channelInfo.channelNumber = i;
 
-				channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
-				channelInfo.sessionList = this._sessionList;//Serialized;
+				channelInfo.sessionName = _self._sessionNumber-1; 
+				channelInfo.sessionList = this._sessionList;
 
 				if(typeof this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].inputMode !== 'undefined')
 				{
+           // inputMode = 'grid': step sequencer vs. 'keyboard': free triggering of notes/pads 
 					channelInfo.inputMode = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].inputMode;
 				}
 
 				if (typeof this._channelpatternSeq[i] !== 'undefined')
-				{     
-					//channelInfo.channelPatternSeq = [];            
+				{               
 					channelInfo.channelPatternSeqList= this._channelpatternSeq[i][this._instrumentsConfig[i].defaultPatternSeq]; //;
-
-					//this._patternSequencer[i]['list'] = channelInfo.channelPatternSeqList;
-					this._patternSequencer.push(channelInfo.channelPatternSeqList);
-
-					//console.log("channelInfo.channelPatternSeq: ", this._patternSequencer); // channelInfo.channelPatternSeq
-					//console.log("channelInfo.channelPatternSeq: ", channelInfo.channelPatternSeq, this._channelpatternSeq[i], this._channelpatternSeq[i]['defaultPatternSeq'] /*,channelInfo.channelPatternSeq*/);           
+					this._patternSequencer.push(channelInfo.channelPatternSeqList);      
 				}
 
 
 //*
         if ( typeof this._channelsongSeq[i] !== 'undefined' ) {           
-          //channelInfo.channelSongSeqList = this._channelsongSeq[i][this._instrumentsConfig[i].defaultSong]; //;
           channelInfo.channelSongSeqList = this._channelsongSeq[i];
-
           channelInfo.defaultSong = this._instrumentsConfig[i].defaultSong;
-
           this._songSequencer.push(channelInfo.channelsongSeqList);
 
         }
@@ -834,9 +640,8 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 					{
 						var chptn = this._channelPatterns[i][k];  
 						this._systemPatterns.push(chptn);
-						//window.systemPatterns.push(chptn);
 					}  
-					//window.systemPatterns = this._systemPatterns;
+
 				}
 
 
@@ -848,12 +653,9 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
             this._systemParts.push(chptn);
           }  
         }
-
-
-				
 				//console.log('sys ptns @ ins creation: ', this._systemPatterns);
 
-				if(typeof this._channelPresets[i] !== 'undefined' && typeof this._channelPresets[i][this._instrumentsConfig[i].defaultPreset] !== 'undefined' )
+				if ( typeof this._channelPresets[i] !== 'undefined' && typeof this._channelPresets[i][this._instrumentsConfig[i].defaultPreset] !== 'undefined' )
 				{
 					channelInfo.presetId = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset].id;
 					channelInfo.preset = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset];
@@ -870,10 +672,8 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 					channelInfo.instrumentUrl = this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].instrumentUrl;
 				}   
 
-				//var instrument = new mixr.models.Instrument(i, this._instrumentsConfig[i].name, tracks, 1.0, this._instrumentsConfig[i].type, this._instrumentsConfig[i].color);
 				var instrument = new mixr.models.Instrument(i, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].name, tracks, 1.0, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].type, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].color, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].kitNumber, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].controls, this._instrumentsConfig[i].conf[this._instrumentsConfig[i].trackSet].instrumentName, channelInfo); 
 				_instruments.push(instrument);
-				//_self._instruments.push(instrument);
 				//console.log('instrument:', tracks); // instrument
 			};
 
@@ -885,6 +685,10 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			//console.log('sys + regular ptns: ', this._systemPatterns, this._patterns);
 		};
 
+
+
+
+
 		this.createTracks = function(instrumentId, tracksConfig, type, pattern)
 		{
 			//console.log('createTracks', tracksConfig.length);
@@ -894,22 +698,16 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			{
 				var config = tracksConfig[i];
 
-				if (pattern==null)
-				{
-					var patternLine = null;
-				}
-				else
-				{
-					var patternLine = pattern[i];
-					//console.log('ptn line', patternLine);
-				}
+  			if (pattern==null) {
+  				var patternLine = null;
+  			} else {
+  				var patternLine = pattern[i];
+  				//console.log('ptn line', patternLine);
+  			}
 
-				if (type === 'samples')
-				{
+				if (type === 'samples') {
 					var track = new mixr.models.Track(instrumentId + '-' + i, config.name, patternLine, samplesPath + config.sampleUrl, 1.0); // null
-				}
-				else
-				{
+				} else {
 					var track = new mixr.models.Track(instrumentId + '-' + i, config.name, patternLine, null, 1.0); //null
 					track.note = config.note;
 				};
@@ -947,6 +745,10 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			return tracks;
 		};
 
+
+
+
+
 		this.getKitNames = function(channelNumber) {
 			
 			var channelKits = [];
@@ -959,16 +761,10 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			return channelKits;
 		};
 
+
+
 		this.addInstrument = function(instrument)
 		{
-			// Reset the notes of all the tracks
-			/*
-			for (var n = 0, len = instrument.tracks.length; n < len; n += 1)
-			{
-				var track = instrument.tracks[n];
-				instrument.tracks[n].resetNotes()
-			}
-			*/
 			_availableInstruments.push(instrument);
 			_self._availableInstruments.push(instrument);
 			window._availableInstruments.push(instrument);
@@ -993,21 +789,13 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 					var ptn = this._patterns[j];
 					ptn['classs'] = 'session';
 
-					//console.log('id compa:', ptn.id, pattern.id);
-
 					if (ptn.id==pattern.id) {
 
 						var ptnIndex = j;
 						var pushpattern = 1;
-						//console.log('session ptns',ptn);
+
 					} 
-					/*
-					else
-					{
-						var pushpattern = 2;
-						//this._patterns.push(pattern);
-					}
-					*/       
+    
 				} 
 
 				if (pushpattern == 1)
@@ -1023,6 +811,9 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			//console.log('_patterns length: ', this._patterns.length, Object.keys(_self._patterns).length);
 			//console.log('_patterns', this._patterns);
 		};    
+
+
+
 
 		this.addPreset = function(data, clientId)
 		{
@@ -1061,6 +852,8 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			//console.log(this._presets);
 		};    
 
+
+
 		this.getNextInstrument = function(clientId, pwd)
 		{
 			if (typeof _clients[clientId] !== 'undefined')
@@ -1079,26 +872,18 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			}
 
 			// Do not give Conductor role/instrument unless provided pwd is mopo
-			if (pwd!='mopo' && _availableInstruments[0].instrumentName=='Conductor')
-      //if (pwd=='nomopo' && _availableInstruments[0].instrumentName=='Conductor')        
+			if (pwd!='mopo' && _availableInstruments[0].instrumentName=='Conductor')     
 			{
 				var nextInstrument = _availableInstruments[1];
 				_availableInstruments.splice(1, 1);
 			}
-//*
+      //*
       else if (pwd !== 'mopo' && pwd !== 'nomopo') // prevent conductor role/device from loading frome here - && pwd !== 2
       {
-        /*if ( pwd === 1 ) {
-          var substract = 1; // substract == add, in fact!
-        } else {
-          var substract = 0;
-        }*/
-
-        //var substract = 0;
 
         var nextInstrument = _instruments[pwd]; // +substract pwd-1
       }
-//*/
+      //*/
 
 			else //if (pwd=='mopo')
 			{
@@ -1128,6 +913,9 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			}
 		};
 
+
+
+
 		this.getInstrumentById = function(clientId, insId) {
 
 			//*
@@ -1152,9 +940,8 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 			} else {
 				return;
 			}
-
-
 		};
+
 
 		this.changeChannel = function(clientId)
 		{
@@ -1198,21 +985,24 @@ if ( typeof this._channelName[i] !== 'undefined' ) {
 				return;
 			}
 
-
 		};
+
+
+
 
 		this.changeSession = function(data, clientId) {
 			var sessNumber = parseInt(data.x) + 1;
-console.log("changed session to sessNumber: ", sessNumber);
+      console.log("changed session to sessNumber: ", sessNumber);
 			window['insConf'] = window['insConf'+sessNumber];
 			this['_instrumentsConfig'] = window['insConf'];
 			this._sessionNumber = sessNumber;
-//this.createInstruments(); // Update general instruments' object
+      //this.createInstruments(); // Update general instruments' object
 		};    
 
-		// by channel
+		
+  // modify instrument object params without reloading instrument, etc... (by channel)
 		this.directInfoChange = function(data)
-		{ // modify instrument object params withou reloading instruments, etc...
+		{ 
 
 
     if (typeof _clients[data.client] !== 'undefined') {
@@ -1224,25 +1014,17 @@ console.log("changed session to sessNumber: ", sessNumber);
 				_instruments[channelId].patternSeqState = data.args.ptnSeqState;
 				_instruments[channelId].channelInfo.patternSeqState = data.args.ptnSeqState;
 
-				//_instruments[channelId].patternEditState = data.args.ptnEditState;
-				//_instruments[channelId].channelInfo.patternEditState = data.args.ptnEditState;
 			} else if (data.args.id==202) {
 				_instruments[channelId].patternEditId = data.args.ptnEditId;
 				_instruments[channelId].channelInfo.patternEditId = data.args.ptnEditId;     
 
       // save current pattern seq state for one channel  
       } else if (data.args.id==204) {
+        var ptnSeqObjFromStr = JSON.parse(data.args.currentPtnSeq); 
+        _instruments[channelId].channelInfo.currentPtnSeq = ptnSeqObjFromStr; 
 
-        var ptnSeqObjFromStr = JSON.parse(data.args.currentPtnSeq);
-        //channelInfo.ptnSeq = data.ptnSeq;
-        //channelInfo.channelPatternSeq = [];            
-        //channelInfo.channelPatternSeqList = ptnSeqObjFromStr.list;     
-        _instruments[channelId].channelInfo.currentPtnSeq = ptnSeqObjFromStr; //.list;
-        //console.log("curr ptn seq id 204: ", _instruments[channelId].channelInfo.currentPtnSeq, data.args);
-      }
-			else if (data.args.id==203 && typeof data.args.ptnEditState !== 'undefined')
-			{
-				_instruments[channelId].patternEditState = data.args.ptnEditState;
+      } else if (data.args.id==203 && typeof data.args.ptnEditState !== 'undefined') {
+        _instruments[channelId].patternEditState = data.args.ptnEditState;
 				_instruments[channelId].channelInfo.patternEditState = data.args.ptnEditState;         
 			}
 			else
@@ -1259,8 +1041,10 @@ console.log("changed session to sessNumber: ", sessNumber);
       }    
 		}
 
-		// id: _id, x: $('#patterns').find(":selected").val(), y: 0, pattern: 1, classs: $('#patterns').find(":selected").attr('class'), kitNumber: $('#id998').find("input").val()  
-		// data.args, data.client
+
+
+
+
 		this.updateNotes = function(data)
 		{ // update various notes
 			
@@ -1272,46 +1056,13 @@ console.log("changed session to sessNumber: ", sessNumber);
 			_instruments[channelId].channelInfo.patternId = data.args.patternId;
 			//console.log('upd notes: ', _instruments[channelId].channelInfo.patternId, data);
 
-			if (channelId!=1)
-			{ // beware hardcoded value
+			if (channelId!=1) { // beware hardcoded value
 
-				//console.log('updates notes data: ', channelId); // _instruments - data, 
-				//console.log('data: ',  data); // data.args.classs,
 				if (data.args.classs=='channel')
 				{
-
-					/*
-					//var tempSysPatterns = [];
-
-
-
-					//for (var i = 0; i < this._instrumentsConfig.length; i++) {
-
-								if (typeof this._channelPatterns[channelId] !== 'undefined') {
-
-								for (var k = 0; k < this._channelPatterns[channelId].length; k++) {
-									var chptn = this._channelPatterns[channelId][k];  
-									//tempSysPatterns.push(chptn);
-									//console.log('channel ptn as defined in insConf: ', chptn, this._channelPatterns[channelId].length);
-								}  
-								}  
-
-					//};
-							= oriChannelPatterns; 
-					//
-					*/
-					//var ptnStorage = this._systemPatterns;
-					//var ptnStorage = window.systemPatterns;
-
-					//var ptnStorage = _self._systemPatterns; // does not seem to work neither
-
 					var ptnStorage = JSON.parse(window.chPatternsAtStartup[channelId]); // oriChannelPatterns
-					//var preStorage = JSON.parse(window.chPresetsAtStartup[channelId]);
-				}
-				else
-				{  
+				} else {  
 					var ptnStorage = this._patterns;
-					//var preStorage = this._presets; 
 				}        
 
 				// override with live/ session patterns
@@ -1328,28 +1079,21 @@ console.log("changed session to sessNumber: ", sessNumber);
 				var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
 
 
-      if ( typeof result[0] !== 'undefined' ) {
+        if ( typeof result[0] !== 'undefined' ) {
 
-				var trackNumber = result[0].tracks.length; 
+  				var trackNumber = result[0].tracks.length; 
 
-      }
+        }
 
 				var channelTrackLength = _instruments[channelId].tracks.length;
 
 
-				if (trackNumber > channelTrackLength)
-				{
+				if (trackNumber > channelTrackLength) {
 					var trackNumber = channelTrackLength;
-				}
-				else
-				{
+				} else {
 					var trackNumber = trackNumber;
 				}
 
-				//console.log('trackNumber: ', trackNumber);
-				//console.log('sys ptns + data: ', result[0]); // this._systemPatterns, data, channelId
-
-				//console.log('ptn + sys ptns after: ', /*channelId, data.args.x, result[0], this._systemPatterns, data*/ window.chPatternsAtStartup); // , tempSysPatterns , window.systemPatterns
 
 				// first reset played tracks of processed channel
 				var maxTrackNumber = 90; // Beware Hardcoded value! 30
@@ -1361,16 +1105,9 @@ console.log("changed session to sessNumber: ", sessNumber);
 					for (var l = 0; l < notesNumber; l += 1) {
 
 						if (typeof _instruments[channelId].tracks[n] !== 'undefined') {            
-							_instruments[channelId].tracks[n].notes[l] = 0;//traack[l];
+							_instruments[channelId].tracks[n].notes[l] = 0; 
 						}
-						/*
-						noteInfo = {};
-						noteInfo.id = channelId;
-						noteInfo.trackId = channelId+'-'+n;
-						noteInfo.noteId = l;
-						noteInfo.volume = 0; //traack[l];
-						notesObject.push(noteInfo);
-						*/           
+          
 					}  
 				} 
 
@@ -1393,18 +1130,11 @@ console.log("changed session to sessNumber: ", sessNumber);
 							var nvol = traack[l];
 						}
 
-						_instruments[channelId].tracks[n].notes[l] = nvol; //1;// traack[l]
+						_instruments[channelId].tracks[n].notes[l] = nvol; 
 
 						if (n==0) {
 							//console.log('ins:', channelId, n, l, _instruments[channelId].tracks[n].notes[l]);
 						}
-
-
-						/*
-						if (_instruments[channelId]==0) {            
-						console.log("track, note, volume: ", n, l, traack[l]);
-						}
-						*/
 
 						noteInfo = {};
 						noteInfo.id = channelId;
@@ -1423,21 +1153,18 @@ console.log("changed session to sessNumber: ", sessNumber);
 						notesObject.push(noteInfo);            
 						//}
 					}  
-					//var notes = result[0].tracks[n].getNotes(); // 
-					//anextInstrument.tracks[n].setNotes(notes);
+
 				} 
-				//console.log("notesObject: ", notesObject);
-//return notesObject;
-			} // end of exlude conductor channel (channel 1 aka 2nd channel)    
 
-			//var trackId = data.trackId.split('-')[1];
-			//var instrumentId = data.trackId.split('-')[0];
-			//_instruments[data.client].tracks[trackId].notes[data.noteId] = data.volume; 
-
+			} // end of exclude conductor channel (channel 1 aka 2nd channel)    
 
     }
 
 		};
+
+
+
+
 
 		this.updateInstrument = function(data, clientId)
 		{ // change(Instrument)Kit
@@ -1461,17 +1188,12 @@ console.log("changed session to sessNumber: ", sessNumber);
 			if (typeof data.pattern !== 'undefined') { // if "change pattern only" msg received
 				var trackSet = data.kitNumber; //prevKit;
 
-
-				//var allPatterns = this._systemPatterns.concat(this._patterns);
-				//console.log('ptn sys storage: ', this._systemPatterns, this._patterns, data.classs);
-
 				if (data.classs=='channel') {
 					var ptnStorage = this._systemPatterns;
 				} else {  
 					var ptnStorage = this._patterns;
 				}
 
-				//var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type);
 				var result = $.grep(ptnStorage, function(e){ return e.id == data.x; });
 				//console.log("matchin ptn object", result[0]);   // .tracks          
 
@@ -1487,9 +1209,6 @@ console.log("changed session to sessNumber: ", sessNumber);
 			//}
 
 
-
-			//var channelInfo = this._channelInfo;
-			//channelInfo['barOffset']= this._insBarOffset[0]; // prevKit
 			channelInfo = {};
 			channelInfo.bpm = this._tempo; //window.generalChannelInfo; 
 			channelInfo.serverStartTime = this._audioServerStartTimestamp;
@@ -1498,12 +1217,7 @@ console.log("changed session to sessNumber: ", sessNumber);
 			channelInfo.noteMax = this._noteMax;            
 			channelInfo.barOffset = eval('this._insBarOffset'+prevKit); //this._insBarOffset[0];  
 			channelInfo.countdownMode = this._countdownMode;  
-			//channelInfo.channelName = this._channelName[prevKit];  
-
-
-			//channelInfo.sessionName = this._sessionList[this._sessionNumber];
-			channelInfo.sessionName = _self._sessionNumber-1; //this._sessionList[;
-			//console.log('session name update ins: ', channelInfo.sessionName);
+			channelInfo.sessionName = _self._sessionNumber-1; 
 			channelInfo.sessionList = this._sessionList;//Serialized;
 
 
@@ -1518,27 +1232,13 @@ console.log("changed session to sessNumber: ", sessNumber);
 				channelInfo.channelName = this._channelName[prevKit]['name'];
 				channelInfo.channelColor = this._channelName[prevKit]['color'];            
 			}
-
-
-			/*
-			if (typeof this._channelpatternSeq[prevKit] !== 'undefined') {                 
-			channelInfo.channelPatternSeq = this._channelpatternSeq[prevKit][this._instrumentsConfig[prevKit].defaultPatternSeq];               
-			}
-
-
-			if (typeof _instruments[prevKit].patternSeqState !== 'undefined') {  
-			channelInfo.patternSeqState = _instruments[prevKit].patternSeqState;
-			}
-			*/
-
-			//channelInfo.sessionNumber = ;        
+    
 
 			channelInfo.patterns = this._patterns;
 			channelInfo.channelPatterns = this._channelPatterns[prevKit];
 
       channelInfo.parts = this._parts;
       channelInfo.channelParts = this._channelParts[prevKit];
-
 
 			channelInfo.channelKits = this.getKitNames(prevKit);
 
@@ -1591,9 +1291,9 @@ console.log("changed session to sessNumber: ", sessNumber);
 				var trackNumber = anextInstrument.tracks.length;
 			}
 
-			console.log('trackNumber::: ', trackNumber);
+			// console.log('trackNumber::: ', trackNumber);
 			
-			if(typeof data.pattern !== 'undefined' && typeof data.patternId == 'undefined')
+			if ( typeof data.pattern !== 'undefined' && typeof data.patternId == 'undefined' )
 			{
 				//var pattern = JSON.parse(data.args.pattern);
 
@@ -1646,10 +1346,10 @@ console.log("changed session to sessNumber: ", sessNumber);
 
 
 
+    // This lightweight function replaces this.updatePreset on some case(s)
     this.updatePresetLean = function(data, clientId) {
 
       if (typeof data.preset !== 'undefined') { 
-        //var trackSet = data.kitNumber; 
 
         if (data.classs=='channel') {
           var preStorage = this._systemPresets;
@@ -1661,22 +1361,11 @@ console.log("changed session to sessNumber: ", sessNumber);
 
         if (typeof result[0] !== 'undefined') { 
 
-        //console.log("preset: ", result[0].controls);
-
-        //var objentries = Object.entries(result[0].controls);
-
           if (typeof window['clockStarted'] !== 'undefined') { 
 
             var ctrlKeyzz = Object.keys(result[0].controls);
 
-
             for ( var j = 0; j < ctrlKeyzz.length; j++ ) {
-            //for (const key of objentries) {
-
-            //for (let [key, value] of Object.entries(result[0].controls)) {
-                //console.log(key, value);
-
-                //console.log(ctrlKeyzz[j], result[0].controls[ctrlKeyzz[j]]);
 
               newObj = {}  ;
 
@@ -1688,8 +1377,7 @@ console.log("changed session to sessNumber: ", sessNumber);
                   this.updateFxParam(newObj, clientId); // data.client   
                 //});
 
-            }  
-          //}            
+            }                       
 
           }
 
@@ -1697,9 +1385,9 @@ console.log("changed session to sessNumber: ", sessNumber);
 
         } 
 
-    }
+      }
 
-  }  
+    }  
 
 
 
@@ -1708,16 +1396,6 @@ console.log("changed session to sessNumber: ", sessNumber);
 
 			var trackSet = data.kitNumber; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
 			var prevKit = _clients[clientId].id; // probably channelId - source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
-
-			//console.log("prevKit: ", data.patternId/* prevKit, trackSet, this._instrumentsConfig[prevKit].conf[trackSet].tracks*/);
-
-			/*
-			if (data.id==998) {
-			var patternId = data.patternId;
-			} else {
-			var patternId = data.x;
-			}  
-			*/
 
 			if (typeof data.pattern !== 'undefined') { // if "change pattern only" msg received
 				var trackSet = data.kitNumber; //prevKit;
@@ -1791,8 +1469,6 @@ console.log("changed session to sessNumber: ", sessNumber);
 			channelInfo.presets = this._presets;     
 			channelInfo.channelPresets = this._channelPresets[prevKit];     
 
-
-
 			if (typeof _instruments[prevKit].patternSeqState !== 'undefined') {  
 				channelInfo.patternSeqState = _instruments[prevKit].patternSeqState;
 			}    
@@ -1802,33 +1478,16 @@ console.log("changed session to sessNumber: ", sessNumber);
 
 			if (typeof _instruments[prevKit].patternEditState !== 'undefined') {  
 				channelInfo.patternEditState = _instruments[prevKit].patternEditState;
-				//channelInfo.patternEditId = _instruments[prevKit].patternEditId;
 			}    
 
 			if (typeof _instruments[prevKit].patternEditId !== 'undefined') {  
 				channelInfo.patternEditId = _instruments[prevKit].patternEditId;
 			}                          
 
-			//console.log('ins obj: ', _instruments[prevKit], channelInfo.patternSeqState);
 
-			/*
-			if (typeof this._channelPresets[prevKit] !== 'undefined') {
-
-			//channelInfo.presetId = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset].id;
-			//channelInfo.preset = this._channelPresets[i][this._instrumentsConfig[i].defaultPreset];
-
-			} 
-			*/  
-
-			//console.log('channelInfo', channelInfo); // 'data.ptnSeq: ', data.ptnSeq
-
-			if (typeof data.ptnSeq !== 'undefined') {
-				
-
+			if (typeof data.ptnSeq !== 'undefined') {				
 				var ptnSeqObjFromStr = JSON.parse(data.ptnSeq);      
 				channelInfo.channelPatternSeqList = ptnSeqObjFromStr.list;
-				//this._patternSequencer[prevKit] = channelInfo.channelPatternSeqList;
-				//channelInfo.patternSeqState = ptnSeqObjFromStr.state;
 			}
 
 
@@ -1878,6 +1537,11 @@ console.log("changed session to sessNumber: ", sessNumber);
 			return anextInstrument;
 		};    
 
+
+
+
+
+
 		this.updateChannelInfo = function(clientId, order) { 
 
 			//console.log('clientId + order: ',clientId, order);
@@ -1917,18 +1581,15 @@ console.log("changed session to sessNumber: ", sessNumber);
 						channelInfo.inputMode = this._instrumentsConfig[channelNumber].conf[trackSet].inputMode;
 					}             
 
-
 					if (typeof this._channelpatternSeq[channelNumber] !== 'undefined') {                 
 						channelInfo.channelPatternSeq = this._channelpatternSeq[channelNumber][this._instrumentsConfig[channelNumber].defaultPatternSeq]; // i              
 					}
-
 
           if (typeof this._channelsongSeq[channelNumber] !== 'undefined') {    
             channelInfo.defaultSong = this._instrumentsConfig[channelNumber].defaultSong;             
             //channelInfo.channelSongSeq = this._channelsongSeq[channelNumber][this._instrumentsConfig[channelNumber].defaultSong]; // i   
             channelInfo.channelSongSeq = this._channelsongSeq;           
           }
-
 
 					if (typeof _instruments[channelNumber].patternSeqState !== 'undefined') {  
 						channelInfo.patternSeqState = _instruments[channelNumber].patternSeqState; // i
@@ -1944,7 +1605,6 @@ console.log("changed session to sessNumber: ", sessNumber);
 
           channelInfo.parts = this._parts;   
           channelInfo.channelParts = this._channelParts[channelNumber];
-
 
 					channelInfo.channelKits = this.getKitNames(channelNumber);
 
@@ -1980,11 +1640,13 @@ console.log("changed session to sessNumber: ", sessNumber);
 
 					return anextInstrument;
 				}  
-
 			} // end of if (typeof _clients[clientId] !== 'undefined')
-
-
 		};
+
+
+
+
+
 
 		this.updateChannelSound = function(clientId, value, opeId)
 		{
@@ -1992,56 +1654,22 @@ console.log("changed session to sessNumber: ", sessNumber);
 			{
 				var channelNumber = _clients[clientId].id;
 
-				console.log('updateChannelSound: ', channelNumber, clientId, opeId, value);
+				// console.log('updateChannelSound: ', channelNumber, clientId, opeId, value);
 
-				//this._instruments[channelNumber].channelInfo.soundMode = value;
-				//this['_instrumentsSoundModes['+channelNumber+']']=value;
-				if (opeId==0)
-				{
+				if (opeId==0) {
 					this._instrumentsSoundModes[channelNumber]=1; //value; beware hardcoded value!
-				}
-				else if (opeId==1)
-				{
+				} else if (opeId==1) {
 					this._audioChannelShift[channelNumber]=value;
 					
-					/*
-					var currentTime = _context.currentTime;
-
-					// The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
-					currentTime -= this._startTime;*/
-
-					//console.log('_self._noteTimes[channelNumber]', _self._noteTimes[channelNumber], channelNumber);
-
-					if (_self._tempo<60)
-					{
+					if (_self._tempo<60) {
 						var bpm = 60;
-					}
-					else
-					{
+					} else {
 						var bpm = _self._tempo;
 					}
 
 					var secondsPerBeat = 60.0 / bpm;
 					var secondsPerStep = secondsPerBeat/4; // per 32th note    
 					var secondsPerUnit = secondsPerStep/16; // 32 // 256
-
-					/*
-					if (typeof _self._audioChannelShift[0] !== 'undefined')
-					{
-						if (_self._audioChannelShift[0]>0)
-						{
-							_self._noteTime = _self._noteTime + (secondsPerUnit*_self._audioChannelShift[0]);
-						}
-						else if (_self._audioChannelShift[0]<0)
-						{
-							_self._noteTime = _self._noteTime - (secondsPerUnit*_self._audioChannelShift[0]);
-						}
-						else
-						{
-							_self._noteTime = _self._noteTime;
-						}
-					}
-					*/
 
 					if (typeof _self._audioChannelShift[channelNumber] !== 'undefined')
 					{
@@ -2066,14 +1694,10 @@ console.log("changed session to sessNumber: ", sessNumber);
 			} // end of undefined check
 		}; // end of func
 
+
+
 		this.getRandomInstrument = function(clientId)
 		{
-			// if clientId already known from system don't change instrument
-			/*
-			if (typeof _clients[clientId] !== 'undefined') {
-			return _clients[clientId];
-			}
-			*/
 
 			var numAvailableInstruments = _availableInstruments.length;
 			if (numAvailableInstruments === 0) {
@@ -2096,9 +1720,234 @@ console.log("changed session to sessNumber: ", sessNumber);
 			return randomInstrument;
 		};
 
+
+
+
+
+
+
+
+
+
+    this.updateNote = function(data) {
+      //console.log('seq: 2683: update note', data);
+      //console.log('_clients: ', data.client); // _clients
+
+      var trackId = data.trackId.split('-')[1];
+      var instrumentId = data.trackId.split('-')[0];
+      // TODO check the values MTF
+
+      //console.log('data.id etc: ', data, data.id, _instruments[data.id]);
+      _instruments[data.id].channelInfo.patternId = data.patternId;
+
+      if (typeof _instruments[data.id].tracks[trackId] !== 'undefined') {
+        _instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
+      }
+
+    };
+
+
+
+
+
+
+
+    this.updateFxParam = function(data, clientId) { // updateParam
+
+      //console.log(data, clientId);      
+      //console.log('limited/throtled call', data.x);
+      //console.log('clt id:', _clients[clientId].instrumentName);
+
+      // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
+      //var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;  
+
+      if (typeof _clients[clientId] !== 'undefined') {   
+        var synthInstance2 = 'channel_' + _clients[clientId].id;   
+        var synthInstance1 = window[synthInstance2];
+      }
+
+      //console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
+
+      if (typeof synthInstance1 !== 'undefined') {
+
+        var controls = window[synthInstance2]['controls']; 
+
+        // if client channel has a controls (knobs) object
+        if (_clients[clientId].controls!=0) {    
+
+          for (var j = 0; j < controls.length; j++) {
+
+            if (controls[j].id==data.id) {
+
+              // Prevent Aike synth from muting when user sends empty/void value or enters non numeric values
+              var valueXDigitTest = /^\d+$/.test(data.x);
+
+              if (data.x=='' || valueXDigitTest==false) {
+                var rawValueX = 1; // 0
+              } else {
+                var rawValueX = data.x;
+              }
+
+              //console.log('rawValueX', rawValueX);              
+              //console.log('valueX is digit test', valueXDigitTest);                
+
+              if (controls[j].x.interpolate==0) {
+                var valueX = rawValueX; 
+              } else {
+                var valueX = this.interpolate2(rawValueX, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
+                //console.log(' interpolatevalueX', valueX); // data.x  
+              }
+              
+              if (controls[j].y) {
+                valueY = this.interpolate(data.y, controls[j].y.min, controls[j].y.max);
+              }
+
+
+              // send value to synthInstance object // channel
+              window[synthInstance2]['controls'][j].x.value = rawValueX; // data.x: get "raw" data aka participant displayed value
+              //console.log('val stored into obj '+synthInstance2, window[synthInstance2]['controls'][j].x.value);
+              //console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
+
+              if ( typeof valueX !== 'undefined' || valueX == valueX || !isNaN(valueX) ) {
+
+                if (controls[j].x.param!='[external]') {
+                  switch (_clients[clientId].instrumentName) {
+                  case 'CWilsoWAMidiSynth':
+                    if (valueX==0) { var valueX=1; }
+                    eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')');    //  +0.1 always add+1 to avoid sound crack bugs when value ==0                 
+                    break;                       
+                  case 'AikeWebsynth1':
+                    // value sent as parameter to synth instance object
+                    //console.log('log:', synthInstance2+'.'+controls[j].x.param+'('+valueX+')');
+                    //synthInstance1.controls[j].x.param+'('+valueX+')';
+                    eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+','+String(synthInstance2)+')'); 
+                    break;
+                  case 'MrSynth':
+                    eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                    break;
+                  case 'Conductor':
+                    break;
+                  }    
+
+                  // keep ids that correspond to channel volumes
+                  if (data.id<=900 && data.id>=800) {   // data.id>800
+
+                    // make precue mixer tab volume independent aka not affected by volume changes made on conductor tab 
+                    if (window.childRoom != 2) {  
+
+                      var chNumber = controls[j].x.param.replace(/\D/g,'');
+
+                      var channelNumber = chNumber; //controls[j].x.param.charAt(7);
+                      //console.log('insName', chNumber); // _instruments[channelNumber].instrumentName
+
+
+                      // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object 
+                      var synthInstance2 = 'channel_' + channelNumber;  
+                      var synthInstance1 = window[synthInstance2];                      
+
+                      //if (controls[j].x.param!='[external]') {
+                      if (typeof synthInstance1 !== 'undefined') {
+                        switch (_instruments[channelNumber].instrumentName) { // _instruments
+
+                        case 'JoeSullivanDrumSynth':
+                          eval(synthInstance2+'.'+controls[j].x.subParams.JoeSullivanDrumSynth+'.gain.value='+valueX*2); //
+                          break;
+                          
+                        case 'AikeWebsynth1':
+                          // value sent as parameter to synth instance object
+                          eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); //
+                          break;
+                        case 'CWilsoWAMidiSynth':
+                          eval(synthInstance2+'.'+controls[j].x.subParams.CWilsoWAMidiSynth+'('+valueX*100+')'); //
+                          break;
+                        case 'MrSynth':
+                          eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                          break;
+                        case 'Sampler':
+                          this[controls[j].x.param] = valueX;
+                          //console.log('sampler vol:', this[controls[j].x.param]);
+                          break; 
+                        }
+                      } 
+                    }  
+                  } else {
+                    var oldTempo = this._tempo;
+                    this[controls[j].x.param] = valueX;
+
+                    //window.lastrecedbpm = valueX;
+
+                    if (data.id==999 && window.childRoom==0) { // if tempo change
+                      //console.log('tempi:', oldTempo, this._tempo);
+                      clock.timeStretch(_context.currentTime, [uiEvent], oldTempo / this._tempo); 
+                      
+                    }//
+
+                    //console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
+
+                    if (controls[j].y) {
+                      this[controls[j].y.param] = valueY;
+                    }     
+                  } 
+
+                  break;                    
+                }   
+
+              } else { // end of !isNaN(valueX)    
+
+                console.log('problem happened')  ;
+
+              }
+            }
+          }         
+        } 
+      }       
+    };
+
+
+    this.updateSeqVariables = function(varName, varValue)
+    { 
+      this[varName] = varValue;
+    };   
+
+    this.interpolate = function(value, minimum, maximum)
+    {
+      //console.log('gogo beatCount');
+      return minimum + (maximum - minimum) * value;
+    };
+
+
+    this.getTracks = function()
+    {
+      tracks = [];
+
+      for(var i=0; i<_instruments.length; i++)
+      {
+        tracks.push(_instruments[i].tracks);
+      }
+
+      return tracks;
+    }
+
+    this.getSession = function() {
+      //console.log('getSession');
+      return window['insConf'];
+    }
+
+
+
+
+
+
+
+
+
+
+
+// Sequencing related functions: when to trigger audio events
+
 		this.start = function()
 		{
-			console.log('_started', _started);
+			//console.log('_started', _started);
 			//console.log('Started!', this);
 			if (_started) return;
 			_started = true;
@@ -2119,7 +1968,6 @@ console.log("changed session to sessNumber: ", sessNumber);
 				}  
 			}
 
-			// _startTime = _context.currentTime + 0.160;
 			_startTime = _context.currentTime; // + 0.005;
 			this._startTime = _context.currentTime;
 			//_self.schedule();
@@ -2136,7 +1984,7 @@ console.log("changed session to sessNumber: ", sessNumber);
 				console.log('child room solo');
 			}  
 
-			var tempo = _self._tempo; //170
+			var tempo = _self._tempo; // 170
 
 //var tempo = tempo*6; // speed up clock so that it goes 6 times faster to get 24 pulses/quarter note
 
@@ -2146,21 +1994,12 @@ console.log("changed session to sessNumber: ", sessNumber);
 			var barDur = _self._signature * beatDur
 			var beatCount = -1
 
-			/*
-			var nextBeatTime = function(beatInd) {
-			var currentTime = _context.currentTime
-				, currentBar = Math.floor(currentTime / barDur)
-				, currentBeat = Math.round(currentTime % barDur)
-			if (currentBeat < beatInd) return currentBar * barDur + beatInd * beatDur
-			else return (currentBar + 1) * barDur + beatInd * beatDur
-			}
-			*/
 
 			if ( window.childRoom == 0 ) {
 
         window.lastrecedbpm = tempo;
 
-        clock = new WAAClock(_context, {toleranceEarly: 0.1}); // 0.1:needed value to delay main sequencer audio ouput start so that solo child rooms trigger window seq... - 10
+        clock = new WAAClock(_context, {toleranceEarly: 0.1}); // 0.1: needed value to delay main sequencer audio ouput start so that solo child rooms trigger window seq... - 10
 
 
 /*				
@@ -2169,7 +2008,7 @@ if (typeof midiDevice !== 'undefined') {
 	midiDevice.send( [0xFA] );
 } 
 */				
-				//midiDevice.send([0xF8]);
+				// midiDevice.send([0xF8]);
 				window.quarterNotePulse=0;
 				window.startOnceCount=0;
 
@@ -2179,24 +2018,8 @@ if (typeof midiDevice !== 'undefined') {
 				.repeat(beatDur)
         .tolerance({late: 1}) // 1 - 100 - 10	
 				
-				// */       
 
-				// or use js delay
-
-				/*
-				setTimeout(function() {
-						clock = new WAAClock(_context, {toleranceEarly: 10}); // 10
-						clock.start();
-						uiEvent = clock.callbackAtTime(_self.uiNextBeat, _self.nextBeatTime(0))
-						.repeat(beatDur)
-						.tolerance({late: 10}) // 10
-					}, 3000); // 3000
-				//
-				*/
 			} else {
-
-				/*_clock2 = new WAAClock(_context); // window['SEQ']._context - window['audio_context']
-				_clock2.start();  */
 
 				// force muting sound (via condition do no pass for this.uiNextBeat func) for note display tab (only visuals' generator no audio generated)  
 				if (window.gfxonly != 1)
@@ -2208,30 +2031,7 @@ if (typeof midiDevice !== 'undefined') {
 		};
 
 
-		this.shiftTimeFromMasterRoom = function()
-		{
 
-			/*_context.suspend();  
-
-				setTimeout(function(){
-			_context.resume();
-			_self.uiNextBeat();
-			}, 31.25); */
-					
-
-			/*
-			var shiftedTime = _context.currentTime + 1.03125;
-			//console.log('_context', _context.currentTime, shiftedTime);
-			//var context2 = new AudioContext();
-
-			//window['clock'+_self._beatCount] = _clock2.setTimeout(function() { _self.uiNextBeat }, 0.003125).tolerance({ early: 4, late: 4 })
-			window['clock'+_self._beatCount] = _clock2.callbackAtTime(function() { _self.uiNextBeat }, _self.nextBeatTime(0)).tolerance({ early: 4, late: 4 }) // _context.currentTime
-			//window['clock'+_self._beatCount].callbackAtTime(function() { _self.uiNextBeat }, shiftedTime).tolerance({ early: 1, late: 1 });
-			//clock2.stop();
-			*/
-
-				//console.log('_clock2',_clock2);
-		};  
 
 		this.uiNextBeat = function()
 		{
@@ -2239,7 +2039,8 @@ if (typeof midiDevice !== 'undefined') {
 
 			if (window.childRoom==0 && window.barcount==8 && _self._beatCount==0 && window.quarterNotePulse==0 /*&& window.startOnceCount==0*/)
 			{ // window.barcount==0 = will only pop once
-				// midi out clock sync: start command 
+
+// midi out clock sync: start command 
 /*if ( typeof midiDevice !== 'undefined' ) {
 	midiDevice.send( [0xFA] );
 } */      
@@ -2257,15 +2058,9 @@ if ( typeof midiDevice !== 'undefined' ) {
 			
 			//console.log('pulse', window.quarterNotePulse);
 			//console.log('bar: ', window.barcount);
-
 			//console.log('window.childRoom: ', window.childRoom);
 
-			/*
-			if (window.quarterNotePulse==3 && window.childRoom==0)
-			{ // ok values : 5 | audio sync between main room sound and audio mixer pre-cue value seems to vary depending on current bpm
-				_self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); 
-			}
-			*/   
+
 
 //if (window.quarterNotePulse==4 && window.childRoom==0 || window.childRoom!=0) { // window.quarterNotePulse==4 for midi clock output audio sync
 
@@ -2274,6 +2069,7 @@ if ( typeof midiDevice !== 'undefined' ) {
 				//if (window.childRoom==1) { console.log('beatCount', _self._beatCount); }
 				_self._beatCount = (_self._beatCount + 1) % _self._signature
 				_noteIndex = _self._beatCount;
+
 				/*
 				$('#pattern td').removeClass('active')
 				$('#pattern td:nth-child('+(beatCount+1)+')').addClass('active')
@@ -2294,20 +2090,11 @@ if ( typeof midiDevice !== 'undefined' ) {
 				}
 
 				// Advance time by a 16th note...
-				var secondsPerBeat = 60.0 / bpm; // _tempo - this._tempo
-				//_noteTime += 0.25 * secondsPerBeat;
-				//this._noteTime += 0.25 * secondsPerBeat;
+				var secondsPerBeat = 60.0 / bpm; 
 				_self._noteTime += 0.25 * secondsPerBeat;
 
 				var currentTime = _context.currentTime;
-				/*  
-				// The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
-				currentTime -= _startTime;
-				*/
 
-				//console.log(_noteTime, _self._noteTime, currentTime);
-
-				//while (_noteTime < currentTime + 0.200) {  
 				// Convert noteTime to context time.
 				var contextPlayTime = _noteTime + _startTime;
 				//console.log(contextPlayTime, currentTime);
@@ -2323,18 +2110,16 @@ if ( typeof midiDevice !== 'undefined' ) {
 				var contextPlayTimeSamples = contextPlayTime - secondsPerBeat; // 2*(secondsPerBeat/16)
 				
 				for (var i = 0; i < _instruments.length; i++)
-				{ // we might to replace _instruments with _self._instruments to make it more dynamic?
-					if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/)
+				{ // we might want to replace _instruments with _self._instruments to make it more dynamic?
+					if (typeof _self._instrumentsSoundModes[i] == 'undefined' )
 					{
-						//if (this._instrumentsSoundModes[i] == 1) {
 						var play = 1;
-						//}
 					}
 					else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1)
 					{
 						var play = 1;
 					}
-					else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/
+					else 
 					{
 						var play = 0;
 					}
@@ -2349,13 +2134,10 @@ if ( typeof midiDevice !== 'undefined' ) {
 					{
 						var track = _instruments[i].tracks[j];
 
-						// note off on synth when note is even 0-2.14
-						if (_noteIndex & 1)
-						{
+						// note off on synth when note is even 0,2>14
+						if (_noteIndex & 1) {
 							var stopStep = 0;
-						}
-						else
-						{
+						} else {
 							var stopStep = 1;
 						}
 
@@ -2365,8 +2147,6 @@ if ( typeof midiDevice !== 'undefined' ) {
 						{
 							if (volume > 0 && play==1)
 							{
-								//console.log('track', track);
-								//console.log('contextPlayTime', contextPlayTime);
 								_self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
 							}
 						}
@@ -2374,9 +2154,6 @@ if ( typeof midiDevice !== 'undefined' ) {
 						{
 							if (volume > 0 && play==1)
 							{ // we 're sure that instrument is loaded 'cause it has some notes associated to it
-
-								//_instruments[i].setParams(_self._tempo);
-								//console.log('trk number:', j);
 								_instruments[i].play(track.note); // track.note - track.name for mr synth
 							}
 							else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/
@@ -2399,6 +2176,10 @@ if ( typeof midiDevice !== 'undefined' ) {
 			}
 		};
 
+
+
+
+
 		this.schedule = function()
 		{
 			if (_self._clockMode == 1) {
@@ -2410,12 +2191,9 @@ if ( typeof midiDevice !== 'undefined' ) {
 				currentTime -= _self._startTime;
 				
 
-				if (_self._tempo<60)
-				{
+				if (_self._tempo<60) {
 					var bpm = 60;
-				}
-				else
-				{
+				} else {
 					var bpm = _self._tempo;
 				}
 
@@ -2423,7 +2201,6 @@ if ( typeof midiDevice !== 'undefined' ) {
 				
 				for (var i = 0; i < _instruments.length; i++)
 				{ // we might to replace _instruments with _self._instruments to make it more dynamic?
-
 
 					while (_self._noteTimes[i] < currentTime + 0.200) { // _noteTime = reference step trigger time
 
@@ -2437,13 +2214,11 @@ if ( typeof midiDevice !== 'undefined' ) {
 					}
 
 
-					if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
-						//if (this._instrumentsSoundModes[i] == 1) {
+					if ( typeof _self._instrumentsSoundModes[i] == 'undefined' ) {
 						var play = 1;
-						//}
 					} else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1){
 						var play = 1;
-					} else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/ {
+					} else {
 						var play = 0;
 					}
 					
@@ -2452,50 +2227,37 @@ if ( typeof midiDevice !== 'undefined' ) {
 					for (var j = 0; j < _instruments[i].tracks.length; j++) {
 						var track = _instruments[i].tracks[j];
 
-
-
-						// note off on synth when note is even 0-2.14
+						// note off on synth when note is even 0-2>14
 						if(_noteIndex & 1)
 						{ 
 							var stopStep = 0;
 						} else {
 							var stopStep = 1;
 						}
-
 						
 
 						if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
 							var volume = track.notes[_self._noteChannelIndex[0]]; // use first sounding-sample channel as clock master
 							if (volume > 0 && play==1) {
 
-
-
 								var contextPlayTime = _self._noteTimes[i] + _self._startTime;
 								var contextPlayTimeSamples = contextPlayTime - secondsPerBeat;
 
-
-								if (_self._noteTriggers[i][j]==0) {
-
-									
+								if (_self._noteTriggers[i][j]==0) {									
 									_self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
-
 								}
-								_self._noteTriggers[i][j]++;
 
+								_self._noteTriggers[i][j]++;
 							}
 						} else if (_instruments[i].type === 'synth') {
 
 							var volume = track.notes[_self._noteChannelIndex[i]]; //i
 
-
-							if (volume==1 && play==1 /*&& contextPlayTimeSamples < currentTime + 1.200*/) { // we 're sure that instrument is loaded 'cause it has some notes associated to it - volume > 0
-
+							if (volume==1 && play==1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it - volume > 0
 								_instruments[i].play(track.note); // track.note - track.name for mr synth
-
 
 							} else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/ {
 								_instruments[i].stop(track.note); // track.name
-
 							}
 						}
 					}
@@ -2507,12 +2269,10 @@ if ( typeof midiDevice !== 'undefined' ) {
 				// Attempt to synchronize drawing time with sound
 				if (_noteTime != _lastDrawTime) {
 					_lastDrawTime = _noteTime;
-					_self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients
+					_self.emit(mixr.enums.Events.SEQUENCER_BEAT, _noteIndex); // lighten data transmitted to clients (when line commented)
 				}
 
 				requestAnimationFrame(_self.schedule);
-
-
 
 			} else { // if waa clock or initial clock used
 
@@ -2536,16 +2296,13 @@ if ( typeof midiDevice !== 'undefined' ) {
 					
 					for (var i = 0; i < _instruments.length; i++) { // we might to replace _instruments with _self._instruments to make it more dynamic?
 
-						if (typeof _self._instrumentsSoundModes[i] == 'undefined' /*|| this._instrumentsSoundModes[i] ==1*/) {
-							//if (this._instrumentsSoundModes[i] == 1) {
+						if (typeof _self._instrumentsSoundModes[i] == 'undefined' ) {
 							var play = 1;
-							//}
-						} else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1){
+						} else if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==1) {
 							var play = 1;
-						} else /*if (typeof _self._instrumentsSoundModes[i] !== 'undefined' && _self._instrumentsSoundModes[i] ==0)*/ {
+						} else {
 							var play = 0;
 						}
-
 
 						// force muting sound for note display tab (only visuals' generator no audio generated) 
 						if (window.gfxonly == 1) {
@@ -2557,7 +2314,7 @@ if ( typeof midiDevice !== 'undefined' ) {
 						for (var j = 0; j < _instruments[i].tracks.length; j++) {
 							var track = _instruments[i].tracks[j];
 
-							// note off on synth when note is even 0-2.14
+							// note off on synth when note is even 0-2>14
 							if (_noteIndex & 1) {
 								var stopStep = 0;
 							} else {
@@ -2567,17 +2324,13 @@ if ( typeof midiDevice !== 'undefined' ) {
 							var volume = track.notes[_noteIndex];
 							
 							if (_instruments[i].type === 'samples' && _instruments[i].isLoaded()) {
-								if (volume > 0 && play==1) {
-									//console.log('note played', contextPlayTimeSamples);
+								if (volume > 0 && play == 1) {
 									_self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
 								}
 							} else if (_instruments[i].type === 'synth') {
-								if (volume > 0 && play==1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
-
-									//_instruments[i].setParams(_self._tempo);
+								if (volume > 0 && play == 1) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
 									_instruments[i].play(track.note); // track.note - track.name for mr synth
-
-								} else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/ {
+								} else if (volume == 0 && play == 1) {
 									_instruments[i].stop(track.note); // track.name
 								}
 							}
@@ -2598,6 +2351,9 @@ if ( typeof midiDevice !== 'undefined' ) {
 
 		};
 
+
+
+  // This func is used to generate sound for "sampling" instruments
 		this.playNote = function(track, noteTime, volume) { /*, channelId*/
 			// Create the note
 			var voice = _context.createBufferSource();
@@ -2605,12 +2361,12 @@ if ( typeof midiDevice !== 'undefined' ) {
 
 			// Create a gain node.
 			var gainNode = _context.createGain();
+
 			// Connect the source to the gain node.
 			voice.connect(gainNode);
 
 			//console.log('voice: ', voice);
 			voice.playbackRate.value = this._playbackRate;
-
 
 			// create volume node so that volume can be set per track as opposed to per note velocity
 			var volumeNode = _context.createGain();
@@ -2622,11 +2378,7 @@ if ( typeof midiDevice !== 'undefined' ) {
 			//volumeNode.gain.value = this._Ins01Volume; // 0.1 use track.id[0], first char of "0-1" to route volume data to right instrument
 
 			var tokoli = track.id.split('-');
-
 			var channelId = tokoli[0]; // track.id.charAt(0);
-
-			
-
 			//console.log(tokoli[0]); // channelId
 
 
@@ -2640,57 +2392,15 @@ if ( typeof midiDevice !== 'undefined' ) {
 				} else {
 					var f = eval('this._insVol'+channelId);
 				}
-
 				
 				volumeNode.gain.value = f; //eval('this._insVol'+channelId); // _insVol0
 			}  
 			
 
-
 			// Connect the volume node to the destination. // gain
-//volumeNode.connect(_masterGainNode); // gainNode
+      //volumeNode.connect(_masterGainNode); // gainNode
 
        conn = volumeNode.connect(window['audio_context']);
-
-       //window['conn_mgmt'].push(channelId);
-
-
-/*
-       // trying to kill audio nodes to free memory and avoid sound greeches
-       // this might be "in vain"
-       if ( typeof window['conn_mgmt'][channelId] !== 'undefined' ) {
-
-          var chlen = window['conn_mgmt'][channelId].length;
-          var chlenm1 = chlen-1;
-
-          if ( chlen > 1 ) {
-
-
-            window['conn_mgmt'][channelId][0] = null;
-            //window['conn_mgmt'][channelId][chlenm1].disconnect();
-            window['conn_mgmt'][channelId][chlenm1] = null;
-
-
-            //*
-            const index = window['conn_mgmt'][channelId].indexOf(window['conn_mgmt'][channelId][chlenm1]);
-
-            if (index !== -1) {
-              window['conn_mgmt'][channelId].splice(index, 1);              
-            } 
-
-          }  
-          // /      
-
-       } else {
-          window['conn_mgmt'][channelId] = [];
-       }
-
-       window['conn_mgmt'][channelId].push(conn); 
-//*/
-       
-
-       
-
 
 			// Reduce the volume.
 			gainNode.gain.value = volume;
@@ -2702,10 +2412,12 @@ if ( typeof midiDevice !== 'undefined' ) {
          noteTime = 0.1; 
       }
 
-
-			voice.start(noteTime); // Uncaught InvalidAccessError: Failed to execute 'start' on 'AudioBufferSourceNode': The start time provided (-0.663311) is less than the minimum bound (0).
-			
+			voice.start(noteTime); // Uncaught InvalidAccessError: Failed to execute 'start' on 'AudioBufferSourceNode': The start time provided (-0.663311) is less than the minimum bound (0).			
 		};
+
+
+
+
 
 		this.step = function() {
 
@@ -2721,21 +2433,17 @@ if ( typeof midiDevice !== 'undefined' ) {
 			_noteTime += 0.25 * secondsPerBeat;
 			this._noteTime += 0.25 * secondsPerBeat;
 
-
-
-
-
-
-
-
 			// 0.03125 = 1/32 = 128th note
 			_noteIndex++;
 
 			if (_noteIndex == _loopLength) {
 				_noteIndex = 0;
-				// pattern++;
 			}
 		};
+
+
+
+
 
 		this.nextBeatTime = function(beatInd) {
 
@@ -2744,13 +2452,15 @@ if ( typeof midiDevice !== 'undefined' ) {
 			var beatDur = 60/tempo
 			var barDur = _self._signature * beatDur // 
 
-
 			var currentTime = _context.currentTime
 			, currentBar = Math.floor(currentTime / barDur)
 			, currentBeat = Math.round(currentTime % barDur)
 			if (currentBeat < beatInd) return currentBar * barDur + beatInd * beatDur
 			else return (currentBar + 1) * barDur + beatInd * beatDur
 		}
+
+
+
 
 		this.stepPerChannel = function(channelNumber) { // /*, channelNoteTime*/
 
@@ -2776,10 +2486,12 @@ if ( typeof midiDevice !== 'undefined' ) {
 					_self.emit(mixr.enums.Events.SEQUENCER_BEAT, this._noteChannelIndex[channelNumber]); // lighten data transmitted to clients
 				}
 			}
-
-
-
 		};
+
+
+
+
+
 
 		this.timeGrid = function() {
 
@@ -2792,294 +2504,13 @@ if ( typeof midiDevice !== 'undefined' ) {
 
 			// Advance time by a 128th note...
 			var secondsPerBeat = 60.0 / bpm; // _tempo - this._tempo
-			_timeGrid += 0.25 * secondsPerBeat; // 0.03125 = 1/32 = 128th note | 0.25 = 16th note
-			
-			/*_noteIndex++;
-
-		if (_noteIndex == _loopLength) {
-			_noteIndex = 0;
-			// pattern++;
-		}*/
+			_timeGrid += 0.25 * secondsPerBeat; // 0.03125 = 1/32 = 128th note | 0.25 = 16th note			
 		};    
 
-		this.updateNote = function(data) {
-			//console.log('seq: 2683: update note', data);
-			//console.log('_clients: ', data.client); // _clients
 
-			var trackId = data.trackId.split('-')[1];
-			var instrumentId = data.trackId.split('-')[0];
-			// TODO check the values MTF
 
-			//console.log('data.id etc: ', data, data.id, _instruments[data.id]);
-			_instruments[data.id].channelInfo.patternId = data.patternId;
 
-			if (typeof _instruments[data.id].tracks[trackId] !== 'undefined') {
-				_instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
-			}
 
-			
-			//_self._instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume;
-			//_instruments[instrumentId].tracks[trackId].notes[data.noteId] = data.volume;
-
-		};
-
-		this.updateFxParam = function(data, clientId) { // updateParam
-
-      //console.log(data, clientId);
-			
-			//console.log('limited/throtled call', data.x);
-			//console.log('clt id:', _clients[clientId].instrumentName);
-
-			// Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
-			//var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;  
-
-			if (typeof _clients[clientId] !== 'undefined') {   
-				var synthInstance2 = 'channel_' + _clients[clientId].id;   
-				var synthInstance1 = window[synthInstance2];
-			}
-
-			//console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
-
-			if (typeof synthInstance1 !== 'undefined') {
-
-				var controls = window[synthInstance2]['controls']; 
-				//var input = 1;
-
-				// if client channel has a controls (knobs) object
-				if (_clients[clientId].controls!=0) {    
-
-					for (var j = 0; j < controls.length; j++) {
-
-						if (controls[j].id==data.id) {
-
-							// Prevent aike synth from muting when user sends empty/void value or enters non numeric values
-							//var valueX = data.x;
-							var valueXDigitTest = /^\d+$/.test(data.x);
-
-							if (data.x=='' || valueXDigitTest==false) {
-								var rawValueX = 1; // 0
-								//var data.x = 0;
-							} else {
-								var rawValueX = data.x;
-							}
-
-							//console.log('rawValueX', rawValueX);
-							
-							//console.log('valueX is digit test', valueXDigitTest);                
-
-							if (/*controls[j].x.interpolate &&*/ controls[j].x.interpolate==0) {
-								var valueX = rawValueX; //valueX; // data.x;
-							} else {
-								//valueX = this.interpolate(data.x, controls[j].x.min, controls[j].x.max);  
-								var valueX = this.interpolate2(rawValueX, controls[j].x.min, controls[j].x.max, controls[j].x.displayedRangeMin, controls[j].x.displayedRangeMax);  
-								//console.log(' interpolatevalueX', valueX); // data.x  
-							}
-							
-							if (controls[j].y) {
-								valueY = this.interpolate(data.y, controls[j].y.min, controls[j].y.max);
-							}
-
-
-
-							// send value to synthInstance object // channel
-							//console.log('ctrl block');
-							window[synthInstance2]['controls'][j].x.value = rawValueX; // data.x: get "raw" data aka participant displayed value
-
-							//console.log('valueX', valueX);
-
-							//_instruments[channelId].channelInfo.presetId
-
-
-
-							//console.log('val stored into obj '+synthInstance2, window[synthInstance2]['controls'][j].x.value);
-							//console.log('update', _clients[clientId].instrumentName, controls[j].x.param);
-
-
-							if ( typeof valueX !== 'undefined' || valueX == valueX || !isNaN(valueX) ) {
-
-								if (controls[j].x.param!='[external]') {
-									switch (_clients[clientId].instrumentName) {
-									case 'CWilsoWAMidiSynth':
-										if (valueX==0) { var valueX=1; }
-										eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')');    //  +0.1 always add+1 to avoid soubd crack bugs when value ==0                 
-										break;                       
-									case 'AikeWebsynth1':
-										// value sent as parameter to synth instance object
-										//console.log('log:', synthInstance2+'.'+controls[j].x.param+'('+valueX+')');
-										//synthInstance1.controls[j].x.param+'('+valueX+')';
-										eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+','+String(synthInstance2)+')'); // data.x
-										break;
-									case 'MrSynth':
-										eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
-										break;
-									case 'Conductor':
-										/* added line */      break;
-									}    
-
-									// keep ids that correspond to channel volumes
-									if (data.id<=900 && data.id>=800) {   // data.id>800
-
-										// make precue mixer tab volume independant aka not affected by volume changes made on conductor tab 
-										if (window.childRoom != 2) {  
-
-											//var channelNumber = data.id;
-
-											var chNumber = controls[j].x.param.replace(/\D/g,'');
-
-											var channelNumber = chNumber; //controls[j].x.param.charAt(7);
-											//console.log('insName', chNumber); // _instruments[channelNumber].instrumentName
-
-
-											// Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object
-											//var synthInstance2 = _instruments[channelNumber].instrumentName + '_' + channelNumber;  
-											var synthInstance2 = 'channel_' + channelNumber;  
-											//var synthInstance2 = _self._instruments[channelNumber].instrumentName + '_' + channelNumber;      
-
-
-
-											var synthInstance1 = window[synthInstance2];                      
-
-											//if (controls[j].x.param!='[external]') {
-											if (typeof synthInstance1 !== 'undefined') {
-												switch (_instruments[channelNumber].instrumentName) { // _instruments
-
-												case 'JoeSullivanDrumSynth':
-													eval(synthInstance2+'.'+controls[j].x.subParams.JoeSullivanDrumSynth+'.gain.value='+valueX*2); // data.x
-													break;
-													
-												case 'AikeWebsynth1':
-													// value sent as parameter to synth instance object
-													eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); // data.x
-													break;
-												case 'CWilsoWAMidiSynth':
-													eval(synthInstance2+'.'+controls[j].x.subParams.CWilsoWAMidiSynth+'('+valueX*100+')'); // data.x
-													break;
-												case 'MrSynth':
-													eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
-													break;
-												case 'Sampler':
-													this[controls[j].x.param] = valueX;
-													//console.log('sampler vol:', this[controls[j].x.param]);
-													break; 
-												}
-											} /*else { // case 'Sampler'
-							this[controls[j].x.param] = valueX;
-						}*/
-											//}
-
-										}  
-
-									} else {
-										var oldTempo = this._tempo;
-										this[controls[j].x.param] = valueX;
-
-                    //window.lastrecedbpm = valueX;
-
-										if (data.id==999 && window.childRoom==0) { // if tempo change
-											//console.log('tempi:', oldTempo, this._tempo);
-											clock.timeStretch(_context.currentTime, [uiEvent], oldTempo / this._tempo); //  -  - _self._noteTime - , uiEvent
-											
-										}//
-
-										//console.log(this[controls[j].x.param],valueX, this._insKickoutTime, this._insBarOffset0);
-
-										if (controls[j].y) {
-											this[controls[j].y.param] = valueY;
-										}     
-									} /*else if (data.id==698 && window.childRoom==0 || data.id==697 && window.childRoom==0) { 
-
-					}  */
-
-
-									break;                    
-								}   
-
-							} else { // end of !isNaN(valueX)    
-
-								console.log('pb happened')  ;
-
-							}
-							/*
-				// send value to synthInstance object // channel
-				//controls[j].x.value = data.x;
-				console.log('ctrl block');
-				window[synthInstance2]['controls'][j].x.value = valueX;
-				//console.log('controls[j].x.value', controls[j].x.value);
-				console.log('controls[j].x.value', window[synthInstance2]['controls'][j].x.value);
-				*/
-						}
-					}         
-				} 
-			}
-			//window[synthInstance2]['controls'][0].x.value = 44;
-			//console.log(synthInstance2+' obj AFTER change: ', window[synthInstance2]['controls']);
-
-			/*
-		var fxConfig = effectsConfig[data.id];
-		paramX = fxConfig.x.param;
-		paramY = fxConfig.y.param;
-
-		if (paramX=='_tempo' || paramX=='_Ins01Volume') { // hardcoded condition
-		valueX = data.x;
-
-		} else {
-		valueX = this.interpolate(data.x, fxConfig.x.min, fxConfig.x.max);
-		}
-		valueY = this.interpolate(data.y, fxConfig.y.min, fxConfig.y.max);
-		this[paramX] = valueX;
-		this[paramY] = valueY;
-
-		console.log('update', paramX, ':', valueX);
-		console.log('update', paramY, ':', valueY);
-		*/
-
-			//this.setFxValues();
-			//this.createInstruments(); // Update general instruments' object = crashes general audio       
-		};
-
-
-		this.updateSeqVariables = function(varName, varValue)
-		{ 
-			this[varName] = varValue;
-		};   
-
-		this.interpolate = function(value, minimum, maximum)
-		{
-			//console.log('gogo beatCount');
-			return minimum + (maximum - minimum) * value;
-		};
-
-		/*
-		this.tumulo = function()
-		{
-			console.log('gogo beatCount');
-			return 1;
-		};
-		*/
-
-		/*
-		this.tumulo = function()
-		{
-			console.log('gogo beatCount');
-		};
-		*/
-
-		this.getTracks = function()
-		{
-			tracks = [];
-
-			for(var i=0; i<_instruments.length; i++)
-			{
-				tracks.push(_instruments[i].tracks);
-			}
-
-			return tracks;
-		}
-
-    this.getSession = function() {
-      //console.log('getSession');
-      return window['insConf'];
-    }
 
 
 		this.initialize();

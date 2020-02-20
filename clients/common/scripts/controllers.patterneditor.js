@@ -15,10 +15,6 @@
 
     var _self = this;
 
-    //window.ptnEditorModel = this;
-
-    //var _self = this;
-
     /**
      * An array holding all the search ui elements.
      *
@@ -36,130 +32,6 @@
      */
     var _model = model || {};
 
-/*
-this.noteOn = function( note, velocity ) {
-  console.log("note on: " + note );
-  //if (voices[note] == null) {
-    // Create a new synth node
-    //voices[note] = new Voice(note, velocity);
-    var e = document.getElementById( "k" + note );
-    if (e)
-      e.classList.add("pressed");
-  //}
-}
-
-this.noteOff = function( note ) {
-  //if (voices[note] != null) {
-    // Shut off the note playing and clear it 
-    //voices[note].noteOff();
-    //voices[note] = null;
-    var e = document.getElementById( "k" + note );
-    if (e)
-      e.classList.remove("pressed");
-  }    
-*/
-
-    // redondant fct with ui.ddmenu.js
-
-
-    var funcToRemove_displayPattern = function(selectId) {
-
-      // remove [unsaved pattern] option
-      /*if ($('#'+selectId+' option[value="0"]').length>0 ) { 
-        $('#'+selectId+' option[value="0"]').remove();
-      }  */
-
-      var classs = $('#'+selectId).find(":selected").attr('class');
-      var elementId = $('#'+selectId).find(":selected").val();
-
-      //console.log('elementId: ', elementId, selectId);
-
-      // option00001
-
-      if (selectId=='selpatternedit') {
-        var ptnHolder = 'userPatternEdit';
-      } else if (selectId=='patterns') { // don't wipe userPattern memory when switching from 'ptn play display' to 'ptn edit display'
-        var ptnHolder = 'userPatternEdit';
-      }  
-
-      if (classs=='channel') {
-        var ptnStorage = window.channelPatterns;
-      } else if (classs=='session') {       
-        var ptnStorage = window.sessionPatterns;   
-      } else {  
-        var ptnStorage = window.localPatterns;
-      }        
-
-      var result = $.grep(ptnStorage, function(e){ return e.id == elementId; });
-      if (typeof result[0] !== 'undefined') {
-        var trackNumber = result[0].tracks.length; 
-      } else {
-        var trackNumber = 0;
-      }
-
-      //console.log('res0: ', result[0]);
-
-      //console.log(elementId);
-      //if (elementId=='option00001') {
-
-      if ($('#'+selectId+' option[value="0"]').length>0 ) { 
-        result[0] = {};
-        result[0].tracks = window['userPattern'].tracks;
-      }         
-        
-      
-
-      var channelId = $('#pattern-editor tr').first().attr('data-id').split('-')[0]; 
-
-      notesObject = [];
-
-      window[ptnHolder] = {'tracks' : [] };
-
-      // first reset grid
-      var availTrackNumber = $("#pattern-editor table tr").length;
-
-      for (var n = 0, len = availTrackNumber; n < len; n += 1) {
-        var notesNumber = 16;
-        window[ptnHolder].tracks[n] = [];
-
-        for (var l = 0; l < notesNumber; l += 1) {
-          noteInfo = {};
-          noteInfo.id = channelId;
-          noteInfo.trackId = channelId+'-'+n;
-          noteInfo.noteId = l;
-          noteInfo.volume = 0;
-          window[ptnHolder].tracks[n][l]=0;
-          _updateNote(noteInfo);
-          //console.log('noteInfo: ',noteInfo);
-        }  
-      } 
-
-      // than fill grid with corresponding data
-      for (var n = 0, len = availTrackNumber; n < len; n += 1) { 
-
-        if (typeof result[0].tracks[n] !== 'undefined') {
-          
-          var notesNumber = result[0].tracks[n].length;
-          var traack = result[0].tracks[n];
-
-          for (var l = 0; l < notesNumber; l += 1) {
-            noteInfo = {};
-            noteInfo.id = channelId;
-            noteInfo.trackId = channelId+'-'+n;
-            noteInfo.noteId = l;
-            noteInfo.volume = traack[l];
-
-            window[ptnHolder].tracks[n][l]=traack[l];
-
-            _updateNote(noteInfo);
-            //console.log('noteInfo: ',noteInfo);
-
-          }  
-        }
-      } 
-
-    };  // end of fct
-
 
     var _updateNote = function(data) { // funcToRemove_displayPattern
       $track = $('[data-id="' + data.trackId + '"]');
@@ -175,8 +47,8 @@ this.noteOff = function( note ) {
     var _onNote = function(data) {
       //console.log('ptn edit:', data);
       _model.updateNote(data.volume, data.note, data.trackId, data.patternId);
-      //window.updateNote(data.volume, data.note, data.trackId, data.patternId);
     };
+
 
     /**
      * Shows the view
@@ -187,10 +59,6 @@ this.noteOff = function( note ) {
       return this;
     };
 
-/*
-    this.returnInstrument = function() {
-      return instrument; // 'yo'; 
-    }; */
 
 
     /**
@@ -213,29 +81,22 @@ this.noteOff = function( note ) {
 
         
 
-      window.channelTayppe = _model.instrument.type;  
+        window.channelTayppe = _model.instrument.type;  
 
-      $('#pattern-editor').removeClass();
-      $('#pattern-editor').addClass(_model.instrument.type); // remove '#pattern-editor' div in case of cunductor role aka control only "instrument"
-      $('body').addClass(_model.instrument.type);
+        $('#pattern-editor').removeClass();
+        $('#pattern-editor').addClass(_model.instrument.type); // remove '#pattern-editor' div in case of conductor role aka control only "instrument"
+        $('body').addClass(_model.instrument.type);
 
-        //window.insControls = _model.instrument.controls; // var instrument
-        //console.log('controls', _model.instrument.controls);
+        var table = $('#pattern-editor table');  
+        var controllers = $('#modifiers');  
 
-      var table = $('#pattern-editor table');  
-      var controllers = $('#modifiers');  
+        table.empty(); // deplace code to this.removeTracksAndControllers
+        controllers.empty();  // controllers
 
-      table.empty(); // deplace code to this.removeTracksAndControllers
-      controllers.empty();  // controllers
-
-
-
-
-if ( $('#pattern-editor').hasClass('control') ) {
-  console.log('hasClass control');
-  $('#pattern-editor').css('height', 0);
-
-}  
+        if ( $('#pattern-editor').hasClass('control') ) {
+          console.log('hasClass control');
+          $('#pattern-editor').css('height', 0);
+        }  
 
 
 
@@ -265,138 +126,54 @@ if ( $('#pattern-editor').hasClass('control') ) {
         }  
 
         for (var i = 0; i < tracks.length; i++) {
-
           if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
             view.addKey(tracks[i], _model.instrument.color);
-
           } else {
             view.addTrack(tracks[i], _model.instrument.color);
-          }  
-          
-          
+          }                      
         }
 
         //console.log('inputMode', inputMode);
 
-if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
-
-  //var pointerDebugging = false;
-
-  //var keybox = document.getElementById("keybox"); // $item.find('div'); //
-  //var keybox = $('#keybox'); //$(keybox);
-
-  //console.log('search substr: ', window.location.search.substring(1));
-
-  /*if (window.location.search.substring(1) == "touch") {
-    keybox.addEventListener('touchstart', touchstart);
-    keybox.addEventListener('touchmove', touchmove);
-    keybox.addEventListener('touchend', touchend);
-  } else { */
-    //keybox.addEventListener('down', pointerDown);
-    //keybox.addEventListener('track', pointerMove);
-    //keybox.addEventListener('up', pointerUp);
-
-    /*keybox.on('down', pointerDown);
-    keybox.on('track', pointerMove);
-    keybox.on('up', pointerUp);   */ 
-
-    /*if (window.location.search.substring(1) == "dbgptr")
-      pointerDebugging = true;*/
-  //}
-
-  window.addEventListener('keydown', keyDown, false);
-  window.addEventListener('keyup', keyUp, false);
 
 
 
-  touchClick("#keybox", 'touchend mouseup', function(e) {
-    if (typeof e.targetTouches  !== 'undefined') {
-      //console.log('touchstart');
-      touchend(e);
-    } else {
-      console.log('mouse up');
-      pointerUp(e);
-    }        
-  })
+        if (typeof inputMode  !== 'undefined' && inputMode=='keyboard') {
 
-  touchClick("#keybox", 'touchstart mousedown', function(e) {
-    if (typeof e.targetTouches  !== 'undefined') {
-      //console.log('touchstart');
-      touchstart(e);
-    } else {
-      console.log('mouse down');
-      pointerDown(e);
-    }        
-  })
-  
-/*
-var flag = false;
-$("#keybox").bind('touchstart mousedown', function(e) { //  canvas
-  if (!flag) {
-    flag = true;
-    setTimeout(function(){ flag = false; }, 100);
-    if (typeof e.targetTouches  !== 'undefined') {
-      //console.log('touchstart');
-      touchstart(e);
-    } else {
-      console.log('mouse down');
-      pointerDown(e);
-    }
-  }
-  return false
-});  
+          window.addEventListener('keydown', keyDown, false);
+          window.addEventListener('keyup', keyUp, false);
 
-var flag2 = false;
-$("#keybox").bind('touchend mouseup', function(e) { //  canvas
-  if (!flag2) {
-    flag2 = true;
-    setTimeout(function(){ flag2 = false; }, 100);
-    if (typeof e.targetTouches  !== 'undefined') {
-      //console.log('touchstart');
-      touchend(e);
-    } else {
-      console.log('mouse up');
-      pointerUp(e);
-    }   
-  }
-  return false
-}); 
-*/
+          touchClick("#keybox", 'touchend mouseup', function(e) {
+            if (typeof e.targetTouches  !== 'undefined') {
+              //console.log('touchstart');
+              touchend(e);
+            } else {
+              console.log('mouse up');
+              pointerUp(e);
+            }        
+          })
 
-/*
-var flag3 = false;
-$("#keybox").bind('touchmove mousemove', function(e) { //  canvas
-  if (!flag3) {
-    flag3 = true;
-    setTimeout(function(){ flag3 = false; }, 100);
-    if (typeof e.targetTouches  !== 'undefined') {
-      //console.log('touchstart');
-      touchmove(e);
-    } else {
-      console.log('mouse move');
-      pointerMove(e);
-    }   
-  }
-  return false
-}); 
-*/
+          touchClick("#keybox", 'touchstart mousedown', function(e) {
+            if (typeof e.targetTouches  !== 'undefined') {
+              //console.log('touchstart');
+              touchstart(e);
+            } else {
+              console.log('mouse down');
+              pointerDown(e);
+            }        
+          })  
 
-}
+        }
 
 
         // draw controllers
 
-        //console.log('_model.ins:', _model.instrument.id);
-//*
-
-
-//console.log('kits: ', kits);
-
-if (typeof kits  !== 'undefined') {
-  if (kits.length!=0) {    
-    window.kits = kits;  
-  }  
-}        
+        //console.log('kits: ', kits);
+        if (typeof kits  !== 'undefined') {
+          if (kits.length!=0) {    
+            window.kits = kits;  
+          }  
+        }        
 
 
 
@@ -405,101 +182,42 @@ if (typeof kits  !== 'undefined') {
 
 
 
-      var patterns = _model.instrument.channelInfo.patterns;
-      window.sessionPatterns = patterns;
-      //console.log('patterns ctrl ptn editor: & kits ', patterns); // , kits
-      //console.log('local ptns: ', window.localPatterns);
+        var patterns = _model.instrument.channelInfo.patterns;
+        window.sessionPatterns = patterns;
 
+        if (typeof window.localPatterns !== 'undefined') {
 
-      if (typeof window.localPatterns !== 'undefined') {
+          for (var i = 0; i < patterns.length; i++) {
 
-        for (var i = 0; i < patterns.length; i++) {
+            var result = $.grep(window.localPatterns, function(e){ return e.id == patterns[i].id; });
 
-          var result = $.grep(window.localPatterns, function(e){ return e.id == patterns[i].id; });
-
-          if (typeof result[0] !== 'undefined') {
-            //var pattern = patterns[i];
-            patterns[i]['classs'] = 'user'; // really-user
-            //console.log('ptn name: ', patterns[i]['classs'].name);
-          }
-          //
-        }  
-      }
-
-
-
-      if (patterns.length==0 && typeof window.localPatterns !== 'undefined') {
-        if (typeof window.channelPatterns !== 'undefined') {
-          var patterns = window.channelPatterns.concat(window.localPatterns);
-        } else {
-          var patterns = window.localPatterns;
-        }
-        
-      } else if (patterns.length!=0) {
-
-        if (typeof window.channelPatterns !== 'undefined') {
-          var patterns = window.channelPatterns.concat(patterns);
+            if (typeof result[0] !== 'undefined') {
+              //var pattern = patterns[i];
+              patterns[i]['classs'] = 'user'; // really-user
+              //console.log('ptn name: ', patterns[i]['classs'].name);
+            }
+          }  
         }
 
-      }
 
 
-      var patterns = patterns.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
-
-      //console.log('ptns obj: ', patterns);
-
-
-
-
-
-
-
-
-
-
-
-      var parts = _model.instrument.channelInfo.parts;
-      window.sessionParts = parts;
-
-      if (typeof window.localParts !== 'undefined' && typeof parts !== 'undefined') {
-
-        for (var i = 0; i < parts.length; i++) {
-
-          var result = $.grep(window.localParts, function(e){ return e.id == parts[i].id; });
-
-          if (typeof result[0] !== 'undefined') {
-            parts[i]['classs'] = 'user'; // really-user
-          }
-          //
-        }  
-      }
-
-      //console.log('477: ', parts);
-
-      if ( typeof parts !== 'undefined') {  
-        if (parts.length==0 && typeof window.localParts !== 'undefined') {
-          if (typeof window.channelParts !== 'undefined') {
-            var parts = window.channelParts.concat(window.localParts);
+        if (patterns.length==0 && typeof window.localPatterns !== 'undefined') {
+          if (typeof window.channelPatterns !== 'undefined') {
+            var patterns = window.channelPatterns.concat(window.localPatterns);
           } else {
-            var parts = window.localParts;
+            var patterns = window.localPatterns;
           }
           
-        } else if (parts.length!=0) {
+        } else if (patterns.length!=0) {
 
-          if (typeof window.channelParts !== 'undefined') {
-            var parts = window.channelParts.concat(parts);
+          if (typeof window.channelPatterns !== 'undefined') {
+            var patterns = window.channelPatterns.concat(patterns);
           }
-
         }
 
-        //console.log('495: ', parts);
 
-        var parts = parts.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
-
-      }  
-
-      // temporary line
-      //var parts = window.localParts;
+        var patterns = patterns.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
+        //console.log('ptns obj: ', patterns);
 
 
 
@@ -511,149 +229,170 @@ if (typeof kits  !== 'undefined') {
 
 
 
-      var songs = _model.instrument.channelInfo.songs;
-      window.sessionSongs = songs;
+        var parts = _model.instrument.channelInfo.parts;
+        window.sessionParts = parts;
 
-      if (typeof window.localSongs !== 'undefined' && typeof songs !== 'undefined') {
+        if (typeof window.localParts !== 'undefined' && typeof parts !== 'undefined') {
 
-        for (var i = 0; i < songs.length; i++) {
+          for (var i = 0; i < parts.length; i++) {
 
-          var result = $.grep(window.localSongs, function(e){ return e.id == songs[i].id; });
+            var result = $.grep(window.localParts, function(e){ return e.id == parts[i].id; });
 
-          if (typeof result[0] !== 'undefined') {
-            songs[i]['classs'] = 'user'; // really-user
-          }
-          //
-        }  
-      } 
-
-
-      if ( typeof songs !== 'undefined') {  
-        if (songs.length==0 && typeof window.localSongs !== 'undefined') {
-          if (typeof window.channelSongs !== 'undefined') {
-            var songs = window.channelSongs.concat(window.localSongs);
-          } else {
-            var songs = window.localSongs;
-          }
-          
-        } else if (songs.length!=0) {
-
-          if (typeof window.channelSongs !== 'undefined') {
-            var songs = window.channelSongs.concat(songs);
-          }
-
+            if (typeof result[0] !== 'undefined') {
+              parts[i]['classs'] = 'user'; // really-user
+            }
+            //
+          }  
         }
 
-        var songs = songs.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
+        if ( typeof parts !== 'undefined') {  
+          if (parts.length==0 && typeof window.localParts !== 'undefined') {
+            if (typeof window.channelParts !== 'undefined') {
+              var parts = window.channelParts.concat(window.localParts);
+            } else {
+              var parts = window.localParts;
+            }
+            
+          } else if (parts.length!=0) {
 
-      }  
+            if (typeof window.channelParts !== 'undefined') {
+              var parts = window.channelParts.concat(parts);
+            }
 
-      // temporary line
-      //var songs = window.localSongs;
-      //var songs = window.channelSongs;
-
-      if (typeof window.channelSongs !== 'undefined') {
-        var songs = window.channelSongs.concat(window.localSongs);
-      } else {
-        var songs = window.localSongs;
-      }      
-
-      //console.log('556: ', songs);
-
-
-
-
-
-
-
-    if (typeof _model.instrument.channelInfo.presets !== 'undefined') {
-
-      var presets = _model.instrument.channelInfo.presets;
-      window.sessionPresets = presets;
-
-      if (typeof window.localPresets !== 'undefined') {
-        for (var i = 0; i < presets.length; i++) {
-          var result = $.grep(window.localPresets, function(e){ return e.id == presets[i].id; });
-          if (typeof result[0] !== 'undefined') {
-            presets[i]['classs'] = 'user'; // really-user
           }
+          var parts = parts.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
         }  
-      }
 
-      if (presets.length==0 && typeof window.localPresets !== 'undefined') {
-        if (typeof window.channelPresets !== 'undefined') {
-          var presets = window.channelPresets.concat(window.localPresets);
+        // temporary line
+        //var parts = window.localParts;
+
+
+
+
+
+
+        var songs = _model.instrument.channelInfo.songs;
+        window.sessionSongs = songs;
+
+        if (typeof window.localSongs !== 'undefined' && typeof songs !== 'undefined') {
+
+          for (var i = 0; i < songs.length; i++) {
+
+            var result = $.grep(window.localSongs, function(e){ return e.id == songs[i].id; });
+
+            if (typeof result[0] !== 'undefined') {
+              songs[i]['classs'] = 'user'; // really-user
+            }
+            //
+          }  
+        } 
+
+
+        if ( typeof songs !== 'undefined') {  
+          if (songs.length==0 && typeof window.localSongs !== 'undefined') {
+            if (typeof window.channelSongs !== 'undefined') {
+              var songs = window.channelSongs.concat(window.localSongs);
+            } else {
+              var songs = window.localSongs;
+            }
+            
+          } else if (songs.length!=0) {
+
+            if (typeof window.channelSongs !== 'undefined') {
+              var songs = window.channelSongs.concat(songs);
+            }
+
+          }
+
+          var songs = songs.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set));
+
+        }  
+
+        // temporary line
+        //var songs = window.localSongs;
+        //var songs = window.channelSongs;
+
+        if (typeof window.channelSongs !== 'undefined') {
+          var songs = window.channelSongs.concat(window.localSongs);
         } else {
-          var presets = window.localPresets;
+          var songs = window.localSongs;
+        }      
+        //console.log('556: ', songs);
+
+
+
+
+
+
+
+        if (typeof _model.instrument.channelInfo.presets !== 'undefined') {
+
+          var presets = _model.instrument.channelInfo.presets;
+          window.sessionPresets = presets;
+
+          if (typeof window.localPresets !== 'undefined') {
+            for (var i = 0; i < presets.length; i++) {
+              var result = $.grep(window.localPresets, function(e){ return e.id == presets[i].id; });
+              if (typeof result[0] !== 'undefined') {
+                presets[i]['classs'] = 'user'; // really-user
+              }
+            }  
+          }
+
+          if (presets.length==0 && typeof window.localPresets !== 'undefined') {
+            if (typeof window.channelPresets !== 'undefined') {
+              var presets = window.channelPresets.concat(window.localPresets);
+            } else {
+              var presets = window.localPresets;
+            }
+            
+          } else if (presets.length!=0) {
+            if (typeof window.channelPresets !== 'undefined') {
+              var presets = presets.concat(window.channelPresets); //window.channelPresets.concat(presets);
+            }
+          }
+
+
+          //window.findObjectById(presets, 699);
+
+          // remove duplicate objects by id - for same preset USER preset will ecrabouillate CHANNEL preset      
+          presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
+
+            //console.log('presets', presets, window.localPresets);
+
+          window.allPresets = presets;  
         }
-        
-      } else if (presets.length!=0) {
-        if (typeof window.channelPresets !== 'undefined') {
-          var presets = presets.concat(window.channelPresets); //window.channelPresets.concat(presets);
-        }
-      }
 
-
-      //window.findObjectById(presets, 699);
-
-      // remove duplicate objects by id - for same preset USER preset will ecrabouillate CHANNEL preset
-
-      //var family = [{ name: "Mike", age: 10 }, { name: "Matt", age: 13 }, { name: "Nancy", age: 15 }, { name: "Adam", age: 22 }, { name: "Jenny", age: 85 }, { name: "Nancy", age: 2 }, { name: "Carl", age: 40 }],
-    presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
-
-      //console.log('presets', presets, window.localPresets);
-
-    window.allPresets = presets;  
-
-    }
-
-
-/*
-var a = new Interface.Panel({ 
-  container:document.querySelector("#modifiers") 
-});
-var b = new Interface.Slider({
-  label: 'vertical slider',  
-  bounds:[.05,.05,.3,.9] 
-});
-
-a.background = 'black';
-a.add(b);*/
 
 
 
         if (_model.instrument.controls!=0) {  
 
 
-//console.log('_model.instrument.type', _model.instrument.type);
+          //console.log('_model.instrument.type', _model.instrument.type);
 
 
-if (typeof presets !== 'undefined' // channelPresets _model.instrument.channelInfo.presets
-  //&& _model.instrument.channelInfo.presets.length>0
-  && typeof _model.instrument.channelInfo.presetId !== 'undefined'
-  && _model.instrument.type!='samples' // temporarily exclude sampler channels from preset check
-  && _model.instrument.channelInfo.presetId != 0) {
+          if (typeof presets !== 'undefined' // channelPresets _model.instrument.channelInfo.presets
+            //&& _model.instrument.channelInfo.presets.length>0
+            && typeof _model.instrument.channelInfo.presetId !== 'undefined'
+            && _model.instrument.type!='samples' // temporarily exclude sampler channels from preset check
+            && _model.instrument.channelInfo.presetId != 0) {
 
-  var taarget = _model.instrument.channelInfo.presetId;
-  var taarget = taarget.toString();
+            var taarget = _model.instrument.channelInfo.presetId;
+            var taarget = taarget.toString();
 
-//var preset = $.grep(this.channelInfo.channelPresets, function(e){ return e.id == this.channelInfo.presetId; });
+            //var preset = $.grep(this.channelInfo.channelPresets, function(e){ return e.id == this.channelInfo.presetId; });
 
-var preset = presets.filter(function( obj ) { // _model.instrument.channelInfo.presets
-  return obj.id == taarget // "2fbdd99d0000";  //
-});
-//console.log('ch preset + preset id: ', this.channelInfo.channelPresets, this.channelInfo.presetId, preset);
+            var preset = presets.filter(function( obj ) { // _model.instrument.channelInfo.presets
+              return obj.id == taarget // "2fbdd99d0000";  //
+            });
 
-//console.log('preset first: ', taarget, _model.instrument.channelInfo.presets);
-
-window.preset = preset[0].controls;
-  //console.log('preset yo-yo: ', preset, window.preset, _model.instrument.channelInfo.presets);  
-
-var presetMode = 1; // presetMode=0 : kit/InsMode
-
-} else {
-  var presetMode = 0; // presetMode=0 : kit/InsMode
-}
+            window.preset = preset[0].controls;
+              //console.log('preset yo-yo: ', preset, window.preset, _model.instrument.channelInfo.presets);  
+            var presetMode = 1; // presetMode=0 : kit/InsMode
+          } else {
+            var presetMode = 0; // presetMode=0 : kit/InsMode
+          }
 
 
 
@@ -664,7 +403,7 @@ var presetMode = 1; // presetMode=0 : kit/InsMode
 
 
 
-var usedLibrary = 'noUiSlider'; // Interface
+var usedLibrary = 'noUiSlider'; 
 //var usedLibrary = 'Interface';
 
 if (usedLibrary=='Interface') {
@@ -673,92 +412,7 @@ window.interfacePanel = [];
 window.sliderArray = [];
 window.sliderLabelArray = [];
 
-/*
-window.interfacePanel = new Interface.Panel({ 
-  container:document.querySelector("#modifiers")//,
-  //useRelativeSizesAndPositions:true 
-});
-window.interfacePanel.background = 'black';
-
-window.sliderArray = [];
-*/
-
-
-
-
-/*
-var a = new Interface.Panel({ container:document.querySelector("#modifiers") });            
-var multiSlider = new Interface.MultiSlider({ 
-  count:7,
-  bounds:[.05,.05,.9,.8],
-  onvaluechange : function(number, value) {
-    multiSliderLabel.setValue( 'num : ' + number + ' , value : ' + value);
-  }
-});
-
-var multiSliderLabel = new Interface.Label({ 
-  bounds:[.05, .9, .9, .1],
-  hAlign:"left",
-  value:" ",
-});
-
-a.background = 'black';
-a.add(multiSlider, multiSliderLabel);
-
-for(var i = 0; i < multiSlider.count; i++) {
-  //multiSlider.children[i].setValue( Math.random() );
 }
-        */
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-/*
-
-var modifiers = document.getElementById('modifiers');
-
-    $intPanel = $('<div class="interfacePanel" id="sliderPanel">'); 
-    $intPanel.appendTo(modifiers);
-
-
-
-var aMulti = new Interface.Panel({ container:document.querySelector("#sliderPanel") });            
-var multiSlider = new Interface.MultiSlider({ 
-  count:15,
-  bounds:[.05,.05,.9,.8],
-  onvaluechange : function(number, value) {
-    multiSliderLabel.setValue( 'num : ' + number + ' , value : ' + value);
-  }
-});
-
-var multiSliderLabel = new Interface.Label({ 
-  bounds:[.05, .9, .9, .1],
-  hAlign:"left",
-  value:" ",
-});
-
-aMulti.background = 'black';
-aMulti.add(multiSlider, multiSliderLabel);
-/*
-for(var i = 0; i < multiSlider.count; i++) {
-  multiSlider.children[i].setValue( Math.random() );
-} */
-
-//*/
-
 
 
 
@@ -771,88 +425,6 @@ function is_touch_device() {
 // 
 
 
-
-/*
-
-var element = $('#pattern-editor table');
-
-    $addedHtml = $('<tr data-id="3-0" style="background: rgb(0, 161, 0);"><td><h1>Conductor</h1></td><td>01</td><td>02</td><td>03</td><td>04</td><td>05</td><td>06</td><td>07</td><td>08</td><td>09</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td></tr>'); 
-    $addedHtml.appendTo(element);
-*/
-
-
-
-/*
-
-if (is_touch_device()) {
-
-
-
-
-/*
-
-var modifiers = document.getElementById('modifiers');
-
-    $intPanel = $('<div class="interfacePanel" id="sliderPanel">'); 
-    $intPanel.appendTo(modifiers);
-
-
-
-var a = new Interface.Panel({ 
-  container:document.querySelector("#sliderPanel") 
-});
-var b = new Interface.Slider({
-  label: 'vertical slider',  
-  bounds:[.05,.05,.3,.9] 
-});
-var c = new Interface.Slider({ 
-  bounds:[.4,.35,.55,.3], 
-  label: 'horizontal slider',  
-  isVertical:false, 
-  value:.5,
-});
-
-a.background = 'black';
-a.add(b); // ,c
-
-
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$('#sliderPanel canvas').trigger('touchstart');  
-
-
-
-var sliderTimer = setInterval(function () {
-
-$('#sliderPanel canvas').trigger('touchstart');
-
-console.log('trying to keep sliders precize and smooth on touch devices');
-
-}, 50); // 100ms: every 10th of a second
-
-}
-
-//*/
-
-
-//*
 
 
 // define array to group all channel volumes into
@@ -883,27 +455,8 @@ window.changeParamMode = 'auto'; // synth sliders etc are automatically changed 
 
 
 
-
-
-
-
-
-
-
-
-
-
               } else if (controls[j].type=='ddmenu') {
 
-
-/*
-var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
-
-if (typeof kits  !== 'undefined') {
-  if (kits.length!=0) {    
-    window.kits = kits;  
-  }  
-} */
 
 
 
@@ -924,10 +477,6 @@ if (typeof window.kits  !== 'undefined') { // kits
     $itemKits.appendTo(container);
     var containerKits = document.getElementById('kits');
 
-
-    //window.itemKits = $('<select id="kits" name="kits"></select>');
-    //var container = window.itemKits; // document.getElementById('kits');                     
-    
 
 
     for (var i = 0; i < kits.length; i++) {
@@ -951,9 +500,6 @@ if (typeof window.kits  !== 'undefined') { // kits
     $itemKits = $('</select></div>'); // $itemContainer            
     $itemKits.appendTo(container);
 
-
-
-    //$('#modifiers').prepend($itemKits);
   }
 }
 
@@ -1015,18 +561,10 @@ if (typeof window.kits  !== 'undefined') { // kits
 
     if (patternEditStateValue==1) {
       window.ptnEdit=1;
-//_model.onModifierChange({id: 203, ptnEditState: 1});
       var patternEditOnOffState = 'On';
-      //_displayPattern('selpatternedit');
-
-      //window.setTimeout(_displayPattern('selpatternedit'), 1000);
-
-      //console.log('ptn edit: ', _model.instrument.channelInfo.patternEditState);
-
       $('#pattern-editor table').toggleClass('ptn-edit');
     } else {
       window.ptnEdit=0;
-//_model.onModifierChange({id: 203, ptnEditState: 0});
       var patternEditOnOffState = 'Off';
       //_displayPattern('patterns');
       $('#pattern-editor table').toggleClass('ptn-edit');
@@ -1116,14 +654,12 @@ if (typeof window.kits  !== 'undefined') { // kits
         }
 
 
-            $label = $('<label>'+ controls[j].name +'</label>');
-            $label.appendTo($item);
+          $label = $('<label>'+ controls[j].name +'</label>');
+          $label.appendTo($item);
 
 
           $item = $('</select></div>'); // $itemContainer            
           $item.appendTo(container);
-
-          //$('#pattern-name').val(window['userPattern'].name);
 
       }
     } 
@@ -1166,6 +702,9 @@ if (typeof window.kits  !== 'undefined') { // kits
       
     }
   } 
+
+
+
 
 } else if (controls[j].id==996) {
 
@@ -1226,11 +765,11 @@ if (typeof window.kits  !== 'undefined') { // kits
           //console.log('option: ', option, options, optionsObj);
 
 
-                 if (presetMode == 1) {
-                    var value = window.preset[controls[j].id];
-                  } else {
-                    var value = controls[j].x.value;
-                  } 
+         if (presetMode == 1) {
+            var value = window.preset[controls[j].id];
+          } else {
+            var value = controls[j].x.value;
+          } 
 
 
 
@@ -1249,50 +788,6 @@ if (typeof window.kits  !== 'undefined') { // kits
     } 
 
 }
-
-
-
-                 
-                /*var kits = _model.instrument.channelInfo.channelKits;   // channelKits     
-
-                if (typeof kits !== 'undefined') { 
-
-                  var kit = Object.keys(kits); 
-                  //console.log('kits + kit: ', kits, kit.length); 
-
-                  if (kit.length!=0) {    
-
-                    //console.log('kit container: ', container);
-
-                    //window.itemKits = $('<div class="ctrlchange"><select id="kits" name="kits"></select></div>'); // $itemContainer  - var itemKits - $itemKits 
-                    window.itemKits = $('<select id="kits" name="kits"></select>');
-                    //window.itemKits.appendTo(container);
-                    //window.itemKits = '<div class="ctrlchange"><select id="kits" name="kits">';        
-                    
-                    //$itemKits.appendTo(document.getElementById('modifiers')); // container
-                    //$('#modifiers').append( "<p id='new'>new paragraph yeah !</p>" );
-                    //console.log('container parent el: ', container);
-                    
-                    //var container = document.getElementById('kits');                
-
-                    for (var i = 0; i < kits.length; i++) {
-                      var kit = kits[i];
-                      var input = controls[j].id + i;// 400 + i; // 3 +  // better use controller id ex 998 as window prefix
-                      console.log('input: ', input);
-
-                      if (typeof input !== 'undefined') { 
-                        console.log('ddmenu params: ', controls[j].id, kits[i], kit, channelId);
-                        window['ctrl'+input] = new mixr.ui.Ddmenu(controls[j].id, kits[i], window.itemKits, i, kits, channelId).initialize();  // container - $itemKits
-                        window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
-                      } 
-                    } 
-                    //window.itemKits.append('</select></div>');
-                    //$itemKitsEnd //window.itemKits = $('</select></div>'); 
-                    //$itemKits.appendTo(container);
-                  }
-                } */
-
-
 
 
                 //*/
@@ -1380,26 +875,15 @@ if (typeof window.kits  !== 'undefined') { // kits
                   //window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
                   window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
 
-
                 } else { 
-
-/*
-window.interfacePanel = new Interface.Panel({ 
-  container:document.querySelector("#modifiers")//,
-  //useRelativeSizesAndPositions:true 
-});
-window.interfacePanel.background = 'black';
-
-window.sliderArray = []; */
-
-
-
-
                   window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
                 }
                 
                 window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
                 //alert("slider");
+
+
+
               } else if (controls[j].type=='hidden') {
 
               } else if (controls[j].type=='multiselect') {
@@ -1423,19 +907,11 @@ if (controls[j].id==9920) {
         var pattern = patterns[i];
         var input = 2890 + i;
 
-        //console.log('pattern: ', pattern);
-
-
-        // 994, pattern.name, containerPatterns, pattern.id, pattern, channelId, input
-
         if (typeof input !== 'undefined') { // window[input]
           $option = $('<option id="option'+input+'" value="'+pattern.id+'">'+pattern.name+'</option>'); // $itemContainer - _id            
           $option.appendTo(containerpatterns);
         }
-
-
-
-    } // end of for loop
+      } // end of for loop
 
 
 
@@ -1443,17 +919,7 @@ if (controls[j].id==9920) {
       $label.appendTo(availptns); //   $item
       $item = $('</select></div>'); //</div>
       $item.appendTo(container);
-
-
-
-
   }       
-
-/*
-var cbox = $('<div class="roundedTwo"><input type="checkbox" value="None" id="roundedTwo" name="check" checked=""><label for="roundedTwo"></label><span>Check button: ptn seq enabled</span></div>');
-
-var ptnSeq = document.getElementById('pattern-sequencer');
-cbox.appendTo(ptnSeq); */
 
 
 //*
@@ -1473,28 +939,18 @@ cbox.appendTo(ptnSeq); */
       if (channelPatternSeq.length!=0) {      
         //console.log('channelPatternSeq from ctrl ptn editor js: ', channelPatternSeq);
 
-
-
       var containerpatterns = document.getElementById('played-patterns');                
 
       for (var i = 0; i < channelPatternSeq.length; i++) {
         var pattern = channelPatternSeq[i];
         var input = 2890 + i;
 
-        //console.log('pattern: ', pattern);
-
-
-        // 994, pattern.name, containerPatterns, pattern.id, pattern, channelId, input
-
         if (typeof input !== 'undefined') { // window[input]
           $option = $('<option selected id="option'+input+'" value="'+pattern.id+'">'+pattern.name+'</option>'); // $itemContainer - _id   
           //$option.prop('selected',true);         
           $option.appendTo(containerpatterns);
         }
-
-
-
-    } // end of for loop
+      } // end of for loop
 
     
 
@@ -1505,8 +961,8 @@ cbox.appendTo(ptnSeq); */
     }      
 
 
-var url2 = mixr.Utils.parseURL(location.href);
 
+var url2 = mixr.Utils.parseURL(location.href);
 paraam2 = url2.url.split('/');
 
 if ( typeof paraam2[6] !== 'undefined' ) {
@@ -1525,11 +981,7 @@ if ( top !== self ) { // we are in the iframe
   window.inIframe = 0;
 }    
 
-//window.inIframe = 1;
 
-
-//console.log('ptnSEq state: ', patternSeqStateValue, window.inIframe );
-//alert('yo!');
 
     if (patternSeqStateValue==1) {
       window.stepSeq=1;
@@ -1635,17 +1087,6 @@ _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
 
 //console.log('ptn seq: ',window.patternSequencer);
 
-/*
-$('#played-patterns option').each(function( index ) {
-var number = index+1;
-var number = ('00' + number).substr(-3)// ("0" + number).slice(-2);
-var number = number+' - ';
-
-var preText = $( this ).text();
-$( this ).text(number+preText)
-});*/
-
-
        //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
        $('html, body').animate({
         scrollTop: $("#pattern-sequencer").offset().top
@@ -1674,17 +1115,6 @@ $('#played-patterns option').each(function( index ) {
 var ptnSeqString = JSON.stringify(window.patternSequencer);
 _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
 
-/*
-$('#played-patterns option').each(function( index ) {
-var number = index+1;
-var number = ('00' + number).substr(-2)// ("0" + number).slice(-2);
-var number = number+' - ';
-
-var preText = $( this ).text();
-$( this ).text(number+preText)
-});*/
-
-
    //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
        $('html, body').animate({
         scrollTop: $("#pattern-sequencer").offset().top
@@ -1694,27 +1124,8 @@ $( this ).text(number+preText)
    });  
 
 
-/*
-window.stepTimer = setInterval(function () {
+  } // end of if (typeof patterns !== 'undefined') {
 
-  console.log(window.patternSequencer); //, window.sequencerBeat
-        if (window.sequencerBeat==15) {          
-          if (typeof window.patternSequencer !== 'undefined') {
-            rotate(window.patternSequencer,1);
-            //console.log('stuff happens', window.patternSequencer);
-            $('select#patterns option[value="'+window.patternSequencer[0].id+'"]').prop('selected',true).trigger('change'); // 01627d00-3d18-11e6-bd11-650c5a0c542f
-          }          
-        } 
-}, 100);
-*/
-
-
-
-
-
-
-              //i++;
-            } // end of if (typeof patterns !== 'undefined') {
 
 
 // part seq
@@ -1756,8 +1167,6 @@ window.stepTimer = setInterval(function () {
 var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartSeqList; //
     var ctrlchangeParent = document.getElementById('part-sequencer');
 
-    //$item = $('<div id="played-pars" class="select-container played"><select multiple class="multi" id="played-parts" name="played-parts">'); // 
-
     $item = $('<div id="played-pars" class="select-container played"><div id="played-parts">');
     
     $item.appendTo(ctrlchangeParent); // 
@@ -1778,65 +1187,11 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
           var uuadi = uuid.v1();
 
           if (typeof input !== 'undefined') { // 
-            //$option = $('<option selected id="option'+input+'" value="'+part.id+'">'+part.name+'</option>'); // 
-            //$option = $('<div class="option"><span id="option'+input+'" value="'+part.id+'">'+part.name+'</span><input type="text" id="bl'+part.id+'" value="'+ part.name +'"/></div>');
             $option = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
             $option.appendTo(containerparts);
           }        
         } // end of for loop
 
-        /*    
-
-        if (typeof _model.instrument.channelInfo.partSeqState !== 'undefined') {
-          var partSeqStateValue = _model.instrument.channelInfo.partSeqState;
-        } else {
-          var partSeqStateValue = controls[j].x.value;
-        }      
-
-        if (partSeqStateValue==1) {
-          window.stepSeq=1;
-          _model.onModifierChange({id: 201, parSeqState: 1});
-          var onOffstate = 'On';
-        } else {
-          window.stepSeq=0;
-          _model.onModifierChange({id: 201, parSeqState: 0});
-          var onOffstate = 'Off';
-        }
-
-/*
-$label = $('<label>played parts</label><a href="#" id="remove" class="trigger-button">< Remove</a>');
-$label.appendTo(playedpars); // $item playedpars
-/
-
-        $item = $('</select></div><label>part sequencer</label><a href="#" id="parseq" class="trigger-button">'+onOffstate+'</a>'); //
-        $item.appendTo(ctrlchangeParent);
-
-
-        if (partSeqStateValue==0) {
-          $('#part-sequencer').css('opacity', 0.3);
-          $('#parseq').addClass('off');
-        }      
-
-
-        $('#parseq').on('click', function (e) {
-            e.preventDefault();
-            $(this).text(function (_, text) {
-                return text === 'Off' ? 'On' : 'Off';
-            }).toggleClass('off');
-
-          if ( $(this).hasClass("off") ) {    
-            window.stepSeq = 0;
-            _model.onModifierChange({id: 201, parSeqState: 0});
-            $('#part-sequencer').css('opacity', 0.3);
-          } else {
-            window.stepSeq = 1;
-            _model.onModifierChange({id: 201, parSeqState: 1});
-            $('#part-sequencer').css('opacity', 1);
-          }
-
-        });  
-
-        */
 
       } // end of if (channelPartSeq.length!=0) {
     } // end of if (typeof channelPartSeq !== 'undefined') { 
@@ -1852,8 +1207,6 @@ $label.appendTo(playedpars); // $item playedpars
 
     window.partSequencer = [];
 
-    // $('#avail-parts option:selected').clone().appendTo('#played-parts');
-
     $('#avail-parts option:selected').each(function( index ) {
 
       var part = {};
@@ -1864,10 +1217,6 @@ $label.appendTo(playedpars); // $item playedpars
             $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
             $option2.appendTo('#played-parts');
     });
-
-
-// <div class="roundedTwo"><input type="checkbox" value="None" class="roonded" id="ps_'+part.id+'" name="partSel" checked=""/><label for="roundedTwo02"></label></div>
-// <span>sel</span> - <span>&nbsp;</span>
     
 
     $('#played-parts .option span').each(function( index ) {
@@ -1926,8 +1275,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
   $('#remove').click(function() {  
 
-    //$('#played-parts option:selected').remove(); 
-
     $('#played-parts .option .roonded').each(function( index ) {
 
       var adddi = $(this).attr('id').slice(3);
@@ -1935,9 +1282,7 @@ $(".barloopnb").on("change paste keyup", function() {
       if ( $(this).is(":checked") ) {
         //console.log(adddi);
         $('#played-parts #op_'+adddi).remove();
-      }
-    
-
+      }    
     });
 
 
@@ -1953,9 +1298,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
       var blId = $(this).parent().attr('id').slice(3);
       optionObject.barloop = $('#bl_'+ blId).val();      
-      //optionObject.barloop = $('#bl_'+ optionObject.id).val(); // 2; // 
-
-//console.log($('#bl_'+ optionObject.id).attr('value'));
 
       optionObject.barelapsed = 0;
       optionObject.uid = blId;
@@ -1963,17 +1305,7 @@ $(".barloopnb").on("change paste keyup", function() {
       window.partSequencer[index] = optionObject;
     });
 
-    //console.log(window.partSequencer);
 
-    /*
-    $('#played-parts option').each(function( index ) {
-      var optionObject = {};
-      optionObject.name = $(this).text();
-      optionObject.id = $(this).attr('value');
-
-      window.partSequencer[index] = optionObject;
-    });
-    */
 
 
 
@@ -2007,6 +1339,7 @@ $(".barloopnb").on("change paste keyup", function() {
 
 
   } // end of if (typeof patterns !== 'undefined') {
+
 
 
 } else if (controls[j].id==9952) {
@@ -2071,7 +1404,6 @@ $(".barloopnb").on("change paste keyup", function() {
           var input = 4890;
 
           if (typeof input !== 'undefined') { // 
-            //$option = $('<div class="option"><span id="option'+input+'" value="'+song.id+'">'+song.name+'</span><input type="text" id="bl'+song.id+'" value="'+ song.name +'"/></div>');
             $option = $('<div class="option" id="op_'+song.id+'"><span value="'+song.id+'">'+song.name+'</span><input class="barloopnb" type="text" id="bl_'+song.id+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+song.id+'" name="songsel" /><label for="ps_'+song.id+'"></label></div></div>');
             $option.appendTo(containersongs);
           }        
@@ -2124,60 +1456,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
 
 
-
-
-
-
-
-        /*
-        if (typeof _model.instrument.channelInfo.songSeqState !== 'undefined') {
-          var songSeqStateValue = _model.instrument.channelInfo.songSeqState;
-        } else {
-          var songSeqStateValue = controls[j].x.value;
-        }      
-
-
-        
-        if (songSeqStateValue==1) {
-          window.stepSeq=1;
-          _model.onModifierChange({id: 201, parSeqState: 1});
-          var onOffstate = 'On';
-        } else {
-          window.stepSeq=0;
-          _model.onModifierChange({id: 201, parSeqState: 0});
-          var onOffstate = 'Off';
-        }
-
-        $item = $('</select></div><label>song sequencer</label><a href="#" id="sonseq" class="trigger-button">'+onOffstate+'</a>'); //
-        $item.appendTo(ctrlchangeParent);
-
-        if (songSeqStateValue==0) {
-          $('#song-sequencer').css('opacity', 0.3);
-          $('#parseq').addClass('off');
-        }     
-         
-
-
-        $('#sonseq').on('click', function (e) {
-            e.preventDefault();
-            $(this).text(function (_, text) {
-                return text === 'Off' ? 'On' : 'Off';
-            }).toggleClass('off');
-
-            if ( $(this).hasClass("off") ) {    
-              window.stepSeq = 0;
-              _model.onModifierChange({id: 201, parSeqState: 0});
-              $('#song-sequencer').css('opacity', 0.3);
-            } else {
-              window.stepSeq = 1;
-              _model.onModifierChange({id: 201, parSeqState: 1});
-              $('#song-sequencer').css('opacity', 1);
-            }
-
-        });  
-
-        */
-
       } // end of if (channelsongSeq.length!=0) {
     } // end of if (typeof channelsongSeq !== 'undefined') { 
 
@@ -2200,11 +1478,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
         $option2 = $('<div class="option" id="op_'+song.id+'"><span value="'+song.id+'">'+song.name+'</span><input class="barloopnb" type="text" id="bl_'+song.id+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+song.id+'" name="songsel" /><label for="ps_'+song.id+'"></label></div></div>');
         $option2.appendTo('#played-songs');
-
-
-
-
-
 
       });
 
@@ -2233,15 +1506,7 @@ $(".barloopnb").on("change paste keyup", function() {
                   if ( typeof songs !== 'undefined' ) {
 
                     for (var i = 0; i < songs.length; i++) {
-
-                      var result = $.grep(songs, function(e){ return e.id == window.songSequencer[0].id /*$(this).attr('value') selSong.id*/; });
-
-                      //console.log(result[0]); // selSong,
-
-                      /*if (typeof result[0] !== 'undefined') {
-                        var aValue = JSON.stringify(result[0]);
-                      } */
-                      //
+                      var result = $.grep(songs, function(e){ return e.id == window.songSequencer[0].id; });
                     }  
                   }   
                   //*/
@@ -2286,27 +1551,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
 
 
-
-/*
-      $(".barloopnb").on("change paste keyup", function() {
-
-        var adi = $(this).parent().attr('id').slice(3); // $(this).attr('id').slice(3);
-        var adi = $('#op_'+adi+' span').attr('value');
-        var barlpbn = $(this).val();
-        //console.log(adi, barlpbn);
-
-        $.each(window.partSequencer, function() {
-          if (this.id === adi) {
-            this.barloop = barlpbn;
-          }
-        });
-
-        //console.log(window.songSequencer);
-
-      });  
-*/
-
-
 $(".barloopnb").on("change paste keyup", function() {
 
   var adi1 = $(this).parent().attr('id').slice(3); 
@@ -2322,11 +1566,6 @@ $(".barloopnb").on("change paste keyup", function() {
   });
 
 }); 
-
-
-
-
-
 
            
     });  
@@ -2357,9 +1596,6 @@ $(".barloopnb").on("change paste keyup", function() {
 
         var blId = $(this).parent().attr('id').slice(3);
         optionObject.barloop = $('#bl_'+ blId).val();   
-
-        //optionObject.barloop = $('#bl_'+ optionObject.id).val(); // 2; // 
-
         optionObject.barelapsed = 0;
         optionObject.uid = blId;
 
@@ -2452,14 +1688,7 @@ if (rowsCount>=9) {
   var ptnHeight = 0.7*windowHeight;
 }
 
-//console.log('info', rowsCount, ptnHeight);
-
-//var ptnHeight = 0.85*windowHeight; // 0.7
-//console.log('heights: ', windowHeight, ptnHeight);
-
-
-
-// don't force height of pattern editor aka "piano" notes if device is displayed wihtin song editor via iFrame Resizer js lib
+// don't force height of pattern editor aka "piano" notes if device is displayed within song editor via iFrame Resizer js lib
 if ( 'parentIFrame' in window ) {
 
   //$('#pattern-editor').css('height', '100px');
@@ -2525,139 +1754,10 @@ $( this ).text(number+preText)
 });
 
 
-//console.log('int panel:', window.interfacePanel);
-//window.interfacePanel.add(window.sliderArray['800'],window.sliderArray['801']);   
-
-
-          //*/
-        /*
-        var input = new mixr.ui.Input(2, 'Tempo', container).initialize();
-        input.on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
-        //*/
-
-
-        //_conn.execute(mixr.enums.Events.MODIFIER_CHANGE, data);
-    //*/
-
-    //window.nx;
-
-/*
-  // get all canvases on the page and add them to the manager
-  var allcanvi = document.getElementsByTagName("canvas");
-  for (i=0;i<allcanvi.length;i++) nx.transform(allcanvi[i]);
-
-  if (nx.isTouchDevice) {
-    document.addEventListener("touchmove", nx.blockMove, true);
-    document.addEventListener("touchstart", nx.blockMove, true);
-  }
-  
-  nx.onload();
-
-  nx.startPulse();
-*/
-
-
-
         } // end of if (_model.instrument.controls!=0) 
-
-
-
-
-
-/*
-var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
-
-if (typeof kits  !== 'undefined') {
-  if (kits.length!=0) {    
-    window.kits = kits;  
-  }  
-}
-
-if (typeof window.kits  !== 'undefined') { // kits
-
-  var kits = window.kits;
-
-  var kit = Object.keys(kits); 
-  //console.log('kits + kit: ', kits, kit.length); 
-
-  if (kit.length!=0) {    
-
-    $itemKits = $('<div class="ctrlchange" id="thekits"><select id="kits" name="kits">'); // $itemContainer            
-    $itemKits.appendTo(container);
-    var containerKits = document.getElementById('kits');
-
-
-    //window.itemKits = $('<select id="kits" name="kits"></select>');
-    //var container = window.itemKits; // document.getElementById('kits');                     
-    
-
-
-    for (var i = 0; i < kits.length; i++) {
-      var kit = kits[i];
-      var input = 998 + i;// 400 + i; // 3 +  // better use controller id ex 998 as window prefix - 998
-      //console.log('input from kits: ', input);
-
-      if (typeof input !== 'undefined') { 
-        //console.log('ddmenu params: ', kits[i], kit, channelId);
-        window['ctrl'+input] = new mixr.ui.Ddmenu(998, kits[i], containerKits, i, kits, channelId, input).initialize();  
-        window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
-      } 
-    } 
-
-    $itemKits = $('</select></div>'); // $itemContainer            
-    $itemKits.appendTo(container);
-    //$('#modifiers').prepend($itemKits);
-  }
-}
-//*/
-
-
-
-
-
-
-
-
-/*
-//$('#modifiers').append( "<p id='new'>new paragraph after render</p>" ); 
-console.log('itemKit: ', window.itemKits);
-//window.itemKits.append('</select></div>');
-
-var kitsDivContainer = $('<div class="ctrlchange" id="id998"></div>');
-
-//var kitsEl = window.itemKits.appendTo(kitsDivContainer);
-
-var kitsEl = kitsDivContainer.append(window.itemKits);
-
-$('#modifiers').prepend(kitsEl);
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-
-
-
-
-
       });
+
+
 
       _model.on(mixr.enums.Events.SEQUENCER_BEAT, function(beat) { // , bar
         view.drawPlayhead(beat);
