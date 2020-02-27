@@ -22,46 +22,10 @@
     var $table = $item.find('table');
     var $keyboard = $item.find('div');// document.getElementById('keybox');
 
-    //var $itemAddClass = $item.addClass( "myClass yourClass" );
-    //var controllers = document.getElementById('modifiers');
 
     var _onToggleNote = function() {
 
-      //if (trackCount === 0) {
-       // _renderHeader(16);
-      //}
-
-
-
-      
-
       if (window.stepSeq==1) {
-/*
-         var classs = $('#patterns').find(":selected").attr('class');
-         var presetId = $('#presets').find(":selected").val();    
-         var patternId = $('#patterns').find(":selected").val();
-         var KitNumber = $('#kits').find(":selected").val(); 
-         
-         window['userPattern']._name_ = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
-         window['userPattern'].id = 'ch' + window.channelNumber + '_bar' + window.playedPatternOrder +'_onTheFly';
-
-         // put 'name' object key as first key to appear into Webstorage key=>value display
-         var alphaAscSortedUserPattern = sortObj(window['userPattern'],'asc');
-         var ptnString = JSON.stringify(alphaAscSortedUserPattern); 
-         var ptnString = ptnString.replace('_name_', 'name'); 
-
-
-
-        _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: 995, x: KitNumber, y: 0, pattern: ptnString, classs: classs, kitNumber: KitNumber, triggerMode: 'manual', patternId: window['userPattern'].id, presetId: presetId});
-        
-        localStorage.setItem('Loops-ptn_'+window['userPattern'].id, ptnString);
-
-
-        $itemOption = $('<option class="user" id="option'+window['userPattern'].id+'" value="'+window['userPattern'].id+'">'+window['userPattern']._name_+'</option>');
-        $itemOption.appendTo(document.getElementById('patterns'));
-        if( $('#patterns').length ) {
-          $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
-        } */
 
       } else {
 
@@ -75,7 +39,6 @@
 
       }
 
-
       var noteIndex = $(this).index();
 
       if (noteIndex === 0) return;
@@ -83,17 +46,8 @@
       noteIndex--; // compensate for label
 
 
-
-
-      //var activeNotesPerLine = $('.' + myclassname).length;
-
-      
-      //$("#pattern-editor tr[data-id='0-0'] td.active").length;
-
-
       // limit number of notes allowed per line for user
       var adi = $(this).parent().data('id');
-      //var maxPossNotes = $("#pattern-editor tr[data-id='"+adi+"'] td").length;
 
       if (typeof window['notesPerLine'] !== 'undefined') { // kill when loading pattern without noteLimitation param
         var notesAllowed = window['notesPerLine'].max;
@@ -109,52 +63,21 @@
 
       $("#notemin").html('noteMin: '+notesAllowedMin); 
       $("#notemax").html('noteMax: '+notesAllowed);         
-
       
       var activeNotes = $("#pattern-editor tr[data-id='"+adi+"'] td.active").length;
 
-      //window.activeNotes = activeNotes;
       window.notesAllowedMin = notesAllowedMin;
       window.notesAllowedMax = notesAllowed;
       
       //console.log('active, min, max:',  activeNotes , notesAllowedMin, notesAllowed);
 
       if (activeNotes == notesAllowedMin && activeNotes == notesAllowed && notesAllowedMin == notesAllowed && $(this).hasClass('active')) {
-//freezePtn = 1; //solution A
-freezePtn = 0; //solution B
+        //freezePtn = 1; //solution A
+        freezePtn = 0; //solution B
         //console.log('freeze! ');
-        //alert('block ptn edition');
       } else {
         freezePtn = 0;
       }
-
-
-
-
-      /*if ( $(this).hasClass('active') ) {
-        if (activeNotes == notesAllowedMin) {
-          var clickedNoteWasActive = 1;
-        }
-
-        
-      } else {
-        var clickedNoteWasActive = 0;
-      } */
-
-      
-
-
-
-      /* solution A
-      if ( $(this).hasClass('active') && activeNotes > notesAllowedMin && activeNotes < notesAllowed && activeNotes != notesAllowedMin && freezePtn == 0) { // && notesAllowedMin > activeNotes - && activeNotes+1 > notesAllowedMin - 
-        //console.log('clickedNoteWasActive', activeNotes, notesAllowedMin);
-        $(this).removeClass('active');
-        var isItOn = 0;
-      } else if (    activeNotes < notesAllowed && freezePtn == 0) { // !$(this).hasClass('active') && && activeNotes >= notesAllowedMin-1 - && activeNotes != notesAllowedMin - && freezePtn == 0
-        $(this).addClass('active');
-        var isItOn = 1;
-      } //*/
-
 
       // solution B
       if ( $(this).hasClass('active') && activeNotes != notesAllowedMin ) { // >
@@ -165,31 +88,6 @@ freezePtn = 0; //solution B
         var isItOn = 1;
       }      
 
-
-
-
-/*
-      if ( /*$(this).hasClass('active') &&/ activeNotes > notesAllowedMin && activeNotes < notesAllowed) { // && notesAllowedMin > activeNotes - &&/ activeNotes+1 > notesAllowedMin - && freezePtn == 0
-        console.log('remPass:',  activeNotes);
-        $(this).removeClass('active');
-        var isItOn = 0;
-      } 
-
-      if ( activeNotes > notesAllowedMin && activeNotes < notesAllowed) { // !$(this).hasClass('active') && && activeNotes >= notesAllowedMin-1 - && activeNotes != notesAllowedMin - && freezePtn == 0
-        console.log('addPass:',  activeNotes);
-        $(this).addClass('active');
-        var isItOn = 1;
-      }
-*/
-
-
-      
-
-        //var isItOn = $(this).toggleClass('active').hasClass('active');
-        //console.log('You clicked me dude', this, noteIndex, $(this).parent().index(), isItOn ? 1 : 0);    
-
-      //if ( !$('#pattern-editor table').hasClass("ptn-edit") ) {
-
       if ( freezePtn == 0) {  
         _self.emit(mixr.enums.Events.NOTE, {
           volume: isItOn ? 1 : 0,
@@ -198,11 +96,6 @@ freezePtn = 0; //solution B
           patternId: $('#patterns').find(":selected").val()
         });
       }  
-
-      //}  
-
-
-
     };
 
 
@@ -219,16 +112,6 @@ freezePtn = 0; //solution B
 
 
 
-
-
-
-    /*
-    var _startPlayHead = function () {
-      var playheadDuration = 60 / 120 * 4;
-      var $playhead = $('#playhead');
-      $playhead.css('-webkit-animation-duration', playheadDuration + 's');
-    };
-    */
     this.drawPlayhead = function (beat) {
       //console.log('beat', beat);
       /*var $tds = $('th:nth-child(' + (beat + 2) + ')');
@@ -237,6 +120,7 @@ freezePtn = 0; //solution B
       });
       $tds.addClass('beat');*/
     };
+
 
 
     this.addTrack = function (track, color) {
@@ -280,7 +164,6 @@ freezePtn = 0; //solution B
       //console.log('addTrack', track);
   
       // Check if we already have a key for that track
-      //if ($keyboard.find('span[class="trk' + track.id + '"]').length > 0) {
       if ($keyboard.find('span[id="k' + track.note + '"]').length > 0) {        
         return;
       }
@@ -292,19 +175,6 @@ freezePtn = 0; //solution B
       var $key = $('<span>').attr('class', 'white key trk'+track.id).attr('id', 'k'+track.note);
 
       $key.append($('<span>' + track.name + '</span>'));
-
-      /*for (var i = 0; i < track.notes.length; i++) {
-        var $td = $('<td>');
-        var number = i+1;
-        var stepNumber = '0' +number;
-        var stepNumber = stepNumber.slice(-2);
-        //$td.append(i+1);
-        $td.append(stepNumber);
-        if (track.notes[i] === 1) {
-          $td.addClass('active');
-        }
-        $row.append($td);
-      } */
 
       $key.css('background', color);
       $keyboard.append($key);
@@ -320,12 +190,12 @@ freezePtn = 0; //solution B
         $head.append($th);
       }
 
-      //$head.children().eq(0).attr('id', 'playhead');
-
       $table.append($head);
 
       //console.log('$head', $head);
     };
+
+
 
     /**
      * Shows an HTML element
@@ -333,11 +203,11 @@ freezePtn = 0; //solution B
      */
     this.show = function() {
       $item.show();
-
       //_startPlayHead();
-
       return this;
     };
+
+
 
     /**
      * Initializes the component

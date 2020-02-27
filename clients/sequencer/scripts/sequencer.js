@@ -101,7 +101,7 @@
     99: test
     */
 
-      this._sessionNumber = 12; 
+      this._sessionNumber = 13; 
     }
 
     console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);

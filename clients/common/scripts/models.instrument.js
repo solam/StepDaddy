@@ -74,7 +74,7 @@
             }
             break;          
           case 'AikeWebsynth1':
-            console.log('synth obj creation');
+            //console.log('synth obj creation');
             window[synthInstanceString] = new WebSynth(context);
             break;
           case 'MrSynth':
@@ -283,7 +283,9 @@
               //console.log('id', this.id, window[synthInstance]); 
                 //window[synthInstance].setVolume(0.1);
                 if (typeof window['awsbug'] == 'undefined' || typeof window['awsbug'] !== 'undefined' && window['awsbug']==0) {
-                  window[synthInstance].play(note); // , String(synthInstance)
+                  if ( window[synthInstance] !== null ) {
+                    window[synthInstance].play(note); // , String(synthInstance)
+                  }
                   //console.log('note:', synthInstance, note);
                 } else if (typeof window['awsbug'] !== 'undefined' && window['awsbug']==1) {
                   //delete window[synthInstance];  

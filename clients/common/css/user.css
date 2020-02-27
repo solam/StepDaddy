@@ -223,7 +223,8 @@ font-size: 7vw; /*5 - 10*/
   display:block;
   /*margin-left: 80px;*/
   /*padding-bottom: 12px;*/
-  margin-bottom: 8px;
+  margin-bottom: 3px; /*8px*/
+  margin-top: -18px; /* added feb 27 '20 */
 }
 
 body.control #channelinfo {
@@ -961,9 +962,9 @@ select#patterns option[selected]*/ {
 
     .channel4.session7 #control-menu, /* launch menu button */
     .channel4.session7 #ctrl10,  
-    .channel4.session7 #ctrl11,
-    #bodey.keyboard #ctrl10,
-    #bodey.keyboard #ctrl11 {
+    .channel4.session7 #ctrl11
+    /*#bodey.keyboard #ctrl10,
+    #bodey.keyboard #ctrl11*/ {
       display: none;
     }    
 
@@ -1426,4 +1427,35 @@ input.barloopnb {
 
 .session12.edt #right {
   float:none !important;
+}
+
+
+.session13 ul.menu#fixed li#exit 
+,.session13 #notemin
+,.session13 #notemax
+,.session13 .autoincundefined
+,.session13.channel1 #thekits
+,.channel2.session13 #id699
+ {
+  display:none !important;
+}
+
+
+div#channelinfo a.logo {
+  display: inline-block;
+  width: 55px;
+  background: transparent;
+  margin-right: 5px;
+  margin-top: -4px;
+}
+
+div#channelinfo a.logo > img {
+  background: transparent;
+  width: 100%;
+  height: 3%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 15px;
+  margin-right: 8px;  
 }

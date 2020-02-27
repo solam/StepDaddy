@@ -971,7 +971,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
 
 
 //*
-      { name: 'Change note range/pitch', // Choose
+      { name: 'Choose drumkit', // Choose - Change note range/pitch
         id: 998,
         type: 'ddmenu', 
         x: {
@@ -1354,7 +1354,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
 
 
 //*
-      { name: 'Change note range/pitch', // Choose
+      { name: 'Choose input mode', // Choose - Change note range/pitch
         id: 998,
         type: 'ddmenu', 
         x: {
@@ -4549,6 +4549,442 @@ conductor4: [ //
 
 
 
+
+,conductor6: [ // 
+
+        { // control
+          name: 'Sounding channel number',
+          id: 500,
+          type: 'hidden', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // 
+          },   
+          x: {
+              name: 'scn',
+              param: '[external]', 
+              midicc: 0,                      
+              value: 17,
+              stepSize: 0, // 
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+                                    
+
+{ 
+          name: 'Ch1 vol',
+          id: 800,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch1 vol',
+              param: '_insVol0', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'
+              }, 
+
+              midicc: 7,  // 74                    
+              value: 30, //
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on                   
+              mute: 1, // 0: off | 1: on  
+              muteKey: 49, // beware fr,fr azerty keyboard
+              muteNote: 48,
+              solo: 1,               
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        // Channel 2 = conductor role
+
+        { 
+          name: 'Ch2 vol',
+          id: 802,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button      
+          direction: 'horizontal', // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'ch2 vol',
+              param: '_insVol2', // [external] = does not change timbre generator param
+
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              }, 
+
+              midicc: 4,  // 71                    
+              value: 30,
+              stepSize: 0, // crénelage   
+              interpolate: 1, // 0: off | 1: on 
+              mute: 1,        
+              muteKey: 50,    
+              muteNote: 50,   
+              solo: 1,   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+
+        { 
+          name: 'Ch3 vol',
+          id: 803,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch3 vol',
+              param: '_insVol3', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 20, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              midicc: 3,
+              mute: 1,        
+              muteKey: 51,                
+              muteNote: 52,
+              solo: 1,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+        { 
+          name: 'Ch4 vol',
+          id: 804,
+          type: 'slider',
+          direction: 'horizontal',                             
+          x: {
+              name: 'ch4 vol',
+              param: '_insVol4', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 20, // 23
+              stepSize: 0, 
+              interpolate: 1, 
+              midicc: 13,
+              mute: 1,        
+              muteKey: 52,  
+              muteNote: 53,
+              solo: 1,
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        }, 
+
+
+        { 
+          name: 'Ch5 vol',
+          id: 805,
+          type: 'slider', 
+          direction: 'horizontal',                            
+          x: {
+              name: 'ch5 vol',
+              param: '_insVol5', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 20, // 30
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 14,
+              mute: 1,        
+              muteKey: 53,                
+              muteNote: 55,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+//*
+        { 
+          name: 'Ch6 vol',
+          id: 806,
+          type: 'slider',  
+          direction: 'horizontal',                           
+          x: {
+              name: 'ch6 vol',
+              param: '_insVol6', 
+              subParams: { 
+                AikeWebsynth1: 'volume.set',
+                CWilsoWAMidiSynth: 'onUpdateVolume', 
+                JoeSullivanDrumSynth: 'jsDrumMainvolume'  
+              },                   
+              value: 20,
+              stepSize: 0, 
+              interpolate: 1, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              midicc: 15,
+              mute: 1,        
+              muteKey: 54,                
+              muteNote: 57,
+              solo: 1,
+              min: 0,
+              max: 1
+          }                
+        }, 
+//*/
+        { // control
+          name: 'Tempo',
+          id: 999,
+
+          type: 'slider', // slider, dial/rotary_knob, switch_button  - input    
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'BPM',
+              param: '_tempo', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 120, // 100 - 85 110 - 119 - 125.41
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 60,
+              displayedRangeMax: 220, // 400
+              min: 60,
+              max: 220, // 400
+              autoValIncMode: 0, // 0: off | 1: on 
+              autoValIncBy: 4, // -1 - 1
+              autoValIncTime: 8,
+          }               
+        },
+
+        { // control
+          name: 'Channel change',
+          id: 997,
+
+          type: 'hidden', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },   
+          x: {
+              name: 'Channel change',
+              param: '[external]', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 0,
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 0,
+              max: 1
+          }                 
+        },
+
+        /*
+        { // control
+          name: 'Session change',
+          id: 996,
+
+          type: 'ddmenu', 
+          direction: 0, 
+          colors: { 
+            fg: '#51ACBD' 
+          },   
+          x: {
+              name: 'Session', //  dest (1>2) - Pick session
+              param: '[external]', 
+              midicc: 0,                      
+              value: 2, // starting at session 001
+              stepSize: 0, 
+              interpolate: 0, 
+              displayedRangeMin: 0,
+              displayedRangeMax: 1,
+              min: 1,
+              max: 2
+          }                 
+        }, */
+
+
+                                                       
+//*
+        { 
+          name: 'Rotation', // General Bar kickout time
+          id: 699,
+
+          type: 'input', // slider, dial/rotary_knob, switch_button      
+          direction: 0, // 'horizontal', 'vertical' for sliders    
+          colors: { // color params
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'rotation (in bars)', // General kickout time
+              param: '_insKickoutTime', // [external] = does not change timbre generator param
+              midicc: 0,                      
+              value: 99999999999999999999999999, // 90 ? don't - 32
+              stepSize: 0, // crénelage   
+              interpolate: 0, // 0: off | 1: on                   
+              displayedRangeMin: 0,
+              displayedRangeMax: 100,
+              min: 0,
+              max: 1
+          }                
+        },
+//*/
+
+/*
+        { 
+          name: 'General Per line Note Min',
+          id: 698,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Min',
+              param: '_noteMin', // [external]
+              midicc: 0,                      
+              value: 0, // 
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },    
+
+
+        { 
+          name: 'General Per line Note Max',
+          id: 697,
+
+          type: 'input', // 
+          direction: 0, // 
+          colors: { // 
+            fg: '#51ACBD' // foregroundColor
+          },          
+                    
+          x: {
+              name: 'General Note Max',
+              param: '_noteMax', // [external]
+              midicc: 0,                      
+              value: 16, // 16
+              stepSize: 1, // 
+              interpolate: 0, // 
+              displayedRangeMin: 0,
+              displayedRangeMax: 16,
+              min: 0,
+              max: 16
+          }                
+        },           
+*/
+      { 
+        name: 'Part sequencer ',
+        id: 9953,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Part',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+      { 
+        name: 'Save part',
+        id: 987,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save part',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },  
+
+      { 
+        name: 'Song sequencer ',
+        id: 9952,
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save song',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 0, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },  
+
+
+      { 
+        name: 'Save song',
+        id: 986,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save song',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },        
+
+      ] 
 
       
 

@@ -576,31 +576,37 @@ WebSynth.prototype.play = function(n) {
 if ( window['channel_0'] instanceof WebSynth ) {
   console.log('kill ch 0');
   window['channel_0'] = null;
+  return;
 }
 
 if ( window['channel_2'] instanceof WebSynth ) {
   console.log('kill ch 2');
   window['channel_2'] = null;
+  return;
 }
 
 if ( window['channel_3'] instanceof WebSynth ) {
   console.log('kill ch 3');
   window['channel_3'] = null;
+  return;
 }
 
 if ( window['channel_4'] instanceof WebSynth ) {
   console.log('kill ch 4');
   window['channel_4'] = null;
+  return;
 }
 
 if ( window['channel_5'] instanceof WebSynth ) {
   console.log('kill ch 5');
   window['channel_5'] = null;
+  return;
 }
 
 if ( window['channel_6'] instanceof WebSynth ) {
   console.log('kill ch 6');
   window['channel_6'] = null;
+  return;
 }
 
 

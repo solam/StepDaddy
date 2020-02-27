@@ -11,7 +11,6 @@
   <title>Sounds & visuals generator - ...Loops</title><!-- Sequencer -->
   <link rel="stylesheet" href="../common/css/user.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <!---->
   <link rel="stylesheet" href="../common/lib/noUiSlider/nouislider.min.css" />  
 
 
@@ -29,11 +28,11 @@
       margin-top: 10px;
     }
 
- .golo {
-  width:320px;
-  display:inline-block;
-  margin-bottom: 30px;
-}
+   .golo {
+      width:320px;
+      display:inline-block;
+      margin-bottom: 30px;
+    }
 
   </style>
 </head>
@@ -44,12 +43,10 @@
     </select>    
 
 
-<div id="instructions"><!--audio server loadedGénérateur sonore prêt<br/>-->
+<div id="instructions"><!--audio server loaded Générateur sonore prêt<br/>-->
   <img class="rounded" style="" src="../common/images/Loops_logo.png"><!-- width="220" height="220" -->
 
-
-
-<!--<div class="ins-right gfx">
+  <!--<div class="ins-right gfx">
     <br/>To join <span>...Loops Jam Session</span>
     <br/>1) Connect to <span>Wi-Fi ssid</span>: <span>loops (no password)</span>
     <br/>2) On your <span>device Web browser</span> type: http://<span>10.42.0.1:8282/device/?rm/nomopo</span>
@@ -66,6 +63,9 @@
   <div class="ins-right gfx"><!--  style="display:none; opacity:0;" -->
   <!--<h2>Open <span>Electro</span>nic Music <span>Jam</span> <span>Session</span> #1</h2>-->
   <!--<span style="color: white; font-size:40px;">pas de session d'impro en cours, revenez à telle heure !</span>-->
+
+    <script>
+    /*  
     <br/>Pour participer à l'<span>improvisation musicale:</span>
     <br/>1) Connecte-toi au <span>réseau Wi-Fi</span>: <span>loops (pas de mot de passe)</span><!-- * z-vous loops.play votre ou http://192.168.2.24:8282/device/?rm/nomopo -->
     <br/>2) Sur ton <span>navigateur Web</span> tape l'adresse: http://<span>loops.play</span>
@@ -74,6 +74,9 @@
     <br/> galérez avec le DHCP -->
     <br/><div style="font-size: 20px; position:relative; top: 55px; left: 60%">Pour toute requête: <span>loops@solam.co</span></div><!-- left 50% for 1920px width -->
     <!--<span style="font-size: 0.65em; color: lightgrey;">Merci à Maël pour le "debug" du réseau Wi-Fi !</span>-->
+    */
+    </script>
+
   </div>
 
   <!--<div class="ins-right" style="display:none">
@@ -130,7 +133,7 @@
 
   <div id="audio-server-status" class="greenborder">
     <div style="display:none;" id="audio-server-ready"></div>
-    <span>Available slot(s)</span><!--  Instrument(s) disponible(s): -->
+    <span>Available channel(s)</span><!--  Instrument(s) disponible(s): Available slot(s) -->
     <div id="audio-server-available-slots"></div>
   </div>
 
@@ -187,8 +190,6 @@
   <!--<script type="text/javascript">var smoothie = {'requirePath':['/','./instruments/jsdrumsynth/']};</script>-->
   <script src="../common/lib/smoothie-master/standalone/require.js"></script>
   
-
-  
   <script src="../common/scripts/namespaces.js"></script>
   <script src="../common/scripts/utils.js"></script>
   <script src="../common/scripts/mixins.eventtarget.js"></script>
@@ -198,14 +199,12 @@
   <script src="../common/scripts/net.response.js"></script>
   <script src="../common/scripts/net.proxyrequest.js"></script>
 
-
   <script src="../sequencer/instruments/mrsynth.js"></script> <!-- tanguy -->
   <script src="../sequencer/instruments/websynth_dsp.js"></script>
   <script src="../sequencer/instruments/midi-synth-master/js/waveshaper.js"></script>
   <script src="../sequencer/instruments/midi-synth-master/js/synth.js"></script>
-    <script src="../sequencer/instruments/jsdrumsynth/jsdrumsynth.js"></script>
+  <script src="../sequencer/instruments/jsdrumsynth/jsdrumsynth.js"></script>
   
-
   <!--<script src="../sequencer/instruments/viktor-nv1-engine/src/bundle.js"></script>-->
 
   <script src="scripts/instruments_config.js"></script>
@@ -219,7 +218,6 @@
   <script src="../common/scripts/ui.slider.js"></script>
 
   <script src="../common/scripts/views.sequencerview.js"></script>
-
   
   <script src="scripts/browser-polyfill.min.js"></script>
   <script src="scripts/recorder.js"></script>
@@ -228,313 +226,190 @@
   <script src="scripts/mixer.js"></script>
 
 
-
-
-
   <script type="text/javascript">
+    //*
+    var recMode = 'manual'; // manual | auto  
 
+    var audioc = window['audio_context'];
+    var rec = new Recorder(audioc);
 
-/*
-// success callback when requesting audio input stream
-function gotStream(stream) {
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var audioContext = new AudioContext();
-
-    // Create an AudioNode from the stream.
-    var mediaStreamSource = audioContext.createMediaStreamSource( stream );
-
-    // Connect it to the destination to hear yourself (or any other node for processing!)
-    mediaStreamSource.connect( window['audio_context'] ); // audioContext.destination
-}
-
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-navigator.getUserMedia( {audio:true}, gotStream );
-
-*/
-
-
-
-
-
-
-
-
-//*
-
-
-var recMode = 'manual'; // manual | auto  
-
-var audioc = window['audio_context'];
-var rec = new Recorder(audioc);
-
-
-if (recMode=='manual') {
-
-    var startDate = new Date();
-    window.startTime = startDate.getTime();
-} else {
-    window.startTime = window.SEQ._audioServerStartTimestamp;
-}  
-
-
-
-function stopRec() {
-  console.log('stop rec called');  
-  rec.stop();
-  rec.exportWAV(dlWav);
-  rec.clear(); // non contiguous mode
-  //Recorder.forceDownload(blob);
-}  
-
-function dlWav(blob) {
-  Recorder.forceDownload(blob, "rec_" + window.startTime + ".wav"); // window.SEQ._audioServerStartTimestamp
-}   
-
-
-if (recMode=='manual') {
-
-  $('#start_rec').on('click', function (e) {
-      e.preventDefault();
-      $(this).text(function (_, text) {
-          return text === 'Stop Rec' ? 'Start Rec' : 'Stop Rec';
-      }).toggleClass('stop_rec');
-
-    if ( $(this).hasClass("stop_rec") ) {    
-      rec.record();
+    if (recMode=='manual') {
       var startDate = new Date();
       window.startTime = startDate.getTime();
-      console.log("manual start rec at", window.startTime);
     } else {
-      stopRec();
-      console.log("manual stop rec");  
+      window.startTime = window.SEQ._audioServerStartTimestamp;
+    }  
+
+    function stopRec() {
+      console.log('stop rec called');  
+      rec.stop();
+      rec.exportWAV(dlWav);
+      rec.clear(); // non contiguous mode
+    }  
+
+    function dlWav(blob) {
+      Recorder.forceDownload(blob, "rec_" + window.startTime + ".wav"); // window.SEQ._audioServerStartTimestamp
+    }   
+
+    if (recMode=='manual') {
+
+      $('#start_rec').on('click', function (e) {
+          e.preventDefault();
+          $(this).text(function (_, text) {
+              return text === 'Stop Rec' ? 'Start Rec' : 'Stop Rec';
+          }).toggleClass('stop_rec');
+
+        if ( $(this).hasClass("stop_rec") ) {    
+          rec.record();
+          var startDate = new Date();
+          window.startTime = startDate.getTime();
+          console.log("manual start rec at", window.startTime);
+        } else {
+          stopRec();
+          console.log("manual stop rec");  
+        }
+      });  
+
+
+    } else {
+      $("#start_rec").hide();
+      rec.record();
+      console.log("auto start rec");
     }
 
-  });  
-
-
-} else {
-
-  $("#start_rec").hide();
-  rec.record();
-  console.log("auto start rec");
-
-}
-
-// */
-
-
-
-  //console.log('seq object, audio context, audio_rec_gal', window.SEQ._audioServerStartTimestamp, window['audio_context'], window['audio_rec_gal']); // seq object: window['SEQ']   
-
-
-
-
-
-  
-
- 
-
-  //setTimeout(stopRec, 10000);
-
-
-  
-  
-
-
-/* show dialog ton confirm leaving browser page or not
-  window.onbeforeunload = function(e) {
-    if (recMode=='auto') {  
-      stopRec();
-      console.log("auto stop rec");
-     } 
-  console.log('page refresh called');      
-  return 'current rec stopped - press yes to start a new recording';
-};
-
-/*
-$(window).unload(function() {
-    console.log('? back putton pressed');
-      alert('Handler for .unload() called.');
-}); 
-*/
-
-//*/
-
-
-
-var windowWidth = $(window).width();
-var windowWidth = Number(windowWidth)-3;
-
-$('#audiovis-gen').css('width', windowWidth);
-
-//console.log('windowWidth:', windowWidth);
-
-
-
-/*
-var NV1Engine = require( "viktor-nv1-engine" ),
-    AudioContext = global.AudioContext || global.webkitAudioContext,
-    store = require( "store" ),
-    dawEngine,
-    patchLibrary;
-
-NV1Engine.create( AudioContext, store, function( dEngine, pLibrary ) {
-
-    dawEngine = dEngine;
-    patchLibrary = pLibrary;
-
-} );
-
-*/
-/*
-
-  document.querySelector('button').addEventListener('click', function() {
-
-  //if ( typeof window['audio_context'].resume !== 'undefined' ) {
-  
-    window['audio_context'].resume().then(() => {
-      console.log('Playback resumed successfully');
-    });  
-
-  //}  
-
-
-});
-
-*/
-
-
-var state = history.state || {};
-var reloadCount = state.reloadCount || 0;
-if (performance.navigation.type === 1) { // Reload
-    state.reloadCount = ++reloadCount;
-    history.replaceState(state, null, document.URL);
-} else if (reloadCount) {
-    delete state.reloadCount;
-    reloadCount = 0;
-    history.replaceState(state, null, document.URL);
-}
-
-/*
-if (reloadCount >= 2) {
-    // Now, do whatever you want...
-    alert('The page was reloaded more than twice!');
-} */
-
-console.log('reloadCount, window.sessionId : ', reloadCount, window.sessionid );
-
-
-
-
-
-var relo = localStorage.getItem('rreellooaadd');  
-
-
-if ( typeof relo !== 'undefined' ) {
-
-  if ( relo == 0 ) {
-    reloadCount = 0;
-
-
-      /*
-      window.setTimeout(function () {    
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/nomopo', '_blank');
-        window.open('http://'+ip+':8282/device/?'+window.roomId+'/nomopo/noptnseq', '_blank');
-      }, 1000); 
-      */  
-
-
-  }  
-
-}
-
-ip = '192.168.1.47';
-
-
-
-
-setTimeout(function(){ 
-
-  if ( window['audio_context'].context.state == "running" ) {
-    console.log(window['audio_context'].context.state);
-
-
-  if ( typeof window.ptnmode !== 'undefined' && typeof window.roomId !== 'undefined' && typeof window.childRoom !== 'undefined' && typeof window.loadedTabs === 'undefined' 
-    && reloadCount == 0) { 
-
-    //window.rreellooaadd = 1;
-    localStorage.setItem("rreellooaadd", 1);
-
-    if ( window.ptnmode == 1 ) {
-
-      //*
-
-      window.setTimeout(function () {    
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0', '_blank');
-        var tab1 = window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/noptnseq', '_blank');
-        //var tab1 = null;
-      }, 500); 
-//*
-      window.setTimeout(function () {    
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/2', '_blank');
-        window.open('http://'+ip+':8282/device/?'+window.roomId+'/2/noptnseq', '_blank');
-      }, 4000); 
-
-      window.setTimeout(function () {    
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/3', '_blank');
-        window.open('http://'+ip+':8282/device/?'+window.roomId+'/3/noptnseq', '_blank');
-      }, 6000); 
-
-      window.setTimeout(function () {    
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/4', '_blank');
-        window.open('http://'+ip+':8282/device/?'+window.roomId+'/4/noptnseq', '_blank');
-      }, 8000);     
-
-      //*
-      window.setTimeout(function () {
-        //window.open('http://'+ip+':8282/device/?'+window.roomId+'/1/mopo', '_blank');
-        window.open('http://'+ip+':8282/device/?'+window.roomId+'/1', '_blank');        
-      }, 10000);  
-      //*/                   
-//*/
-      //window.loadedTabs = 1; // beware multiple call to this page = keeps loading new tabs...
-
-      //*/
-
-
+    /* show dialog ton confirm leaving browser page or not
+      window.onbeforeunload = function(e) {
+        if (recMode=='auto') {  
+          stopRec();
+          console.log("auto stop rec");
+         } 
+      console.log('page refresh called');      
+      return 'current rec stopped - press yes to start a new recording';
+    };
+
+    /*
+    $(window).unload(function() {
+        console.log('? back putton pressed');
+          alert('Handler for .unload() called.');
+    }); 
+    */
+
+
+    var windowWidth = $(window).width();
+    var windowWidth = Number(windowWidth)-3;
+
+    $('#audiovis-gen').css('width', windowWidth);
+
+    //console.log('windowWidth:', windowWidth);
+
+
+
+
+    var state = history.state || {};
+    var reloadCount = state.reloadCount || 0;
+    if (performance.navigation.type === 1) { // Reload
+        state.reloadCount = ++reloadCount;
+        history.replaceState(state, null, document.URL);
+    } else if (reloadCount) {
+        delete state.reloadCount;
+        reloadCount = 0;
+        history.replaceState(state, null, document.URL);
     }
 
-  }
+    /*
+    if (reloadCount >= 2) {
+        // Now, do whatever you want...
+        alert('The page was reloaded more than twice!');
+    } */
 
-  } else {
-    localStorage.setItem("rreellooaadd", 0);
-    //location.reload(true); // (under Song editor on main page) 
-    alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
-    //window.rreellooaadd = 0;
+    console.log('reloadCount, window.sessionId : ', reloadCount, window.sessionid );
+
+
+    var relo = localStorage.getItem('rreellooaadd');  
+
+    if ( typeof relo !== 'undefined' ) {
+      if ( relo == 0 ) {
+        reloadCount = 0;
+        /*
+        window.setTimeout(function () {    
+          //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/nomopo', '_blank');
+          window.open('http://'+ip+':8282/device/?'+window.roomId+'/nomopo/noptnseq', '_blank');
+        }, 1000); 
+        */  
+      }  
+    }
+
+
+
     
-  }
+    if ( typeof window.ip !== 'undefined' ) {
+      ip = window.ip;
+    } else {
+      ip = '192.168.1.16'; // Beware hardcoded value! // '127.0.0.1:8282'
+    }
+
+    //console.log('window.ip', window.ip);
+
+    setTimeout(function(){ 
+
+      if ( window['audio_context'].context.state == "running" ) {
+        console.log(window['audio_context'].context.state);
 
 
-}, 5000); 
+      if ( typeof window.ptnmode !== 'undefined' && typeof window.roomId !== 'undefined' && typeof window.childRoom !== 'undefined' && typeof window.loadedTabs === 'undefined' 
+        && reloadCount == 0) { 
 
+        localStorage.setItem("rreellooaadd", 1);
 
+        if ( window.ptnmode == 1 ) {
 
+          //*
 
+          window.setTimeout(function () {    
+            //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0', '_blank');
+            var tab1 = window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/noptnseq', '_blank');
+            //var tab1 = null;
+          }, 500); 
+    //*
+          window.setTimeout(function () {    
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/2/noptnseq', '_blank');
+          }, 4000); 
 
+          window.setTimeout(function () {    
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/3/noptnseq', '_blank');
+          }, 5500); 
 
+          window.setTimeout(function () {    
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/4/noptnseq', '_blank');
+          }, 7000);     
 
-  //_synth.filter.set_freq(128);
-  /*
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-3983098-4']);
-    _gaq.push(['_setDomainName', '72lions.com']);
-    _gaq.push(['_trackPageview']);
+          window.setTimeout(function () {    
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/5/noptnseq', '_blank');
+          }, 8500);    
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();*/
+          window.setTimeout(function () {    
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/6/noptnseq', '_blank');
+          }, 10000);                          
+
+          //*
+          window.setTimeout(function () {
+            window.open('http://'+ip+':8282/device/?'+window.roomId+'/1', '_blank');        
+          }, 11500);  
+          //*/                   
+    //*/
+          //window.loadedTabs = 1; // beware multiple call to this page = keeps loading new tabs...
+
+          //*/
+        }
+      }
+
+      } else {
+        localStorage.setItem("rreellooaadd", 0);
+        //location.reload(true); // (under Song editor on main page) 
+        alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
+        //window.rreellooaadd = 0;    
+      }
+    }, 5000); 
 
   </script>
 </body>
