@@ -10,9 +10,10 @@
 		<script type="text/javascript">
 
     ip = '192.168.1.16:8282';
-  //ip = 'loops.solam.co/editor'; // online version
-    //ip = '127.0.0.1';
-    //ip = 'localhost';
+    //ip = 'loops.solam.co/editor'; // online version
+
+    comode= 'http';
+    //comode= 'https'; // online version
 
     roomaId = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
 
@@ -345,7 +346,7 @@ h1 span {
 
 </div>        
 
-    <button id="button" type="button">Click me to "play music" (sound off by default on Chrome 70+: Autoplay Policy)</button>
+    <button id="button" type="button" title="audio disabled by default on Chrome 70+: need of a user gesture to allow Web Audio">Click me to "play music" (sound off by default on Chrome 70+: Autoplay Policy)</button>
 
     <!--<br/>
     <br/>-->
@@ -387,22 +388,22 @@ h1 span {
     </li>  
   <!--<div class="row">--><!-- jquery apply class starting at 5th item -->    
 
-    <!--  
+     
     <li>
-        <div>
-            <iframe id="d5" class="device" scrolling="no"></iframe>
+        <div class="fram">
+            <iframe id="d5" class="device" scrolling="yes"></iframe>
         </div>
     </li>
 
 
 
     <li>
-      <div>
-            <iframe id="d6" class="device" scrolling="no"></iframe>
+      <div class="fram">
+            <iframe id="d6" class="device" scrolling="yes"></iframe>
       </div>
     </li>
 
-    
+    <!-- 
     <li>
         <div>
             <iframe id="d7" class="device" scrolling="no"></iframe>
@@ -476,7 +477,7 @@ h1 span {
         <div class="fram">
             <!--<iframe src="http://127.0.0.1:8282/sequencer/?rm/nochild" scrolling="no"></iframe>-->
             <!--<iframe src="http://192.168.1.47:8282/sequencer/?rm/nochild" scrolling="no" allow="autoplay"></iframe>-->
-            <iframe id="soundgen" scrolling="no"></iframe>
+            <iframe id="soundgen" scrolling="yes"></iframe>
             <!--<iframe id="soundgen" scrolling="no"></iframe>-->
 
         </div>
@@ -501,7 +502,7 @@ h1 span {
 <div id="addlinks">
         <a class="link" id="trackauthor" href="https://www.youtube.com/watch?v=ViN2bRGrBx8" target="_blank" >Giorgio Moroder - The Chase</a>
         <br/><br/>
-        <button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button><!-- ' MODE -->
+        <!--<button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button> ' MODE -->
 <br/><br/>
 <!--<span>Use Chrome as browser on a (desktop) computer with a cable network connection (no Wi-Fi as network latency not short enough)</span>-->       
 
@@ -546,77 +547,6 @@ h1 span {
 
 
 
-
-
-
-
-    /* Light YouTube Embeds by @labnol */
-    /* Web: http://labnol.org/?p=27941 */
-/*
-    document.addEventListener("DOMContentLoaded",
-        function() {
-            var div, n,
-                v = document.getElementsByClassName("youtube-player");
-            for (n = 0; n < v.length; n++) {
-                div = document.createElement("div");
-                div.setAttribute("data-id", v[n].dataset.id);
-                div.innerHTML = labnolThumb(v[n].dataset.id);
-                div.onclick = labnolIframe;
-                v[n].appendChild(div);
-            }
-        });
-
-    function labnolThumb(id) {
-        var thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
-            play = '<div class="play"></div>';
-        return thumb.replace("ID", id) + play;
-    }
-
-    function labnolIframe() {
-        var iframe = document.createElement("iframe");
-        var embed = "https://www.youtube.com/embed/ID?autoplay=1";
-        iframe.setAttribute("src", embed.replace("ID", this.dataset.id));
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allowfullscreen", "1");
-        this.parentNode.replaceChild(iframe, this);
-    }
-
-
-*/
-
-
-
-
-//$('#button')[0].click(); // get(0).click(); // .trigger('click');  
-//setTimeout(function(){ $('#button').trigger('click')}, 100);    
-
-/*
-			iFrameResize({
-				log                     : false,                  // Enable console logging
-				enablePublicMethods     : true,                  // Enable methods within iframe hosted page
-				resizedCallback         : function(messageData){ // Callback fn when resize is received
-					$('p#callback').html(
-						'<b>Frame ID:</b> '    + messageData.iframe.id +
-						' <b>Height:</b> '     + messageData.height +
-						' <b>Width:</b> '      + messageData.width + 
-						' <b>Event type:</b> ' + messageData.type
-					);
-				},
-				messageCallback         : function(messageData){ // Callback fn when message is received
-					$('p#callback').html(
-						'<b>Frame ID:</b> '    + messageData.iframe.id +
-						' <b>Message:</b> '    + messageData.message
-					);
-					alert(messageData.message);
-				},
-				closedCallback         : function(id){ // Callback fn when iFrame is closed
-					$('p#callback').html(
-						'<b>IFrame (</b>'    + id +
-						'<b>) removed from page.</b>'
-					);
-				}
-			});
-*/
 
 
 //*
@@ -664,7 +594,8 @@ for (var i = 0; i < parts.length; i++) {
 
 console.log('session: ',$_GET['session']);  
 
- 
+
+//jQuery('#button').hide(); 
 jQuery('#button').show();
 
   document.querySelector('button').addEventListener('click', function() {
@@ -682,50 +613,6 @@ jQuery('#button').show();
     //$(this).attr("class", "enabled");
     $('#button').addClass("enabled");
 
-  //if ( typeof window['audio_context'].resume() !== 'undefined' ) {
-    /*
-    window['audio_context'].resume().then(() => {
-      console.log('Playback resumed successfully');
-
-
-/*
-
-//$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?rm/nochild'); 
-//sleep(1500);
-
-        //$('iframe#d0').attr('src', 'http://'+ip+':8282/device/?rm/0');
-        //sleep(800);
-        
-        $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?rm/2');
-        sleep(800);
-
-        
-        $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?rm/3');
-
-
-        sleep(800);
-        $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?rm/4');
-
-
-        sleep(800);
-        $('iframe#d5').attr('src', 'http://'+ip+':8282/device/?rm/5');
-        sleep(800);
-        $('iframe#d6').attr('src', 'http://'+ip+':8282/device/?rm/6');
-        sleep(800);
-
-        $('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?rm/1');
-
-// /
-
-
-
-
-
-    });  
-
-    */
-
-  //}  
 
 
 });
@@ -761,53 +648,6 @@ $('#buttonDISABLED').click(function() {
 
 
 
-//jQuery('#button').simulateClick('click'); //.alert('click');
-
-
-//$('#soundgen').trigger('click');
-
-//$('#soundgen').get(0).click();
-
-//$('#soundgen2')[0].click();
-
-//document.getElementById('soundgen').click();
-
-
-
-//*
-  /*var win*/ //e = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank');
-
-  //window.parent.opener.focus();
-
-//e = window;
-//while (e.frameElement !== null) {e = e.parent;}
-//e.parent.focus();  
-
-//*/
-
-
-
-  //window.open('http://127.0.0.1:8282/sequencer/?rm/nochild','newwindow','width=500,height=420,top=100,left=850');
-
-
-//window.open('http://127.0.0.1:8282/device/?rm/1','newwindow','width=500,height=420,top=100,left=850');
-
-  //$('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/1');
-
-  //Object.assign(document.createElement('a'), { target: '_blank', href: 'http://127.0.0.1:8282/sequencer/?rm/nochild'}).click();
-
-
-/*
-//var win = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild', '_blank');
-var win = window.open('http://127.0.0.1:8282/sequencer/?rm/nochild','newwindow','width=500,height=420,top=100,left=850');
-if (win) {
-    //Browser has allowed it to be opened
-    //win.focus();
-} else {
-    //Browser has blocked it
-    alert('Please allow popups for this website');
-}
-//*/
 
 
   function sleep(milliseconds) {
@@ -818,31 +658,6 @@ if (win) {
       }
     }
   }
-
-/*
-   window.setTimeout(function () {
-        $('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/mopo');
-    }, 300); 
-*/
-
-
-
-
-
-/*
-if ( typeof window.webaudio !== 'undefined' ) {
-
-  if (window.webaudio == 'enabled' ) {
-
-  } else {
-    location.reload(true);
-  }
-
-
-} else {
-  location.reload(true);
-} 
-*/
 
 
 
@@ -857,7 +672,16 @@ if ( typeof $_GET['session'] !== 'undefined' ) {
     document.title = 'Mr Fingers - Can You Feel It (...Loops song editor)';
     
     
-  }
+  } else if ( sess == '/session11' ) {
+
+  } else if ( sess == '/session13' ) {
+    $('body').css("background-image", "none");  
+    $('body').css("background-color", "rgba(200, 200, 200, 0.4)");
+    //$('body').css("background-image", "url('./common/images/Larry_Heard.jpg')"); // online version
+    //$("#trackauthor").attr("href", "").html('&nbsp;');
+    $("#trackauthor").hide();
+    document.title = 'Blank song template (...Loops song editor)';    
+  }  
 
 
 
@@ -883,7 +707,7 @@ if ( typeof $_GET['session'] !== 'undefined' ) {
 
 
   window.setTimeout(function () {
-      var nexturl = 'http://'+ip+'/sequencer/?'+roomaId2+'/nochild/ptnmode11';
+      var nexturl = comode+'://'+ip+'/sequencer/?'+roomaId2+'/nochild/ptnmode13';
       window.location.replace(nexturl); 
   }, 2000); 
 
@@ -900,7 +724,10 @@ if ( typeof $_GET['session'] !== 'undefined' ) {
 
 
 //http://192.168.1.47:8282/sequencer/?rm/nochild
-$('iframe#soundgen').attr('src', 'http://'+ip+'/sequencer/?'+roomaId+'/nochild'+sess).attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+$('iframe#soundgen').attr('src', comode+'://'+ip+'/sequencer/?'+roomaId+'/nochild'+sess).attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+
+// open as pop-up to be able to record audio
+//window.open(comode+'://'+ip+'/sequencer/?'+roomaId+'/nochild'+sess,'newwindow','width=500,height=420,top=100,left=850');
 
 
 window.setTimeout(function () {
@@ -909,24 +736,33 @@ window.setTimeout(function () {
 
 
   window.setTimeout(function () {
-    jQuery('#button').remove();
-    $('iframe#d0').attr('src', 'http://'+ip+'/device/?'+roomaId+'/0/edt/').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
-  }, 2000); 
+    //jQuery('#button').remove();
+    //jQuery('#button').show();
+    $('iframe#d0').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/0/edt/').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+  }, 1500); 
 
   window.setTimeout(function () {
-    $('iframe#d2').attr('src', 'http://'+ip+'/device/?'+roomaId+'/2/edt/');
-  }, 4000); 
+    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/2/edt/');
+  }, 3000); 
 
   window.setTimeout(function () {
-    $('iframe#d3').attr('src', 'http://'+ip+'/device/?'+roomaId+'/3/edt/');
+    $('iframe#d3').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/3/edt/');
+  }, 4500); 
+
+  window.setTimeout(function () {
+    $('iframe#d4').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/4/edt/');
   }, 6000); 
 
   window.setTimeout(function () {
-    $('iframe#d4').attr('src', 'http://'+ip+'/device/?'+roomaId+'/4/edt/');
-  }, 8000); 
+    $('iframe#d5').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/5/edt/');
+  }, 7500); 
 
   window.setTimeout(function () {
-    $('iframe#conductor').attr('src', 'http://'+ip+'/device/?'+roomaId+'/1/edt/');
+    $('iframe#d6').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/6/edt/');
+  }, 9000);   
+
+  window.setTimeout(function () {
+    $('iframe#conductor').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/1/edt/');
 /*
     $('#list div').each(function () {
         $(this).append('<span class="togglebutton">Toggle</span>');
@@ -936,140 +772,12 @@ window.setTimeout(function () {
   $("span.togglebutton").show();
   $("iframe").show();
 
-  }, 10000); 
+  }, 11500); 
 
 
 }, 1000);
 
 
-//*
-   window.setTimeout(function () { // DISABLED 
-        //$('iframe.device').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo'); // en désordre
-        //sleep(300);
-
-/*
-window.open('http://127.0.0.1:8282/device/?rm/0','newwindow1', 'width=300,height=200,top=50,left=50');
-sleep(500);
-
-window.open('http://127.0.0.1:8282/device/?rm/2','newwindow2', 'width=300,height=200,top=50,left=350');
-sleep(500);
-
-window.open('http://127.0.0.1:8282/device/?rm/3','newwindow3', 'width=300,height=200,top=50,left=650');
-sleep(500);
-
-window.open('http://127.0.0.1:8282/device/?rm/4','newwindow4', 'width=300,height=200,top=250,left=950');
-sleep(500);
-
-window.open('http://127.0.0.1:8282/device/?rm/5','newwindow5', 'width=300,height=200,top=250,left=550');
-sleep(500);
-
-window.open('http://127.0.0.1:8282/device/?rm/6','newwindow6', 'width=300,height=200,top=250,left=350');
-
-sleep(500);
-
-*/
-
-/*
-var win1 = window.open('http://127.0.0.1:8282/device/?rm/0', '_blank');
-
-var win2 = window.open('http://127.0.0.1:8282/device/?rm/2', '_blank');
-
-var win3 = window.open('http://127.0.0.1:8282/device/?rm/3', '_blank');
-
-var win4 = window.open('http://127.0.0.1:8282/device/?rm/4', '_blank');
-
-*/
-
-//$('iframe#soundgen').attr('src', 'http://'+ip+':8282/sequencer/?rm/nochild'); 
-//sleep(1500);
-
-
-//jQuery('#button').hide();
-
-
-
-
-
-
-/*  
-
-
-        $('iframe#d0').attr('src', 'http://'+ip+':8282/device/?rm/0');
-        sleep(4000);
-
-
-        
-        $('iframe#d2').attr('src', 'http://'+ip+':8282/device/?rm/2');
-        sleep(4000);
-
-        
-        $('iframe#d3').attr('src', 'http://'+ip+':8282/device/?rm/3');
-
-        // use this page for global paramz
-        //$('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/waiting-room.html');
-
-        
-
-        
-        sleep(4000);
-        $('iframe#d4').attr('src', 'http://'+ip+':8282/device/?rm/4');
-
-
-
-        //sleep(1800);
-        $('iframe#d5').attr('src', 'http://'+ip+':8282/device/?rm/5');
-        //sleep(1800);
-        $('iframe#d6').attr('src', 'http://'+ip+':8282/device/?rm/6');
-        //sleep(2000);
-
-        
-        //$('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/7');
-        //sleep(2000);
-        //$('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/8');  
-        
-
-
-sleep(4000);
-        //$('iframe#conductor').attr('src', 'http://127.0.0.1:8282/device/?rm/mopo');
-$('iframe#conductor').attr('src', 'http://'+ip+':8282/device/?rm/1');
-// */
-
-        /*sleep(1000);
-        $('iframe#d1').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d2').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        /*sleep(1000);
-        $('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d4').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d5').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d6').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(1000);
-        $('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');*/                
-    }, 1000);  // 500 800
-//*/
-/*        
-        sleep(1000);
-        $('iframe#d1').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d2').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d3').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d4').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d5').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d6').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d7').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');
-        sleep(2000);
-        $('iframe#d8').attr('src', 'http://127.0.0.1:8282/device/?rm/nomopo');    
-*/
 });
 
 //console.log(window.webaudio, webaudio);

@@ -1459,3 +1459,7 @@ div#channelinfo a.logo > img {
   top: 15px;
   margin-right: 8px;  
 }
+
+.soundgen h1 {
+  font-size: 1.2em;  
+}

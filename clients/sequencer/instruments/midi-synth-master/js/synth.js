@@ -1,126 +1,49 @@
-
-
-
-
-
-
-//var audioContext = null;
-//var isMobile = false;	// we have to disable the convolver on mobile for performance reasons.
-
-
-
-/*
-var keys = new Array( 256 );
-
-//Lower row: zsxdcvgbhnjm...
-keys[16] = 41; // = F2
-keys[65] = 42;
-keys[90] = 43;
-keys[83] = 44;
-keys[88] = 45;
-keys[68] = 46;
-keys[67] = 47;
-keys[86] = 48; // = C3
-keys[71] = 49;
-keys[66] = 50;
-keys[72] = 51;
-keys[78] = 52;
-keys[77] = 53; // = F3
-keys[75] = 54;
-keys[188] = 55;
-keys[76] = 56;
-keys[190] = 57;
-keys[186] = 58;
-keys[191] = 59;
-
-// Upper row: q2w3er5t6y7u...
-keys[81] = 60; // = C4 ("middle C")
-keys[50] = 61;
-keys[87] = 62;
-keys[51] = 63;
-keys[69] = 64;
-keys[82] = 65; // = F4
-keys[53] = 66;
-keys[84] = 67;
-keys[54] = 68;
-keys[89] = 69;
-keys[55] = 70;
-keys[85] = 71;
-keys[73] = 72; // = C5
-keys[57] = 73;
-keys[79] = 74;
-keys[48] = 75;
-keys[80] = 76;
-keys[219] = 77; // = F5
-keys[187] = 78;
-keys[221] = 79;
-keys[220] = 80;
-*/
-/*
-this.effectChain = null;
-this.waveshaper = null;
-this.volNode = null;
-this.revNode = null;
-this.revGain = null;
-this.revBypassGain = null;
-this.compressor = null;
-*/
-
-
-
-//window['conn_mgmt'] = [];
-
-
-
-
 var CWilsoWAMidiSynth = function(context) {
 
+  // This is the "initial patch"
 
+  // modulation lfo
+  this.currentModWaveform = 0; // SINE
+  this.currentModFrequency = 2.1; // Hz * 10 = 2.1
+  this.currentModOsc1 = 15;
+  this.currentModOsc2 = 17;
 
-// This is the "initial patch"
+  this.currentOsc1Waveform = 2; // SAW
+  this.currentOsc1Octave = 0;  // 32'
+  this.currentOsc1Detune = 0;  // 0
+  this.currentOsc1Mix = 50.0;  // 50%
 
-// modulation lfo
-this.currentModWaveform = 0; // SINE
-this.currentModFrequency = 2.1; // Hz * 10 = 2.1
-this.currentModOsc1 = 15;
-this.currentModOsc2 = 17;
+  this.currentOsc2Waveform = 2; // SAW
+  this.currentOsc2Octave = 0;  // 16'
+  this.currentOsc2Detune = -25;  // fat detune makes pretty analogue-y sound.  :)
+  this.currentOsc2Mix = 50.0;  // 0%
 
-this.currentOsc1Waveform = 2; // SAW
-this.currentOsc1Octave = 0;  // 32'
-this.currentOsc1Detune = 0;  // 0
-this.currentOsc1Mix = 50.0;  // 50%
+  this.currentFilterCutoff = 8;
+  this.currentFilterQ = 7.0;
+  this.currentFilterMod = 21;
+  this.currentFilterEnv = 56;
 
-this.currentOsc2Waveform = 2; // SAW
-this.currentOsc2Octave = 0;  // 16'
-this.currentOsc2Detune = -25;  // fat detune makes pretty analogue-y sound.  :)
-this.currentOsc2Mix = 50.0;  // 0%
+  this.currentEnvA = 2;
+  this.currentEnvD = 15;
+  this.currentEnvS = 68;
+  this.currentEnvR = 5;
 
-this.currentFilterCutoff = 8;
-this.currentFilterQ = 7.0;
-this.currentFilterMod = 21;
-this.currentFilterEnv = 56;
+  this.currentFilterEnvA = 5;
+  this.currentFilterEnvD = 6;
+  this.currentFilterEnvS = 5;
+  this.currentFilterEnvR = 7;
 
-this.currentEnvA = 2;
-this.currentEnvD = 15;
-this.currentEnvS = 68;
-this.currentEnvR = 5;
+  this.currentDrive = 38;
+  this.currentRev = 32;
+  this.currentVol = 75;
+  // end initial patch
 
-this.currentFilterEnvA = 5;
-this.currentFilterEnvD = 6;
-this.currentFilterEnvS = 5;
-this.currentFilterEnvR = 7;
+  this.currentOctave = 3; // 3
+  this.modOscFreqMultiplier = 1;
+  this.moDouble = false;
+  this.moQuadruple = false;
 
-this.currentDrive = 38;
-this.currentRev = 32;
-this.currentVol = 75;
-// end initial patch
-
-this.currentOctave = 3; // 3
-this.modOscFreqMultiplier = 1;
-this.moDouble = false;
-this.moQuadruple = false;
-
-//function initAudio(audioContext) {
+  //function initAudio(audioContext) {
   /*window.AudioContext = window.AudioContext || window.webkitAudioContext;
   try {
       audioContext = window['audio_context']; //new AudioContext();
@@ -131,7 +54,6 @@ this.moQuadruple = false;
 
   //window.audioContext = audioContext;
   this.context = context;
-
 
   this.voices = new Array();
 
@@ -144,55 +66,36 @@ this.moQuadruple = false;
   // set up the master effects chain for all voices to connect to.
   this.effectChain = this.context.createGain();
   this.waveshaper = new WaveShaper( this.context );
-    this.effectChain.connect( this.waveshaper.input );
-    this.onUpdateDrive( this.currentDrive );
 
-    if (!isMobile)
-      this.revNode = this.context.createConvolver();
-    else
-      this.revNode = this.context.createGain();
+  this.effectChain.connect( this.waveshaper.input );
+  this.onUpdateDrive( this.currentDrive );
+
+  if (!isMobile)
+    this.revNode = this.context.createConvolver();
+  else
+    this.revNode = this.context.createGain();
   this.revGain = this.context.createGain();
   this.revBypassGain = this.context.createGain();
 
-    this.volNode = this.context.createGain();
-    this.volNode.gain.value = this.currentVol;
-    this.compressor = this.context.createDynamicsCompressor();
-    this.waveshaper.output.connect( this.revNode );
-    this.waveshaper.output.connect( this.revBypassGain );
-    this.revNode.connect( this.revGain );
-    this.revGain.connect( this.volNode );
-    this.revBypassGain.connect( this.volNode );
-    this.onUpdateReverb( {currentTarget:{value:this.currentRev}} );
+  this.volNode = this.context.createGain();
+  this.volNode.gain.value = this.currentVol;
+  this.compressor = this.context.createDynamicsCompressor();
+  this.waveshaper.output.connect( this.revNode );
+  this.waveshaper.output.connect( this.revBypassGain );
+  this.revNode.connect( this.revGain );
+  this.revGain.connect( this.volNode );
+  this.revBypassGain.connect( this.volNode );
+  this.onUpdateReverb( {currentTarget:{value:this.currentRev}} );
 
-    this.volNode.connect( this.compressor );
+  this.volNode.connect( this.compressor );
 
+  // console.log('pass');
 
-/*
-if ( typeof window['conn_mgmt'] !== 'undefined' ) {
+  this.compressor.connect(  window['audio_context'], 0, 0 ); // this.context.destination
 
-  if ( window['conn_mgmt'][0] == 1 ) {
+  this.onUpdateVolume( {currentTarget:{value:this.currentVol}} );
 
-  } else {
-    this.compressor.connect(  window['audio_context'], 0, 0 ); 
-    window['conn_mgmt'][0] = 1;
-  }
-
-} else {
-  this.compressor.connect(  window['audio_context'], 0, 0 );
-  window['conn_mgmt'][0] = 1;
-} */
-
-console.log('pass');
-
-    this.compressor.connect(  window['audio_context'], 0, 0 ); // this.context.destination
-
-
-    
-
-
-    this.onUpdateVolume( {currentTarget:{value:this.currentVol}} );
-
-    // reverb to be fixed when not on a mobile device
+  // reverb to be fixed when not on a mobile device
   /*  if (!isMobile) {
     irRRequest = new XMLHttpRequest();
     irRRequest.open("GET", "instruments/midi-synth-master/sounds/irRoom.wav", true);
@@ -210,21 +113,11 @@ console.log('pass');
 
 
 
-
-
-
-
-
 function frequencyFromNoteNumber( note ) {
-  //return 440 * Math.pow(2,(note-69)/12);
   var frekk = 440 * Math.pow(2,(note-28)/12);
   //console.log(frekk);
   return frekk;
-	//return 440 * Math.pow(2,(note-28)/12);
 }
-
-
-
 
 
 
@@ -260,8 +153,6 @@ CWilsoWAMidiSynth.prototype.noteOff = function(note, channelId) {
 function $a(id) {
 	return document.getElementById(id);
 }
-
-
 
 
 
@@ -354,10 +245,7 @@ var waveforms = ["sine","square","sawtooth","triangle"];
 
 
 
-
-
 CWilsoWAMidiSynth.prototype.onUpdateModWaveform = function(ev) {
-//function onUpdateModWaveform( ev ) {
 	this.currentModWaveform = ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
@@ -367,7 +255,6 @@ CWilsoWAMidiSynth.prototype.onUpdateModWaveform = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateModFrequency = function(ev) {
-//function onUpdateModFrequency( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	this.currentModFrequency = value;
 	var oscFreq = this.currentModFrequency * this.modOscFreqMultiplier;
@@ -379,7 +266,6 @@ CWilsoWAMidiSynth.prototype.onUpdateModFrequency = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateModOsc1 = function(ev) {
-//function onUpdateModOsc1( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	this.currentModOsc1 = value;
 	for (var i=0; i<255; i++) {
@@ -390,7 +276,6 @@ CWilsoWAMidiSynth.prototype.onUpdateModOsc1 = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateModOsc2 = function(ev) {
-//function onUpdateModOsc2( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	currentModOsc2 = value;
 	for (var i=0; i<255; i++) {
@@ -404,7 +289,6 @@ CWilsoWAMidiSynth.prototype.onUpdateModOsc2 = function(ev) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterCutoff = function(ev) {
-//function onUpdateFilterCutoff( ev ) { // could stay function onUpdateFilterCutoff( ev, channelId ) with added channelId
 
   if ( typeof ev !== 'undefined' ) {
 
@@ -426,7 +310,6 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterCutoff = function(ev) {
 CWilsoWAMidiSynth.prototype.onUpdateFilterQ = function(ev) {
 
   if ( typeof ev !== 'undefined' ) {  
-  //function onUpdateFilterQ( ev ) {
   	var value = ev.currentTarget ? ev.currentTarget.value : ev;
   	this.currentFilterQ = value;
   	for (var i=0; i<255; i++) {
@@ -438,7 +321,6 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterQ = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterMod = function(ev) {
-//function onUpdateFilterMod( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	this.currentFilterMod = value;
 	for (var i=0; i<255; i++) {
@@ -449,7 +331,6 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterMod = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterEnv = function(ev) {
-//function onUpdateFilterEnv( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	this.currentFilterEnv = value;
 }
@@ -458,7 +339,6 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterEnv = function(ev) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Wave = function(ev) {
-//function onUpdateOsc1Wave( ev ) {
 	this.currentOsc1Waveform = ev; //ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
@@ -468,7 +348,6 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc1Wave = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Octave = function(ev) {
-//function onUpdateOsc1Octave( ev ) {
 	this.currentOsc1Octave = ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
@@ -478,7 +357,6 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc1Octave = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Detune = function(ev) {
-//function onUpdateOsc1Detune( ev ) {
 	var value = ev.currentTarget.value;
 	this.currentOsc1Detune = value;
 	for (var i=0; i<255; i++) {
@@ -489,10 +367,7 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc1Detune = function(ev) {
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Mix = function(value) {
-//function onUpdateOsc1Mix( value ) {
-
-if ( typeof value !== 'undefined' ) {
-
+  if ( typeof value !== 'undefined' ) {
   	if (value.currentTarget)
   		value = value.currentTarget.value;
   	this.currentOsc1Mix = value;
@@ -501,8 +376,6 @@ if ( typeof value !== 'undefined' ) {
   			this.voices[i].updateOsc1Mix( value );
   		}
   	}
-
-
   }  
 }
 
@@ -510,7 +383,6 @@ if ( typeof value !== 'undefined' ) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Wave = function(ev) {
-//function onUpdateOsc2Wave( ev ) {
 	this.currentOsc2Waveform = ev; // ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
@@ -519,8 +391,8 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc2Wave = function(ev) {
 	}
 }
 
+
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Octave = function(ev) {
-//function onUpdateOsc2Octave( ev ) {
 	this.currentOsc2Octave = ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
@@ -529,8 +401,8 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc2Octave = function(ev) {
 	}
 }
 
+
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Detune = function(ev) {
-//function onUpdateOsc2Detune( ev ) {
 	var value = ev; // ev.currentTarget.value;
 	this.currentOsc2Detune = value;
 	for (var i=0; i<255; i++) {
@@ -540,12 +412,10 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc2Detune = function(ev) {
 	}
 }
 
+
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Mix = function(value) {
-//function onUpdateOsc2Mix( ev ) {
-	//var value = ev.currentTarget.value;
 
-if ( typeof value !== 'undefined' ) {
-
+  if ( typeof value !== 'undefined' ) {
     if (value.currentTarget)
       value = value.currentTarget.value;  
   	this.currentOsc2Mix = value;
@@ -554,7 +424,6 @@ if ( typeof value !== 'undefined' ) {
   			this.voices[i].updateOsc2Mix( value );
   		}
   	}
-
   }
 }
 
@@ -562,22 +431,18 @@ if ( typeof value !== 'undefined' ) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateEnvA = function(ev) {
-//function onUpdateEnvA( ev ) {
 	this.currentEnvA = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateEnvD = function(ev) {
-//function onUpdateEnvD( ev ) {
 	this.currentEnvD = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateEnvS = function(ev) {
-//function onUpdateEnvS( ev ) {
 	this.currentEnvS = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateEnvR = function(ev) {
-//function onUpdateEnvR( ev ) {
 	this.currentEnvR = ev; //ev.currentTarget.value;
 }
 
@@ -585,22 +450,18 @@ CWilsoWAMidiSynth.prototype.onUpdateEnvR = function(ev) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterEnvA = function(ev) {
-//function onUpdateFilterEnvA( ev ) {
 	this.currentFilterEnvA = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterEnvD = function(ev) {
-//function onUpdateFilterEnvD( ev ) {
 	this.currentFilterEnvD = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterEnvS = function(ev) {
-//function onUpdateFilterEnvS( ev ) {
 	this.currentFilterEnvS = ev; //ev.currentTarget.value;
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateFilterEnvR = function(ev) {
-//function onUpdateFilterEnvR( ev ) {
 	this.currentFilterEnvR = ev; //ev.currentTarget.value;
 }
 
@@ -609,18 +470,14 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterEnvR = function(ev) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateDrive = function(value) {
-//function onUpdateDrive( value ) {
   //console.log('value onUpdateDrive',value);
 	currentDrive = value;
     this.waveshaper.setDrive( 0.01 + (currentDrive*currentDrive/500.0) );
 }
 
 CWilsoWAMidiSynth.prototype.onUpdateVolume = function(ev) {
-//function onUpdateVolume( ev ) {  
-
 
   let valCheckkk3479 = parseFloat(ev);
-
 
   if ( isFinite(valCheckkk3479) ) {
     var euve = (ev.currentTarget ? ev.currentTarget.value : ev)/100;
@@ -631,13 +488,12 @@ CWilsoWAMidiSynth.prototype.onUpdateVolume = function(ev) {
 
   this.volNode.gain.value = euve;
 
-
 	//this.volNode.gain.value = (ev.currentTarget ? ev.currentTarget.value : ev)/100; // ev/100; //
   //console.log('onUpdateVolume:', ev, this.volNode.gain.value);
 }
 
+
 CWilsoWAMidiSynth.prototype.onUpdateReverb = function(ev) {
-//function onUpdateReverb( ev ) {
 	var value = ev.currentTarget ? ev.currentTarget.value : ev;
 	value = value/100;
 
@@ -673,7 +529,6 @@ var wave = false;
 function filterFrequencyFromCutoff( pitch, cutoff ) {
     var nyquist = 0.5 * audioContext.sampleRate;
 
-//    var filterFrequency = Math.pow(2, (9 * cutoff) - 1) * pitch;
     var filterFrequency = Math.pow(2, (9 * cutoff) - 1) * pitch;
     if (filterFrequency > nyquist)
         filterFrequency = nyquist;
@@ -684,10 +539,7 @@ function filterFrequencyFromCutoff( pitch, cutoff ) {
 
 
 
-var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
-//function Voice( note, velocity ) {
-  //audioContext = this.context; // window.audioContext;
-
+var Voice = function(note, velocity, channelId) { // CWilsoWAMidiSynth.prototype.
 
   var synthInstance = 'channel_' + channelId;
   audioContext = window[synthInstance].context;
@@ -701,18 +553,18 @@ var Voice = function(note, velocity, channelId){ // CWilsoWAMidiSynth.prototype.
 	this.updateOsc1Frequency();
 
 
-if ( typeof waveforms[this.instance.currentOsc1Waveform] == 'undefined' ) {
-  var wafo = "triangle"; // default preset param
-} else {
-  var wafo = waveforms[this.instance.currentOsc1Waveform];
-}  
+  if ( typeof waveforms[this.instance.currentOsc1Waveform] == 'undefined' ) {
+    var wafo = "triangle"; // default preset param
+  } else {
+    var wafo = waveforms[this.instance.currentOsc1Waveform];
+  }  
 
 	//this.osc1.type = waveforms[this.instance.currentOsc1Waveform];
   this.osc1.type = wafo;
 
 	this.osc1Gain = audioContext.createGain();
 	this.osc1Gain.gain.value = 0.005 * this.instance.currentOsc1Mix;
-//	this.osc1Gain.gain.value = 0.05 + (0.33 * velocity);
+  //	this.osc1Gain.gain.value = 0.05 + (0.33 * velocity);
 	this.osc1.connect( this.osc1Gain );
 
 	// create osc 2
@@ -721,18 +573,18 @@ if ( typeof waveforms[this.instance.currentOsc1Waveform] == 'undefined' ) {
 
 
 
-if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
-  var wafo = "triangle"; // default preset param
-} else {
-  var wafo = waveforms[this.instance.currentOsc2Waveform];
-}  
+  if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
+    var wafo = "triangle"; // default preset param
+  } else {
+    var wafo = waveforms[this.instance.currentOsc2Waveform];
+  }  
 
   //this.osc2.type = waveforms[this.instance.currentOsc2Waveform];
   this.osc2.type = wafo;
 
 	this.osc2Gain = audioContext.createGain();
 	this.osc2Gain.gain.value = 0.005 * this.instance.currentOsc2Mix;
-//	this.osc2Gain.gain.value = 0.05 + (0.33 * velocity);
+  //	this.osc2Gain.gain.value = 0.05 + (0.33 * velocity);
 	this.osc2.connect( this.osc2Gain );
 
 	// create modulator osc
@@ -756,7 +608,7 @@ if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
 	this.filter1.Q.value = this.instance.currentFilterQ;
 	this.filter1.frequency.value = Math.pow(2, this.instance.currentFilterCutoff); 
 	// filterFrequencyFromCutoff( this.originalFrequency, currentFilterCutoff );
-//	console.log( "filter frequency: " + this.filter1.frequency.value);
+  //	console.log( "filter frequency: " + this.filter1.frequency.value);
 	this.filter2 = audioContext.createBiquadFilter();
 	this.filter2.type = "lowpass";
 	this.filter2.Q.value = this.instance.currentFilterQ;
@@ -770,7 +622,7 @@ if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
 	this.modFilterGain = audioContext.createGain();
 	this.modOsc.connect( this.modFilterGain );
 	this.modFilterGain.gain.value = this.instance.currentFilterMod*24;
-//	console.log("modFilterGain=" + currentFilterMod*24);
+  //	console.log("modFilterGain=" + currentFilterMod*24);
 	this.modFilterGain.connect( this.filter1.detune );	// filter tremolo
 	this.modFilterGain.connect( this.filter2.detune );	// filter tremolo
 
@@ -783,25 +635,16 @@ if ( typeof waveforms[this.instance.currentOsc2Waveform] == 'undefined' ) {
 	var now = audioContext.currentTime;
 
 
+  if ( typeof this.instance.currentEnvA == 'undefined' ) {
+    var currEnvA = 21; // default preset param - 40
+    currEnvA = 21;
+    this.instance.currentEnvA = 21;
+  } else {
+    var currEnvA = this.instance.currentEnvA;
+  }  
 
-
-if ( typeof this.instance.currentEnvA == 'undefined' ) {
-  var currEnvA = 40; // default preset param
-  currEnvA = 40;
-  this.instance.currentEnvA = 40;
-} else {
-  var currEnvA = this.instance.currentEnvA;
-}  
-
-
-	//var envAttackEnd = now + (this.instance.currentEnvA/20.0);
 
   var envAttackEnd = now + (currEnvA/20.0);
-
-
-
-
-
 
 
 
@@ -816,22 +659,20 @@ if ( typeof this.instance.currentEnvA == 'undefined' ) {
     this.envelope.gain.linearRampToValueAtTime( 1.0, envAttackEnd );
   } else {    
     this.envelope.gain.linearRampToValueAtTime( 1.0, 1.0 );
+    return;
     alert('CWilso polysynth probably encountered a bug. Please refresh your browser page.');
   }
 
   //console.log('log:: ', this.instance.currentEnvS, envAttackEnd, this.instance.currentEnvD);
 
 
-if ( typeof this.instance.currentEnvS == 'undefined' ) {
-  this.instance.currentEnvS = 200; // default preset param
-} 
+  if ( typeof this.instance.currentEnvS == 'undefined' ) {
+    this.instance.currentEnvS = 101; // default preset param 200
+  } 
 
-if ( typeof this.instance.currentEnvD == 'undefined' ) {
-  this.instance.currentEnvD = 180; // default preset param
-} 
-
-
-
+  if ( typeof this.instance.currentEnvD == 'undefined' ) {
+    this.instance.currentEnvD = 101; // default preset param 180
+  } 
 
 	//this.envelope.gain.linearRampToValueAtTime( 1.0, envAttackEnd );
 	this.envelope.gain.setTargetAtTime( (this.instance.currentEnvS/100.0), envAttackEnd, (this.instance.currentEnvD/100.0)+0.001 );
@@ -840,11 +681,10 @@ if ( typeof this.instance.currentEnvD == 'undefined' ) {
 	var filterSustainLevel = filterAttackLevel* this.instance.currentFilterEnvS / 100.0; // range: 0-7200
 	var filterAttackEnd = (this.instance.currentFilterEnvA/20.0);
 
-/*	console.log( "filterAttackLevel: " + filterAttackLevel + 
-				 " filterSustainLevel: " + filterSustainLevel +
-				 " filterAttackEnd: " + filterAttackEnd);
-*/
-
+  /*	console.log( "filterAttackLevel: " + filterAttackLevel + 
+  				 " filterSustainLevel: " + filterSustainLevel +
+  				 " filterAttackEnd: " + filterAttackEnd);
+  */
 
   //console.log('filter env decay: ', this.instance.currentFilterEnvD);
 
@@ -858,24 +698,20 @@ if ( typeof this.instance.currentEnvD == 'undefined' ) {
 
   //console.log('log:: ', filterSustainLevel, filterAttackEnd, this.instance.currentFilterEnvD);
 
-if ( typeof this.instance.currentFilterEnvD == 'undefined' ) {
-  this.instance.currentFilterEnvD = 140; // default preset param
-}   
+  if ( typeof this.instance.currentFilterEnvD == 'undefined' ) {
+    this.instance.currentFilterEnvD = 101; // default preset param 140
+  }   
 
   let valCheckkk2 = parseFloat(filterSustainLevel);
 
 
   if ( isFinite(valCheckkk2) ) {
-
   } else {    
     filterSustainLevel = 0.6; // default preset param
   }
 
 
-
 	this.filter1.detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.instance.currentFilterEnvD/100.0) );
-
-
 	this.filter2.detune.setTargetAtTime( filterSustainLevel, now+filterAttackEnd, (this.instance.currentFilterEnvD/100.0) );
 
 	this.osc1.start(0);
@@ -925,7 +761,6 @@ Voice.prototype.setOsc2Waveform = function( value ) {
 Voice.prototype.updateOsc2Frequency = function( value ) {
 	this.osc2.frequency.value = (this.originalFrequency*Math.pow(2,this.instance.currentOsc2Octave-1));
 
-
   var detVaal = this.instance.currentOsc2Detune + currentPitchWheel * 500;
 
   let valCheckkk = parseFloat(detVaal);
@@ -973,23 +808,21 @@ Voice.prototype.noteOff = function() {
 	this.envelope.gain.cancelScheduledValues(now);
 	this.envelope.gain.setValueAtTime( this.envelope.gain.value, now );  // this is necessary because of the linear ramp
 
+  
+
+  if ( typeof this.instance.currentEnvR == 'undefined' ) {
+    this.instance.currentEnvR = 1; // default preset param - 280
+  }
+
 
   //console.log('log:: ', now, this.instance.currentEnvR);
-
-if ( typeof this.instance.currentEnvR == 'undefined' ) {
-  this.instance.currentEnvR = 280; // default preset param
-}
-
-
 	this.envelope.gain.setTargetAtTime(0.0, now, (this.instance.currentEnvR/100));
-
-
 	this.filter1.detune.cancelScheduledValues(now);
 
 
-if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
-  this.instance.currentFilterEnvR = 210; // default preset param
-}
+  if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
+    this.instance.currentFilterEnvR = 101; // default preset param - 210
+  }
 
 	this.filter1.detune.setTargetAtTime( 0, now, (this.instance.currentFilterEnvR/100.0) );
 
@@ -1004,7 +837,6 @@ if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
 
 
   if ( isFinite(valCheckkk3) ) {
-
   } else {    
     release = 0.6; // default preset param
   }
@@ -1022,128 +854,6 @@ function changeModMultiplier() {
 	modOscFreqMultiplier = (moDouble?2:1)*(moQuadruple?4:1);
 	onUpdateModFrequency( currentModFrequency );
 }
-/*
-function keyDown( ev ) {
-	if ((ev.keyCode==49)||(ev.keyCode==50)) {
-		if (ev.keyCode==49)
-			moDouble = true;
-		else if (ev.keyCode==50)
-			moQuadruple = true;
-		changeModMultiplier();
-	}
-
-	var note = keys[ev.keyCode];
-	if (note)
-		noteOn( note + 12*(3-currentOctave), 0.75 );
-	console.log( "key down: " + ev.keyCode );
-
-	return false;
-}
-
-function keyUp( ev ) {
-	if ((ev.keyCode==49)||(ev.keyCode==50)) {
-		if (ev.keyCode==49)
-			moDouble = false;
-		else if (ev.keyCode==50)
-			moQuadruple = false;
-		changeModMultiplier();
-	}
-
-	var note = keys[ev.keyCode];
-	if (note)
-		noteOff( note + 12*(3-currentOctave) );
-//	console.log( "key up: " + ev.keyCode );
-
-	return false;
-}
-var pointers=[];
-
-function touchstart( ev ) {
-	for (var i=0; i<ev.targetTouches.length; i++) {
-	    var touch = ev.targetTouches[0];
-		var element = touch.target;
-
-		var note = parseInt( element.id.substring( 1 ) );
-		console.log( "touchstart: id: " + element.id + "identifier: " + touch.identifier + " note:" + note );
-		if (!isNaN(note)) {
-			noteOn( note + 12*(3-currentOctave), 0.75 );
-			var keybox = document.getElementById("keybox")
-			pointers[touch.identifier]=note;
-		}
-	}
-	ev.preventDefault();
-}
-
-function touchmove( ev ) {
-	for (var i=0; i<ev.targetTouches.length; i++) {
-	    var touch = ev.targetTouches[0];
-		var element = touch.target;
-
-		var note = parseInt( element.id.substring( 1 ) );
-		console.log( "touchmove: id: " + element.id + "identifier: " + touch.identifier + " note:" + note );
-		if (!isNaN(note) && pointers[touch.identifier] && pointers[touch.identifier]!=note) {
-			noteOff(pointers[touch.identifier] + 12*(3-currentOctave));
-			noteOn( note + 12*(3-currentOctave), 0.75 );
-			var keybox = document.getElementById("keybox")
-			pointers[touch.identifier]=note;
-		}
-	}
-	ev.preventDefault();
-}
-
-function touchend( ev ) {
-	var note = parseInt( ev.target.id.substring( 1 ) );
-	console.log( "touchend: id: " + ev.target.id + " note:" + note );
-	if (note != NaN)
-		noteOff( note + 12*(3-currentOctave) );
-	pointers[ev.pointerId]=null;
-	var keybox = document.getElementById("keybox")
-	ev.preventDefault();
-}
-
-function touchcancel( ev ) {
-	console.log( "touchcancel" );
-	ev.preventDefault();
-}
-
-function pointerDown( ev ) {
-	var note = parseInt( ev.target.id.substring( 1 ) );
-	if (pointerDebugging)
-		console.log( "pointer down: id: " + ev.pointerId
-			+ " target: " + ev.target.id + " note:" + note );
-	if (!isNaN(note)) {
-		noteOn( note + 12*(3-currentOctave), 0.75 );
-		var keybox = document.getElementById("keybox")
-		pointers[ev.pointerId]=note;
-	}
-	ev.preventDefault();
-}
-
-function pointerMove( ev ) {
-	var note = parseInt( ev.target.id.substring( 1 ) );
-	if (pointerDebugging)
-		console.log( "pointer move: id: " + ev.pointerId 
-			+ " target: " + ev.target.id + " note:" + note );
-	if (!isNaN(note) && pointers[ev.pointerId] && pointers[ev.pointerId]!=note) {
-		if (pointers[ev.pointerId])
-			noteOff(pointers[ev.pointerId] + 12*(3-currentOctave));
-		noteOn( note + 12*(3-currentOctave), 0.75 );
-		pointers[ev.pointerId]=note;
-	}
-	ev.preventDefault();
-}
-
-function pointerUp( ev ) {
-	var note = parseInt( ev.target.id.substring( 1 ) );
-	if (pointerDebugging)
-		console.log( "pointer up: id: " + ev.pointerId + " note:" + note );
-	if (note != NaN)
-		noteOff( note + 12*(3-currentOctave) );
-	pointers[ev.pointerId]=null;
-	var keybox = document.getElementById("keybox")
-	ev.preventDefault();
-}
-*/
 
 function onChangeOctave( ev ) {
 	currentOctave = ev.target.selectedIndex;

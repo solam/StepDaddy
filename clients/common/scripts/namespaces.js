@@ -1,10 +1,25 @@
 ip = '192.168.1.16';
 
+// It is useful not to use as 'ip' variable values like '127.0.0.1' or 'localhost' so that other devices on same local network may connect to device hosting ...Loops NodeJS & Web servers
 window.ip = ip;
 
-// It is useful not to use as IP a value like '127.0.0.1' so that (for instance) mobile devices (on same Wi-Fi network) may connect to the right machine hosting the ...Loops app
 window.SERVER = 'http://'+ip+':60000'; //  
 window.CLIENTS = 'http://'+ip+':8282/sequencer'; // 
+window.comode= 'http';
+// */
+
+/* // online version
+ip = 'loops.solam.co'; 
+
+window.ip = ip;
+
+window.hosteu = 'loops.solam.co'
+window.SERVER = 'https://'+ip+':60001'; // 
+window.CLIENTS = 'https://'+window.hosteu+'/clients/sequencer';
+window.comode= 'https';
+// */
+
+
 /**
  * The mixr namespace
  * @type {Object}

@@ -282,6 +282,31 @@ var Recorder = exports.Recorder = (function () {
     }], [{
         key: 'forceDownload',
         value: function forceDownload(blob, filename) {
+console.log(filename, blob);
+
+  var type = "audio/wav";
+
+  const a = document.createElement("a");
+  a.style.display = "none";
+  document.body.appendChild(a);
+
+  // Set the HREF to a Blob representation of the data to be downloaded
+  a.href = window.URL.createObjectURL(
+    new Blob([blob], { type })
+  );
+
+  // Use download attribute to set set desired file name
+  a.setAttribute("download", filename);
+
+  // Trigger the download by simulating click
+  a.click();
+
+  // Cleanup
+  window.URL.revokeObjectURL(a.href);
+  document.body.removeChild(a);
+
+
+/*
             var url = (window.URL || window.webkitURL).createObjectURL(blob);
             var link = window.document.createElement('a');
             link.href = url;
@@ -289,6 +314,8 @@ var Recorder = exports.Recorder = (function () {
             var click = document.createEvent("Event");
             click.initEvent("click", true, true);
             link.dispatchEvent(click);
+*/
+
         }
     }]);
 

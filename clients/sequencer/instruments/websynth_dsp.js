@@ -421,6 +421,7 @@ CTL_Filter.prototype.set_eg = function(val) {
     this.eg = 0.8;
     this.base_freq = 300;
     this.amount = 0.5;
+return;    
     alert('Aike Websynth probably encountered a bug. Please refresh your browser page.');
   }
 
@@ -570,7 +571,7 @@ WebSynth.prototype.play = function(n) {
     }
 
   } else {
-
+return;
     alert('Aike Websynth bug. Please refresh system!');
 
 if ( window['channel_0'] instanceof WebSynth ) {

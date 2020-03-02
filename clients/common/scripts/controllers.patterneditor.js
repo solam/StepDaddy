@@ -387,7 +387,10 @@
               return obj.id == taarget // "2fbdd99d0000";  //
             });
 
-            window.preset = preset[0].controls;
+
+            if ( typeof preset[0] !== 'undefined' ) {
+              window.preset = preset[0].controls;
+            }
               //console.log('preset yo-yo: ', preset, window.preset, _model.instrument.channelInfo.presets);  
             var presetMode = 1; // presetMode=0 : kit/InsMode
           } else {
@@ -571,7 +574,7 @@ if (typeof window.kits  !== 'undefined') { // kits
     }
 
 
-      $item = $('<a href="#" id="ptn-edit-trig" class="trigger-button">'+patternEditOnOffState+'</a>'); //</div>
+      $item = $('<a href="javascript:void(null);" id="ptn-edit-trig" class="trigger-button">'+patternEditOnOffState+'</a>'); //</div>
       $item.appendTo(ctrlchangeParent);
 
 
@@ -915,7 +918,7 @@ if (controls[j].id==9920) {
 
 
 
-      $label = $('<label>available patterns</label><a href="#" id="add" class="trigger-button">Add ></a>');
+      $label = $('<label>available patterns</label><a href="javascript:void(null);" id="add" class="trigger-button">Add ></a>');
       $label.appendTo(availptns); //   $item
       $item = $('</select></div>'); //</div>
       $item.appendTo(container);
@@ -952,7 +955,13 @@ if (controls[j].id==9920) {
         }
       } // end of for loop
 
-    
+
+
+    }
+   } 
+
+
+
 
     if (typeof _model.instrument.channelInfo.patternSeqState !== 'undefined') {
       var patternSeqStateValue = _model.instrument.channelInfo.patternSeqState;
@@ -970,8 +979,13 @@ if ( typeof paraam2[6] !== 'undefined' ) {
     patternSeqStateValue=0;
   }  
 }  
-
-
+/* // online version comment above
+if ( typeof paraam2[7] !== 'undefined' ) {
+  if ( paraam2[7] === 'noptnseq' ) {
+    patternSeqStateValue=0;
+  }  
+}  
+//*/
 
     //console.log('ptnSEq state: ', patternSeqStateValue, controls[j]); // _model.instrument.channelInfo.patternSeqState
 
@@ -1003,9 +1017,9 @@ if ( top !== self ) { // we are in the iframe
 
     }
 
-      $label = $('<label>played patterns</label><a href="#" id="remove" class="trigger-button">< Remove</a>');
+      $label = $('<label>played patterns</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a>');
       $label.appendTo(playedptns); // $item playedptns
-      $item = $('</select></div><label>pattern sequencer</label><a href="#" id="ptnseq" class="trigger-button">'+onOffstate+'</a>'); //</div>
+      $item = $('</select></div><label>pattern sequencer</label><a href="javascript:void(null);" id="ptnseq" class="trigger-button">'+onOffstate+'</a>'); //</div>
       $item.appendTo(ctrlchangeParent);
 
 
@@ -1052,11 +1066,15 @@ if ( top !== self ) { // we are in the iframe
 
 
 
-
+/*
 
       }
 
     }  
+*/
+
+
+
 //*/
 
 
@@ -1064,33 +1082,34 @@ if ( top !== self ) { // we are in the iframe
 
 
 
-   $('#add').click(function() {  
+   $('#add').click(function(e) {  
+
+    e.preventDefault(); // prevent browser from scrolling to the top of the screen and adding hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change
+
+    window.patternSequencer = [];
+
+    /*return !*/$('#avail-patterns option:selected').clone().appendTo('#played-patterns'); // .remove() - .appendTo('#avail-patterns')
+
+    $('#played-patterns option').each(function( index ) {
+      var optionObject = {};
+      optionObject.name = $(this).text();
+      optionObject.id = $(this).attr('value');
+
+      window.patternSequencer[index] = optionObject;
+    });
 
 
-window.patternSequencer = [];
+    var ptnSeqString = JSON.stringify(window.patternSequencer);
 
-/*return !*/$('#avail-patterns option:selected').clone().appendTo('#played-patterns'); // .remove() - .appendTo('#avail-patterns')
+    //_connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 204, currentPtnSeq: window.patternSequencer});
+    _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
 
-$('#played-patterns option').each(function( index ) {
-  var optionObject = {};
-  optionObject.name = $(this).text();
-  optionObject.id = $(this).attr('value');
+    //console.log('ptn seq: ',window.patternSequencer);
 
-  window.patternSequencer[index] = optionObject;
-});
-
-
-var ptnSeqString = JSON.stringify(window.patternSequencer);
-
-//_connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 204, currentPtnSeq: window.patternSequencer});
-_model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
-
-//console.log('ptn seq: ',window.patternSequencer);
-
-       //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
-       $('html, body').animate({
-        scrollTop: $("#pattern-sequencer").offset().top
-    }, 1); 
+     //$('html, body').scrollTop($("#pattern-sequencer").offset().top);
+     /*$('html, body').animate({
+      scrollTop: $("#pattern-sequencer").offset().top
+     }, 1); */
     
      
    });  
@@ -1098,7 +1117,9 @@ _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
 
 
 
-   $('#remove').click(function() {  
+   $('#remove').click(function(e) {  
+
+    e.preventDefault(); // prevent browser from scrolling to the top of the screen and asshing hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change
 
     /*return !*/$('#played-patterns option:selected').remove(); // .appendTo('#avail-patterns')
 
@@ -1156,7 +1177,7 @@ _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
 
       } // end of for loop
 
-      $label = $('<label>available parts</label><a href="#" id="add" class="trigger-button">Add ></a>');
+      $label = $('<label>available parts</label><a href="javascript:void(null);" id="add" class="trigger-button">Add ></a>');
       $label.appendTo(availpars); //   
       $item = $('</select></div>'); //
       $item.appendTo(container);
@@ -1196,14 +1217,16 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
       } // end of if (channelPartSeq.length!=0) {
     } // end of if (typeof channelPartSeq !== 'undefined') { 
 
-$label = $('<label>played parts</label><a href="#" id="remove" class="trigger-button">< Remove</a>');
+$label = $('<label>played parts</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a>');
 $label.appendTo(playedpars); // $item playedpars
 
 
 
 
 
-  $('#add').click(function() {  
+  $('#add').click(function(e) {  
+
+    e.preventDefault(); // prevent browser from scrolling to the top of the screen and asshing hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change
 
     window.partSequencer = [];
 
@@ -1273,7 +1296,9 @@ $(".barloopnb").on("change paste keyup", function() {
 
 
 
-  $('#remove').click(function() {  
+  $('#remove').click(function(e) {  
+
+    e.preventDefault(); // prevent browser from scrolling to the top of the screen and adding hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change
 
     $('#played-parts .option .roonded').each(function( index ) {
 
@@ -1367,7 +1392,7 @@ $(".barloopnb").on("change paste keyup", function() {
 
       } // end of for loop
 
-      $label = $('<label>available songs</label><a href="#" id="add-song" class="trigger-button">Add ></a>');
+      $label = $('<label>available songs</label><a href="javascript:void(null);" id="add-song" class="trigger-button">Add ></a>');
       $label.appendTo(availpars); //   
       $item = $('</select></div>'); //
       $item.appendTo(container);
@@ -1389,7 +1414,7 @@ $(".barloopnb").on("change paste keyup", function() {
 
     var playedpars = document.getElementById('played-sons');
 
-    if (typeof channelsongSeq !== 'undefined') {
+    if ( typeof channelsongSeq !== 'undefined' && typeof defaultSong !== 'undefined' ) {
 
       window.songSequencer = channelsongSeq;
 
@@ -1459,14 +1484,16 @@ $(".barloopnb").on("change paste keyup", function() {
       } // end of if (channelsongSeq.length!=0) {
     } // end of if (typeof channelsongSeq !== 'undefined') { 
 
-    $label = $('<label>played songs</label><a href="#" id="remove-song" class="trigger-button">< Remove</a>');
+    $label = $('<label>played songs</label><a href="javascript:void(null);" id="remove-song" class="trigger-button">< Remove</a>');
     $label.appendTo(playedpars); // $item playedpars
 
 
 
 
 
-    $('#add-song').click(function() {  
+    $('#add-song').click(function(e) { 
+
+      e.preventDefault(); // prevent browser from scrolling to the top of the screen and adding hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change 
 
       window.songSequencer = [];
 
@@ -1572,7 +1599,9 @@ $(".barloopnb").on("change paste keyup", function() {
 
 
 
-    $('#remove-song').click(function() {  
+    $('#remove-song').click(function(e) {
+
+      e.preventDefault(); // prevent browser from scrolling to the top of the screen and adding hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change  
 
       $('#played-songs .option .roonded').each(function( index ) {
 

@@ -260,27 +260,28 @@
       $item = $('<div class="ctrlchange button contact" id="button'+ _id +'">'); 
 
       if (_id==995) {      
-        $item.append('<input type="text" class="save" id="pattern-name" value="'+ window['userPattern']._name_ +'"/><label>Type pattern name</label><a href="#" class="trigger-button">Save pattern</a>'); // new <div class="input-container">
+        $item.append('<input type="text" class="save" id="pattern-name" value="'+ window['userPattern']._name_ +'"/><label>Type pattern name</label><a href="javascript:void(null);" class="trigger-button">Save pattern</a>'); // new <div class="input-container">
       
       } else if (_id==991) {      
         //$item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type sound name</label><a href="#" class="trigger-button">Save sound</a>'); 
-        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type preset name</label><a href="#" class="trigger-button">Save preset</a>');
+        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type preset name</label><a href="javascript:void(null);" class="trigger-button">Save preset</a>');
       
       }  else if (_id==997) {  
-        $item.append('<a href="#" class="trigger-button">Change Channel</a>'); // Switch
+        $item.append('<a href="javascript:void(null);" class="trigger-button">Change Channel</a>'); // Switch
 
       } else if (_id==987) {      
         // '+ window['userPart']._name_ +'
-        $item.append('<input type="text" class="save" id="part-name" value=""/><label>Type part name</label><a href="#" class="trigger-button">Save part</a>');
+        $item.append('<input type="text" class="save" id="part-name" value=""/><label>Type part name</label><a href="javascript:void(null);" class="trigger-button">Save part</a>'); // <a href="#"
       
       } else if (_id==986) {      
         // '+ window['userPart']._name_ +'
-        $item.append('<input type="text" class="save" id="song-name" value=""/><label>Type song name</label><a href="#" class="trigger-button">Save & DL song</a>');
+        $item.append('<input type="text" class="save" id="song-name" value=""/><label>Type song name</label><a href="javascript:void(null);" class="trigger-button">Save & DL song</a>'); // <a href="#"
       }  
 
       $item.appendTo($container);
 
       touchClick("#button"+_id+" a.trigger-button", 'touchstart mousedown', function(e) {
+        e.preventDefault();
         _onMouseDown();      
       }) 
 

@@ -67,7 +67,8 @@ if (navigator.requestMIDIAccess) {
         sysex: false
     }).then(onMIDISuccess, onMIDIFailure);
 } else {
-    alert("No MIDI support in your browser.");
+    //alert("No MIDI support in your browser.");
+    console.log("No MIDI support in your browser.");
 }
 
 //If request MIDI access succeeded, set the select box options.

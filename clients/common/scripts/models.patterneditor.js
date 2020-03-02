@@ -30,6 +30,8 @@
 
     var _onInstrument = function(data) {
 
+      //window.puppetMaster = 0;
+
       window.instrumentdata = data;
 
       //console.log('data', data.channelInfo);
@@ -43,7 +45,7 @@
 
 
       if ( typeof data !== 'undefined' ) { 
-
+        //*
         if ( typeof data.bpm !== 'undefined' ) {            
           //console.log('bpm, bar:', data.bpm, data.bar);
           $("#bpm").html(data.bpm + ' bpm');
@@ -54,11 +56,13 @@
           var data = undefined;
           return;
         }  
-
+        //*/
 
 
 
       if ( typeof data[0] !== 'undefined' ) {
+
+        //window.puppetMaster = 0;
 
         if ( typeof data[0].channelId !== 'undefined' && $('body').hasClass('control') ) {  
 
@@ -92,6 +96,13 @@
         
 
       } else if ( typeof data.ptnSeqList !== 'undefined' ) { // data[0].channelId
+
+
+          if ( typeof window.puppetMaster == 'undefined' ) {
+            window.puppetMaster = 1;
+          } else {
+            window.puppetMaster = window.puppetMaster + 1;
+          }
             
           //console.log('window.step: ', window.step);
 
@@ -118,9 +129,20 @@
 
           window.patternSequencerOri = (JSON.parse(JSON.stringify(window.patternSequencer))); 
 
-          // when puppet master mode off unset fol. variables so that user regains control over kit & preset change
-          window.nextKit = data.kitId;
-          window.nextPreset = data.presetId;
+          
+          // when puppet master mode off (when no part is being played) unset fol. variables so that user regains control over kit & preset change
+          // so that user may save a patternList + specific preset per channel for saving of part
+          //if (window.localParts.length>0) {
+            window.nextKit = data.kitId;
+            window.nextPreset = data.presetId;
+          /*} else {
+            delete window.nextKit;
+            delete window.nextPreset;
+          } */
+
+          //console.log('puppet mast: ', window.puppetMaster /*window.localParts, window.nextKit, window.nextPreset*/);
+
+
           window.barcount = data.bar;
 
           // conductor "clock" resyncs channel instrument's internal clock  
@@ -134,7 +156,27 @@
 
           var data = undefined;
           return;          
-        } 
+        } /*else {
+          window.puppetMaster = 0;
+        }*/
+
+
+
+/*
+        if ( typeof data.bpm !== 'undefined' ) {            
+          //console.log('bpm, bar:', data.bpm, data.bar);
+          $("#bpm").html(data.bpm + ' bpm');
+
+          // receiving bar pulse from sound gen client
+          _loClock();
+
+          var data = undefined;
+          return;
+        }  
+*/
+
+
+
       }  
 
 
@@ -1391,6 +1433,39 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
         if (window.stepSeq==1) { 
 
         //* // this section causes sound greeches!!!!!
+
+        // when puppet master mode off (when no part is being played) unset fol. variables so that user regains control over kit & preset change
+        // so that user may save a patternList + specific preset per channel for saving of part
+        //if (window.localParts.length>0) {
+        if ( typeof window.puppetMaster !== 'undefined' ) {
+          if ( typeof window.puppetMasterLocClockSide == 'undefined' ) {   
+            if ( window.puppetMaster == 2 ) {
+              window.puppetMasterLocClockSide = 1;            
+            }          
+          } else {
+            window.puppetMasterLocClockSide = window.puppetMasterLocClockSide + 1;
+
+
+
+            if (window.puppetMasterLocClockSide !== window.puppetMaster - 1) { // window.localParts.length>0
+
+            //} else {
+              delete window.nextKit;
+              delete window.nextPreset;
+              delete window.puppetMasterLocClockSide;
+              delete window.puppetMaster;
+            }   
+
+
+
+          }       
+        }
+
+         
+
+        //window.puppetMasterLocClockSide = window.puppetMaster;
+
+        //console.log('local parts: ', window.localParts, window.nextKit, window.nextPreset, window.puppetMaster, window.puppetMasterLocClockSide);
 
 
         var KitNumber = $('#kits').find(":selected").val(); 

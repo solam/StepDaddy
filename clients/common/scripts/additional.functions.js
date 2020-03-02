@@ -509,14 +509,49 @@ function removeDuplicates(array, key) {
 
 
 function download(filename, text) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
 
-    element.style.display = 'none';
-    document.body.appendChild(element);
+  /*alert('processing download func'); 
 
-    element.click();
+  if ( window.inIframe == 1 ) {
+    alert('in iFrame');
+  }  
 
-    document.body.removeChild(element);
+  if ( window.inIframe == 1 ) {
+
+    var iframe = document.getElementById('conductor'),
+    iframeWin = iframe.contentWindow || iframe,
+    iframeDoc = iframe.contentDocument || iframeWin.document;
+    var doc = iframeDoc;
+  } else {
+    var doc = document;
+  } 
+
+  console.log('window.inIframe: ', window.inIframe);
+
+
+  var element = doc.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  doc.body.appendChild(element);
+
+  element.click();
+
+  doc.body.removeChild(element);
+  */
+
+
+  //*
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+  //*/
 }

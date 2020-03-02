@@ -227,6 +227,10 @@
 
 
   <script type="text/javascript">
+
+
+
+
     //*
     var recMode = 'manual'; // manual | auto  
 
@@ -259,8 +263,13 @@
               return text === 'Stop Rec' ? 'Start Rec' : 'Stop Rec';
           }).toggleClass('stop_rec');
 
-        if ( $(this).hasClass("stop_rec") ) {    
-          rec.record();
+        if ( $(this).hasClass("stop_rec") ) {   
+          
+          //window['audio_context'].context.resume(); 
+          //rec.record();
+
+          rec && window['audio_context'].context.resume() && rec.record();
+
           var startDate = new Date();
           window.startTime = startDate.getTime();
           console.log("manual start rec at", window.startTime);
@@ -341,16 +350,98 @@
 
 
 
-    
-    if ( typeof window.ip !== 'undefined' ) {
+    // comment this section for online version
+    if ( typeof window.ip !== 'undefined' && window.ip.length > 0 ) {
       ip = window.ip;
+      ip += ':8282'; // local version only
+      window.ip2 = ip;
     } else {
       ip = '192.168.1.16'; // Beware hardcoded value! // '127.0.0.1:8282'
+      ip += ':8282'; // local version only
+      window.ip2 = ip;
     }
+
+
+
+    // ip = 'loops.solam.co/editor'; // online version
 
     //console.log('window.ip', window.ip);
 
-    setTimeout(function(){ 
+    //
+
+
+
+
+
+    function popTabs(ip) {
+
+
+
+          //*
+
+          window.setTimeout(function () {    
+            //window.open(window.comode+'://'+ip+':8282/device/?'+window.roomId+'/0', '_blank');
+            var tab1 = window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/0/noptnseq', '_blank');
+            //var tab1 = null;
+          }, 500); 
+    //*
+          window.setTimeout(function () {    
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/2/noptnseq', '_blank');
+          }, 4000); 
+
+          window.setTimeout(function () {    
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/3/noptnseq', '_blank');
+          }, 5500); 
+
+          window.setTimeout(function () {    
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/4/noptnseq', '_blank');
+          }, 7000);     
+
+          window.setTimeout(function () {    
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/5/noptnseq', '_blank');
+          }, 8500);    
+
+          window.setTimeout(function () {    
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/6/noptnseq', '_blank');
+          }, 10000);                          
+
+          //*
+          window.setTimeout(function () {
+            window.open(window.comode+'://'+ip+'/device/?'+window.roomId+'/1', '_blank');        
+          }, 11500);  
+          //*/                   
+    //*/
+          //window.loadedTabs = 1; // beware multiple call to this page = keeps loading new tabs...
+
+          //*/
+
+
+
+
+
+
+
+  }
+
+
+
+    document.querySelector('button').addEventListener('click', function() {
+      window['audio_context'].context.resume().then(() => {
+        console.log('Playback resumed successfully');
+
+        /*if ( reloadCount == 0 ) {
+          console.log('Pop tabs');
+          popTabs(window.ip2);
+          localStorage.setItem("rreellooaadd", 1);
+        }  */
+
+
+      });
+    });
+
+
+
+    setTimeout(function() { 
 
       if ( window['audio_context'].context.state == "running" ) {
         console.log(window['audio_context'].context.state);
@@ -362,54 +453,24 @@
         localStorage.setItem("rreellooaadd", 1);
 
         if ( window.ptnmode == 1 ) {
-
-          //*
-
-          window.setTimeout(function () {    
-            //window.open('http://'+ip+':8282/device/?'+window.roomId+'/0', '_blank');
-            var tab1 = window.open('http://'+ip+':8282/device/?'+window.roomId+'/0/noptnseq', '_blank');
-            //var tab1 = null;
-          }, 500); 
-    //*
-          window.setTimeout(function () {    
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/2/noptnseq', '_blank');
-          }, 4000); 
-
-          window.setTimeout(function () {    
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/3/noptnseq', '_blank');
-          }, 5500); 
-
-          window.setTimeout(function () {    
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/4/noptnseq', '_blank');
-          }, 7000);     
-
-          window.setTimeout(function () {    
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/5/noptnseq', '_blank');
-          }, 8500);    
-
-          window.setTimeout(function () {    
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/6/noptnseq', '_blank');
-          }, 10000);                          
-
-          //*
-          window.setTimeout(function () {
-            window.open('http://'+ip+':8282/device/?'+window.roomId+'/1', '_blank');        
-          }, 11500);  
-          //*/                   
-    //*/
-          //window.loadedTabs = 1; // beware multiple call to this page = keeps loading new tabs...
-
-          //*/
+          popTabs(ip);
         }
       }
 
       } else {
         localStorage.setItem("rreellooaadd", 0);
         //location.reload(true); // (under Song editor on main page) 
-        alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
+        //alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
+        alert('Click play music button (inside sound generator tab in song editor context) to start music');
         //window.rreellooaadd = 0;    
-      }
-    }, 5000); 
+      }      
+
+
+
+
+      
+    }, 5000);     
+
 
   </script>
 </body>
