@@ -88,11 +88,12 @@
 
   <div class="ins-right soundgen">
   <h1>Sound Generator</h1> <!--(browser tab) (1)-->
-  <button id="button" type="button" class="golo">Play music (sound off by default on Chrome 70+)</button>
+  <button id="button" type="button" class="golo" title="click this button if sound icon is off">audio disabled by default on Chrome 70+: need of a user gesture to allow Web Audio (Click me!)</button><!-- Play music (sound off by default on Chrome 70+) -->
   </div>  
 
   <div class="ins-right precuemixer">
     <spanb>Pre-cue mixer</spanb>
+    <button id="precButton" type="button" class="golo" title="click this button if sound icon is off">audio disabled by default on Chrome 70+: need of a user gesture to allow Web Audio (Click me!)</button>
   </div>    
 
   <div class="ins-right" style="display:none">
@@ -136,6 +137,8 @@
     <span>Available channel(s)</span><!--  Instrument(s) disponible(s): Available slot(s) -->
     <div id="audio-server-available-slots"></div>
   </div>
+
+  <img class="sound" id="soundicon" src=""><!-- ../common/images/sound_on.jpg -->
 
 
   <div id="roomId">
@@ -360,7 +363,7 @@
       ip += ':8282'; // local version only
       window.ip2 = ip;
     }
-
+    // */
 
 
     // ip = 'loops.solam.co/editor'; // online version
@@ -428,6 +431,7 @@
     document.querySelector('button').addEventListener('click', function() {
       window['audio_context'].context.resume().then(() => {
         console.log('Playback resumed successfully');
+        $("#soundicon").attr("src","../common/images/sound_on.jpg");
 
         /*if ( reloadCount == 0 ) {
           console.log('Pop tabs');
@@ -441,10 +445,30 @@
 
 
 
+      $('#precButton').on('click', function (e) {
+        e.preventDefault();
+        window['audio_context'].context.resume().then(() => {
+          console.log('Playback resumed successfully');
+          $("#soundicon").attr("src","../common/images/sound_on.jpg");
+        });
+      });     
+
+      $('#soundicon').on('click', function (e) {
+        e.preventDefault();
+        window['audio_context'].context.resume().then(() => {
+          console.log('Playback resumed successfully');
+          $("#soundicon").attr("src","../common/images/sound_on.jpg");
+        });
+      });            
+
+
+
     setTimeout(function() { 
 
       if ( window['audio_context'].context.state == "running" ) {
         console.log(window['audio_context'].context.state);
+
+        $("#soundicon").attr("src","../common/images/sound_on.jpg");
 
 
       if ( typeof window.ptnmode !== 'undefined' && typeof window.roomId !== 'undefined' && typeof window.childRoom !== 'undefined' && typeof window.loadedTabs === 'undefined' 
@@ -459,6 +483,7 @@
 
       } else {
         localStorage.setItem("rreellooaadd", 0);
+        $("#soundicon").attr("src","../common/images/sound_off.jpg");
         //location.reload(true); // (under Song editor on main page) 
         //alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
         alert('Click play music button (inside sound generator tab in song editor context) to start music');

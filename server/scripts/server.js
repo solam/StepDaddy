@@ -18,6 +18,7 @@ define(
 			* @type {Number}
 			*/
 			var PORT = 60000;
+      // var PORT = 60001; // online version
 
 			/**
 			* The app
@@ -85,10 +86,10 @@ define(
 						if (!data.client)
 						{
 							data.client = 'client_' + (new Date().getTime() + Math.floor(Math.random() * 1000));
-							console.log('I need to create a new id');
+							//console.log('I need to create a new id');
 						}
 
-						console.log('Registering socket with id', data.client);
+						//console.log('Registering socket with id', data.client);
 						_self.register(data.client, socket);
 					});
 				});
@@ -231,7 +232,7 @@ define(
 				// with the new socket.
 				if (typeof _clients[clientId] !== 'undefined')
 				{
-					console.log('Client already exists, will just update the socket');
+					//console.log('Client already exists, will just update the socket');
 					_clients[clientId].setSocket(socket);
 				}
 				else
@@ -263,7 +264,7 @@ define(
 			*/
 			this.unregister = function (id)
 			{
-				console.log('Removing client with id', id);
+				//console.log('Removing client with id', id);
 
 				if (typeof _clients[id] !== 'undefined')
 				{

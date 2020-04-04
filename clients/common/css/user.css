@@ -1436,10 +1436,14 @@ input.barloopnb {
 ,.session13 .autoincundefined
 ,.session13.channel1 #thekits
 ,.channel2.session13 #id699
+,.session13.edt #left
  {
   display:none !important;
 }
 
+.session13.edt #right {
+  float:none !important;
+}
 
 div#channelinfo a.logo {
   display: inline-block;
@@ -1462,4 +1466,87 @@ div#channelinfo a.logo > img {
 
 .soundgen h1 {
   font-size: 1.2em;  
+}
+
+
+.session10.edt ul.menu#fixed li#exit 
+/*,.session10.edt #notemin
+,.session10.edt #notemax*/
+,.session10.edt .autoincundefined
+,.channel2.session10.edt #id699
+,.channel8.session10.edt #thekits
+,.channel8.session10.edt #thepatterns
+
+,.channel10.session10.edt #thepatterns
+,.channel10.session10.edt #thepresets
+,.channel11.session10.edt #thepatterns
+,.channel11.session10.edt #thepresets
+,.channel12.session10.edt #thepatterns
+,.channel12.session10.edt #thepresets
+,.channel13.session10.edt #thepatterns
+,.channel13.session10.edt #thepresets
+,.channel14.session10.edt #thepatterns
+,.channel14.session10.edt #thepresets
+,.channel15.session10.edt #thepatterns
+,.channel15.session10.edt #thepresets
+,.channel16.session10.edt #thepatterns
+,.channel16.session10.edt #thepresets
+
+,.session10.edt #left
+,.session10.edt #patternedit
+,.session10.edt #pattern-sequencer
+,.session10.edt #button995
+,.session10.edt #button991
+,.channel2.session10.edt #sessiontips #s10
+,.channel3.session10.edt #sessiontips #s10
+,.channel5.session10.edt #sessiontips #s10
+,.channel7.session10.edt #sessiontips #s10
+,.channel9.session10.edt #sessiontips #s10
+
+,.channel2.session10.edt #thesessions
+,.channel2.session10.edt #id699
+,.channel2.session10.edt #id698
+,.channel2.session10.edt #id697
+,.channel2.session10.edt #part-sequencer
+,.channel2.session10.edt #button987
+,.channel2.session10.edt #song-sequencer
+,.channel2.session10.edt #button986
+{
+  display:none !important;
+}
+
+.session10.edt #right {
+  float:none !important;
+}
+
+body.session10.edt #pattern-editor {
+  opacity: 1 !important;
+}
+
+.channel10.session10.edt #pattern-editor
+,.channel11.session10.edt #pattern-editor
+,.channel12.session10.edt #pattern-editor
+,.channel13.session10.edt #pattern-editor
+,.channel14.session10.edt #pattern-editor
+,.channel15.session10.edt #pattern-editor
+,.channel16.session10.edt #pattern-editor
+
+{
+  display:block !important;
+}
+
+.session11.edt #left /* GM - The Chase ...Loops song editor */
+,.npsmultiedt #left
+{
+  display:none !important;
+}
+
+.session11.edt #right 
+,.npsmultiedt #right {
+  float:none !important;
+}
+
+.precue #ctrl999 /* tempo */ 
+{
+  display:none !important;
 }

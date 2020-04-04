@@ -110,6 +110,7 @@
         window.llccontrols = controls; // lastly loaded channel controls
         var input = 1;
         var channelId = _model.instrument.id;
+        window.channelId = channelId;
         var kits = _model.instrument.channelInfo.channelKits;   // channelKits    
         var inputMode = _model.instrument.channelInfo.inputMode;
 
@@ -974,14 +975,18 @@ if (controls[j].id==9920) {
 var url2 = mixr.Utils.parseURL(location.href);
 paraam2 = url2.url.split('/');
 
+
+//
 if ( typeof paraam2[6] !== 'undefined' ) {
-  if ( paraam2[6] === 'noptnseq' ) {
+  if ( paraam2[6] === 'noptnseq' || paraam2[6] === 'npsmulti' || paraam2[6] === 'npsmultiedt' ) {
     patternSeqStateValue=0;
   }  
 }  
+// */
+
 /* // online version comment above
 if ( typeof paraam2[7] !== 'undefined' ) {
-  if ( paraam2[7] === 'noptnseq' ) {
+  if ( paraam2[7] === 'noptnseq' || paraam2[7] === 'npsmulti' || paraam2[7] === 'npsmultiedt' ) {
     patternSeqStateValue=0;
   }  
 }  
@@ -991,6 +996,7 @@ if ( typeof paraam2[7] !== 'undefined' ) {
 
 if ( top !== self ) { // we are in the iframe
   window.inIframe = 1;
+  $('body').addClass('iframe');
 } else { // not an iframe
   window.inIframe = 0;
 }    
@@ -1003,7 +1009,8 @@ if ( top !== self ) { // we are in the iframe
       var onOffstate = 'On';
 
       if ( window.inIframe == 1 ) {
-        $('#pattern-editor').hide();
+        //$('#pattern-editor').hide();
+        $('body').addClass('ptnseqon').removeClass('ptnseqoff');
       }      
 
     } else {
@@ -1012,7 +1019,8 @@ if ( top !== self ) { // we are in the iframe
       var onOffstate = 'Off';
 
       if ( window.inIframe == 1 ) {
-        $('#pattern-editor').show();
+        //$('#pattern-editor').show();
+        $('body').addClass('ptnseqoff').removeClass('ptnseqon');
       }      
 
     }
@@ -1042,7 +1050,8 @@ if ( top !== self ) { // we are in the iframe
 
 
       if ( window.inIframe == 1 ) {
-        $('#pattern-editor').show();
+        //$('#pattern-editor').show();
+        $('body').addClass('ptnseqoff').removeClass('ptnseqon');
       }   
 
 
@@ -1052,7 +1061,8 @@ if ( top !== self ) { // we are in the iframe
       _model.onModifierChange({id: 201, ptnSeqState: 1});
 
       if ( window.inIframe == 1 ) {
-        $('#pattern-editor').hide();
+        //$('#pattern-editor').hide();
+        $('body').addClass('ptnseqon').removeClass('ptnseqoff');
       }   
 
 

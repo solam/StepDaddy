@@ -70,12 +70,20 @@ function midiMessageReceived( ev ) {
   } else if (cmd == 9) {
     // note on
     console.log( "" + ev.data[0] + " " + ev.data[1] + " " + ev.data[2]);
-    window['muteNote'+noteNumber](noteNumber, velocity/127.0);
+    if ( typeof window['muteNote' + noteNumber] !== 'undefined' ) {
+      if ( window['muteNote' + noteNumber] instanceof Function ) {
+        window['muteNote' + noteNumber](noteNumber, velocity/127.0);
+      }
+    }
     //noteOn( noteNumber, velocity/127.0);
   } else if (cmd == 11) {
     
     //window.midicc( noteNumber, velocity/127.0);
-    window['midicc'+noteNumber](noteNumber, velocity/127.0);
+    if ( typeof window['midicc'+noteNumber] !== 'undefined' ) {
+      if ( window['midicc'+noteNumber] instanceof Function ) {
+        window['midicc'+noteNumber](noteNumber, velocity/127.0);
+      }
+    }
     //controller( noteNumber, velocity/127.0);
   } else if (cmd == 14) {
     // pitch wheel

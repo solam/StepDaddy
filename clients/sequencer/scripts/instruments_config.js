@@ -2776,7 +2776,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, // 30
+              value: 30, // 30
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2804,7 +2804,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4,
+              value: 30,
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2832,7 +2832,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, // 40
+              value: 0, // 40
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2861,7 +2861,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2889,7 +2889,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2917,7 +2917,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2945,7 +2945,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -2973,7 +2973,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -3001,7 +3001,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -3029,7 +3029,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -3057,7 +3057,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,
@@ -3085,7 +3085,7 @@ conductor16a: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 4, 
+              value: 30, 
               stepSize: 0, 
               interpolate: 1, 
               displayedRangeMin: 0,

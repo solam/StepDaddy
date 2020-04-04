@@ -54,17 +54,16 @@
 
       // comment this section for online version
       if ( typeof paraam[6] !== 'undefined' ) {
-
-        if ( paraam[6] == 'edt') {
+        if ( paraam[6] == 'edt' || paraam[6] === 'npsmulti' || paraam[6] === 'npsmultiedt' ) {
           $('body').addClass(paraam[6]);
-        }
-        
-      }  
+        }        
+      } 
+      // */ 
 
       /* online version
       if ( typeof paraam[7] !== 'undefined' ) {
 
-        if ( paraam[7] == 'edt') {
+        if ( paraam[7] == 'edt' || paraam[7] === 'npsmulti' || paraam[7] === 'npsmultiedt' ) {
           $('body').addClass(paraam[7]);
         }
         
@@ -83,7 +82,7 @@
       //var rmid = paraam[5].slice(1)+'_'+paraam[6]+'_'+window.pageId; '_undefined';
 
       console.log('url', rmid, url, pwd, paraam, window.pageId);
-      */
+      //*/
 
       //console.log('url', rmid, url, pwd, paraam);
 

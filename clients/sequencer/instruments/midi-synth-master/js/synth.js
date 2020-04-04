@@ -812,7 +812,16 @@ Voice.prototype.noteOff = function() {
 
   if ( typeof this.instance.currentEnvR == 'undefined' ) {
     this.instance.currentEnvR = 1; // default preset param - 280
+  } else {
+    let valCheckkkEnvR = parseFloat(this.instance.currentEnvR);
+
+    if ( isFinite(valCheckkkEnvR) && valCheckkkEnvR > 0 ) {
+
+    } else {    
+      this.instance.currentEnvR = 1;
+    }    
   }
+
 
 
   //console.log('log:: ', now, this.instance.currentEnvR);
@@ -820,9 +829,25 @@ Voice.prototype.noteOff = function() {
 	this.filter1.detune.cancelScheduledValues(now);
 
 
-  if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
+  /*if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
     this.instance.currentFilterEnvR = 101; // default preset param - 210
+  } */
+
+
+  if ( typeof this.instance.currentFilterEnvR == 'undefined' ) {
+    this.instance.currentFilterEnvR = 1; 
+  } else {
+    let valCheckcurrentFilterEnvR = parseFloat(this.instance.currentFilterEnvR);
+
+    if ( isFinite(valCheckcurrentFilterEnvR) && valCheckcurrentFilterEnvR > 0 ) {
+
+    } else {    
+      this.instance.currentFilterEnvR = 1;
+    }    
   }
+
+
+
 
 	this.filter1.detune.setTargetAtTime( 0, now, (this.instance.currentFilterEnvR/100.0) );
 

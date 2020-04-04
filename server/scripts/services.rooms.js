@@ -18,6 +18,8 @@ define(
 			* @type {Object}
 			*/
 			var _rooms = {};
+      //var _path = '/home/solam/loops.solam.co/public/editor/'; // online version
+      var _path = '/media/iwan/data/tweb/2015-09-29_jam_session/app/StepDaddy/clients/';      
 
 			/**
 			* Creates a room
@@ -32,6 +34,9 @@ define(
 			*/
 			this.createRoom = function (id, client, callback, errback)
 			{
+
+        //console.log('this.createRoom func:', id);
+
 				var roomArrayB = id.split('_');
 				var roomIdB = roomArrayB[0];
 
@@ -85,15 +90,38 @@ define(
 			*/
 			this.deleteRoom = function (roomId, callback, errback)
 			{
-				if (typeof _rooms[roomId] !== 'undefined')
+				if ( typeof _rooms[roomId] !== 'undefined')
 				{
 					_rooms[roomId].dispose();
 					_rooms[roomId] = null;
-				}
-				else
-				{
-					errback('No room exists!');
-				}
+
+          /*var fs = require('fs');
+          fs.writeFile(_path + roomId + ".room", "0", function(err) {
+            if (err) {
+              return console.log(err);
+            }
+            //console.log(roomId + ".room = 0");
+          }); */
+
+
+          var fs = require('fs');
+
+          fs.stat(_path + roomId + ".room", function (err, stats) {
+             //console.log(stats); // here we got all information of file in stats variable
+
+             if (err) {
+                 return console.error(err);
+             }
+
+             fs.unlink(_path + roomId + ".room",function(err){
+                  if(err) return console.log(err);
+                  console.log(roomId + ".room"+ ' deleted successfully yo!');
+             });  
+          });          
+            
+  				} else {
+  					errback('No room exists!');
+  				}
 
 				return this;
 			};

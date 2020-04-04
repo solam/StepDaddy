@@ -77,6 +77,8 @@
 		// if all channels' offsets are set to 0: offSetMode = off while rotation = on
 
 
+    
+
   // select which session to select at app startup
     if ( typeof window.sessionid == 'number' ) {
       this._sessionNumber = window.sessionid; 
@@ -101,8 +103,13 @@
     99: test
     */
 
-      this._sessionNumber = 13; 
+      this._sessionNumber = 13; // 13
     }
+/*
+    if (window.childRoom == 2 || typeof window.childRoom == 'undefined' ) { 
+      this._sessionNumber = 13; // default for childroom - 13
+    }  
+//*/
 
     console.log('this._sessionNumber, window.sessionid: ', this._sessionNumber, window.sessionid);
 		//console.log('window.graphixMode, window.childRoom', window.graphixMode, window.childRoom);

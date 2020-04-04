@@ -98,7 +98,7 @@ define(
 			*/
 			this.setSocket = function (socket)
 			{
-				console.log('Set socket for client with id', this.id);
+				//console.log('Set socket for client with id', this.id);
 				this.isConnected = true;
 				_socket = socket;
 

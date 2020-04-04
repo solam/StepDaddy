@@ -2,8 +2,8 @@
 <!-- saved from url=(0049)http://davidjbradshaw.com/iframe-resizer/example/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 		 
-		<title>...Loops song editor: Giorgio Moroder - The Chase</title> 
-		<meta name="description" content="iFrame message passing test"> 
+		<title>...Loops song editor</title> 
+		<meta name="description" content="Self remix an existing or create a new multiplayer music track to be used during jam sessions"> 
 		<meta name="viewport" content="width=device-width">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--<script src="../common/lib/jquery-1.9.0.min.js"></script>-->
@@ -368,22 +368,22 @@ h1 span {
 
     <li>
         <div class="fram">
-            <iframe id="d0" class="device" scrolling="yes"></iframe>
+            <iframe id="d0" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div class="fram">
-            <iframe id="d2" class="device" scrolling="yes"></iframe>
+            <iframe id="d2" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
     <li>
         <div class="fram">
-            <iframe id="d3" class="device" scrolling="yes"></iframe>
+            <iframe id="d3" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div class="fram">
-            <iframe id="d4" class="device" scrolling="yes"></iframe>
+            <iframe id="d4" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>  
   <!--<div class="row">--><!-- jquery apply class starting at 5th item -->    
@@ -391,7 +391,7 @@ h1 span {
      
     <li>
         <div class="fram">
-            <iframe id="d5" class="device" scrolling="yes"></iframe>
+            <iframe id="d5" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
 
@@ -399,70 +399,66 @@ h1 span {
 
     <li>
       <div class="fram">
-            <iframe id="d6" class="device" scrolling="yes"></iframe>
+            <iframe id="d6" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
 
-    <!-- 
+
     <li>
         <div>
-            <iframe id="d7" class="device" scrolling="no"></iframe>
+            <iframe id="d7" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div>
-            <iframe id="d8" class="device" scrolling="no"></iframe>
+            <iframe id="d8" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
-    -->
 
-
-
-<!--
 
     <li>
         <div>
-            <iframe id="d9" class="device" scrolling="no"></iframe>
+            <iframe id="d9" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div>
-            <iframe id="d10" class="device" scrolling="no"></iframe>
+            <iframe id="d10" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
     <li>
         <div>
-            <iframe id="d11" class="device" scrolling="no"></iframe>
+            <iframe id="d11" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div>
-            <iframe id="d12" class="device" scrolling="no"></iframe>
+            <iframe id="d12" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>  
       
     <li>
         <div>
-            <iframe id="d13" class="device" scrolling="no"></iframe>
+            <iframe id="d13" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div>
-            <iframe id="d14" class="device" scrolling="no"></iframe>
+            <iframe id="d14" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
     <li>
         <div>
-            <iframe id="d15" class="device" scrolling="no"></iframe>
+            <iframe id="d15" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
         </div>
     </li>
     <li>
       <div>
-            <iframe id="d16" class="device" scrolling="no"></iframe>
+            <iframe id="d16" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
       </div>
     </li>
 
--->
+
 
 
 
@@ -477,7 +473,7 @@ h1 span {
         <div class="fram">
             <!--<iframe src="http://127.0.0.1:8282/sequencer/?rm/nochild" scrolling="no"></iframe>-->
             <!--<iframe src="http://192.168.1.47:8282/sequencer/?rm/nochild" scrolling="no" allow="autoplay"></iframe>-->
-            <iframe id="soundgen" scrolling="yes"></iframe>
+            <iframe id="soundgen" scrolling="yes"></iframe><span class="togglebutton">Toggle</span>
             <!--<iframe id="soundgen" scrolling="no"></iframe>-->
 
         </div>
@@ -485,7 +481,7 @@ h1 span {
 
     <li>
         <div class="fram">
-            <iframe id="conductor" scrolling="yes"></iframe><!--src="http://127.0.0.1:8282/device/?rm/mopo"-->
+            <iframe id="conductor" scrolling="yes"></iframe><span class="togglebutton">Toggle</span><!--src="http://127.0.0.1:8282/device/?rm/mopo"-->
         </div>
     </li>    
 
@@ -502,7 +498,7 @@ h1 span {
 <div id="addlinks">
         <a class="link" id="trackauthor" href="https://www.youtube.com/watch?v=ViN2bRGrBx8" target="_blank" >Giorgio Moroder - The Chase</a>
         <br/><br/>
-        <!--<button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button> ' MODE -->
+        <button id="ptnmode" type="button">Create patterns & tweak presets on multiple browser tabs (please allow pop-ups)</button> <!-- MODE -->
 <br/><br/>
 <!--<span>Use Chrome as browser on a (desktop) computer with a cable network connection (no Wi-Fi as network latency not short enough)</span>-->       
 
@@ -549,7 +545,7 @@ h1 span {
 
 
 
-//*
+/*
 
 $('#list div.fram').each(function () {
     $(this).append('<span class="togglebutton">Toggle</span>');
@@ -558,6 +554,8 @@ $('#list div.fram').each(function () {
 //*/
 
 $("span.togglebutton").hide();
+
+
 
 $("span.togglebutton").click(function () {
     $(this).closest("li").children("div").toggleClass("maximized");
@@ -595,8 +593,8 @@ for (var i = 0; i < parts.length; i++) {
 console.log('session: ',$_GET['session']);  
 
 
-//jQuery('#button').hide(); 
-jQuery('#button').show();
+jQuery('#button').hide(); 
+//jQuery('#button').show();
 
   document.querySelector('button').addEventListener('click', function() {
 
@@ -659,39 +657,115 @@ $('#buttonDISABLED').click(function() {
     }
   }
 
-
+var opt01 = 'edt';
 
 if ( typeof $_GET['session'] !== 'undefined' ) {
 
   var sess = '/session'+$_GET['session'];
 
   if ( sess == '/session12' ) {
+    $('ul#list li').slice(6, 16).hide();
     $('body').css("background-image", "url('../common/images/Larry_Heard.jpg')");  
     //$('body').css("background-image", "url('./common/images/Larry_Heard.jpg')"); // online version
     $("#trackauthor").attr("href", "https://www.youtube.com/watch?v=UeiH9Mm0E5Y").html('Mr Fingers - Can You Feel It');
     document.title = 'Mr Fingers - Can You Feel It (...Loops song editor)';
+    $("#ptnmode").hide();
     
     
   } else if ( sess == '/session11' ) {
+    $('ul#list li').slice(6, 16).hide();
+    $("#ptnmode").hide();
+    document.title = 'Giorgio Moroder - The Chase (...Loops song editor)';
+
 
   } else if ( sess == '/session13' ) {
+    $('ul#list li').slice(6, 16).hide();
     $('body').css("background-image", "none");  
     $('body').css("background-color", "rgba(200, 200, 200, 0.4)");
-    //$('body').css("background-image", "url('./common/images/Larry_Heard.jpg')"); // online version
     //$("#trackauthor").attr("href", "").html('&nbsp;');
     $("#trackauthor").hide();
+    $("#ptnmode").show();    
     document.title = 'Blank song template (...Loops song editor)';    
-  }  
+    var opt01 = 'npsmultiedt';
+
+
+  } else if ( sess == '/session10' ) {
+    $('ul#list li').slice(15, 16).hide();
+    $("#ptnmode").hide();
+    document.title = 'Drums for 16 players (...Loops song editor)';
+
+    $('body').css("background-image", "none");  
+    $('body').css("background-color", "rgba(200, 200, 200, 0.4)");
+    //$("#trackauthor").attr("href", "").html('&nbsp;');
+    $("#trackauthor").hide();
+    $("#ptnmode").hide();
+
+
+    window.setTimeout(function () {
+
+      window.setTimeout(function () {
+        $('iframe#d7').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/7/'+opt01+'/'); 
+      }, 10500); 
+
+      window.setTimeout(function () {
+        $('iframe#d8').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/8/'+opt01+'/');
+      }, 13000); 
+
+      window.setTimeout(function () {
+        $('iframe#d9').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/9/'+opt01+'/');
+      }, 14500); 
+
+      window.setTimeout(function () {
+        $('iframe#d10').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/10/'+opt01+'/');
+      }, 16000); 
+
+      window.setTimeout(function () {
+        $('iframe#d11').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/11/'+opt01+'/');
+      }, 17500); 
+
+      window.setTimeout(function () {
+        $('iframe#d12').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/12/'+opt01+'/');
+      }, 19000);   
+
+      window.setTimeout(function () {
+        $('iframe#d13').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/13/'+opt01+'/');
+      }, 20500); 
+
+      window.setTimeout(function () {
+        $('iframe#d14').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/14/'+opt01+'/');
+      }, 22000); 
+
+      window.setTimeout(function () {
+        $('iframe#d15').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/15/'+opt01+'/');
+      }, 23500); 
+
+      window.setTimeout(function () {
+        $('iframe#d16').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/16/'+opt01+'/');
+
+        $("span.togglebutton").show();
+        $("iframe").show();
+        
+      }, 25000);     
+
+
+    }, 1000);
+
 
 
 
 
 } else {
+  $('ul#list li').slice(6, 16).hide();
   var sess = '';
+    $('body').css("background-image", "none");  
+    $('body').css("background-color", "rgba(200, 200, 200, 0.4)");
+    //$("#trackauthor").attr("href", "").html('&nbsp;');
+    $("#trackauthor").hide();
+    $("#ptnmode").show();  
 } 
 
 
-
+}
 
 
   //$('#ptnmode').on('click', function (e) {
@@ -738,31 +812,31 @@ window.setTimeout(function () {
   window.setTimeout(function () {
     //jQuery('#button').remove();
     //jQuery('#button').show();
-    $('iframe#d0').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/0/edt/').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
+    $('iframe#d0').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/0/'+opt01+'/').attr('name', 't'+(new Date()).getTime() + Math.floor(Math.random() * 1000000) ); 
   }, 1500); 
 
   window.setTimeout(function () {
-    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/2/edt/');
+    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/2/'+opt01+'/');
   }, 3000); 
 
   window.setTimeout(function () {
-    $('iframe#d3').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/3/edt/');
+    $('iframe#d3').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/3/'+opt01+'/');
   }, 4500); 
 
   window.setTimeout(function () {
-    $('iframe#d4').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/4/edt/');
+    $('iframe#d4').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/4/'+opt01+'/');
   }, 6000); 
 
   window.setTimeout(function () {
-    $('iframe#d5').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/5/edt/');
+    $('iframe#d5').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/5/'+opt01+'/');
   }, 7500); 
 
   window.setTimeout(function () {
-    $('iframe#d6').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/6/edt/');
+    $('iframe#d6').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/6/'+opt01+'/');
   }, 9000);   
 
   window.setTimeout(function () {
-    $('iframe#conductor').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/1/edt/');
+    $('iframe#conductor').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/1/'+opt01+'/');
 /*
     $('#list div').each(function () {
         $(this).append('<span class="togglebutton">Toggle</span>');

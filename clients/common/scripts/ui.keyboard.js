@@ -174,7 +174,7 @@ function noteOn( note, velocity ) {
 
 if (typeof window.ptnEditorModel  !== 'undefined') {
 //console.log(window.ptnEditorModel)
-window.ptnEditorModel.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 989, note: note, velocity: velocity, type: 'on' });
+window.ptnEditorModel.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 989, note: note, velocity: velocity, type: 'on', cid: window.channelId });
 }
 
   //if (voices[note] == null) {
@@ -190,7 +190,7 @@ function noteOff( note, velocity ) {
 
 if (typeof window.ptnEditorModel  !== 'undefined') {
 //console.log(window.ptnEditorModel)
-window.ptnEditorModel.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 989, note: note, velocity: 0, type: 'off' });
+window.ptnEditorModel.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 989, note: note, velocity: 0, type: 'off', cid: window.channelId });
 }  
   //if (voices[note] != null) {
     // Shut off the note playing and clear it 

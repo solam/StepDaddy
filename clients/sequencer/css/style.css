@@ -257,6 +257,7 @@ button.stop_rec {
 
 .child.precue.gfx #audio-server-status.greenborder,
 #start_rec {
+    margin-top: 40px; /* 80px*/
     float: left;
     background: #389838;
     border: none;
@@ -301,4 +302,12 @@ button.stop_rec {
 
 #tips ul li {
   font-size: 30px;
+}
+
+.sound {
+  max-width: 8%;
+  top: 50px;
+  position: absolute;
+  z-index: 555555;
+  right: 50px;
 }
