@@ -429,6 +429,18 @@ define(
 				{ 
 					console.log('Reg as slave room:', client.id.substr(client.id.length - 4)); // Registering as room owner child the client with id
 					_roomOwnerChildren[client.id] = client;
+
+          // inform main-room that a late comer child-room brought her ass to the jam
+          if ( typeof _roomOwnerClient !== 'undefined' ) {
+            var infarr = {};
+            infarr.client = client.id;
+            infarr.tap = "crlateco"; // child-room late comer
+
+            _roomOwnerClient.send(global.Events.CLIENT_JOINED, {data: infarr});
+          }  
+
+
+
 				}
 
 				if (!alreadyExists)

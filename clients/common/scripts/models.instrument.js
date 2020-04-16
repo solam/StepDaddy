@@ -274,7 +274,9 @@
 
         switch (this.instrumentName) {
             case 'JoeSullivanDrumSynth':
+              if ( typeof window[synthInstance].play === 'function' ) {
                 window[synthInstance].play(note);
+              }
                 break;          
             case 'CWilsoWAMidiSynth':
                 window[synthInstance].noteOn(note, 75, this.id); // old vol: 75
@@ -284,7 +286,9 @@
                 //window[synthInstance].setVolume(0.1);
                 if (typeof window['awsbug'] == 'undefined' || typeof window['awsbug'] !== 'undefined' && window['awsbug']==0) {
                   if ( window[synthInstance] !== null ) {
-                    window[synthInstance].play(note); // , String(synthInstance)
+                    if ( typeof window[synthInstance].play === 'function' ) {
+                      window[synthInstance].play(note); // , String(synthInstance)
+                    }
                   }
                   //console.log('note:', synthInstance, note);
                 } else if (typeof window['awsbug'] !== 'undefined' && window['awsbug']==1) {
@@ -332,8 +336,10 @@
 
           switch (this.instrumentName) {
             case 'JoeSullivanDrumSynth':
+              if ( typeof window[synthInstance].stop === 'function' ) {
                 window[synthInstance].stop(note);
-                break;              
+              }
+              break;              
             case 'CWilsoWAMidiSynth':
                 window[synthInstance].noteOff(note, this.id);
                 break;              

@@ -976,7 +976,7 @@ var url2 = mixr.Utils.parseURL(location.href);
 paraam2 = url2.url.split('/');
 
 
-//
+//*
 if ( typeof paraam2[6] !== 'undefined' ) {
   if ( paraam2[6] === 'noptnseq' || paraam2[6] === 'npsmulti' || paraam2[6] === 'npsmultiedt' ) {
     patternSeqStateValue=0;

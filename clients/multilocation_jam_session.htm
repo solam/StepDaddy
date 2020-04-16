@@ -1,0 +1,1328 @@
+<html>
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116420933-1"></script>
+<script>
+
+// trying to fix 'no access' eror - https://airbrake.io/blog/javascript-error-handling/null-undefined-properties
+
+var printError = function(error, explicit) {
+    console.log(`[${explicit ? 'EXPLICIT' : 'INEXPLICIT'}] ${error.name}: ${error.message}`);
+}
+
+try {
+    console.log(undefined.name);
+} catch (e) {
+    if (e instanceof TypeError) {
+        printError(e, true);
+    } else {
+        printError(e, false);
+    }
+}
+
+
+
+  window.dataLayer = window.dataLayer || []; // may pop this error: https://stackoverflow.com/questions/38980275/uncaught-typeerror-no-access-issue-with-jquery-depending-on-browser-navigati
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-116420933-1');
+</script>
+
+<title>...Loops - Collective Audiovisual & Kinetic Performance System</title>
+<!--<meta http-equiv="refresh" content="0; url=http://10.10.10.124:8282/device/?rm" />--><!-- /mopo -->
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+
+<!--<script>
+
+/*
+
+
+
+
+
+
+iframe {
+  clear: both;
+  /*margin-top: 15px;*/
+  display: block;
+}
+
+
+
+
+
+
+.yt {
+    display: block;
+    margin-top: 12px; /* 20 px 98*/
+    background-color: black;
+}
+
+
+
+
+
+
+
+@font-face {
+    font-family: 'si';
+    src: url('http://solam.co/loops/socicon.eot');
+    src: url('http://solam.co/loops/socicon.eot?#iefix') format('embedded-opentype'),
+         url('http://solam.co/loops/socicon.woff') format('woff'),
+         url('http://solam.co/loops/socicon.ttf') format('truetype'),
+         url('http://solam.co/loops/socicon.svg#icomoonregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+ 
+}
+ 
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family:si;
+        src: url(http://solam.co/loops/socicon.svg) format(svg);
+    }
+}
+
+.soc {
+    overflow:hidden;
+    margin:0; padding:0;
+    list-style:none;
+}
+
+.soc li {
+    display:inline-block;
+    *display:inline;
+    zoom:1;
+}
+
+
+
+
+
+
+.soc li a {
+    font-family:si!important;
+    font-style:normal;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -o-box-sizing:border-box;
+    box-sizing:border-box;
+    overflow:hidden;
+    text-decoration:none;
+    text-align:center;
+    display:block;
+    position: relative;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 22px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: #ffffff;
+    background-color: none;
+    opacity: 0.8;
+}
+
+
+
+
+
+
+
+.soc-icon-last{
+    margin:0 !important;
+}
+
+
+
+
+
+
+
+.soc-email1 {
+    background-color: #578AD6;
+}
+.soc-email1:before {
+    content:'<';
+}
+.soc-twitter {
+    background-color: #4da7de;
+}
+.soc-twitter:before {
+    content:'a';
+}
+.soc-youtube {
+    background-color: #e02a20;
+}
+.soc-youtube:before {
+    content:'r';
+}
+.soc-facebook {
+    background-color: #3e5b98;
+}
+.soc-facebook:before {
+    content:'b';
+}
+.soc-google {
+    background-color: #d93e2d;
+}
+.soc-google:before {
+    content:'c';
+}
+
+
+
+.soc-github {
+    background-color: #5380c0;
+}
+.soc-github:before {
+  content:'Q';
+}
+
+
+
+
+#twitterframe {
+  max-width: 430px;
+  /*width: 430px;*/
+  margin-left: 60px;
+}
+
+div.fb-page {
+  /*margin-top: 30px;*/
+  /*width: 430px;*/
+  /*min-width: 280px;*/
+    /*clear: both;
+    float: none;  */
+}
+
+#twitterframe .timeline-Widget {
+    background-color: #383232 !important;
+}    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen 
+  and (max-device-width: 959px) 
+ { 
+
+div.fb-page {
+  min-width: 280px;
+}
+
+}
+
+
+
+
+
+@media screen 
+  and (min-device-width: 960px) 
+ { 
+
+#twitterframe
+/*a.twitter-timeline*/ {
+  float: left;
+}
+
+div.fb-page {
+
+  /*max-width: 430px;
+  min-width: 280px;*/
+  width:430px;
+
+}
+
+
+}
+
+
+
+
+body {
+  /*background-image: url("../common/images/studio+moroder_bright-45_contrast-m30.jpg");*/  
+  background-image: url("./common/images/studio+moroder_bright-45_contrast-m30.jpg"); /* online version */
+  background-attachment: fixed;
+  background-size: cover; 
+  background-position: center center;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+#background_opacity {
+/*position: fixed;*/
+z-index: -10;
+top: 0; left: 0; right: 0; bottom: 0;
+background-color: rgba(200, 200, 200, 0.4); /* L'opacite se regle ici */
+/*padding-left: 40px;*/
+padding-right: 40px;
+}
+
+
+
+*/
+
+</script>-->
+
+
+<style>
+
+
+#rela {
+  position:relative;
+}
+
+
+#container {
+  margin-left: 60px;
+  max-width: 442px;
+  position: relative;
+  float: left;
+}
+
+
+.content {
+  display:none;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  line-height: 1.3em; /*1.1em*/
+}
+
+
+.side {
+  /*display: inline-block;  
+  float:right;*/ /*left*/
+  /*margin-bottom: 20px;*/
+  max-width: 425px;
+}
+
+.side span.desc {
+  font-size: 15px;
+  text-align: justify;
+  text-justify: inter-word;  
+}
+
+
+
+
+
+a, a:hover, span.link {
+  text-decoration: none;
+  font-size: 14px;
+}
+
+span.link {
+  text-decoration: underline;
+}  
+
+a.tosession {
+  font-weight: bold;
+}
+
+
+
+
+
+a:link, h1, a.tosession:visited {
+  color: grey; /*white*/
+}
+a:visited  {
+  color: darkgrey; /*grey*/
+}
+
+
+
+/*
+.FadeAway{
+    position: absolute; top:0px; left:0px; width:50%; height:100%;
+        background:transparent;
+        background: linear-gradient(left, rgba( 255, 255, 255, 255 ) 0%, rgba( 255, 255, 255, 1 ) 100% );
+        background: -moz-linear-gradient(left, rgba( 255, 255, 255, 0) 0%, rgba( 255, 255, 255, 1 ) 100% );
+        background: -ms-linear-gradient(left, rgba( 255, 255, 255, 0 ) 0%, rgba( 255, 255, 255, 1 ) 100% );
+        background: -o-linear-gradient( left, rgba( 255, 255, 255, 0 ) 0%, rgba( 255, 255, 255, 1 ) 100% );
+        background: -webkit-linear-gradient( left, rgba( 255, 255, 255, 0 ) 0%, rgba( 255, 255, 255, 1 ) 100% );
+        -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#550000FF, endColorstr=#550000FF);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00ffffff, endColorstr=#ffffffff);
+
+}
+*/
+
+
+h2 {
+  color: white;
+}  
+
+
+h3 {
+  /*font-size: 16px;*/
+  /*display: inline-block;*/
+  /*padding-top: 41px;*/
+  padding-top: 36px;
+  margin-bottom: 35px; /*45*/
+  left: 10px;
+  position: relative;
+  color: white;
+  opacity: 0.99;  
+}
+
+h4 {
+    font-size: 15px; /* 14px*/
+    text-transform: uppercase;
+    margin-bottom: 10px; /* 10px*/
+    text-decoration-color: -moz-use-text-color;
+    /*text-decoration-line: underline;*/
+    text-decoration-style: solid;
+}
+
+h4.toggle, .toggle2 {
+  cursor: pointer;
+  padding: 5px;
+  /*text-decoration: underline;*/
+  background-color: #efefef; /* grey #ffffee*/
+  display: inline-block;
+  border-radius: 5px;
+  color: #555555; /* darkgrey*/
+  /*clear: both;
+  float: left;    */
+}
+
+/*
+.toggle2 {
+  cursor: default;
+} */ 
+
+h4.toggle.active {
+  display: inline-block;
+  background-color: darkgrey;
+  opacity: 1;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  /*clear: both;
+  float: left;  */
+}
+
+
+
+
+
+
+
+body {
+    /*background-image: url("http://file.solam.co/img/...Loops%20-%20collective%20performances.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;*/
+    background: #383232; /* black */
+    color: lightgrey;
+    font-family: arial;
+    /*margin: 0 auto;
+    max-width: 480px;*/
+    max-width: 800px;
+    margin: 20px; /*12*/
+}
+
+
+body::after {
+  content: "";
+  /*background-image: url("http://solam.co/loops/loops_bg.png"); http://file.solam.co/img/...Loops%20-%20collective%20performances.png */
+  background-repeat: repeat-y;
+  background-position: left top;
+  opacity: 0.24; /*0.35 - 0.3*/
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+  /*margin: 0 auto;
+  max-width: 480px;*/
+}
+
+
+
+
+
+
+
+.darkopacity {
+  opacity: 0.5;
+}
+
+
+
+
+.title {
+  padding-left: 0;  
+  display: inline-block;  
+  float:left;
+  margin: 0;
+  margin-bottom: -1px;
+  margin-right: 12px;
+  /*margin-left:-55px;*/
+  margin-top: 1px;
+  margin-bottom: 20px;
+  /*position: relative;*/
+}
+
+.rounded {
+  border-radius: 50px;
+  opacity: 1; /*0.96*/
+  background-color: #383232;
+  /*left: -7px;*/ 
+  position:relative;
+  top: -5px;
+}
+
+ul {
+  margin-top: 0;
+}
+
+
+h1 span {
+  padding:0;
+  margin:0;
+  position: absolute;
+  text-indent:-9999em; 
+  /*display: inline-block;*/
+}
+
+.block-just-links a,
+.block span {
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 7px;
+}
+
+#content {
+  max-height: 200px; /* 100*/
+  /*height:100px;*/
+  overflow-y:scroll
+}
+
+#content p {
+    line-height: 1.2em;
+    font-size: 12px;
+    margin: 0.1em;
+}
+
+#content p span {
+    color: grey !important; /* lightgrey*/
+    width: 70px;
+    /* float: left; */
+    /* overflow: hidden; */
+    display: inline-block;
+    word-wrap: break-word;
+    /* height: 20px; */
+    margin-right: 10px;
+}
+
+.cb-ctrl {
+  font-size: 12px;
+  margin-top: 15px;
+}
+
+.cb-ctrl span#status {
+  width: 70px;
+}  
+
+
+.cb-ctrl input {
+  background-color: lightgrey;
+  padding: 0;
+  width: 80%;  /*100px*/
+}
+
+.crop {
+  max-height: 225px;
+  overflow: hidden;
+  margin-bottom: 20px;  
+}
+
+.crop img {
+  margin: -95px 0 0 0px;
+}
+
+
+
+#step2 a {
+  color: red !important;
+}
+
+
+
+
+
+.smaller,
+.textinfo {
+  font-size: 14px;
+}
+
+.fs14,
+.bod span {
+  font-size: 14px;
+  line-height: 1.5em;
+}
+
+
+.wh {
+  color:white !important;
+  clear:both;
+}
+
+.mw {
+  max-width: 800px;
+}
+
+h4 span {
+  font-size: 14px;
+  text-transform: lowercase;
+}
+
+
+
+
+
+
+
+   #list {     
+        margin: 0;
+        padding: 0;  
+        /*padding-left: 40px;*/   
+    }
+    #list li {
+        float:left;
+
+        list-style: none;
+
+        width: 129.5%;
+
+/*width: 800px;   
+margin-right:-19%;  */   
+    }
+    ul#list li div {
+
+        position:relative;
+        height: 500px; /*300*/
+    }
+    .row li {
+
+    }
+    iframe {
+
+      -webkit-transform: scale(0.75);
+      -webkit-transform-origin: 0 0;
+
+      border: darkgrey 15px solid; /*20*/
+
+      width:100%; 
+      height: 560px; /*400*/        
+    }
+
+    div.maximized iframe {
+      height:2200px !important;
+      width:150% !important;
+      -webkit-transform: scale(0.5);
+      -webkit-transform-origin: 0 0;
+      width: 97.1%;
+      border: darkgrey 11px solid;
+    }
+
+    span.togglebutton {
+        position:absolute;
+        left:0;
+        top:0;
+        background-color:black;
+        padding:3px;
+        color:white;
+        opacity: 0.5;
+    }
+    ul#list li div.maximized {
+        position:absolute; 
+
+        top:128px; /*133 */
+
+        left:0;
+        width:100%;
+
+        -webkit-transform: scale(2);
+        -webkit-transform-origin: 0 0;
+        border:0 none;
+        z-index:9;
+    }
+
+#d0 {
+  height: 400px;
+}
+
+#first .fram {
+ height: 360px; 
+}
+
+#p2
+, #notif
+ {
+  display:none;
+  /*display:none !important;*/
+}
+
+
+#step3  {
+ /*position: relative;
+ left:0px;*/
+ clear: both;
+}
+
+#notif {
+  color: red;
+  clear: both;
+  float: left;
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px;  
+  display:none;
+}
+
+.bod {
+  /*height: 0;*/
+}
+
+.red {
+  color: red !important;
+}
+
+.green {
+  color: green !important;
+}
+
+</style>
+
+
+
+</head>
+<body><!--target="_blank" about -->
+
+
+
+  <div id="background_opacity">
+
+    <div id="rela">
+
+
+<a title="Documentation on ...Loops" href="http://solam.co/loops/"><h1 class="title"><span style="">...Loops</span>
+  <img class="rounded" style="" src="http://solam.co/loops/Loops-logo-fond_transparent_160px.png" width="100" height="100" /> <!-- Loops-logo_white.png --> 
+</h1></a>
+
+<h2 style="padding-top: 32px;margin-top: 20px;">Browser based collective music performance system</h2>
+<span style="font-size: 14px;
+    position: relative;
+    bottom: 10px;">
+enables improvised audio visual performances <!--where people create their own show-->using <!--smart-->phones, tablets, or desktop computers<br/>
+
+<!--Players draw melody lines using their touchscreen/mouse & change instrument timbres/tones with sliders-->
+</span>
+<br/>
+
+<hr id="sep1">
+<!--</br>
+</br></br>-->
+
+<h4 id="startsession" class="wh">...Loops - start a multilocation music session:<!--<span style="color: lightgrey">: Steps to activate a multiplayer (or solo) session</span> live control --></h4>
+
+
+
+<div class="bod">
+<div class="fs14">
+0) <!--To start or--> To join a multiplayer music session <span class="wh">each participant</span> fills input field with the <span class="wh">same jam room id<!-- sdcc --></span> and clicks <span class="wh">enter jam room</span> button.<br/>
+<!--To start or join a multiplayer (or solo) following buttons music session --> 
+1) Then <span class="wh">each participant</span> clicks on <span class="wh">button "1)"</span> and types <span class="wh">"I'm ready, I'm waiting for step 2) to occur"</span> in chat-room. <!-- for last player to trigger master room(and keeps triggered pop-up open)-->
+<br/>
+<span class="red">
+2) When (and ONLY when) all expected session participants are ready <span class="wh">last player</span> clicks on <span class="wh">button "2)"</span> to start jam.<!--trigger master clock tempo. <-(and keeps triggered pop-up open)--> <!-- to start a music session.-->
+</span>
+<!--
+<br/>
+3) Then <span class="wh">everybody</span> clicks/taps on <span class="wh">button "3)"</span> to start controlling their music instrument <- drawing/playing music.-->
+</div>
+
+<div id="step0" style="">
+<br/>
+0) <span>Fill input field with jam room ID: </span><input type="text" id="jamroomid"><button id="enterjam" type="submit">enter jam room</button>
+</div>
+
+<div id="step1" style="display:none">
+<br/>
+1) <a class="toggle2" href="javascript:void(null);" >Load slave audio mixer</a><span> Local audio rendered by each jam session participant</span></br>
+</div>
+
+
+<div id="step2" class="toggle5496498949" style="display:none">
+<br/>
+2) <a id="s2" class="toggle2" href="javascript:void(null);">Load master audio</a><span> Master clock tempo (sequencer start) triggered by last music session player</span></br><!-- At least one (and only one) of the peers needs to have this browser tab opened for others to join session outputs main audio session-->
+</div>
+
+<span id="notif">Waiting for master room to connect (and start main sequencer/jam)</span>
+
+<div id="step3" class="toggle5496498949" style="display:none">
+<!--<br/>-->
+3) <h4 class="toggle"><a class="toggle2" href="javascript:void(null);">Load music instrument</a></h4><!--(mobile friendly)-->
+</div>
+
+
+
+<br/>
+<br/>
+
+
+<div class="block-just-links container">
+  <h4 class="toggle" id="tips" style="margin-top: 0 !important;">...Loops music session tips<!-- How to set things up properly - Conseils--></h4>
+  <div class="content" id="cttips">    
+
+
+<span>
+Please use <span class="wh">Google Chrome</span> Web browser!<br/>
+If you're a late comer to a jam and your instrument does not seem to sound, change your kit (via drop down menu, if option available) and add notes<br/><!-- (although you added notes to the step sequencer) -->
+If you experience hanging notes or other sound glitches just refresh your Webpage (ctrl+r on desktop browsers) if you're NOT the one running the main room <br/>
+<!--If you instrument window is opacified (jam stopped) <span class="wh">refresh your Webpage (ctrl+r on desktop browsers), follow required steps</span> and wait for master room to be loaded by another player in order to regain control of a musical instrument<br/>-->
+<!--Please <span class="wh">allow pop-ups</span> for this domain<br/>-->
+If in network/global multiplayer context make sure each participant went through step 1) before EVER launching step 2) (which only 1 person should do) <br/> <!-- step 1) & 2) are done one after the other If in multiplayer mode make sure to do step 1) then step 2) before EVER launching step 3) -->
+<!--No need to load step 1) when playing alone/local mode (but you could still invite your local people to play with you on your sound system)<br/>-->
+<!--Keep <span class="wh">all necessary pop-up windows open</span> during session<br/>-->
+if on mobile (or other reduced width screen) turn device view from portrait to <span class="wh">landscape</span><br/>
+<!--If you join in the middle of a network/global multiplayer session by loading 'orchestra audio' window: sound may be lagging. You 'd better ask player currently owning 'conductor/master' to close her window to reset session, then wait for each participant to load their 'orchestra audio' window before someone actually starts session (by loading 'conductor/master' window)-->
+<!--As prevention for system crashes, system is shut down every hour at minute :59 & rebooted at minute :00: this may suddenly halt a session you're playing-->
+</span>
+
+
+  </div>  
+</div> 
+
+
+
+
+<!--</br></br>-->
+
+<br/>
+
+</div>
+
+<hr>
+
+<!--<h4 class="wh">...Loops live session coordination<span style="color: lightgrey;">: (non persistent data)</span></h4>-->
+
+<ul id="list">
+
+    <li id="p2">
+      <div class="fram">
+            <iframe id="d1" class="device" scrolling="yes"><!-- scrolling creates sound greeches !--><h1>Wait for this window to be filled with your instrument</h1></iframe><span class="togglebutton">Toggle</span>
+      </div>
+    </li>
+
+    <!--<li>-->
+
+<h4 class="wh">...Loops - chat-room<span style="color: lightgrey;">: <!--(to help jam session participants coordinate)--></span></h4>
+
+<div id="content"></div>
+<div class="cb-ctrl">
+<span id="status" class="wh">Connecting...</span>
+<input type="text" id="input" disabled="disabled" />
+</div>
+
+</br>
+</br>
+
+
+    <!--</li>-->
+
+
+
+    <li id="first">
+        <div class="fram">
+            <iframe id="d0" class="device" scrolling="no"></iframe><span class="togglebutton">Toggle</span>
+        </div>
+    </li>
+
+
+</ul>    
+
+<!-- ancient chat-room code emplacement -->
+
+
+<!--<hr>-->
+
+<div class="crop">
+  <img class="mw" style="opacity: 0.7" src="http://solam.co/loops/promo/visuels/Loops_interaction_smarphone.jpg" />
+</div>
+<!--
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = http://loops.solam.co;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = 1; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://l00ps.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+-->
+
+
+<br/>
+
+<div style="font-size: 14px;">
+
+
+The libre & open<a target='blank' href="https://github.com/solam/StepDaddy">...Loops system</a> is a browser based multi user step sequencer, fork of the 2013 Stockholm Music Hack Day <a target='blank' href="https://github.com/72lions/StepDaddy">Step Daddy</a> application.
+<br /><br />
+<a target='blank' href="https://twitter.com/search?q=%23WebAudio">#Web Audio</a> <a target='blank' href="https://twitter.com/search?q=%23WebSocket">#WebSocket</a> <a target='blank' href="https://twitter.com/search?q=%23NodeJS">#NodeJS</a>
+</div>
+<br/>
+
+
+<center>
+</center>
+<!--<script id="dsq-count-scr" src="//l00ps.disqus.com/count.js" async></script>-->
+
+<script src="../common/scripts/additional.functions.js"></script>
+<script src="../common/lib/jquery-1.9.0.min.js"></script>
+<script src="../../chat-frontend-https.js"></script>
+<script>
+
+
+$(document).ready(function () {
+
+
+    /*
+    var state = history.state || {};
+    var reloadCount = state.reloadCount || 0;
+    if (performance.navigation.type === 1) { // Reload
+        state.reloadCount = ++reloadCount;
+        history.replaceState(state, null, document.URL);
+    } else if (reloadCount) {
+        delete state.reloadCount;
+        reloadCount = 0;
+        history.replaceState(state, null, document.URL);
+    }
+
+    console.log('reloadCount: ', reloadCount);
+    
+
+    var relo = localStorage.getItem('reload2');  
+
+    if ( typeof relo !== 'undefined' ) {
+      if ( relo == 0 ) {
+        reloadCount = 0;
+      }  
+    }
+    */
+
+
+
+  localStorage.setItem('reload2', 0);
+  localStorage.setItem('localSlaveRoom', 0);  
+  localStorage.setItem('localMasterRoom', 0);  
+  localStorage.setItem('insloaded', 0);
+
+  ip = '192.168.1.16:8282';
+  //ip = 'loops.solam.co/editor'; // online version
+
+  comode= 'http';
+  //comode= 'https'; // online version
+
+
+  var s4char =  Math.random().toString(36).substring(2, 6);
+
+  $('#jamroomid').val(s4char);
+
+  $('ul#list').hide();
+
+
+
+
+  var parts = window.location.search.substr(1).split("&");
+  var $_GET = {};
+  
+  for (var i = 0; i < parts.length; i++) {
+    var temp = parts[i].split("=");
+    $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+  }
+
+  //console.log('session & room ids: ',$_GET['s'],$_GET['r']);    
+
+  if ( typeof $_GET['s'] !== 'undefined' ) {
+
+    if ( $_GET['s'].length > 0 ) {
+      var session = $_GET['s'];
+    } else {
+      var session = 1; // 13
+    }
+
+  } else {
+    var session = 1;
+  }
+
+  if ( typeof $_GET['r'] !== 'undefined' ) {
+    if ( $_GET['r'].length > 0 ) {
+      var room = $_GET['r'];
+      $('#jamroomid').val(room);
+      $('iframe#d0').attr('src', comode+'://'+ip+'/sequencer/?'+room+'/child/nopageid/session'+session);
+      //window.open(comode+'://'+ip+'/sequencer/?'+room+'/child/nopageid/session'+session,'newwindow','width=800,height=600,top=100,left=850');
+    } 
+  }
+
+
+  if ( typeof $_GET['m'] !== 'undefined' ) {
+    if ( $_GET['m'].length > 0 ) {
+      if ( $_GET['m'] == 's' && $('#jamroomid').val() == $_GET['r'] ) { // mode: slave room removes ability to invoke master room unless user has chosen to enter another room from initial room forced by GET variable in URL reached by user
+        //$('#step2').remove();
+        $('#step2').prop('id', 'step20');
+        //$('.bod').hide();
+        $('#step0').hide();
+        $('#step1').hide();
+        $('#step20').hide();
+        $('.fs14').hide();
+        $('#startsession').hide();
+        $('#sep1').hide();
+      }
+    } 
+  }  
+
+
+
+/*
+  $("span.togglebutton").click(function (e) {
+      e.preventDefault();
+      $(this).closest("li").children("div").toggleClass("maximized");
+  });     
+
+*/  
+
+  jQuery.fn.simulateClick = function() {
+      return this.each(function() {
+          if('createEvent' in document) {
+              var doc = this.ownerDocument,
+                  evt = doc.createEvent('MouseEvents');
+              evt.initMouseEvent('click', true, true, doc.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+              this.dispatchEvent(evt);
+              //alert('somethin happens!');
+          } else {
+              this.click(); // IE
+          }
+      });
+  }
+
+
+
+
+    $('.toggle').click(function (e) {
+        e.preventDefault();
+        $(this).siblings().toggle();
+        //you need to pass string values, your variables display & block was not defined
+        var elid = jQuery(this).attr("id");
+        localStorage.setItem('display_'+elid, $(this).siblings().is(':visible'));
+
+        //$('.active').not($(this)).removeClass('active');
+        $(this).toggleClass('active');
+
+    });
+    
+
+$('body').on('click', 'span.togglebutton', function(e) {
+    e.preventDefault();
+    $(this).closest("li").children("div").toggleClass("maximized");
+});  
+
+
+
+
+
+
+
+
+    var dtips = localStorage.getItem('display_tips');
+    if (dtips == 'true' || typeof dtips == 'undefined' || dtips == null) {
+      $('#cttips').show();
+    } else {
+      $('#tips').addClass('active');
+    }
+
+
+
+
+  $("#enterjam").click(function (e) {
+    e.preventDefault();
+    /*$('#step1').show();
+    $('#step0').hide();*/
+
+    if ( typeof $('#step20') !== 'undefined' ) {    
+      $('#step20').prop('id', 'step2');
+    }  
+
+    localStorage.setItem('localSlaveRoom', 0);  
+    localStorage.setItem('localMasterRoom', 0);  
+    localStorage.setItem('insloaded', 0);
+
+   //* 
+    $('#step1').show();
+    //$('#step2').show();
+    //$('#step3').show();
+    //*/  
+
+  });      
+
+  $("#step1 a").click(function (e) {
+    e.preventDefault();
+    var roomaId = $('#jamroomid').val();
+    $('iframe#d0').attr('src', comode+'://'+ip+'/sequencer/?'+roomaId+'/child/nopageid/session'+session);
+    $('ul#list').show();
+    //console.log(comode+'://'+ip+'/sequencer/?'+roomaId+'/child/nopageid');
+    //$('#step1').hide();
+  });      
+
+  $("a#s2").click(function (e) { // #step2 a
+    e.preventDefault();
+    var roomaId = $('#jamroomid').val();
+
+    // sdcc is a room where main sequencer should be triggered independenlty from usual "multilocation_jam_session" interace
+    if ( roomaId != 'sdcc' ) {
+      $('iframe#d0').attr('src', comode+'://'+ip+'/sequencer/?'+roomaId+'/nocmult/session'+session);
+
+      //$("ul#list").append      
+      $("ul#list li#first").before('<h4 class="toggle"><a class="toggle2" id="conductor" href="javascript:void(null);">Reload conductor ins</a></h4><li id="p3"><div class="fram"><iframe id="d2" class="device" scrolling="yes"></iframe><span class="togglebutton">Toggle</span></div></li>');
+
+      $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/1');
+
+      //$('#d0').show();
+      $('ul#list').show();
+    }
+
+     //
+    // as pop-up is not independly triggered from current page it will be related to parent page and sound greeches will happen when scrolling !
+    //window.open(comode+'://'+ip+'/sequencer/?'+roomaId+'/nocmult/session'+session,'newwindow','width=800,height=600,top=100,left=850');
+
+    //console.log(comode+'://'+ip+'/sequencer/?'+roomaId+'/child/nopageid');
+    /*$('#step1').hide();
+    $('#step2').hide();*/
+    console.log(" clicked #step2 a");
+  });    
+
+
+  /*
+  $("#step2 a").click(function () {
+    var roomaId = $('#jamroomid').val();
+    $('iframe#d0').attr('src', comode+'://'+ip+'/sequencer/?'+roomaId+'/nocmult'); //
+
+    
+    $('#step1').hide();
+    $('#step2').hide();
+    $('#step3').hide();  
+  });  
+  */
+
+  $("#step3 a").click(function (e) {
+    e.preventDefault();
+    var roomaId = $('#jamroomid').val();
+
+    if ( roomaId != 'sdcc' ) {
+      // 'mopo': instrument loading may include conductor instrument of master room
+      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo/npsmulti'); // /mopo/noptnseq - /mopo/npsmulti
+    } else {      
+      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo/noptnseq');
+    }
+    $('#p2').show();
+    
+
+    
+   /* $('#step1').hide();
+    $('#step2').hide();*/
+    $('#step3 a').html('Refresh music instrument');  
+  });  
+
+  /*
+  $("#conductor").click(function (e) {
+    e.preventDefault();
+    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/1');
+  });  */
+
+$('ul#list').on('click', '#conductor', function(e) {
+    e.preventDefault();
+    var roomaId = $('#jamroomid').val();
+    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/mopo/noptnseq');
+});  
+
+
+
+  //console.log(window.mobilecheck());
+
+  /*if ( window.mobilecheck() == true ) {
+    //alert('mobile device found!');
+    $('#step3').show();
+  } */
+
+//*
+  var checkMasterRoomState = setInterval(function () {
+
+    //console.log(window.mobilecheck());
+
+    var lsr = window.localStorage.getItem("localSlaveRoom");
+    var lmr = window.localStorage.getItem("localMasterRoom");    
+    var ins = window.localStorage.getItem("insloaded");
+
+    var roomaId = $('#jamroomid').val();
+
+    //console.log(lsr);
+
+    $.ajax({url: roomaId+".room", cache: false, success: function(mr) {
+
+      if (typeof mr !== 'undefined' && mr == 1) {
+        $('#step2').hide(); 
+
+        if (typeof lsr !== 'undefined' && lsr == 1 || typeof lmr !== 'undefined' && lmr == 1 || typeof lsr == 'undefined' || typeof lmr == 'undefined' || window.mobilecheck() == true) {  
+          $('#step3').show();          
+        }
+
+
+        // code section B
+        if ( typeof ins !== 'undefined' && ins == 0 ) {
+          $('#notif').html('master room connected, jam on!').addClass('green');
+          $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/mopo/npsmulti');
+          $('#p2').show();
+          localStorage.setItem('insloaded', 1);
+        }          
+
+
+      } else if (typeof mr !== 'undefined' && mr == 0 ) {
+
+        // force last player A to have at least previously triggered slave room
+        // so that if another player (B) than the one intended (A) for that task accidently triggers main room B might still be in sync with A
+        if ( typeof lsr !== 'undefined' && lsr == 1 ) {
+          $('#step2').show(); // do not show when m=s get var exists 
+
+          // code C 
+          if ( $('#step20') ) {
+            $('#notif').show();
+          }
+
+        }
+        
+
+
+        $('#step3').hide(); 
+
+        // code C emplac'
+
+
+
+      }  
+
+
+
+
+    // eventual space for code section A
+    // section A
+    if (typeof lsr !== 'undefined' && lsr == 1 ) { 
+      $('#step1').hide();
+    } else if ( typeof lsr !== 'undefined' && lsr == 0  && $("#step0").is(':hidden') || typeof lsr == 'undefined' && $("#step0").is(':hidden') ) {
+      $('#step1').show();
+    }    
+
+    if ( typeof lsr !== 'undefined' && lsr == 0 && typeof lmr !== 'undefined' && lmr == 0 && window.mobilecheck() == false ) {  
+      $('#step3').hide();
+    } else if (typeof lsr !== 'undefined' && lsr == 1 && typeof lmr !== 'undefined' && lmr == 1 ) {
+
+    }  
+
+    if (typeof lmr !== 'undefined' && lmr == 1 ) {
+      $('#step1').hide();      
+      $('#step2').hide();
+      $('#step3').show();
+
+
+
+      // ancient emplacement code section B
+
+
+    } else if ( typeof lmr !== 'undefined' && lmr == 0 && typeof mr !== 'undefined' && mr == 0 && window.mobilecheck() == false ) {
+      //$('#step2').show(); // do not show when m=s get var exists
+
+      if ( typeof lsr !== 'undefined' && lsr == 1 ) {
+        $('#step2').show(); // do not show when m=s get var exists 
+      }
+
+      $('#step3').hide();
+    }    
+
+
+    $('ul#list').show();
+
+    $('iframe#d0').css('visibility', 'visible');
+
+    localStorage.setItem('reload2', 1);
+
+
+    }, error(xhr,status,error) {
+
+      $('#step3').hide(); // hide 'load instrument' after main room disconnected, so that user non tented to be in an empty // universe.
+      //$('iframe#d0').attr('src', '');
+      $('iframe#d0').css('visibility', 'hidden');
+
+      if (localStorage.getItem("reload2") == 1) {
+        localStorage.setItem('reload2', 0);
+        window.location.reload(true); // auto reload page if main room disconnected
+      }
+    }
+
+
+    });  
+
+
+
+
+
+
+
+  }, 1000); // 4000
+
+//*/
+
+});    
+
+</script>
+
+
+</div><!-- end of rela -->   
+</div>   
+</body></html>

@@ -5076,7 +5076,7 @@ window.conductor16b = (JSON.parse(JSON.stringify(window.tweak.conductor16a)));
   noteMax.x.value = 16;
 
   var tempoParam = window.findObjectById(window.conductor16b, 999);
-  tempoParam.x.value = 70;
+  tempoParam.x.value = 110; // 70
   tempoParam.x.autoValIncMode =0; // turn off auto increment tempo
 
 
@@ -5819,7 +5819,7 @@ window.insConf1 = [ // channelConf
       ]*/            
     },
 
- /* resets pattern when switching back to any other sample kit
+ //* resets pattern when switching back to any other sample kit
     { 
       type: 'synth',
       instrumentName: 'JoeSullivanDrumSynth', 
@@ -5831,7 +5831,7 @@ window.insConf1 = [ // channelConf
       inputMode: 'grid', // 'keyboard', 'grid'
       controls: window.launch.sample_prg2 //changePattern //aikeWebsynthControls patternSeqOff          
     }
-*/
+//*/
        
 
 
@@ -6440,9 +6440,9 @@ window.insConf1 = [ // channelConf
 { channelName: 'Channel 2: bass', // channelName = "bass, high pitch sounds etc" - insName
   //channelType: 'instrument', // conductor
   trackSet: 1, // defaultKit -   Number - // defaultInstrumentPreset
-  sound: 0, // 0: channel sound is muted/off at system startup
+//sound: 0, // 0: channel sound is muted/off at system startup
 
-  //*
+  /*
   defaultPattern: 0,
   patterns: [ // channel patterns
     {"name":"reset","classs":"channel","id":"2fb82950-36f3-11e6-aa68-d355ddb21e83","tracks":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]},
@@ -6488,7 +6488,9 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'Basse/C1.wav'
         }                     
       ],
-      controls: window.launch.change_ptn_change_kit2 /*[ 
+      controls: //window.launch.change_ptn_change_kit2 
+      //*
+      [ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', // ddmenu  - slider, dial/rotary_knob, switch_button                                  
@@ -6504,7 +6506,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         },
-
+/*
         { name: '[Pattern change]',
           id: 994,
           type: 'ddmenu', 
@@ -6520,12 +6522,12 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         },  
+*/
 
 
 
 
-
-      ]  */          
+      ]  // */          
     }, 
 
 
@@ -7050,7 +7052,9 @@ window.insConf1 = [ // channelConf
           sampleUrl: 'Brass/C1.wav'
         }                     
       ],
-      controls: window.launch.change_ptn_change_kit2 /*[ 
+      controls: //window.launch.change_ptn_change_kit2 
+      //*
+      [ 
         { name: '[Kit change]',
           id: 998,
           type: 'ddmenu', 
@@ -7066,7 +7070,7 @@ window.insConf1 = [ // channelConf
             max: '[calc]'
           }                 
         }
-      ] */           
+      ] //*/           
     }, 
 
 

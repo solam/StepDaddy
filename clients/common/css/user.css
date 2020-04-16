@@ -70,6 +70,7 @@
   float:left;
   width:100%; /* 95*/
   /*margin-left: 80px;*/
+  height: 100% !important;
   }  
 
   #pattern-editor td/*, #sequencer-view td*/ {
@@ -673,6 +674,8 @@ li#exit a {
   background: red !important;
 }
 
+/*
+
 body.control #left,
 body.control ul.menu {
   display:none;
@@ -682,6 +685,11 @@ body.control #modifiers,
 body.control #channelinfo {
   margin-left: 0;
 }
+
+body.control #right {
+  width: 100%;
+}
+*/
 
 body.channel0 ul.menu #tweak-menu {
   display: none;
@@ -740,9 +748,7 @@ body {
 }  
 
 
-body.control #right {
-  width: 100%;
-}
+
 
 body.control #id699,
 body.control #id999,
@@ -1067,8 +1073,8 @@ select#patterns option[selected]*/ {
 }
 
 
-.child.precue #instructions img.rounded {
-    max-width: 80px;
+/*.child.precue*/ #instructions img.rounded {
+    max-width: 80px !important;
 }    
 
 .child.precue.gfx #instructions img.rounded {
@@ -1464,8 +1470,20 @@ div#channelinfo a.logo > img {
   margin-right: 8px;  
 }
 
-.soundgen h1 {
+.ins-right/*soundgen*/ h1 {
   font-size: 1.2em;  
+  display: inline-block;
+  /*margin-top: -20px;*/
+}
+
+.golo {
+    position: relative !important;
+    bottom: 20px !important;
+}
+
+
+.ins-right.precuemixer h1 {
+  margin-top: -20px;
 }
 
 
@@ -1549,4 +1567,49 @@ body.session10.edt #pattern-editor {
 .precue #ctrl999 /* tempo */ 
 {
   display:none !important;
+}
+
+.iframe.channel9.session1 #pattern-editor, /* polysynth defaulting to keyboard trigger */
+.iframe.channel3.session1 #pattern-editor, /* bass channel #1 */
+.iframe.channel4.session1 #pattern-editor,
+.iframe.channel5.session1 #pattern-editor,
+.iframe.channel6.session1 #pattern-editor,
+.iframe.channel7.session1 #pattern-editor,
+.iframe.channel8.session1 #pattern-editor,
+.iframe.channel2.session1 #pattern-editor,
+.iframe.ptnseqon.channel1.session1 #pattern-editor,
+
+.ptnseqoff #pattern-editor {
+  display:block; /*!important*/
+}
+
+.ptnseqon #pattern-editor {
+  display:none; /*!important*/
+}
+
+.synth.channel4.session1 #thekits,
+.control.channel2.session1 #part-sequencer,
+.control.channel2.session1 #button987,
+.control.channel2.session1 #song-sequencer,
+.control.channel2.session1 #button986,
+
+.child.precue.session1 #ctrl809,
+.child.precue.session1 #ctrl810,
+.child.precue.session1 #ctrl811,
+.child.precue.session1 #ctrl812,
+.child.precue.session1 #ctrl813,
+.child.precue.session1 #ctrl814,
+.child.precue.session1 #ctrl815,
+.child.precue.session1 #ctrl816,
+.child.precue.session1 .solos,
+
+.control.channel2.session1 #ctrl809,
+.control.channel2.session1 #ctrl810,
+.control.channel2.session1 #ctrl811,
+.control.channel2.session1 #ctrl812,
+.control.channel2.session1 #ctrl813,
+.control.channel2.session1 #ctrl814,
+.control.channel2.session1 #ctrl815,
+.control.channel2.session1 #ctrl816 {
+  display:none;
 }

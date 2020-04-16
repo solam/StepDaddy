@@ -701,7 +701,9 @@
 			//console.log('createTracks', tracksConfig.length);
 			var tracks = [];
 
-			for (var i = 0; i < tracksConfig.length; i++)
+      if ( typeof tracksConfig !== 'undefined' ) {
+
+			for (var i = 0; i < tracksConfig.length; i++) // bug: sequencer.js:704 Uncaught TypeError: Cannot read property 'length' of undefined
 			{
 				var config = tracksConfig[i];
 
@@ -750,6 +752,10 @@
 			} // end of for loop: for (var i = 0; i < tracksConfig.length; i++) {
 
 			return tracks;
+
+
+      }
+
 		};
 
 
@@ -863,8 +869,7 @@
 
 		this.getNextInstrument = function(clientId, pwd)
 		{
-			if (typeof _clients[clientId] !== 'undefined')
-			{
+			if ( typeof _clients[clientId] !== 'undefined' ) {
 				return _clients[clientId];
 			} //*/
 
@@ -872,15 +877,13 @@
 
 			var numAvailableInstruments = _availableInstruments.length;
 			
-			if (numAvailableInstruments === 0)
-			{
+			if ( numAvailableInstruments === 0 ) {
 				console.log("No more instruments available");
 				return;
 			}
 
 			// Do not give Conductor role/instrument unless provided pwd is mopo
-			if (pwd!='mopo' && _availableInstruments[0].instrumentName=='Conductor')     
-			{
+			if ( pwd!='mopo' && _availableInstruments[0].instrumentName == 'Conductor' ) {
 				var nextInstrument = _availableInstruments[1];
 				_availableInstruments.splice(1, 1);
 			}
@@ -919,6 +922,40 @@
 				return;
 			}
 		};
+
+
+
+
+
+/*
+    this.initAllIns = function(clientId, insId) { // init all default session instruments
+      // need instrument > clientId matrix from main room
+      // current instrument kit per channel...
+
+      //*
+      if (typeof _clients[clientId] !== 'undefined') {
+        return _clients[clientId];
+      } // /
+
+
+      var nextInstrument = _instruments[insId]; 
+
+      if (typeof nextInstrument !== 'undefined') {
+
+        // Initialize the instrument and call start when ready.
+        nextInstrument.initialize(this.start);
+        // Pass the context the instrument.
+        nextInstrument.setup(_context);
+
+        _clients[clientId] = nextInstrument;
+
+        //return nextInstrument;
+
+      } else {
+        return;
+      }
+    };
+*/
 
 
 
@@ -1052,121 +1089,110 @@
 
 
 
-		this.updateNotes = function(data)
-		{ // update various notes
+		this.updateNotes = function(data) { // update various notes
 			
-      if (typeof _clients[data.client] !== 'undefined') {
+      if ( typeof _clients[data.client] !== 'undefined' ) {
       
-			var channelId = _clients[data.client].id;
+  			var channelId = _clients[data.client].id;
 
-			// transport patternId (unsaved or saved pattern states) across channel changes  
-			_instruments[channelId].channelInfo.patternId = data.args.patternId;
-			//console.log('upd notes: ', _instruments[channelId].channelInfo.patternId, data);
+  			// transport patternId (unsaved or saved pattern states) across channel changes  
+  			_instruments[channelId].channelInfo.patternId = data.args.patternId;
+  			//console.log('upd notes: ', _instruments[channelId].channelInfo.patternId, data);
 
-			if (channelId!=1) { // beware hardcoded value
+  			if ( channelId !=1 ) { // beware hardcoded value
 
-				if (data.args.classs=='channel')
-				{
-					var ptnStorage = JSON.parse(window.chPatternsAtStartup[channelId]); // oriChannelPatterns
-				} else {  
-					var ptnStorage = this._patterns;
-				}        
+  				if ( data.args.classs == 'channel' ) {
+            // bug: SyntaxError: Unexpected token u in JSON at position 0 at JSON.parse () at mixr.Sequencer.updateNotes (sequencer.js:1070) 
+  					var ptnStorage = JSON.parse(window.chPatternsAtStartup[channelId]); // oriChannelPatterns
+  				} else {  
+  					var ptnStorage = this._patterns;
+  				}        
 
-				// override with live/ session patterns
-				if (this._patterns.length>0)
-				{
-					var presets = this._patterns.concat(JSON.parse(window.chPatternsAtStartup[channelId])); //window.channelPresets.concat(presets);
-					presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
+  				// override with live/ session patterns
+  				if ( this._patterns.length > 0 ) {
+  					var presets = this._patterns.concat(JSON.parse(window.chPatternsAtStartup[channelId])); //window.channelPresets.concat(presets);
+  					presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
 
-					var ptnStorage = presets; //this._patterns;
-				}
+  					var ptnStorage = presets; //this._patterns;
+  				}
 
-				//console.log('ptnStj', ptnStorage, data.args.x ); // data.args.classs, ptnStorage, data.args.x - this._patterns
+  				//console.log('ptnStj', ptnStorage, data.args.x ); // data.args.classs, ptnStorage, data.args.x - this._patterns
 
-				var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
-
-
-        if ( typeof result[0] !== 'undefined' ) {
-
-  				var trackNumber = result[0].tracks.length; 
-
-        }
-
-				var channelTrackLength = _instruments[channelId].tracks.length;
+  				var result = $.grep(ptnStorage, function(e){ return e.id == data.args.x; });
 
 
-				if (trackNumber > channelTrackLength) {
-					var trackNumber = channelTrackLength;
-				} else {
-					var trackNumber = trackNumber;
-				}
+          if ( typeof result[0] !== 'undefined' ) {
+    				var trackNumber = result[0].tracks.length; 
+          }
+
+  				var channelTrackLength = _instruments[channelId].tracks.length;
 
 
-				// first reset played tracks of processed channel
-				var maxTrackNumber = 90; // Beware Hardcoded value! 30
-				for (var n = 0, len = maxTrackNumber; n < len; n += 1) {
-					var notesNumber = 16;//result[0].tracks[n].length;
-					//var traack = result[0].tracks[n];        
-					var notes = [];
-
-					for (var l = 0; l < notesNumber; l += 1) {
-
-						if (typeof _instruments[channelId].tracks[n] !== 'undefined') {            
-							_instruments[channelId].tracks[n].notes[l] = 0; 
-						}
-          
-					}  
-				} 
-
-				notesObject = [];
-
-				for (var n = 0, len = trackNumber; n < len; n += 1)
-				{
-					var notesNumber = result[0].tracks[n].length;
-					var traack = result[0].tracks[n];
-					//console.log("notesNumber + traack", notesNumber, traack);          
-
-					var notes = [];
-
-					for (var l = 0; l < notesNumber; l += 1) {
-						//notes[l] = traack[l];
-
-						if (data.args.x=='silence01') { // beware hardcoded : to avoid notes insered just before playHead get played while current played pattern is silence01
-							var nvol = 0;
-						} else {
-							var nvol = traack[l];
-						}
-
-						_instruments[channelId].tracks[n].notes[l] = nvol; 
-
-						if (n==0) {
-							//console.log('ins:', channelId, n, l, _instruments[channelId].tracks[n].notes[l]);
-						}
-
-						noteInfo = {};
-						noteInfo.id = channelId;
-						noteInfo.trackId = channelId+'-'+n;
-						noteInfo.noteId = l;
-						noteInfo.volume = traack[l];
+  				if ( trackNumber > channelTrackLength ) {
+  					var trackNumber = channelTrackLength;
+  				} else {
+  					var trackNumber = trackNumber;
+  				}
 
 
-						if (window.graphixMode==1 && data.args.x!='silence01') {
-							//console.log( data.args);
-							window['SEQVIEW'].updateNote(noteInfo); // remove audio stuttering
-						}    
+  				// first reset played tracks of processed channel
+  				var maxTrackNumber = 90; // Beware Hardcoded value! 30
+  				for (var n = 0, len = maxTrackNumber; n < len; n += 1) {
+  					var notesNumber = 16;//result[0].tracks[n].length;
+  					//var traack = result[0].tracks[n];        
+  					var notes = [];
 
-						//window['SEQVIEW'].updateNote(noteInfo);
-						//if noteInfo.volume>0 {
-						notesObject.push(noteInfo);            
-						//}
-					}  
+  					for (var l = 0; l < notesNumber; l += 1) {
+  						if (typeof _instruments[channelId].tracks[n] !== 'undefined') {            
+  							_instruments[channelId].tracks[n].notes[l] = 0; 
+  						}          
+  					}  
+  				} 
 
-				} 
+  				notesObject = [];
 
-			} // end of exclude conductor channel (channel 1 aka 2nd channel)    
+  				for (var n = 0, len = trackNumber; n < len; n += 1) {
+  					var notesNumber = result[0].tracks[n].length;
+  					var traack = result[0].tracks[n];
+  					//console.log("notesNumber + traack", notesNumber, traack);          
 
-    }
+  					var notes = [];
 
+  					for (var l = 0; l < notesNumber; l += 1) {
+  						//notes[l] = traack[l];
+
+  						if (data.args.x=='silence01') { // beware hardcoded : to avoid notes insered just before playHead get played while current played pattern is silence01
+  							var nvol = 0;
+  						} else {
+  							var nvol = traack[l];
+  						}
+
+  						_instruments[channelId].tracks[n].notes[l] = nvol; 
+
+  						if (n==0) {
+  							//console.log('ins:', channelId, n, l, _instruments[channelId].tracks[n].notes[l]);
+  						}
+
+  						noteInfo = {};
+  						noteInfo.id = channelId;
+  						noteInfo.trackId = channelId+'-'+n;
+  						noteInfo.noteId = l;
+  						noteInfo.volume = traack[l];
+
+
+  						if (window.graphixMode==1 && data.args.x!='silence01') {
+  							//console.log( data.args);
+  							window['SEQVIEW'].updateNote(noteInfo); // remove audio stuttering
+  						}    
+
+  						//window['SEQVIEW'].updateNote(noteInfo);
+  						//if noteInfo.volume>0 {
+  						notesObject.push(noteInfo);            
+  						//}
+  					}  
+  				} 
+  			} // end of exclude conductor channel (channel 1 aka 2nd channel)    
+      }
 		};
 
 
@@ -1176,7 +1202,12 @@
 		this.updateInstrument = function(data, clientId)
 		{ // change(Instrument)Kit
 
+
+      console.log('this.updateInstrument:', data, clientId);
+
 			//if (typeof data.pattern !== 'undefined') { = do not transform old instrument to new one...
+
+      if (typeof _clients[clientId] !== 'undefined') {  
 
 			//console.log('_clients after:', _clients);
 			var trackSet = data.x; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
@@ -1207,6 +1238,9 @@
 			} //else {
 
 			//console.log("l1173 debug: ", this._instrumentsConfig[prevKit].conf[trackSet].tracks);  // this._instrumentsConfig[prevKit].conf[trackSet], prevKit, trackSet
+
+
+    if ( typeof this._instrumentsConfig[prevKit].conf[trackSet] !== 'undefined') {  
 
 			// retrieve track info from destination kit and override source kit with that info
 			var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type); 
@@ -1349,6 +1383,11 @@
 			//console.log("this._patterns: ", this._patterns);
 
 			return anextInstrument;
+
+      }
+
+      }
+
 		};    
 
 
@@ -1401,8 +1440,79 @@
 		this.updatePreset = function(data, clientId)
 		{ // changePreset
 
+      
+
 			var trackSet = data.kitNumber; // destination kit number (0 | 1) go from instrument 0 to [1] - kitNumber // valueX-109
-			var prevKit = _clients[clientId].id; // probably channelId - source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
+
+      if ( typeof data.clientsFromMainRoom !== 'undefined' ) { 
+
+        _clients2 = data.clientsFromMainRoom;
+        console.log('this.updatePreset at late coming childroom event', data, clientId ,_clients ); // 
+
+      } else {
+        
+        _clients2 = _clients;
+        console.log('normal preset change event', data, clientId, _clients2);
+      }
+
+      
+
+
+if ( typeof _clients2[clientId] == 'undefined' || _clients2[clientId].id != data.channelId ) {
+
+
+
+      var cltKiz = Object.keys(_clients2);
+
+
+
+      for ( var ii = 0; ii < cltKiz.length; ii++ ) { 
+
+        var kkey = cltKiz[ii]; 
+
+        if (_clients2[kkey].id == data.channelId) {
+          //_clients2[clientId] = _clients2[kkey];
+          clientId = kkey;
+        }
+
+
+      }  
+
+
+if ( typeof _clients2[clientId] != 'undefined' ) {
+  _clients2[clientId].kitNumber = trackSet;
+}      
+
+
+console.log('_clients2', _clients2, _clients2[clientId]);
+//return;
+
+/*
+    _clients2[clientId] = _clients2.filter(function( obj ) { // channelPresets - presets // this.channelInfo.channelPresets
+      return obj.id === data.channelId // "2fbdd99d0000";  //
+    });      
+//*/
+
+
+  //_clients2[clientId] = $.grep(_clients2, function(e){ return e.id == data.channelId; });
+
+
+}
+
+      
+
+
+
+      if ( typeof _clients2[clientId] !== 'undefined' /*|| !isNaN(clientId)*/ ) {
+
+
+      // if variable not a number  
+      //if ( isNaN(clientId) ) {
+			 var prevKit = _clients2[clientId].id; // probably channelId - source kit number aka fetch data from instrument [0] - _clients[clientId].id - InstrumentId
+      /*} else {
+        var prevKit = clientId;
+        _clients[clientId] = _instruments[clientId];
+      } */
 
 			if (typeof data.pattern !== 'undefined') { // if "change pattern only" msg received
 				var trackSet = data.kitNumber; //prevKit;
@@ -1418,7 +1528,11 @@
 
 			} 
 
-			// retrieve track info from destination kit and override source kit with that info
+      if ( typeof this._instrumentsConfig[prevKit].conf !== 'undefined' ) { // bug: Uncaught TypeError: Cannot read property 'conf' of undefined
+      if ( typeof this._instrumentsConfig[prevKit].conf[trackSet] !== 'undefined' ) { 
+
+
+			// retrieve track info from destination kit and override source kit with that info // bug: sequencer.js:1427 Uncaught TypeError: Cannot read property 'tracks' of undefined
 			var tracksUpdate = this.createTracks(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].tracks, this._instrumentsConfig[prevKit].conf[trackSet].type); 
 
 			channelInfo = {};
@@ -1501,8 +1615,12 @@
 			// override source instrument with destination kit info
 			var anextInstrument = new mixr.models.Instrument(prevKit, this._instrumentsConfig[prevKit].conf[trackSet].name, tracksUpdate, 1.0, this._instrumentsConfig[prevKit].conf[trackSet].type, this._instrumentsConfig[prevKit].conf[trackSet].color, this._instrumentsConfig[prevKit].conf[trackSet].kitNumber, this._instrumentsConfig[prevKit].conf[trackSet].controls, this._instrumentsConfig[prevKit].conf[trackSet].instrumentName, channelInfo);
 			
-			if (anextInstrument.tracks.length > _clients[clientId].tracks.length) {
-				var trackNumber = _clients[clientId].tracks.length;
+      //if ( typeof anextInstrument !== 'undefined' ) {
+
+      console.log('anextInstrument', anextInstrument);
+
+			if (anextInstrument.tracks.length > _clients2[clientId].tracks.length) {
+				var trackNumber = _clients2[clientId].tracks.length;
 			} else {
 				var trackNumber = anextInstrument.tracks.length;
 			}
@@ -1527,8 +1645,10 @@
 
 				// use source instrument kit as pattern to feed destination kit with note info
 				for (var n = 0, len = trackNumber; n < len; n += 1) {
-					var notes = _clients[clientId].tracks[n].getNotes(); // 
-					anextInstrument.tracks[n].setNotes(notes);
+          if ( typeof _clients2[clientId].tracks[n].getNotes === 'function' ) {
+  					var notes = _clients2[clientId].tracks[n].getNotes(); // 
+  					anextInstrument.tracks[n].setNotes(notes);
+          }
 				}
 
 			}  
@@ -1538,10 +1658,30 @@
 			// Initialize the instrument and call start when ready.
 			anextInstrument.initialize(this.start);
 			// Pass the context the instrument.
-			anextInstrument.setup(_context);        
+			anextInstrument.setup(_context);  
+
+
+      //*
+      if ( typeof data.clientsFromMainRoom !== 'undefined' ) { 
+        console.log('this.updatePreset at late coming childroom event'); // 
+      } else {
+        console.log('normal preset change event');
+        //_clients[clientId] = anextInstrument;
+      } //*/
+
 			_clients[clientId] = anextInstrument;
 
 			return anextInstrument;
+
+      //}
+
+
+    }
+  }
+
+
+}
+
 		};    
 
 
@@ -1551,7 +1691,7 @@
 
 		this.updateChannelInfo = function(clientId, order) { 
 
-			//console.log('clientId + order: ',clientId, order);
+			console.log('clientId + order: ',clientId, order);
 
 
 			if (typeof _clients[clientId] !== 'undefined') {
@@ -1745,23 +1885,143 @@
       // TODO check the values MTF
 
       //console.log('data.id etc: ', data, data.id, _instruments[data.id]);
-      _instruments[data.id].channelInfo.patternId = data.patternId;
 
-      if (typeof _instruments[data.id].tracks[trackId] !== 'undefined') {
-        _instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
+      // sequencer.js:1753 Uncaught TypeError: Cannot read property 'channelInfo' of undefined
+
+      if ( typeof _instruments[data.id].channelInfo !== 'undefined' ) {
+
+        _instruments[data.id].channelInfo.patternId = data.patternId;
+
+        if (typeof _instruments[data.id].tracks[trackId] !== 'undefined') {
+          _instruments[data.id].tracks[trackId].notes[data.noteId] = data.volume; // data.id 0
+        }
+
       }
 
     };
 
 
+///*
+    this.getPatternId = function(data) {
+      //console.log('seq: 2683: update note', data);
+      //console.log('_clients: ', data.client); // _clients
+
+      //var trackId = data.trackId.split('-')[1];
+      //var instrumentId = data.trackId.split('-')[0];
+
+      /*if ( typeof _instruments[data.id].channelInfo !== 'undefined' ) {
+
+        _instruments[data.id].channelInfo.patternId = data.patternId;
+
+
+      } */
+
+      //console.log(data, _instruments);
+
+      var hw = [_instruments , _clients];
+      
+      return hw;
+
+      //return _instruments; // [0].tracks[0].notes;
+
+    };
+//*/
+
+
+///*
+    this.refreshInsObj = function(data) {
+        
+      //var channels = Object.keys(data);
+      //console.log('this.refreshInsObj: ', data, channels);
+
+      
+      var clientsFromMainRoom = data.clients;
+
+      var cltKiz = Object.keys(clientsFromMainRoom);
+
+      var data = data.ptnidmatrix;
+
+      for ( var i = 0; i < data.length; i++ ) {       
+      
+        var trackId = data[i].id.split('-')[1];
+        var instrumentId = data[i].id.split('-')[0];
+
+        var tracks = data[i].tracks;
+
+        var currClt = cltKiz[i];
+
+        //console.log( '_availableInstruments', clientsFromMainRoom[currClt]); // tracks /*data[i].tracks*/ - , _availableInstruments - data[i], 
+
+/*
+
+data2 = {};
+
+data2.kitNumber = 
+
+*/
 
 
 
+//*
+data[i].clientsFromMainRoom = clientsFromMainRoom;
+
+_self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ cltKiz[i] ]
+
+// */
+
+
+/*
+      var nextInstrument = _instruments[i]; 
+
+      if ( typeof nextInstrument !== 'undefined' ) {
+
+        // Initialize the instrument and call start when ready.
+        nextInstrument.initialize(this.start);
+        // Pass the context the instrument.
+        nextInstrument.setup(_context);
+
+        //_clients[clientId] = nextInstrument;
+
+        //return nextInstrument;
+
+      } 
+//*/
+
+
+
+
+        for ( var numInstru = 0; numInstru < tracks.length; numInstru++ ) { // parcours des instruments
+
+          //console.log(data[i].tracks.notes[numInstru]);
+        
+          for ( var numPiste = 0; numPiste < tracks[numInstru].notes.length; numPiste++ ) { // parcours des tracks sur un instrument              
+
+            if ( tracks[numInstru].notes[numPiste] !== 'undefined' ) { // vérification que cet instrument a bien des tracks 
+            
+              if ( tracks[numInstru].notes[numPiste] > 0 ) { // vérification que la note (1 à 16) renvoyée par data.beat est active
+              
+                if ( _instruments[instrumentId].tracks[numInstru].notes[numPiste] !== 'undefined' ) {
+                  _instruments[instrumentId].tracks[numInstru].notes[numPiste] = tracks[numInstru].notes[numPiste];
+                  //console.log(_instruments[instrumentId].tracks[numInstru].notes[numPiste], tracks[numInstru].notes[numPiste]);
+                }  
+
+              } 
+            }
+          }
+        } 
+      }  
+
+
+      console.log(clientsFromMainRoom, _clients);
+
+      //_instruments = data; // JSON.parse(data.ptnidmatrix);
+    };
+//*/
 
 
     this.updateFxParam = function(data, clientId) { // updateParam
 
-      //console.log(data, clientId);      
+          
       //console.log('limited/throtled call', data.x);
       //console.log('clt id:', _clients[clientId].instrumentName);
 
@@ -1769,9 +2029,11 @@
       //var synthInstance2 = _clients[clientId].instrumentName + '_' + _clients[clientId].id;  
 
       if (typeof _clients[clientId] !== 'undefined') {   
-        var synthInstance2 = 'channel_' + _clients[clientId].id;   
+        var synthInstance2 = 'channel_' + data.channelId; // _clients[clientId].id;   
         var synthInstance1 = window[synthInstance2];
       }
+
+      //console.log(data, clientId, _clients, synthInstance1, synthInstance2);  
 
       //console.log(synthInstance2+' obj before change: ', window[synthInstance2]['controls']);
 
@@ -2150,24 +2412,36 @@ if ( typeof midiDevice !== 'undefined' ) {
 
 						var volume = track.notes[_noteIndex];
 						
-						if(_instruments[i].type === 'samples' && _instruments[i].isLoaded())
-						{
-							if (volume > 0 && play==1)
-							{
-								_self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
-							}
-						}
-						else if(_instruments[i].type === 'synth')
-						{
-							if (volume > 0 && play==1)
-							{ // we 're sure that instrument is loaded 'cause it has some notes associated to it
+						if ( _instruments[i].type === 'samples' /*&& _instruments[i].isLoaded()*/ ) {
+
+              var loadfunc = _instruments[i].isLoaded;
+
+              if ( typeof loadfunc === "function" ) {
+                if ( _instruments[i].isLoaded() ) {
+                  if ( volume > 0 && play == 1 ) {
+                    _self.playNote(track, contextPlayTimeSamples, volume); // , i - contextPlayTime
+                    //console.log('sample play', track, contextPlayTimeSamples, volume);
+                  }
+                }
+              }
+
+						} else if ( _instruments[i].type === 'synth' ) {
+							if ( volume > 0 && play == 1 ) { // we 're sure that instrument is loaded 'cause it has some notes associated to it
+
 								_instruments[i].play(track.note); // track.note - track.name for mr synth
-							}
-							else if (volume ==0 && play==1) /*if (stopStep==1 && volume ==0)*/
-							{
-								_instruments[i].stop(track.note); // track.name
+                //console.log('synth play', track.note);
+
+							} else if ( volume ==0 && play == 1 ) { /*if (stopStep==1 && volume ==0)*/
+
+                var loadfunc2 = _instruments[i].stop;
+
+                if ( typeof loadfunc2 === "function" ) {
+                  _instruments[i].stop(track.note); // track.name
+                }  
+								
 							}
 						}
+
 					}
 				}
 //} // end of 1/6 quarter pulse

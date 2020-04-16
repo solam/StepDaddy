@@ -129,12 +129,15 @@
                     window.audiolink = _session[devChNb].audiolink;
                   } 
 
+                  if (typeof window.audiolink !== 'undefined') {
+
+
                   var srcChNb = window.audiolink;
 
                   //var srcChNb = _session[devChNb].audiolink;
                   //console.log("srcChNb", srcChNb, devChNb, _session[devChNb]);
 
-                  var srcChColor = _session[srcChNb].conf[0].color; // 'white'
+                  var srcChColor = _session[srcChNb].conf[0].color; // 'white' - bug: graphismes.js:137 Uncaught TypeError: Cannot read property 'conf' of undefined
 
                   console.log('gfx feature is happening');
 
@@ -243,6 +246,8 @@
 
                     }
                 }   
+
+                }
 
               }
 

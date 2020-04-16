@@ -110,22 +110,94 @@
             //var synthInstanceString = 'AikeWebsynth1' + '_' + chId; // bad: hardcoded instrument type
             var synthInstanceString = 'channel_' + chId;
 
-            //console.log('window[synthInstanceString]', window[synthInstanceString], chId, skwerotedValue);
+
+            if ( typeof window[synthInstanceString] !== 'undefined' ) {
+              //console.log('window[synthInstanceString]', window[synthInstanceString], chId, skwerotedValue, synthInstanceString, window[synthInstanceString].constructor.name); // , window[synthInstanceString].feg.a_delta
+            
+
+              if ( typeof window[synthInstanceString].feg !== 'undefined' ) { // window[synthInstanceString].feg.a_delta
+                //eval(window[synthInstanceString]+'.volume.volume.gain.value='+skwerotedValue/100);
+                window[synthInstanceString].volume.set(skwerotedValue/100);
+                //console.log('window[synthInstanceString]', synthInstanceString, window[synthInstanceString] );
+              }       
+
+
+              if ( typeof window[synthInstanceString].moQuadruple !== 'undefined' ) { 
+                window[synthInstanceString].onUpdateVolume(skwerotedValue);
+              }         
+
+
+              if ( typeof window[synthInstanceString].jsDrumMainvolume !== 'undefined' ) { 
+                window[synthInstanceString].jsDrumMainvolume.gain.value=skwerotedValue/100;
+              }  
+
+                             
+
+
+            }
+
+
+//eval(window['channel_2']+'.volume.set(0)'); - window['channel_2'].volume.set(0.1);
+
+
+/*
+                  if (data.id<=900 && data.id>=800) {   // data.id>800
+
+                    // make precue mixer tab volume independent aka not affected by volume changes made on conductor tab 
+                    if (window.childRoom != 2) {  
+
+                      var chNumber = controls[j].x.param.replace(/\D/g,'');
+
+                      var channelNumber = chNumber; //controls[j].x.param.charAt(7);
+                      //console.log('insName', chNumber); // _instruments[channelNumber].instrumentName
+
+
+                      // Populate variable with instrument (ex: AikeWebsynth1) and its channel instance (ex: 0) object 
+                      var synthInstance2 = 'channel_' + channelNumber;  
+                      var synthInstance1 = window[synthInstance2];                      
+
+                      //if (controls[j].x.param!='[external]') {
+                      if (typeof synthInstance1 !== 'undefined') {
+                        switch (_instruments[channelNumber].instrumentName) { // _instruments
+
+                        case 'JoeSullivanDrumSynth':
+                          eval(synthInstance2+'.'+controls[j].x.subParams.JoeSullivanDrumSynth+'.gain.value='+valueX*2); //
+                          break;
+                          
+                        case 'AikeWebsynth1':
+                          // value sent as parameter to synth instance object
+                          eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); //
+                          break;
+                        case 'CWilsoWAMidiSynth':
+                          eval(synthInstance2+'.'+controls[j].x.subParams.CWilsoWAMidiSynth+'('+valueX*100+')'); //
+                          break;
+                        case 'MrSynth':
+                          eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
+                          break;
+                        case 'Sampler':
+                          this[controls[j].x.param] = valueX;
+                          //console.log('sampler vol:', this[controls[j].x.param]);
+                          break; 
+                        }
+                      } 
+                    }  
+                  }
+*/            
 
 
             if (typeof window[synthInstanceString] !== 'undefined') {
                 switch (window[synthInstanceString].constructor.name) {
 
                   case 'jsDrumSynth':
-                    eval(synthInstanceString+'.jsDrumMainvolume.gain.value='+skwerotedValue/100); // data.x
+                    eval(window[synthInstanceString]+'.jsDrumMainvolume.gain.value='+skwerotedValue/100); // data.x
                     break;
 
                   case 'CWilsoWAMidiSynth':
-                    eval(synthInstanceString+'.onUpdateVolume('+skwerotedValue+')');
+                    eval(window[synthInstanceString]+'.onUpdateVolume('+skwerotedValue+')');
                     break; 
 
                   case 'WebSynth':
-                    eval(synthInstanceString+'.volume.set('+skwerotedValue/100+')');
+                    eval(window[synthInstanceString]+'.volume.set('+skwerotedValue/100+')');
                     //console.log('aikeWS1', skwerotedValue/100 );                     
                   break;
 
@@ -162,7 +234,7 @@
               }
             }    
 
-            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString});    
+            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString, channelId: window.channelId});    
           }    
         });
 

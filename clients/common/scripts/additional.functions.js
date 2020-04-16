@@ -290,7 +290,15 @@ window.displayPattern = function(selectId) {
       
       if (typeof ptnStorage !== 'undefined') {
         if (typeof ptnStorage !== 'undefined' && ptnStorage.length>0) { // 1
-          //console.log('ptnStorage', ptnStorage);
+          console.log('ptnStorage avant:', ptnStorage);
+
+        // https://stackoverflow.com/questions/281264/remove-empty-elements-from-an-array-in-javascript
+        var ptnStorage = ptnStorage.filter(function (el) {
+          return el != null;
+        });    
+
+        console.log('ptnStorage après', ptnStorage);      
+
           var ptnStorage = ptnStorage.filter((set => p => !set.has(p.id) && set.add(p.id))(new Set)); 
         }
       }

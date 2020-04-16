@@ -202,6 +202,7 @@ button {
 body#audiovis-gen {
   /*height: 100%;
   width: 100%;*/
+  width: 100% !important;
 }
 
 
@@ -223,6 +224,7 @@ section#sequencer-view.main-display-grid {
       margin-right: auto;  
       font-size: 40px;  /* 30 - 40*/ 
       padding-top: 0;
+      height: 200px;
     } 
 
 
@@ -241,8 +243,10 @@ section#sequencer-view.main-display-grid {
   margin-left: 1.5%; 
   margin-right: 2%;
 }
-
-
+/*
+#instructions .ins-right.precuemixer {
+  float: left;
+}    */
 
     #instructions span {
       color: white;

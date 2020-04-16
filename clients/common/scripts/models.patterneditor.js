@@ -36,11 +36,11 @@
 
       //console.log('data', data.channelInfo);
 
-      if (data=='kickOut TEMPORARILY DISABLED') {        
-        //location.reload(true); // reload channel so that it loads channel instrument if available
-        console.log('Got a kickOut instruction');
-      } else if (data=='waitroom') {
-        //window.location.replace("waiting-room.html");  
+      if ( data == 'kickOut' ) { // kickOut = send to waiting-room -  TEMPORARILY DISABLED    
+        //window.location.replace("waiting-room.html");          
+        //console.log('user sent to waiting-room'); // Got a kickOut instruction
+      } else if ( data == 'reload' ) {
+        location.reload(true); // reload channel so that it loads channel instrument if available
       } 
 
 
@@ -1199,7 +1199,7 @@
         var ptnString = JSON.stringify(alphaAscSortedUserPattern); 
         var ptnString = ptnString.replace('_name_', 'name'); 
 
-
+if (typeof window.patternSequencer !== 'undefined') {
 if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
 
         window.patternSequencer[window.playedPatternOrder].id = window['userPattern'].id;
@@ -1223,6 +1223,7 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
           $('#patterns option[value="' + window['userPattern'].id + '"]').prop('selected',true);
         }
 }  
+}
 
       } else if (/*window.stepSeq==1 &&*/ window.ptnEdit==1) {
 

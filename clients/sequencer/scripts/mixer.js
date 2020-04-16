@@ -67,6 +67,7 @@
       // On precue window, render an audio mixer
 			if(window.childRoom == 2)
 			{
+
 				// conductorControls
 				var controls = _sequencer._instrumentsConfig[1].conf[0].controls;
 				var container = document.getElementById('modifiers');
@@ -230,6 +231,85 @@
 				//console.log('sysptns at client join room:', _sequencer._systemPatterns); 
 				//console.log('mixer.js _onClientJoined:', data); 
 
+        //console.log('_instruments: ', _instruments); // data.data, _clients
+
+
+
+ 
+
+
+
+
+
+        if ( typeof data.data !== 'undefined' ) {
+          if ( typeof data.data.tap !== 'undefined' ) {
+
+            // reload all instruments (each user sees her instrument window get forcibly refreshed) so that potential "retardataire" child-room gets state of master-room pretty quickly
+            var claients = Object.keys(_clients);
+            //var clientCount = 0;
+
+
+            var currentSetupChannelCount = Object.keys(window['insConf']);  
+            //console.log('claients: ', currentSetupChannelCount.length); // claients       
+
+            //var ptnidmatrix = [];
+
+            /*
+            for ( var i = 0; i < claients.length; i++ ) {
+              var caydi = claients[i];
+              
+              if ( typeof _instruments[caydi] !== 'undefined' ) {
+                console.log('refreshing instrument of claients'+i, claients[i], _instruments[caydi], _instruments[caydi].channelInfo.patternId);
+                  _conn.execute( mixr.enums.Events.INSTRUMENT, { receiver: claients[i], instrument: 'reload' } );
+
+              }  
+            }
+
+
+            // reload first user multiple time so that child room gets all possible channels (of current setup/ instrument configuration loaded
+            if ( currentSetupChannelCount.length > claients.length && claients.length > 0 ) {
+
+              var caydi = claients[0];
+
+              var difff = currentSetupChannelCount.length - claients.length;
+
+              console.log('difff', difff);
+
+              for ( var i = 0; i < difff; i++ ) {
+                   
+                if ( typeof _instruments[caydi] !== 'undefined' ) {
+                  //console.log('refreshing instrument of claients'+i, claients[i], _instruments[caydi], _instruments[caydi].channelInfo.patternId);
+                    _conn.execute( mixr.enums.Events.INSTRUMENT, { receiver: claients[i], instrument: 'reload' } );
+                    console.log('reloading: ', caydi);
+
+                }  
+              }              
+            }
+            // */
+
+
+            var ptnidmatrix = _sequencer.getPatternId(); // _instruments[caydi].tracks[0].notes; - _sequencer.getTracks(); // ptnidmatrix[caydi] =             
+
+            //var stringed = JSON.stringify(ptnidmatrix[0]);
+
+            //console.log('ptnidmatrix', /*ptnidmatrix,*/ stringed); // 
+
+            //_conn.execute( mixr.enums.Events.NOTE, { client: data.data.client, args: stringed } );
+
+            //*
+            if ( typeof ptnidmatrix !== 'undefined' ) {
+              //if ( ptnidmatrix.length > 0 ) {
+                 //console.log('ptnidmatrix 2', ptnidmatrix); 
+                _conn.execute( mixr.enums.Events.NOTE, { client: data.data.client, args: 'latecr', ptnidmatrix: ptnidmatrix[0] , clients: ptnidmatrix[1]} ); // latecomer cr - refresh notes !
+              //}
+            } //*/
+
+            data.client = data.data.client;
+
+          }
+        }
+
+
 				var client = _clients[data.client];
 				if (typeof client !== 'undefined') {
 					console.log('A client with id', data.client, 're-joined the room');
@@ -319,10 +399,10 @@
 					var instrument = _sequencer.getNextInstrument(data.client, pwd);
 					
 					if (instrument) {
- 						//if (window.childRoom==0) { // detri
-              console.log('update instrument');
-							_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
-						//}
+if (window.childRoom==0) { // detri
+  console.log('update instrument');
+  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+}
 
 						//console.log('>>> Instrument', instrument, _totalInstruments);
 						if (typeof _instruments[data.client] === 'undefined') {
@@ -340,7 +420,7 @@
 						console.log('No more instruments available.');
 						
 						//if ( window.childRoom==0 ) { // detri
-_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'waitroom'});
+_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 'kickOut'}); // waitroom
 						//}
 					} //*/
 					//_updateChannels();
@@ -351,14 +431,32 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
 
 
-		var _onNote = function(data){
-			//console.log('mixer onNote:', window.graphixMode, data);
-			if (window.graphixMode==1) {
-				//_sequencerView.updateNote(data.args); // remove audio stuttering
-			}     
+		var _onNote = function(data) {
 
-			_sequencer.updateNote(data.args);
-			//console.log('_onNote: ', data);
+      //console.log('_onNote: ', data.args.ptnidmatrix);
+
+      if ( typeof data.args.args != 'undefined' ) {
+
+        if ( window.childRoom == 2 ) {  
+          if ( data.args.args == 'latecr' ) {
+            data2 = {};
+            data2.ptnidmatrix = data.args.ptnidmatrix;
+            data2.clients = data.args.clients;
+            _sequencer.refreshInsObj(data2);
+          } 
+        }  
+      } else {
+
+        //var parsed =  JSON.parse(data.args);
+  			//console.log('mixer onNote:', window.graphixMode, data);
+  			if (window.graphixMode==1) {
+  				//_sequencerView.updateNote(data.args); // remove audio stuttering
+  			}     
+
+  			_sequencer.updateNote(data.args);
+  			
+
+      }
 		};
 
 
@@ -413,8 +511,7 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
 
     // message dispatch center func
-		var _onModifierChange = function(data)
-		{
+		var _onModifierChange = function(data) {
 			//window.ratelimit.schedule(function() {
 			//console.log('_onModifierChange: ', data);
 			
@@ -591,9 +688,9 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
 						console.log('change kit happens');
 
-						//if (window.childRoom==0) { // detri
-							_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
-						//}
+if (window.childRoom==0) { // detri
+	_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+}
 						//console.log('>>> Instrument', instrument);
 						_instruments[data.client] = instrument; 
 					//});
@@ -650,12 +747,14 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
         //*
         var instrument = _sequencer.updatePreset(data.args, data.client);
-        //if (window.childRoom==0) {  // detri      
-          _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
-        //} 
+if (window.childRoom==0) {  // detri      
+  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
+} 
         _instruments[data.client] = instrument; 
         //*/
 
+
+        if ( typeof instrument !== 'undefined' ) {
 
         //*
         // import notes from old instr to new one (so they are displayed on seq view)  
@@ -671,7 +770,7 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
           }
         }
         //*/
-
+       } 
 
 
 			} else if (data.args.id==996) {
@@ -833,6 +932,9 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
             //if (window[synthInstance].constructor.name=='CWilsoWAMidiSynth') {
               //if ( data.args.note !== null ) {
 
+              if ( typeof window[synthInstance].noteOn === "function" ) {
+
+
                 if (data.args.type=="on") {
 
                   window[synthInstance].noteOn(data.args.note, data.args.velocity, channelId);  // normalize func names to play-stop notes accross different synth types       
@@ -842,7 +944,12 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
                   window[synthInstance].noteOff(data.args.note, channelId);
 
                 }    
-                console.log(data.args.note, data.args.velocity, channelId);   
+                //console.log(data.args.note, data.args.velocity, channelId); 
+
+              } else {
+                console.log('note triggering fucked up for "some" reason'); 
+              } 
+
               //}   
 
             //}
@@ -1046,6 +1153,8 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
         window.sessionid = parseInt(slas2, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
         console.log('window.sessionid', window.sessionid);
 
+        $('body').addClass('session'+window.sessionid);
+
       }
 
 
@@ -1067,6 +1176,8 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
 
           window.sessionid = parseInt(slas245646, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
           console.log('window.sessionid nopageid childroom', window.sessionid);
+
+          $('body').addClass('session'+window.sessionid);
 
         }
 
@@ -1129,6 +1240,8 @@ if ( param[7].slice(0,7) === 'ptnmode' ) {
 var stripTekst = param[7].replace(/\D/g,'');
 window.sessionid =  parseInt(stripTekst, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
 
+$('body').addClass('session'+window.sessionid);
+
 
 }
 
@@ -1156,6 +1269,8 @@ window.nocmult = 1;
 
           window.sessionid = parseInt(slas245646, 10); //1; // Converting string to number ! beware it might break above 100 (3 digits)
           console.log('window.sessionid nopageid childroom', window.sessionid);
+
+          $('body').addClass('session'+window.sessionid);
 
         }
 
@@ -1197,14 +1312,14 @@ window.nocmult = 1;
 			var _arrUrl = _url.url.split('/'); // _self.
 
       if ( _arrUrl[5] == 'nocmult' ) {
-      // if ( _arrUrl[6] == 'nocmult' ) { // online version       
+      //if ( _arrUrl[6] == 'nocmult' ) { // online version       
         window.nocmult = 1;
       } else {
         window.nocmult = 0;
       }
 
-      
-      
+      window.rumidi = _arrUrl[4]; // local
+      //window.rumidi = _arrUrl[5]; // online
 
 
       gestionParametres(_arrUrl); // comment this line for online version
@@ -1227,10 +1342,10 @@ window.nocmult = 1;
 
       var rmid = _room_id.concat(delim).concat(_arrUrl[5]).concat(delim).concat(_arrUrl[6]); // comment this line for online version
 
-      console.log('rmid: ', rmid, _arrUrl[5]);
+      //console.log('rmid: ', rmid, _arrUrl[5]);
 
 
-      // var rmid = gestionParametres(_arrUrl); // online version
+      //var rmid = gestionParametres(_arrUrl); // online version
 
       console.log('no child multi: ', window.nocmult);
 

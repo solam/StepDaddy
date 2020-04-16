@@ -77,7 +77,7 @@
           var classs = $('#patterns').find(":selected").attr('class'); // 'user'; // 
           var patternId = $('#patterns').find(":selected").val();
 
-          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString}); // presetId
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString, channelId: window.channelId}); // presetId
 
         } else if ($container.context.id=='patterns' || $container.attr("class")=='pttns') { 
 
@@ -95,7 +95,7 @@
           if ( typeof window.lastrigel !== 'undefined' && window.lastrigel !== elementId || typeof window.lastrigel === 'undefined' ) {
 
             //console.log('selct option value changed', $('#patterns').find(":selected").text() , $('#patterns').find(":selected").val() ); // $item.find("option").val()
-            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId, ptnSeq: ptnSeqString}); 
+            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, pattern: 1, classs: classs, kitNumber: $('#id998').find("input").val(), patternId: patternId, ptnSeq: ptnSeqString, channelId: window.channelId}); 
 
             window.lastrigel = elementId;
           }
@@ -297,7 +297,7 @@
             } // end for loop
           }
 
-          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: presetClass/*patternClass*/, kitNumber: kitId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString}); 
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: presetClass/*patternClass*/, kitNumber: kitId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString, channelId: window.channelId}); 
 
 
 
@@ -306,7 +306,7 @@
 
           var optionValue = $('#'+$container.context.id).find(":selected").val();
           window['userPreset'].controls[_id] = optionValue;
-          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: optionValue}); // , y: 0, patternId: ptnId, classs: classs
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: optionValue, channelId: window.channelId}); // , y: 0, patternId: ptnId, classs: classs
 
         } // end of id discrimination
 

@@ -92,7 +92,7 @@
   </div>  
 
   <div class="ins-right precuemixer">
-    <spanb>Pre-cue mixer</spanb>
+    <h1>Pre-cue mixer</h1>
     <button id="precButton" type="button" class="golo" title="click this button if sound icon is off">audio disabled by default on Chrome 70+: need of a user gesture to allow Web Audio (Click me!)</button>
   </div>    
 
@@ -353,7 +353,7 @@
 
 
 
-    // comment this section for online version
+    //* comment this section for online version
     if ( typeof window.ip !== 'undefined' && window.ip.length > 0 ) {
       ip = window.ip;
       ip += ':8282'; // local version only
@@ -366,7 +366,7 @@
     // */
 
 
-    // ip = 'loops.solam.co/editor'; // online version
+    //ip = 'loops.solam.co/editor'; // online version
 
     //console.log('window.ip', window.ip);
 
@@ -495,6 +495,12 @@
 
       
     }, 5000);     
+
+  
+    if ( typeof window.rumidi !== 'undefined' ) {
+      $(".ins-right h1").append(' '+window.rumidi.substr(1));
+    }
+
 
 
   </script>
