@@ -1,4 +1,4 @@
-ip = '192.168.1.16';
+ip = '';
 
 // It is useful not to use as 'ip' variable values like '127.0.0.1' or 'localhost' so that other devices on same local network may connect to device hosting ...Loops NodeJS & Web servers
 window.ip = ip;

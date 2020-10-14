@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>En attente d'un instrument - ...Loops</title><!-- Instrument Collective Loops Waiting room Salle d'attente -->
+  <title>Waiting room - ...Loops jam session</title><!-- Instrument Collective Loops Waiting room Salle d'attente En attente d'un instrument -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="../common/css/user.css" />
@@ -15,13 +15,13 @@
   <div class="roundedTwo">
     <input type="checkbox" value="None" class="roonded" id="roundedTwo" name="check" checked/>
     <label for="roundedTwo"></label>
-    <span>to Play an instrument (if one is available)</span><!-- Cocher la case pour (se faire assigner un instrument s'il en reste de libre) décocher la case pour arrêter de jouer Uncheck to STOP playing (getting OUT of current jam session) [uncheck to standbye (not participate in the session)] Check button to be part of current collective music performance-->
+    <span>to Play an instrument (if one is still available)</span><!-- Cocher la case pour (se faire assigner un instrument s'il en reste de libre) décocher la case pour arrêter de jouer Uncheck to STOP playing (getting OUT of current jam session) [uncheck to standbye (not participate in the session)] Check button to be part of current collective music performance-->
   </div>
 
   <div class="roundedTwo">
     <input type="checkbox" value="None" class="roonded" id="roundedTwo02" name="check02" checked/>
     <label for="roundedTwo02"></label>
-    <span>to Display step sequence playhead</span>
+    <span>to Display step sequencer playhead</span>
   </div>  
 
   <div id="tips">
@@ -114,6 +114,22 @@
   } 
 */
 // end of maybe unnecessary code 
+
+
+      /*var _url = mixr.Utils.parseURL(location.href);  
+      var _arrUrl = _url.url.split('/'); // _self.
+      _room_id = _arrUrl[4].replace("?", "");
+      window.roomId = _room_id; */
+      window.roomId = location.href.split('?')[1];
+      
+
+
+      if ( typeof window.roomId == 'undefined' ) {
+        window.roomId = 'sdcc';
+      }        
+
+      console.log('window.roomId: ', window.roomId);
+
 
  $(document.body).on('change', 'input#roundedTwo', function () {
    if ($("#roundedTwo").is(':checked')) { 
@@ -263,7 +279,7 @@ var checkAvailableSlots = setInterval(function () {
             //var passString = remainingBars; //passCount;
             var instructionString = 'Prépare toi à recevoir ton instrument dans <span id="countdown"></span>'; // Get ready for your controller in for your turn - to control your instrument or mixer in // <span id="slots"> - available slots: '+ availableSlots +'</span> - (...Loops waiting room) 
           } else if (availableSlots>=1 && pause==0 /*availableSlots!=0 && availableSlots!='server-not-ready'*/) {
-            var passString = "Allez!"; // Go!
+            var passString = "Go!"; //  - Allez!
             var instructionString = '<span id="countdown"></span>';
           }
           $("#instructions").show();
@@ -271,7 +287,10 @@ var checkAvailableSlots = setInterval(function () {
           $("#countdown").html(passString); //
         } else if (nowTimeStamp >= userGoTime && availableSlots>=1 && pause==0) {
           console.log('trying to reach ...Loops instrument or mixer channel');
-          window.location.href = "index.html?rm"; // index.html?rm
+          //window.location.href = "index.html?"+window.roomId; // index.html?rm - +"/" local version
+          //if ( typeof window.roomId !== 'undefined' ) {
+            window.location.href = "https://loops.solam.co/editor/device/?"+window.roomId+"/nomopo"; // index.html?rm - +"/" online version
+          //}
         }   
       //}   
 

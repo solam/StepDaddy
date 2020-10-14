@@ -994,6 +994,9 @@ $(document).ready(function () {
     var session = 1;
   }
 
+  // force everyone to a hardcoded session number - getting to this url whether this url contains a specfic 's' get var or not
+  //var session = 10;
+
   if ( typeof $_GET['r'] !== 'undefined' ) {
     if ( $_GET['r'].length > 0 ) {
       var room = $_GET['r'];
@@ -1158,9 +1161,9 @@ $('body').on('click', 'span.togglebutton', function(e) {
 
     if ( roomaId != 'sdcc' ) {
       // 'mopo': instrument loading may include conductor instrument of master room
-      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo/npsmulti'); // /mopo/noptnseq - /mopo/npsmulti
+      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo'); // /mopo/noptnseq - /mopo/npsmulti
     } else {      
-      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo/noptnseq');
+      $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo'); // npsmulti or noptnseq not good for session 10 batucada as this will turn off all ptnseq's!!
     }
     $('#p2').show();
     
@@ -1180,7 +1183,7 @@ $('body').on('click', 'span.togglebutton', function(e) {
 $('ul#list').on('click', '#conductor', function(e) {
     e.preventDefault();
     var roomaId = $('#jamroomid').val();
-    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/mopo/noptnseq');
+    $('iframe#d2').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/mopo');
 });  
 
 
@@ -1218,7 +1221,7 @@ $('ul#list').on('click', '#conductor', function(e) {
         // code section B
         if ( typeof ins !== 'undefined' && ins == 0 ) {
           $('#notif').html('master room connected, jam on!').addClass('green');
-          $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/mopo/npsmulti');
+          $('iframe#d1').attr('src', comode+'://'+ip+'/device/?'+roomaId+'/nomopo'); // /nomopo/npsmulti
           $('#p2').show();
           localStorage.setItem('insloaded', 1);
         }          

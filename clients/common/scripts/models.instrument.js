@@ -62,20 +62,197 @@
         var synthInstanceString = /*this.instrumentName + '_' + */ 'channel_' + this.id;
 
 
+        //console.log('this.setup', window[synthInstanceString]);
+
+
     //if (typeof window[synthInstanceString]== 'undefined') {  // this condition may fuck up in case of multiple diff kits per channel aka sampler to AWs1 etc...  
         // (at first creation of synth instance) append controls array to synthInstance with control default values from channel config
         switch (this.instrumentName) {
+
+
           case 'JoeSullivanDrumSynth':
-            window[synthInstanceString] = new jsDrumSynth(context);
-            break;             
-          case 'CWilsoWAMidiSynth':
-            if ( typeof CWilsoWAMidiSynth === 'function' ) {
-              window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+            //window[synthInstanceString] = new jsDrumSynth(context);
+
+
+
+
+            // prevent multiple instances of synth adding up
+            if ( typeof window[synthInstanceString] == 'undefined' ) { 
+              window[synthInstanceString] = new jsDrumSynth(context);
+            } else {
+
+              // if fspaAudioWorkletPolySynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].pcKeyHandler !== 'undefined' ) { 
+                window[synthInstanceString].processor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new jsDrumSynth(context);
+              } 
+
+              // if AikeWebsynth1 was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].feg !== 'undefined' ) { 
+                window[synthInstanceString].delay.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new jsDrumSynth(context);
+              }        
+
+              // if CWilsoWAMidiSynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].waveshaper !== 'undefined' ) { 
+                window[synthInstanceString].compressor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new jsDrumSynth(context);
+              } 
+
+
+
+              if ( typeof window[synthInstanceString].jsDrumMainvolume == 'undefined' ) {              
+                window[synthInstanceString] = new jsDrumSynth(context);
+              }      
+
+
             }
-            break;          
+
+
+
+
+
+
+
+            break;    
+
+
+          case 'CWilsoWAMidiSynth':
+            /*if ( typeof CWilsoWAMidiSynth === 'function' ) {
+              window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+            } */
+
+            console.log('CWilsoWAMidiSynth', window[synthInstanceString]);
+
+            // prevent multiple instances of synth adding up
+            if ( typeof window[synthInstanceString] == 'undefined' ) { 
+              window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+            } else {
+
+
+              // if JoeSullivanDrumSynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].jsDrumMainvolume !== 'undefined' ) { 
+                window[synthInstanceString].jsDrumMainvolume.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              } 
+
+
+              // if fspaAudioWorkletPolySynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].pcKeyHandler !== 'undefined' ) { 
+                window[synthInstanceString].processor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              } 
+
+
+              // if AikeWebsynth1 was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].feg !== 'undefined' ) { 
+                window[synthInstanceString].delay.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              }               
+
+
+              if ( typeof window[synthInstanceString].waveshaper == 'undefined' ) {              
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              }      
+
+
+            }
+
+
+
+            break;      
+
+
+          // prevent multiple instances of synth adding up  
+          case 'fspaAudioWorkletPolySynth':
+            //if ( typeof fspaAudioWorkletPolySynth === 'function' ) {
+              if ( typeof window[synthInstanceString] == 'undefined' ) { 
+                  //console.log(synthInstanceString);
+                  window[synthInstanceString] = new fspaAudioWorkletPolySynth(synthInstanceString); //.init(); // 
+            } else {
+
+              // if JoeSullivanDrumSynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].jsDrumMainvolume !== 'undefined' ) { 
+                window[synthInstanceString].jsDrumMainvolume.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              }               
+
+              // if CWilsoWAMidiSynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].waveshaper !== 'undefined' ) { 
+                window[synthInstanceString].compressor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new fspaAudioWorkletPolySynth(synthInstanceString);
+              } 
+
+              // if AikeWebsynth1 was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].feg !== 'undefined' ) { 
+                window[synthInstanceString].delay.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              }      
+
+
+
+                if ( typeof window[synthInstanceString].pcKeyHandler == 'undefined' ) {              
+                  console.log(synthInstanceString);
+                  window[synthInstanceString] = new fspaAudioWorkletPolySynth(synthInstanceString); //.init(); // 
+              }              
+            }
+            break;    
+
+
           case 'AikeWebsynth1':
             //console.log('synth obj creation');
-            window[synthInstanceString] = new WebSynth(context);
+            //window[synthInstanceString] = new WebSynth(context);
+
+            // prevent multiple instances of synth adding up
+            if ( typeof window[synthInstanceString] == 'undefined' ) { 
+              window[synthInstanceString] = new WebSynth(context);
+            } else {
+
+
+              // if JoeSullivanDrumSynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].jsDrumMainvolume !== 'undefined' ) { 
+                window[synthInstanceString].jsDrumMainvolume.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              } 
+
+              // if another instrument/synth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].waveshaper !== 'undefined' ) { 
+                window[synthInstanceString].compressor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new WebSynth(context);
+              } 
+
+              /*// if AikeWebsynth1 was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].feg !== 'undefined' ) { 
+                window[synthInstanceString].FX_Delay.disconnect(  window['audio_context']  );   
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new CWilsoWAMidiSynth(context);
+              }  */    
+
+              // if fspaAudioWorkletPolySynth was previously loaded on same channel disconnect audio & kill object
+              if ( typeof window[synthInstanceString].pcKeyHandler !== 'undefined' ) { 
+                window[synthInstanceString].processor.disconnect( /* window['audio_context'] */ );            
+                delete window[synthInstanceString];
+                window[synthInstanceString] = new WebSynth(context);
+              } 
+
+
+              if ( typeof window[synthInstanceString].feg == 'undefined' ) {  // .root .vco1            
+                window[synthInstanceString] = new WebSynth(context);
+              }              
+            }
+
+
             break;
           case 'MrSynth':
             window[synthInstanceString] = new MrSynth(context);
@@ -242,7 +419,7 @@
           tracks[i].loadSample(this.trackLoaded, context);
         };
       } else if (this.type === 'synth') {
-        console.log('Synth '+synthInstanceString+' ready.');
+        //console.log('Synth '+synthInstanceString+' ready.');
         _isLoaded = true;
         _readyCallback();
       }
@@ -279,8 +456,27 @@
               }
                 break;          
             case 'CWilsoWAMidiSynth':
+              if ( typeof window[synthInstance].noteOn === 'function' ) {
                 window[synthInstance].noteOn(note, 75, this.id); // old vol: 75
-                break;          
+              }  
+                break;     
+
+
+            case 'fspaAudioWorkletPolySynth':
+                
+                var nunote = note+17; // -20
+                var n = "zxcvbnm,.asdfghjklqwertyuiop1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ&é-è_çàù*"; // $£?§~#
+                var noteVal = n.charAt(nunote);
+
+                //var notenumbeurre = "zxcvbnm,.asdfghjklqwertyuiop1234567890".indexOf(nunote/*noteVal*/);
+
+                //console.log(note, nunote, noteVal); // , notenumbeurre
+
+                if (typeof window[synthInstance].pcKeyHandler !== 'undefined') {
+                  window[synthInstance].pcKeyHandler.port.postMessage({ id: "keydown", value: noteVal });
+                }
+                break;
+
             case 'AikeWebsynth1':
               //console.log('id', this.id, window[synthInstance]); 
                 //window[synthInstance].setVolume(0.1);
@@ -341,8 +537,25 @@
               }
               break;              
             case 'CWilsoWAMidiSynth':
+              if ( typeof window[synthInstance].noteOff === 'function' ) {
                 window[synthInstance].noteOff(note, this.id);
-                break;              
+              }
+                break;    
+
+            case 'fspaAudioWorkletPolySynth':
+                
+                var nunote = note+17; // -20
+                //var n = "zxcvbnm,.asdfghjklqwertyuiop1234567890";
+                var n = "zxcvbnm,.asdfghjklqwertyuiop1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ&é-è_çàù*$£?§~#";
+                var noteVal = n.charAt(nunote);
+
+                //console.log(nunote, noteVal);
+                if (typeof window[synthInstance].pcKeyHandler !== 'undefined') {
+                  window[synthInstance].pcKeyHandler.port.postMessage({ id: "keyup", value: noteVal });
+                }
+                break;
+
+
               case 'AikeWebsynth1':
                   //window[synthInstance].setVolume(0);
                   //console.log('syn inst: ',window[synthInstance]);

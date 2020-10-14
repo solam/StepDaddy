@@ -1487,71 +1487,77 @@ div#channelinfo a.logo > img {
 }
 
 
-.session10.edt ul.menu#fixed li#exit 
+
 /*,.session10.edt #notemin
-,.session10.edt #notemax*/
-,.session10.edt .autoincundefined
-,.channel2.session10.edt #id699
-,.channel8.session10.edt #thekits
-,.channel8.session10.edt #thepatterns
+,.session10.edt #notemax,*/
+.session10/*.edt*/ ul.menu#fixed li#exit 
+,.session10/*.edt*/ .autoincundefined
+,.channel2.session10/*.edt*/ #id699
+,.channel8.session10/*.edt*/ #thekits
+,.channel8.session10/*.edt*/ #thepatterns
 
-,.channel10.session10.edt #thepatterns
-,.channel10.session10.edt #thepresets
-,.channel11.session10.edt #thepatterns
-,.channel11.session10.edt #thepresets
-,.channel12.session10.edt #thepatterns
-,.channel12.session10.edt #thepresets
-,.channel13.session10.edt #thepatterns
-,.channel13.session10.edt #thepresets
-,.channel14.session10.edt #thepatterns
-,.channel14.session10.edt #thepresets
-,.channel15.session10.edt #thepatterns
-,.channel15.session10.edt #thepresets
-,.channel16.session10.edt #thepatterns
-,.channel16.session10.edt #thepresets
+,.channel10.session10/*.edt*/ #thepatterns
+,.channel10.session10/*.edt*/ #thepresets
+,.channel11.session10/*.edt*/ #thepatterns
+,.channel11.session10/*.edt*/ #thepresets
+,.channel12.session10/*.edt*/ #thepatterns
+,.channel12.session10/*.edt*/ #thepresets
+,.channel13.session10/*.edt*/ #thepatterns
+,.channel13.session10/*.edt*/ #thepresets
+,.channel14.session10/*.edt*/ #thepatterns
+,.channel14.session10/*.edt*/ #thepresets
+,.channel15.session10/*.edt*/ #thepatterns
+,.channel15.session10/*.edt*/ #thepresets
+,.channel16.session10/*.edt*/ #thepatterns
+,.channel16.session10/*.edt*/ #thepresets
 
-,.session10.edt #left
-,.session10.edt #patternedit
-,.session10.edt #pattern-sequencer
-,.session10.edt #button995
-,.session10.edt #button991
-,.channel2.session10.edt #sessiontips #s10
-,.channel3.session10.edt #sessiontips #s10
-,.channel5.session10.edt #sessiontips #s10
-,.channel7.session10.edt #sessiontips #s10
-,.channel9.session10.edt #sessiontips #s10
+,.session10/*.edt*/ #left
+,.session10/*.edt*/ #patternedit
+,.session10/*.edt*/ #pattern-sequencer
+,.session10/*.edt*/ #button995
+,.session10/*.edt*/ #button991
+,.channel2.session10/*.edt*/ #sessiontips #s10
+,.channel3.session10/*.edt*/ #sessiontips #s10
+,.channel5.session10/*.edt*/ #sessiontips #s10
+,.channel7.session10/*.edt*/ #sessiontips #s10
+,.channel9.session10/*.edt*/ #sessiontips #s10
 
-,.channel2.session10.edt #thesessions
-,.channel2.session10.edt #id699
-,.channel2.session10.edt #id698
-,.channel2.session10.edt #id697
-,.channel2.session10.edt #part-sequencer
-,.channel2.session10.edt #button987
-,.channel2.session10.edt #song-sequencer
-,.channel2.session10.edt #button986
+,.channel2.session10/*.edt*/ #thesessions
+,.channel2.session10/*.edt*/ #id699
+,.channel2.session10/*.edt*/ #id698
+,.channel2.session10/*.edt*/ #id697
+,.channel2.session10/*.edt*/ #part-sequencer
+,.channel2.session10/*.edt*/ #button987
+,.channel2.session10/*.edt*/ #song-sequencer
+,.channel2.session10/*.edt*/ #button986
 {
   display:none !important;
 }
 
-.session10.edt #right {
+.session10/*.edt*/ #right {
   float:none !important;
 }
 
-body.session10.edt #pattern-editor {
+body.session10/*.edt*/ #pattern-editor {
   opacity: 1 !important;
 }
 
-.channel10.session10.edt #pattern-editor
-,.channel11.session10.edt #pattern-editor
-,.channel12.session10.edt #pattern-editor
-,.channel13.session10.edt #pattern-editor
-,.channel14.session10.edt #pattern-editor
-,.channel15.session10.edt #pattern-editor
-,.channel16.session10.edt #pattern-editor
+.channel10.session10/*.edt*/ #pattern-editor
+,.channel11.session10/*.edt*/ #pattern-editor
+,.channel12.session10/*.edt*/ #pattern-editor
+,.channel13.session10/*.edt*/ #pattern-editor
+,.channel14.session10/*.edt*/ #pattern-editor
+,.channel15.session10/*.edt*/ #pattern-editor
+,.channel16.session10/*.edt*/ #pattern-editor
 
 {
   display:block !important;
 }
+
+
+
+
+
 
 .session11.edt #left /* GM - The Chase ...Loops song editor */
 ,.npsmultiedt #left
@@ -1612,4 +1618,34 @@ body.session10.edt #pattern-editor {
 .control.channel2.session1 #ctrl815,
 .control.channel2.session1 #ctrl816 {
   display:none;
+}
+
+
+/* Hide some params of fspa synth */
+
+.session16 #ctrl2 /* voice number */  
+/*,.session16 #ctrl16 /*master amp */
+,.session16 #id699 /* rotation bars, on conductor channel */
+,.session16 #inc999 /* bpm incrementer on tempo param */
+,.session16 #left /* hide left "mobile browsing" menu */
+{
+  display:none !important;
+}
+
+.session16 #right {
+  float:none !important;
+}
+
+
+input[type="radio" ] {
+  -webkit-appearance: radio !important;
+  height:30px !important;
+}
+
+#restpb {
+  position: relative;
+  top: -40px;
+  /* left: 5px; */
+  z-index: 999;
+  float: right;
 }

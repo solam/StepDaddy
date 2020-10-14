@@ -527,10 +527,35 @@ $("a[href='#id1']").click(function() {
   //  return false;
 });
 
-// http://127.0.0.1:8282/device/waiting-room.html
-$("li#exit a").attr('href', 'http://'+window.ip+':8282/device/waiting-room-exit.html');
+
+$(document).ready(function () {
+
+  window.roomIdfirstPass = 'validated';
+
+  setInterval(function () { 
 
 
+    if ( typeof window.roomId !== 'undefined' ) {
+
+      if ( window.roomIdfirstPass != 'unvalidated') {
+        // http://127.0.0.1:8282/device/waiting-room.html
+        window.ip = "192.168.1.16";
+        $("li#exit a").attr('href', 'http://'+window.ip+':8282/device/waiting-room-exit.html?'+window.roomId);
+        //$("li#exit a").attr('href', 'https://loops.solam.co/editor/device/waiting-room-exit.html?'+window.roomId); // online version
+        window.roomIdfirstPass = 'unvalidated';
+      }
+
+    }  
+
+
+
+  }, 1000);  
+
+
+
+
+
+}); 
 
 var noSleep = new NoSleep();
 noSleep.enable();

@@ -331,6 +331,11 @@ FX_Delay.prototype.connect = function(next_node) {
 	this.delay2.connect(next_node);
 };
 
+FX_Delay.prototype.disconnect = function(context) {
+	this.delay1.disconnect(context);
+	this.delay2.disconnect(context);
+};
+
 FX_Delay.prototype.getnode1 = function() {
 	return this.gain1;
 };

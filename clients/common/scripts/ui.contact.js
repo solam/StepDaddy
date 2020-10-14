@@ -97,14 +97,39 @@
         var presetClass = $('#presets').find(":selected").attr('class');
 
         var KitNumber = $('#kits').find(":selected").val(); 
-        window['userPreset']._name_ = $('#preset-name').val();
+        
         window['userPreset'].id = uuid.v1();
+        //userPresetReformatted = window['userPreset'];
+
+        userPresetReformatted = {};
+
+        window['userPreset']._name_ = $('#preset-name').val();
+        userPresetReformatted.name = $('#preset-name').val();
+        //userPresetReformatted._name_ = $('#preset-name').val();
+
+        // clone object properties here to avoid UI fuckups (aka when changing preset via drop down menu slider setup & sound rendering does not change)
+        userPresetReformatted.classs = 'user'; // channel
+        userPresetReformatted.controls = JSON.parse(JSON.stringify(window['userPreset'].controls));
+        userPresetReformatted.id = JSON.parse(JSON.stringify(window['userPreset'].id));
+
+        delete window['userPreset'].iplname;
         
         var alphaAscSortedUserPreset = sortObj(window['userPreset'],'asc');
         var preString = JSON.stringify(alphaAscSortedUserPreset); 
         var preString = preString.replace('_name_', 'name');  
 
-        window.allPresets.push(window['userPreset']);
+
+        //userPresetReformatted._name_ = null;
+        //unset(userPresetReformatted._name_);
+        //delete userPresetReformatted._name_;
+
+        //window.allPresets.push(window['userPreset']);
+        window.allPresets.push(userPresetReformatted);
+
+        window.allPresets = window.allPresets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
+        window.allPresets = window.allPresets.filter(function(val){return val});
+
+        //console.log('presets', window.allPresets);
 
         //console.log('preset controls: ', window['userPreset'].controls); // preString, window['userPreset']
 
@@ -113,8 +138,13 @@
         $itemOption = $('<option class="user" id="option'+window['userPreset'].id+'" value="'+window['userPreset'].id+'">'+window['userPreset']._name_+'</option>');
         $itemOption.appendTo(document.getElementById('presets'));
         if( $('#presets').length ) {
-          $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true);
+          // so that preset id is populated, to allow saving part right after preset creation (no need to refresh page/channel - manually change preset)  
+          $('#presets option[value="' + window['userPreset'].id + '"]').prop('selected',true).trigger('change');;
         }
+
+
+
+        
 
 
 
@@ -126,7 +156,71 @@
         window['song_'+currts] = {};
         window['song_'+currts].id = uuid.v1();
         window['song_'+currts]._name_ = $('#song-name').val();
-        window['song_'+currts].payload = window.partSequencer; // data; // window.partSequencer is a dynamic array used for parts' playback: array order may nor reflect initial saved part sequence by user
+
+
+
+
+
+  partOrderMatrix = [];
+  $("#played-parts .option").each(function( index ) {  
+    //partOrderMatrix[index] = this.uid;
+    var aaddii = $(this).attr('id').slice(3);
+    partOrderMatrix.push(aaddii);
+  });  
+
+
+  mixerInfoMatrix = {};
+  $("#modifiers .ctrlchange input").each(function( index ) {  
+    var aaddii2 = this.id; // $(this).attr('id'); // .slice(3);
+    //var prefiks7436 = $(this).attr('id')
+    //partOrderMatrix.push(aaddii);
+
+    //console.log(this.id);
+
+    //*
+    if ( aaddii2.substring(0,5) == 'input' ) {
+      //mixerInfoMatrix[aaddii2] = $(this).val();
+      mixerInfoMatrix.aaddii2 = $(this).val();
+    } 
+    //*/
+
+    
+    
+    /*if ( aaddii2 == 'input99' ) {
+      return false;
+    } */
+
+  });  
+
+  window['song_'+currts].mixerInfo = mixerInfoMatrix;
+
+  console.log(mixerInfoMatrix); // partOrderMatrix
+
+
+  //partCounter = 0;      
+
+  $.each(window.partSequencer, function() {          
+    //if (this.uid ==  
+    this.order = partOrderMatrix.indexOf(this.uid)+1;
+    //partCounter;    
+    //console.log(this); 
+    //partCounter = partCounter + 1;
+  });    
+
+// use object.order as object ordering criteria
+
+
+// Trying not to fuck up current playback of parts
+window.PartSeqAtSongSave = JSON.parse(JSON.stringify(window.partSequencer));
+
+window.PartSeqAtSongSave.sort(function(a, b) {
+  return parseFloat(a.order) - parseFloat(b.order);
+});
+
+  //console.log(window.partSequencer);
+
+
+        window['song_'+currts].payload = window.PartSeqAtSongSave; // data; // window.partSequencer is a dynamic array used for parts' playback: array order may nor reflect initial saved part sequence by user
 
         var alphaAscSortedUserPreset = sortObj(window['song_'+currts],'asc'); // properties/params of object are alpha sorted (only for top/1st level in case of nested objects)
         var preString = JSON.stringify(alphaAscSortedUserPreset); 
@@ -264,7 +358,7 @@
       
       } else if (_id==991) {      
         //$item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type sound name</label><a href="#" class="trigger-button">Save sound</a>'); 
-        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset']._name_ +'"/><label>Type preset name</label><a href="javascript:void(null);" class="trigger-button">Save preset</a>');
+        $item.append('<input type="text" class="save" id="preset-name" value="'+ window['userPreset'].iplname +'"/><label>Type preset name</label><a href="javascript:void(null);" class="trigger-button">Save preset</a>'); // 
       
       }  else if (_id==997) {  
         $item.append('<a href="javascript:void(null);" class="trigger-button">Change Channel</a>'); // Switch

@@ -2093,6 +2093,574 @@ CWilsoWAMidiSynth: [
 
 
 
+//*
+
+
+fspaAudioWorkletPolySynth: [
+
+
+
+
+
+
+//*
+      { name: 'Change pattern', // Change pattern
+        id: 994,
+        type: 'ddmenu', 
+        x: {
+          name: 'Pattern',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },       
+//*/
+
+
+
+      { 
+        name: 'Save Pattern',
+        id: 995,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Pattern',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      },    
+
+
+
+/*
+
+      { name: 'Change note range/pitch', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },         
+*/
+
+
+      
+
+
+/*
+      { name: 'Edit pattern',
+        id: 988,
+        type: 'ddmenu', 
+        x: {
+          name: 'PatternEdit',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        },
+        y: {
+            name: 'Edit selected ptn',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, //  0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                           
+      },
+
+*/
+
+//*
+
+      { 
+        name: 'Pattern sequencer',
+        id: 9920,
+
+        type: 'multiselect', // nexus push button
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+            name: 'Save Sequence',
+            param: '[external]', 
+            midicc: 0,                      
+            value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
+            stepSize: 0, 
+            interpolate: 0 
+        }                 
+      },    
+
+//*/
+
+
+
+
+
+
+
+
+
+
+
+  { 
+    name: 'Voice number',
+    id: 2,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Voices',
+        param: 'numVoices',                     
+        value: 4, 
+        minValue: 1, maxValue: 16, step: 1, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  } 
+
+  ,{ 
+    name: 'carrierAttack (amplitude)',
+    id: 3,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Attack',
+        param: 'carrierA',                     
+        value: 0.01, 
+        minValue: 0.001, maxValue: 2, exp: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+
+  ,{ 
+    name: 'carrierDecay (amplitude)',
+    id: 4,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Decay',
+        param: 'carrierD',                     
+        value: 0.1, 
+        minValue: 0.01, maxValue: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+  ,{ 
+    name: 'carrierSustain (amplitude)',
+    id: 5,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Sustain',
+        param: 'carrierS',                     
+        value: 0.3, 
+        minValue: 0, maxValue: 1, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+  ,{ 
+    name: 'carrierRelease (amplitude)',
+    id: 12,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Release',
+        param: 'carrierR',                     
+        value: 0.3, 
+        minValue: 0, maxValue: 1, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+
+
+
+
+
+                                            ,{ 
+                                              name: 'phaseModFreq (ratio)',
+                                              id: 6,
+                                              type: 'slider',                                    
+                                              x: 
+                                                {
+                                                  name: 'pFq',
+                                                  param: 'phaseModFreq',                     
+                                                  value: 1, 
+                                                  minValue: 0.25, maxValue: 16, step: 0.25, unit: "ratio", 
+                                                  interpolate: 0, // kept unused param to avoid bugs
+                                                }                
+                                            }   
+
+  ,{ 
+    name: 'phaseModLv',
+    id: 7,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'pLv',
+        param: 'phaseModLv',                     
+        value: 1, 
+        minValue: 0, maxValue: 4,         
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+  ,{ 
+    name: 'phaseModAttack',
+    id: 8,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'pA',
+        param: 'phaseModA',                     
+        value: 0.01, 
+        minValue: 0, maxValue: 2, exp: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+
+
+  ,{ 
+    name: 'phaseModDecay',
+    id: 9,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'pD',
+        param: 'phaseModD',                     
+        value: 0.5, 
+        minValue: 0.01, maxValue: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+    ,{ 
+    name: 'phaseModSustain',
+    id: 10,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'pS',
+        param: 'phaseModS',                     
+        value: 0.3, 
+        minValue: 0, maxValue: 1, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }    
+
+
+      ,{ 
+    name: 'phaseModRelease',
+    id: 11,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'pR',
+        param: 'phaseModR',                     
+        value: 0.2, 
+        minValue: 0.01, maxValue: 5, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }        
+
+
+
+
+  ,{ 
+    name: 'distortionIn',
+    id: 13,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'In',
+        param: 'distortionIn',                     
+        value: 5, 
+        minValue: 0, maxValue: 10, ramp: true,
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+
+
+
+// do not seem to apply/reagissate
+
+    ,{ 
+    name: 'distortionDrive',
+    id: 14,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Drive',
+        param: 'distortionDrive',                     
+        value: 0, 
+        minValue: 0, maxValue: 9, ramp: true,
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }    
+
+
+                                  ,{ 
+                                name: 'distortionWet',
+                                id: 15,
+                                type: 'slider',                                    
+                                x: 
+                                  {
+                                    name: 'Wet',
+                                    param: 'distortionWet',                     
+                                    value: 0.25, 
+                                    minValue: 0, maxValue: 1, unit: "ratio", ramp: true,
+                                    interpolate: 0, // kept unused param to avoid bugs
+                                  }                
+                              } 
+
+
+    // fspa main vol should be detached from preset save as part playing would force channel volume (preset overrides manual parameters on ch mixer of conductor role)                              
+    //*                          
+      ,{ 
+    name: 'masterAmp',
+    id: 16,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'Amp',
+        param: 'masterAmp',                     
+        value: 1, 
+        minValue: 0, maxValue: 1, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }       
+
+              
+  } 
+//*/ 
+
+/*
+
+
+    { name: 'freqModFreq', defaultValue: 4, minValue: 0.25, maxValue: 400, unit: "Hz", exp: 3 },
+    { name: 'freqModLv', defaultValue: 0.25, minValue: 0, maxValue: 12, unit: "semi", exp: 2 },
+    { name: 'freqModA', defaultValue: 1, minValue: 0.00, maxValue: 2 },
+    { name: 'freqModD', defaultValue: 1, minValue: 0.01, maxValue: 2 },
+    { name: 'freqModS', defaultValue: 1, minValue: 0, maxValue: 1 },
+    { name: 'freqModR', defaultValue: 1, minValue: 0.01, maxValue: 5 },
+
+
+
+
+*/  
+
+
+                                            ,{ 
+                                            name: 'freqModFreq',
+                                            id: 17,
+                                            type: 'slider',                                    
+                                            x: 
+                                              {
+                                                name: 'fFq',
+                                                param: 'freqModFreq',                     
+                                                value: 4, 
+                                                minValue: 0.25, maxValue: 400, unit: "Hz", exp: 3, 
+                                                interpolate: 0, // kept unused param to avoid bugs
+                                              }                
+                                          }    
+
+
+                                          ,{ 
+                                            name: 'freqModLv',
+                                            id: 1,
+                                            type: 'slider',                                    
+                                            x: 
+                                              {
+                                                name: 'fLv',
+                                                param: 'freqModLv',                     
+                                                value: 0.25, 
+                                                minValue: 0, maxValue: 12, unit: "semi", exp: 2, 
+                                                interpolate: 0, // kept unused param to avoid bugs
+                                              }                
+                                          }//,   
+
+
+
+
+
+
+// do not seem to change timbre much (if freqModLv not "à bloc")
+
+  ,{ 
+    name: 'freqModAttack',
+    id: 18,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'fA',
+        param: 'freqModA',                     
+        value: 1, 
+        minValue: 0, maxValue: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }   
+
+
+    ,{ 
+    name: 'freqModDecay',
+    id: 19,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'fD',
+        param: 'freqModD',                     
+        value: 1, 
+        minValue: 0.01, maxValue: 2, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  }    
+
+
+      ,{ 
+    name: 'freqModSustain',
+    id: 20,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'fS',
+        param: 'freqModS',                     
+        value: 1, 
+        minValue: 0, maxValue: 1,
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  } 
+
+
+      ,{ 
+    name: 'freqModRelease',
+    id: 21,
+    type: 'slider',                                    
+    x: 
+      {
+        name: 'fR',
+        param: 'freqModR',                     
+        value: 1, 
+        minValue: 0.01, maxValue: 5, 
+        interpolate: 0, // kept unused param to avoid bugs
+      }                
+  } 
+
+
+
+
+
+
+
+
+      ,{ name: 'Change preset', // Choose preset
+        id: 992,
+        type: 'ddmenu', 
+        x: {
+          name: 'Preset',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, 
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      },      
+
+
+
+
+
+      { 
+        name: 'Save preset',
+        id: 991,
+        type: 'contact', 
+        direction: 0, 
+        colors: { 
+          fg: '#51ACBD' 
+        },   
+        x: {
+          name: 'Save Preset',
+          param: '[external]', 
+          midicc: 0,                      
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0 
+        }                 
+      }     
+
+
+
+
+
+
+
+],
+//*/
+
+
+/*
+
+const parameters = [
+    { name: 'numVoices', type: "number", defaultValue: 4, minValue: 1, maxValue: 16, step: 1 },
+
+    { name: 'carrierA', defaultValue: 0.01, minValue: 0.001, maxValue: 2, exp: 2 },
+    { name: 'carrierD', defaultValue: 0.1, minValue: 0.01, maxValue: 2 },
+    { name: 'carrierS', defaultValue: 0.3, minValue: 0, maxValue: 1 },
+    { name: 'carrierR', defaultValue: 0.2, minValue: 0.01, maxValue: 2 },
+
+    { name: 'phaseModFreq', type: "number", defaultValue: 1, minValue: 0.25, maxValue: 16, step: 0.25, unit: "ratio" },
+    { name: 'phaseModLv', defaultValue: 1, minValue: 0., maxValue: 4 },
+    { name: 'phaseModA', defaultValue: 0.01, minValue: 0.00, maxValue: 2, exp: 2 },
+    { name: 'phaseModD', defaultValue: 0.5, minValue: 0.01, maxValue: 2 },
+    { name: 'phaseModS', defaultValue: 0.3, minValue: 0, maxValue: 1 },
+    { name: 'phaseModR', defaultValue: 0.2, minValue: 0.01, maxValue: 5 },
+
+    { name: 'freqModFreq', defaultValue: 4, minValue: 0.25, maxValue: 400, unit: "Hz", exp: 3 },
+    { name: 'freqModLv', defaultValue: 0.25, minValue: 0, maxValue: 12, unit: "semi", exp: 2 },
+    { name: 'freqModA', defaultValue: 1, minValue: 0.00, maxValue: 2 },
+    { name: 'freqModD', defaultValue: 1, minValue: 0.01, maxValue: 2 },
+    { name: 'freqModS', defaultValue: 1, minValue: 0, maxValue: 1 },
+    { name: 'freqModR', defaultValue: 1, minValue: 0.01, maxValue: 5 },
+
+    { name: 'distortionIn', ramp: true, defaultValue: 5, minValue: 0, maxValue: 10 },
+    { name: 'distortionDrive', ramp: true, defaultValue: 0, minValue: 0, maxValue: 9 },
+    { name: 'distortionWet', ramp: true, defaultValue: 0.25, minValue: 0, maxValue: 1, unit: "ratio" },
+    { name: 'masterAmp', type: "number", defaultValue: 1, minValue: 0, maxValue: 1 },
+];
+
+*/
+
+
+
+
   conductor: [ // aka preset values                                    
                                     
 
@@ -4592,6 +5160,7 @@ conductor4: [ //
               subParams: { 
                 AikeWebsynth1: 'volume.set',
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
+                fspaAudioWorkletPolySynth: 'masterAmp',
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'
               }, 
 
@@ -5042,6 +5611,8 @@ var aikeWebsynthControls = window.launch.synth_preset.concat(window.tweak.aike_w
 
 var CWilsoWAMidiSynthControls = window.launch.synth_preset.concat(window.tweak.CWilsoWAMidiSynth);
 
+var fspaAudioWorkletPolySynthControls = window.launch.synth_preset.concat(window.tweak.fspaAudioWorkletPolySynth);
+
 
 var smpPrgChangeSavePattern= window.launch.sample_prg;
 //smpPrgChangeSavePattern.splice(0, 1); ///.shift();  
@@ -5135,7 +5706,7 @@ window.conductor16b = (JSON.parse(JSON.stringify(window.tweak.conductor16a)));
 
   // rotation PARAM
   var param699 = window.findObjectById(window.conductor16b, 699);
-  param699.x.value = 48;        
+  param699.x.value = 8; // 48 - 64 - 32       
 
 
 

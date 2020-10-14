@@ -115,7 +115,7 @@ var CWilsoWAMidiSynth = function(context) {
 
 function frequencyFromNoteNumber( note ) {
   var frekk = 440 * Math.pow(2,(note-28)/12);
-  //console.log(frekk);
+  console.log(frekk);
   return frekk;
 }
 

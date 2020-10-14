@@ -183,7 +183,10 @@
 
     <div id="modifiers"></div>
 
-
+  <!-- add AudioWorklet polyfill for older browsers here -->
+  
+  <!--<script src="../common/lib/babel-polyfill.6.9.1.min.js"></script>--><!-- regenerator-runtime.js -->
+  <!--<script src="../common/lib/audioworklet-polyfill.js"></script>-->
   <script src="../common/scripts/additional.functions.js"></script>
   <script src="../common/lib/socket.io.js"></script>
   <script src="../common/lib/WAAClock-0-5-0.js"></script>  
@@ -207,6 +210,8 @@
   <script src="../sequencer/instruments/midi-synth-master/js/waveshaper.js"></script>
   <script src="../sequencer/instruments/midi-synth-master/js/synth.js"></script>
   <script src="../sequencer/instruments/jsdrumsynth/jsdrumsynth.js"></script>
+
+
   
   <!--<script src="../sequencer/instruments/viktor-nv1-engine/src/bundle.js"></script>-->
 
@@ -224,8 +229,17 @@
   
   <script src="scripts/browser-polyfill.min.js"></script>
   <script src="scripts/recorder.js"></script>
-  <script src="../common/scripts/midiclock.js"></script>
+  <!--<script src="../common/scripts/midiclock.js"></script>-->
   <script src="scripts/sequencer.js"></script>
+
+    
+
+<!-- fspaAudioWorkletPolySynth/main.js" needs to be aware of new AudioContext() invokated in sequencer.js -->
+<script src="../sequencer/instruments/fspaAudioWorkletPolySynth/main.js"></script>
+<!-- sampler using AudioWorklet tentative -->
+<!--<script src="../sequencer/instruments/audioWorkletSampler/audio-player-main.js"></script>-->
+
+
   <script src="scripts/mixer.js"></script>
 
 
@@ -450,6 +464,7 @@
         window['audio_context'].context.resume().then(() => {
           console.log('Playback resumed successfully');
           $("#soundicon").attr("src","../common/images/sound_on.jpg");
+          localStorage.setItem("wac", 1); // Web Audio Context
         });
       });     
 
@@ -458,6 +473,7 @@
         window['audio_context'].context.resume().then(() => {
           console.log('Playback resumed successfully');
           $("#soundicon").attr("src","../common/images/sound_on.jpg");
+          localStorage.setItem("wac", 1); // Web Audio Context
         });
       });            
 
@@ -467,8 +483,9 @@
 
       if ( window['audio_context'].context.state == "running" ) {
         console.log(window['audio_context'].context.state);
-
         $("#soundicon").attr("src","../common/images/sound_on.jpg");
+
+        localStorage.setItem("wac", 1); // Web Audio Context
 
 
       if ( typeof window.ptnmode !== 'undefined' && typeof window.roomId !== 'undefined' && typeof window.childRoom !== 'undefined' && typeof window.loadedTabs === 'undefined' 
@@ -483,6 +500,8 @@
 
       } else {
         localStorage.setItem("rreellooaadd", 0);
+        localStorage.setItem("wac", 0); // Web Audio Context
+
         $("#soundicon").attr("src","../common/images/sound_off.jpg");
         //location.reload(true); // (under Song editor on main page) 
         //alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');

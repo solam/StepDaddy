@@ -6,6 +6,7 @@
 		var _conn;
 		var _clients = {};
 		var _instruments = {};
+window.insList = _instruments;
 		var _totalInstruments = 0;
 		var _sequencer;
 		var _sequencerView;
@@ -400,7 +401,7 @@
 					
 					if (instrument) {
 if (window.childRoom==0) { // detri
-  console.log('update instrument');
+  //console.log('update instrument');
   _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: instrument});
 }
 
@@ -507,6 +508,62 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 		};  
 
 
+    var _savePart = function() {
+
+        var claients = Object.keys(_clients);
+        var clientCount = 0;
+        var part = [];    	
+
+        for(var i = 0; i < claients.length; i++) {
+          var caydi = claients[i];
+          
+          if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type !== 'control' ) {
+
+
+
+            var partObj = {};
+
+            partObj.channelId = _instruments[caydi].id; 
+            partObj.presetId = _instruments[caydi].channelInfo.presetId;
+
+            //console.log(partObj.presetId);
+
+            partObj.kitId = _instruments[caydi].kitNumber;
+
+            if ( typeof _instruments[caydi].channelInfo.currentPtnSeq == 'undefined' ) {
+              var currPtnSeq = _instruments[caydi].channelInfo.channelPatternSeqList;
+            } else {
+              var currPtnSeq = _instruments[caydi].channelInfo.currentPtnSeq;
+            }  
+
+console.log(claients[i], currPtnSeq, _instruments[caydi]);                      
+
+            partObj.ptnSeqList = currPtnSeq;
+            
+            part.push(partObj);
+
+            //clientCount++;
+            //console.log(claients[i], instrument);
+          } else if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type == 'control' ) {
+            var conductorId = claients[i];
+          }  
+
+        }
+
+
+
+
+        //console.log(_instruments);
+
+        if ( typeof conductorId !== 'undefined' ) {
+          //if (window.childRoom==0) { // detri
+            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: conductorId, instrument: part }); // 'savePart'
+            //console.log('claients'+i, claients[i], _instruments[caydi]);
+          //}          
+        }
+
+       
+    }   
 
 
 
@@ -576,30 +633,98 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
 
 
+	} else if (data.args.id==984) {			
+		//console.log('984');
+
+		_savePart();
+
+
+
 
 				// Part save
       } else if (data.args.id==987) {
+
+      	//window.insList = _instruments;
 
         var claients = Object.keys(_clients);
         var clientCount = 0;
         var part = [];
 
-        for(var i = 0; i < claients.length; i++)
-        {
+        for(var i = 0; i < claients.length; i++) {
           var caydi = claients[i];
           
           if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type !== 'control' ) {
 
-            console.log('claients'+i, claients[i], _instruments[caydi]);
+            //console.log('claients'+i, claients[i], _instruments[caydi]);
 
             // if (window.childRoom==0) { // detri
-              _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: 'savePart'});
+             var rayze = _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: claients[i], instrument: 'savePart'});
+
+             //console.log(rayze);	
             // } 
+
+        	/*
+
+            console.log('claients'+i, claients[i], _instruments[caydi]);
 
             var partObj = {};
 
             partObj.channelId = _instruments[caydi].id; 
             partObj.presetId = _instruments[caydi].channelInfo.presetId;
+
+            console.log(partObj.presetId);
+
+            partObj.kitId = _instruments[caydi].kitNumber;
+
+            if ( typeof _instruments[caydi].channelInfo.currentPtnSeq == 'undefined' ) {
+              var currPtnSeq = _instruments[caydi].channelInfo.channelPatternSeqList;
+            } else {
+              var currPtnSeq = _instruments[caydi].channelInfo.currentPtnSeq;
+            }            
+
+            partObj.ptnSeqList = currPtnSeq;
+            
+            part.push(partObj);
+
+            //clientCount++;
+            //console.log(claients[i], instrument);
+
+			*/
+
+          } else if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type == 'control' ) {
+            var conductorId = claients[i];
+          }  
+
+          
+
+        }
+
+
+    //}
+
+
+    //_savePart();
+    //return;
+
+    	//_instruments = null;
+    	//_instruments = window.insList;
+    	//console.log(_instruments, window.insList);    
+
+/*    
+        for(var i = 0; i < claients.length; i++) {
+          var caydi = claients[i];
+      
+          if ( typeof _instruments[caydi] !== 'undefined' && _instruments[caydi].type !== 'control' ) {
+
+
+
+            var partObj = {};
+
+            partObj.channelId = _instruments[caydi].id; 
+            partObj.presetId = _instruments[caydi].channelInfo.presetId;
+
+            console.log(partObj.presetId);
+
             partObj.kitId = _instruments[caydi].kitNumber;
 
             if ( typeof _instruments[caydi].channelInfo.currentPtnSeq == 'undefined' ) {
@@ -620,9 +745,14 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
         }
 
+*/
+
+
+        //console.log(_instruments);
+
         if ( typeof conductorId !== 'undefined' ) {
           //if (window.childRoom==0) { // detri
-            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: conductorId, instrument: part }); // 'savePart'
+            _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: conductorId, instrument: 'paart' }); // part
             //console.log('claients'+i, claients[i], _instruments[caydi]);
           //}          
         }
@@ -643,8 +773,7 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
         var clientCount = 0;
         var part = [];
 
-        for(var i = 0; i < claients.length; i++)
-        {
+        for(var i = 0; i < claients.length; i++) {
           var caydi = claients[i];
           
           if ( typeof _instruments[caydi] !== 'undefined' /*&& _instruments[caydi].type !== 'control'*/ ) {
@@ -655,15 +784,24 @@ _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: 
 
               //console.log('claients'+i/*, claients[i], _instruments[caydi]*/, caydi, parts.payload[i].channelId, _instruments[caydi].id);
 
-              if ( parts.payload[j].channelId == _instruments[caydi].id ) {
+              if ( parts.payload[j].channelId == window['clientIdToInsId'][caydi] /* _instruments[caydi].id */ ) { 
+
+              	//console.log('payload ch id / client id: ', parts.payload[j].channelId, caydi, window['clientIdToInsId']);
 
                 parts.payload[j].clockts = parts.clockts;
                 parts.payload[j].bar = parts.bar;
+
+              if ( typeof parts.asserv !== 'undefined' ) {
+                parts.payload[j].asserv = parts.asserv;
+                console.log('parts.asserv: ', parts.asserv);
+              }
+
+
                 //console.log('presetId: ', parts.payload[i].presetId, _instruments[caydi].channelInfo.presetId);
                 //_instruments[caydi].channelInfo.presetId = parts.payload[i].presetId;
 
                 //if (window.childRoom==0) { // detri
-                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: parts.payload[i] }); // 'savePart'                  
+                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: parts.payload[j] }); // 'savePart' - parts.payload[i]                 
                 //}     
                 //console.log('presetId: ', _instruments[caydi].channelInfo.presetId);
               }
@@ -780,11 +918,19 @@ if (window.childRoom==0) {  // detri
 
       } else if (data.args.id==995)
 			{
-				//console.log('995 save ptn data', data);
+				//console.log('995 save ptn data', data, data.args.triggerMode);
 				_sequencer.addPattern(data, data.client);
 				//_conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: data.client, instrument: _instruments[data.client]});
 
 
+				/*
+				fol. func causes this bug:
+					when just having saved ptn or pre
+					and changing pre ptn among disposable solutions/choices
+					returning to "just having saved ptn or pre"
+					= no pattern drawn in note editor				
+
+				// this func is detrimental in song editor mode: it prevents ptnSeq to run after user just saved her new pattern
 				if (typeof data.args.triggerMode !== 'undefined') {
 
 					// will ensure "on the fly" modified pattern in ptnSeq mode gets visually refreshed on grid
@@ -798,6 +944,7 @@ if (window.childRoom==0) {  // detri
 						_instruments[data.client] = instrument; 
 					}
 				}
+				*/
 
 				//console.log('ins data clt: ', _instruments[data.client]);
 
@@ -810,6 +957,14 @@ if (window.childRoom==0) {  // detri
 				//console.log('995 save ptn data', data);
 				_sequencer.addPreset(data, data.client);
 
+
+				/*
+				fol. func causes this bug:
+					when just having saved ptn or pre
+					and changing pre ptn among disposable solutions/choices
+					returning to "just having saved ptn or pre"
+					= no slider change for preset section		
+
 				if (typeof data.args.triggerMode !== 'undefined') {
 					if (data.args.triggerMode == 'manual') {
 
@@ -821,7 +976,7 @@ if (window.childRoom==0) {  // detri
 						_instruments[data.client] = instrument; 
 					}
 				} 
-
+				*/
 
 
 
@@ -976,6 +1131,7 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
 
         // remove rate limits on conductor volume controls for snappy channel mutes,...
         if (data.args.id<=900 && data.args.id>=800) {
+        	console.log('data', data);
           _sequencer.updateFxParam(data.args, data.client);
         } else {
 

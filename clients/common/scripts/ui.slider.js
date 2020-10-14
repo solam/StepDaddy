@@ -131,11 +131,18 @@
                 window[synthInstanceString].jsDrumMainvolume.gain.value=skwerotedValue/100;
               }  
 
-                             
 
+              if ( typeof window[synthInstanceString].pcKeyHandler !== 'undefined' ) {                            
+              //case 'fspaAudioWorkletPolySynth':
+                      var chNumber = '';                       
 
-            }
+                        eval(synthInstanceString+'.processor'+chNumber+'.port.postMessage({ id: "masterAmp", value: '+skwerotedValue/100+', minValue: 0, maxValue: 1})');
+              //break;         
+              console.log('skwerotedValue', skwerotedValue/100);                      
+              }
 
+            
+           } 
 
 //eval(window['channel_2']+'.volume.set(0)'); - window['channel_2'].volume.set(0.1);
 
@@ -201,6 +208,15 @@
                     //console.log('aikeWS1', skwerotedValue/100 );                     
                   break;
 
+              case 'fspaAudioWorkletPolySynth':
+                      var chNumber = '';                       
+
+                        eval(window[synthInstanceString]+'.processor'+chNumber+'.port.postMessage({ id: "masterAmp", value: '+skwerotedValue/100+', minValue: 0, maxValue: 1})');
+              console.log('skwerotedValue', skwerotedValue/100);  
+
+              break;    
+
+
                   /*case 'MrSynth':
                     eval(synthInstanceString+'.'+usedControls[j].x.param+'='+valueX); // data.x
                     break;*/
@@ -232,7 +248,97 @@
                   var preString = preString.replace('_name_', 'name');  
                 }
               }
-            }    
+            }   
+
+if (typeof _ctrlObj.x.minValue !== 'undefined') {
+
+
+    Object.getOwnPropertyNames(Math).forEach(p => self[p] = Math[p]);
+
+    var traitedVal = input.value/100;
+
+    let mi = _ctrlObj.x.minValue, ma = _ctrlObj.x.maxValue, range = ma - mi;
+    //let v = (skwerotedValue / range) ** (1 / _ctrlObj.x.exp) * 100;
+    let v2 = mi + pow(traitedVal, 1) * range;
+
+    var skwerotedValue = v2;
+    //console.log(input.value, v2); // v, 
+
+
+
+
+  if (typeof _ctrlObj.x.exp !== 'undefined') {
+
+    Object.getOwnPropertyNames(Math).forEach(p => self[p] = Math[p]);
+
+    var traitedVal = input.value/100;
+
+    let mi = _ctrlObj.x.minValue, ma = _ctrlObj.x.maxValue, range = ma - mi;
+    //let v = (skwerotedValue / range) ** (1 / _ctrlObj.x.exp) * 100;
+    let v2 = mi + pow(traitedVal, _ctrlObj.x.exp) * range;
+
+    var skwerotedValue = v2;
+    //console.log(input.value, v2); // v, 
+
+
+  }  
+
+
+  if (typeof _ctrlObj.x.step !== 'undefined') {
+
+
+    if ( _ctrlObj.x.step == 0.25 ) {
+      var skwerotedValue = (Math.round(skwerotedValue * 4) / 4).toFixed(2);;
+      //console.log(skwerotedValue); // v, 
+    } else if ( _ctrlObj.x.step == 1 ) {
+      var skwerotedValue = Math.round(input.value);
+      //console.log(skwerotedValue);
+
+    }  
+
+  }  
+
+
+  
+
+
+}
+
+
+
+        if (typeof window.presetTrigger !== 'undefined') {
+
+          if ( window.presetTrigger == 'manual' ) {
+
+            if ($('#presets option[value="0"]').length>0 ) {
+              $('#presets option[value="0"]').remove();
+            }
+
+            $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved preset]</option>');
+            $itemOptionUnsaved.appendTo(document.getElementById('presets'));
+            $('#presets option[value="0"]').prop('selected',true);
+
+          }
+
+        } else {
+
+            if ($('#presets option[value="0"]').length>0 ) {
+              $('#presets option[value="0"]').remove();
+            }
+
+            $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved preset]</option>');
+            $itemOptionUnsaved.appendTo(document.getElementById('presets'));
+            $('#presets option[value="0"]').prop('selected',true);
+
+        }
+
+            /* should only be processed if manual action happened not automated triggering 
+            // user action takes precedence over puppet master slavery/control over user's ptnSeq
+            window.asserv = 0;   
+            */
+
+            // ir would be good to send slider values at conductor role page load ( so that channel volumes are set whatever channel instrument is loaded)
+            //console.log(skwerotedValue, _id);
 
             _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString, channelId: window.channelId});    
           }    
@@ -483,7 +589,7 @@
           $mute.appendTo($item);
         }
 
-        $item.append('<div class="infoContainer"><span>'+name+'</span></div>');
+        $item.append('<div class="infoContainer"><span title="'+_ctrlObj.name+'">'+name+'</span></div>');
         $item.appendTo($container);
 
 
@@ -532,7 +638,7 @@
 
         window.interfacePanel[_id].add(slider/*, label*/); // window.sliderArray[_id]
 
-        $item.append('<div class="infoContainer"><label>'+_value+'</label><span>'+name+'</span></div>');
+        $item.append('<div class="infoContainer"><label>'+_value+'</label><span title="'+_ctrlObj.name+'">'+name+'</span></div>');
 
 
 

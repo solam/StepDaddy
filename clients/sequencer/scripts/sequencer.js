@@ -53,6 +53,8 @@
 		var _clients = {};
 		var samplesPath = '../common/resources/';
 
+		window['clientIdToInsId'] = [];
+
 		this.interpolate2 = function(value, outputMin, outputMax, displayedMin, displayedMax)
 		{			
 			$res = (outputMin + (outputMax - outputMin) * value) / displayedMax;
@@ -103,7 +105,7 @@
     99: test
     */
 
-      this._sessionNumber = 13; // 13
+      this._sessionNumber = 99; // 13
     }
 /*
     if (window.childRoom == 2 || typeof window.childRoom == 'undefined' ) { 
@@ -183,6 +185,7 @@
 
 
   // Defining default channel volumes at app startup
+  // this code block might only be able to set default voluem for sampler channels not other synth types!
 
 		var insVol0X = window.findObjectById(this._instrumentsConfig, 800).x; // this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
 		
@@ -469,7 +472,11 @@
 		this.initialize = function()
 		{
 			// Create context.
-			_context = new AudioContext();
+			_context = new AudioContext({ latencyHint: 0.025 }); // 00.3 0.05
+
+			//_context = new AudioContext(); // if uncommented will render audio cracks
+
+			window['audio_context_origin'] = _context;
 
 			// Create master gain control.
 			_masterGainNode = _context.createGain();
@@ -867,11 +874,16 @@
 
 
 
-		this.getNextInstrument = function(clientId, pwd)
-		{
+		this.getNextInstrument = function(clientId, pwd) {
 			if ( typeof _clients[clientId] !== 'undefined' ) {
 				return _clients[clientId];
 			} //*/
+
+
+
+
+			
+
 
 			//console.log("_availableInstruments", _instruments); // _availableInstruments
 
@@ -912,6 +924,13 @@
 				nextInstrument.initialize(this.start);
 				// Pass the context the instrument.
 				nextInstrument.setup(_context);
+
+
+				window['clientIdToInsId'][clientId] = nextInstrument.id;
+				//console.log(clientId, nextInstrument.id); // , _availableInstruments[0].id
+
+
+
 
 				_clients[clientId] = nextInstrument;
 				//console.log("get nxt ins: ", nextInstrument);
@@ -978,6 +997,8 @@
 				nextInstrument.setup(_context);
 
 				_clients[clientId] = nextInstrument;
+
+				window['clientIdToInsId'][clientId] = nextInstrument.id;
 
 				//return nextInstrument;
 
@@ -1203,7 +1224,7 @@
 		{ // change(Instrument)Kit
 
 
-      console.log('this.updateInstrument:', data, clientId);
+      //console.log('this.updateInstrument:', data, clientId);
 
 			//if (typeof data.pattern !== 'undefined') { = do not transform old instrument to new one...
 
@@ -2052,7 +2073,15 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
               var valueXDigitTest = /^\d+$/.test(data.x);
 
               if (data.x=='' || valueXDigitTest==false) {
-                var rawValueX = 1; // 0
+
+              	// prevent fspaAudioWorkletPolySynth from getting '1' value as it needs non 0,1,100 integer value as input
+                if (typeof window[synthInstance2].pcKeyHandler == 'undefined') {
+                	var rawValueX = 1; // 0
+            	} else {
+            		var rawValueX = data.x;
+            	}
+
+
               } else {
                 var rawValueX = data.x;
               }
@@ -2091,6 +2120,45 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                     //synthInstance1.controls[j].x.param+'('+valueX+')';
                     eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+','+String(synthInstance2)+')'); 
                     break;
+
+	                case 'fspaAudioWorkletPolySynth':
+	                	var chNumber = ''; //synthInstance2.replace(/\D/g,'');
+	                  //eval(synthInstance2+'.processor'+chNumber+'.port.postMessage("'+controls[j].x.param+'",'+valueX+')'); 
+
+	                  //console.log(valueX);
+
+	                  //eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+'})'); 
+
+	                  
+
+
+	                  if ( controls[j].x.ramp == 'undefined' ) {
+		                  //eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+'})'); 
+		                  //processor.parameters.get(controls[j].x.param).linearRampToValueAtTime(valueX, window['audio_context_origin'].currentTime + 0.1);
+
+		                  eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+', minValue: '+controls[j].x.minValue+', maxValue: '+controls[j].x.maxValue+'})');
+
+		                  
+	                  } else {
+	                  	if ( controls[j].x.ramp == true ) {
+	                  	eval(synthInstance2+'.processor'+chNumber+'.parameters.get("'+controls[j].x.param+'").linearRampToValueAtTime('+valueX+', '+window['audio_context_origin'].currentTime+' + 0.1)');
+	                  	} else {
+	                  		eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+', minValue: '+controls[j].x.minValue+', maxValue: '+controls[j].x.maxValue+'})');
+	                  	}
+              	
+	                  }	
+
+
+
+
+
+	                  //({ id: "keydown", value: noteVal });
+	                  break;                          
+					//processor.port.postMessage({ id, value });
+
+					//channel_0.processorundefined.port.postMessage({"freqModLv",1})
+
+
                   case 'MrSynth':
                     eval(synthInstance2+'.'+controls[j].x.param+'='+valueX); // data.x
                     break;
@@ -2114,6 +2182,9 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                       var synthInstance2 = 'channel_' + channelNumber;  
                       var synthInstance1 = window[synthInstance2];                      
 
+
+                      // fol. code block/ssection has to be cloned at slider.ui.js ~ line 100 & line 194
+
                       //if (controls[j].x.param!='[external]') {
                       if (typeof synthInstance1 !== 'undefined') {
                         switch (_instruments[channelNumber].instrumentName) { // _instruments
@@ -2126,6 +2197,17 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                           // value sent as parameter to synth instance object
                           eval(synthInstance2+'.'+controls[j].x.subParams.AikeWebsynth1+'('+valueX+')'); //
                           break;
+
+
+                		case 'fspaAudioWorkletPolySynth':
+                			var chNumber = ''; 
+
+		                  	eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "masterAmp", value: '+valueX+', minValue: 0, maxValue: 1})');
+
+		                  	console.log(valueX);
+	                  	break;  
+
+
                         case 'CWilsoWAMidiSynth':
                           eval(synthInstance2+'.'+controls[j].x.subParams.CWilsoWAMidiSynth+'('+valueX*100+')'); //
                           break;
@@ -2134,7 +2216,7 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                           break;
                         case 'Sampler':
                           this[controls[j].x.param] = valueX;
-                          //console.log('sampler vol:', this[controls[j].x.param]);
+                          console.log('sampler vol:', this[controls[j].x.param]);
                           break; 
                         }
                       } 

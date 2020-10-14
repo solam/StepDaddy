@@ -93,6 +93,15 @@
 }  */
 
 
+      window.roomId = location.href.split('?')[1];
+      console.log('window.roomId: ', window.roomId);
+
+
+      if ( typeof window.roomId == 'undefined' ) {
+        window.roomId = 'sdcc';
+      }  
+
+
 // start of maybe unnecessary code
 
   //$('input#check').prop('checked', true);
@@ -240,7 +249,11 @@ localStorage.setItem('check', 0);
           $("#countdown").html(passString); //
         } else if (nowTimeStamp >= userGoTime && availableSlots>=1 && pause==0) {
           console.log('trying to reach ...Loops instrument or mixer channel');
-          window.location.href = "index.html?rm"; // index.html?rm
+          //window.location.href = "index.html?rm"; // index.html?rm
+          //window.location.href = "index.html?"+window.roomId;
+          if ( typeof window.roomId !== 'undefined' ) {
+            window.location.href = "https://loops.solam.co/editor/device/?"+window.roomId+"/nomopo"; // index.html?rm - +"/" online version
+          }
         }   
       //}   
 

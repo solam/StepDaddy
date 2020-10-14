@@ -95,6 +95,162 @@
 
         if ( $('#pattern-editor').hasClass('control') ) {
           console.log('hasClass control');
+
+
+// make some func available to whole conductor role for factorization and code maintenance purposes
+
+
+/*
+// as radio button does not yet exist at startup this event can't seem to be binded
+$("input[name='loopINVALIDATED']").on("change", function(e) { // INVALIDATED
+
+  //e.preventDefault();
+  //e.stopPropagation();
+  e.stopImmediatePropagation();
+
+
+
+
+  var partAdi = $(this).val();
+
+  var parentAdi = $(this).parent().attr('id').slice(3);
+*/
+  
+
+function onRadioButtonLoopChange(partAdi) {
+
+  //console.log('func called');
+
+  if ( partAdi == 'restpb' ) {
+
+    if ( typeof window.partSequencerPB !== 'undefined' ) {
+//window.partSequencer = JSON.parse(JSON.stringify(window.window.partSequencerPB)); // partSequencerPlayBack
+      //console.log('something happened', parentAdi, partAdi);
+      //console.log('sh', window.lastpartUID, window.partSequencer);
+
+
+      Object.keys(window.partSequencerPB).forEach(function(k, i) {
+        //console.log(k,i );
+
+        if (window.partSequencerPB[k].uid === window.lastpartUID) {
+          partSeqIndeks = k; 
+          //console.log(partSeqIndeks);
+        }  
+
+      });
+
+
+      if ( typeof partSeqIndeks !== 'undefined' ) {
+        partSeqIndeks = 0;
+      }  
+
+      var addos = Number(partSeqIndeks)+2;
+
+      if ( addos > window.partSequencerPB.length ) {
+        psiNext = 0; // partSeqIndeksNext
+      } else {
+        psiNext = Number(partSeqIndeks) //+1;
+      }
+
+
+      //console.log('psiNext', partSeqIndeks, psiNext, addos, window.partSequencerPB.length);
+
+      window.partSequencerB = [];
+
+      //window.ccaonteur = 0;
+
+      Object.keys(window.partSequencerPB).forEach(function(k, i) {
+
+        /*if ( typeof caonteur == 'undefined' ) {   
+          var caonteur = 0;
+        } */    
+
+        //console.log(window.ccaonteur, k, i);
+
+        if ( /*Number(*/psiNext >= window.partSequencerPB.length ) {
+          /*var */psiNext = 0;
+        }    
+
+
+        //console.log(k, psiNext);
+
+        window.partSequencerB[k] = window.partSequencerPB[psiNext]; // JSON.parse(JSON.stringify(window.partSequencerPB[psiNext]));
+        window.partSequencerB[k].barelapsed = 0; // window.partSequencerB[k].barloop;
+        /*var */psiNext = /*Number(*/psiNext + 1;
+        //caonteur = caonteur + 1;
+        //window.ccaonteur = Number(window.ccaonteur) + 1;
+
+      });
+
+      var lasIndekks = window.partSequencerPB.length-1;
+
+      /*if ( psiNext == window.partSequencerPB.length-1 ) {
+        window.partSequencerB[0].barelapsed = 99; // 0;
+      } else { */
+        window.partSequencerB[0].barelapsed = window.partSequencerB[0].barloop // 0;
+      //}  
+
+
+      
+
+      //window.partSequencerB[0].barelapsed = 0;
+      //window.partSequencerB[partSeqIndeks].barelapsed = 0;
+
+      //console.log('b4: ', window.partSequencerB);
+
+      window.partSequencer = window.partSequencerB; //JSON.parse(JSON.stringify(window.partSequencerB));
+
+      //console.log('after: ', window.partSequencer);
+
+      window.asservissement = 1;
+      
+    }    
+
+    return;
+  }  
+
+  //console.log('verif');
+
+
+  // trying to prevent sequence of clicked radio buttons to add up processing
+  //if ( parentAdi === partAdi ) {
+
+    //console.log('something happened', window.partSequencer);
+
+    // reset this var at each part add & remove
+    if ( typeof window.partSequencerPB == 'undefined' ) {
+      window.partSequencerPB = JSON.parse(JSON.stringify(window.partSequencer)); // partSequencerPlayBack
+    }
+
+    
+    $("#played-parts .option span").removeClass('selected');
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.uid === partAdi) {
+        window.lastpartUID = this.uid;
+        window.partSequencer = []; // .empty();
+        window.partSequencer.push(this);
+        //console.log('something happened', this);
+      } else {
+        //delete window.partSequencer[this];
+      }
+    });  
+
+    window.asservissement = 0;
+
+    //console.log('something happened', window.partSequencer);
+  
+  //}
+
+
+}
+
+//);
+
+
+
+
           $('#pattern-editor').css('height', 0);
         }  
 
@@ -356,10 +512,22 @@
 
           //window.findObjectById(presets, 699);
 
-          // remove duplicate objects by id - for same preset USER preset will ecrabouillate CHANNEL preset      
+          // remove duplicate objects by id - for same preset USER preset will ecrabouillate/over ride CHANNEL preset      
           presets = presets.filter((set => f => !set.has(f.id) && set.add(f.id))(new Set));
 
-            //console.log('presets', presets, window.localPresets);
+          
+
+          Object.keys(presets).forEach(function(k, i) {
+            if (presets[k] == 1) {
+              delete presets[k];
+            }  
+          }); 
+
+          //presets = presets.filter(function (item) { return item != undefined }).join();
+
+          presets = presets.filter(function(val){return val});
+
+          //console.log('presets', presets, window.localPresets);
 
           window.allPresets = presets;  
         }
@@ -980,6 +1148,20 @@ paraam2 = url2.url.split('/');
 if ( typeof paraam2[6] !== 'undefined' ) {
   if ( paraam2[6] === 'noptnseq' || paraam2[6] === 'npsmulti' || paraam2[6] === 'npsmultiedt' ) {
     patternSeqStateValue=0;
+
+    // remove param from url so that kit change on drums (channel 2) does not automatically turn ptnSeq off
+    // which is troublesome when in puppet master mode aka part sequencer sending info to such channel
+
+    window.location = window.location.href.replace('/' + paraam2[6], '');
+
+
+    /*if ( paraam2[6] == 'noptnseq' ) { //  - patternSeqStateValue == 0 
+      window.location = window.location.href.replace('/noptnseq', '');
+    }  */
+
+
+
+
   }  
 }  
 // */
@@ -988,6 +1170,7 @@ if ( typeof paraam2[6] !== 'undefined' ) {
 if ( typeof paraam2[7] !== 'undefined' ) {
   if ( paraam2[7] === 'noptnseq' || paraam2[7] === 'npsmulti' || paraam2[7] === 'npsmultiedt' ) {
     patternSeqStateValue=0;
+    window.location = window.location.href.replace('/' + paraam2[7], '');
   }  
 }  
 //*/
@@ -1044,9 +1227,14 @@ if ( top !== self ) { // we are in the iframe
           return text === 'Off' ? 'On' : 'Off';
       }).toggleClass('off');
 
+     // user action takes precedence over puppet master slavery/control over user's ptnSeq
+     window.asserv = 0;        
+
     if ( $(this).hasClass("off") ) {    
       window.stepSeq = 0;
       _model.onModifierChange({id: 201, ptnSeqState: 0});
+
+      //console.log(window.stepSeq);
 
 
       if ( window.inIframe == 1 ) {
@@ -1120,6 +1308,9 @@ if ( top !== self ) { // we are in the iframe
      /*$('html, body').animate({
       scrollTop: $("#pattern-sequencer").offset().top
      }, 1); */
+
+     // user action takes precedence over puppet master slavery/control over user's ptnSeq
+     window.asserv = 0;
     
      
    });  
@@ -1151,6 +1342,8 @@ _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
         scrollTop: $("#pattern-sequencer").offset().top
     }, 1); 
 
+     // user action takes precedence over puppet master slavery/control over user's ptnSeq
+     window.asserv = 0;       
       
    });  
 
@@ -1218,7 +1411,7 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
           var uuadi = uuid.v1();
 
           if (typeof input !== 'undefined') { // 
-            $option = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
+            $option = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
             $option.appendTo(containerparts);
           }        
         } // end of for loop
@@ -1227,7 +1420,7 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
       } // end of if (channelPartSeq.length!=0) {
     } // end of if (typeof channelPartSeq !== 'undefined') { 
 
-$label = $('<label>played parts</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a>');
+$label = $('<label>played parts</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a><input type="radio" id="restpb" name="loop" value="restpb">');
 $label.appendTo(playedpars); // $item playedpars
 
 
@@ -1247,7 +1440,7 @@ $label.appendTo(playedpars); // $item playedpars
       part.id = $(this).attr('value');
       var uuadi = uuid.v1();
 
-            $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
+            $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
             $option2.appendTo('#played-parts');
     });
     
@@ -1272,7 +1465,7 @@ $label.appendTo(playedpars); // $item playedpars
 
 
 
-
+// !! Factorize main part of code into func !!
 $(".barloopnb").on("change paste keyup", function() {
 
   var adi1 = $(this).parent().attr('id').slice(3); 
@@ -1287,12 +1480,174 @@ $(".barloopnb").on("change paste keyup", function() {
     }
   });
 
+  if ( typeof window.partSequencerPB !== 'undefined' ) {
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.id === adi && this.uid === adi1) {
+        this.barloop = barlpbn;
+      }
+    });
+
+  }  
+
+
+
 }); 
 
 
 
 
 
+
+
+
+
+
+$("input[name='loop']").on("change", function(e) { // loopINVALIDATED loop
+
+  console.log('radio button clicked');
+
+  //e.preventDefault();
+  //e.stopPropagation();
+  e.stopImmediatePropagation();
+
+  var partAdi = $(this).val();
+
+  var parentAdi = $(this).parent().attr('id').slice(3);
+
+  
+
+  if ( partAdi == 'restpb' ) {
+
+    if ( typeof window.partSequencerPB !== 'undefined' ) {
+//window.partSequencer = JSON.parse(JSON.stringify(window.window.partSequencerPB)); // partSequencerPlayBack
+      //console.log('something happened', parentAdi, partAdi);
+      //console.log('sh', window.lastpartUID, window.partSequencer);
+
+
+      Object.keys(window.partSequencerPB).forEach(function(k, i) {
+        //console.log(k,i );
+
+        if (window.partSequencerPB[k].uid === window.lastpartUID) {
+          partSeqIndeks = k; 
+          //console.log(partSeqIndeks);
+        }  
+
+      });
+
+
+      if ( typeof partSeqIndeks !== 'undefined' ) {
+        partSeqIndeks = 0;
+      }  
+
+
+      var addos = Number(partSeqIndeks)+2;
+
+      if ( addos > window.partSequencerPB.length ) {
+        psiNext = 0; // partSeqIndeksNext
+      } else {
+        psiNext = Number(partSeqIndeks) //+1;
+      }
+
+
+      //console.log('psiNext', partSeqIndeks, psiNext, addos, window.partSequencerPB.length);
+
+      window.partSequencerB = [];
+
+      //window.ccaonteur = 0;
+
+      Object.keys(window.partSequencerPB).forEach(function(k, i) {
+
+        /*if ( typeof caonteur == 'undefined' ) {   
+          var caonteur = 0;
+        } */    
+
+        //console.log(window.ccaonteur, k, i);
+
+        if ( /*Number(*/psiNext >= window.partSequencerPB.length ) {
+          /*var */psiNext = 0;
+        }    
+
+
+        //console.log(k, psiNext);
+
+        window.partSequencerB[k] = window.partSequencerPB[psiNext]; // JSON.parse(JSON.stringify(window.partSequencerPB[psiNext]));
+        window.partSequencerB[k].barelapsed = 0; // window.partSequencerB[k].barloop;
+        /*var */psiNext = /*Number(*/psiNext + 1;
+        //caonteur = caonteur + 1;
+        //window.ccaonteur = Number(window.ccaonteur) + 1;
+
+      });
+
+      var lasIndekks = window.partSequencerPB.length-1;
+
+      /*if ( psiNext == window.partSequencerPB.length-1 ) {
+        window.partSequencerB[0].barelapsed = 99; // 0;
+      } else { */
+        window.partSequencerB[0].barelapsed = window.partSequencerB[0].barloop // 0;
+      //}  
+
+
+      
+
+      //window.partSequencerB[0].barelapsed = 0;
+      //window.partSequencerB[partSeqIndeks].barelapsed = 0;
+
+      //console.log('b4: ', window.partSequencerB);
+
+      window.partSequencer = window.partSequencerB; //JSON.parse(JSON.stringify(window.partSequencerB));
+
+      //console.log('after: ', window.partSequencer);
+
+      window.asservissement = 1;
+      
+    }    
+
+    return;
+  }  
+
+  //console.log('verif');
+
+
+  // trying to prevent sequence of clicked radio buttons to add up processing
+  if ( parentAdi === partAdi ) {
+
+    //console.log('something happened', window.partSequencer);
+
+    // reset this var at each part add & remove
+    if ( typeof window.partSequencerPB == 'undefined' ) {
+      window.partSequencerPB = JSON.parse(JSON.stringify(window.partSequencer)); // partSequencerPlayBack
+    }
+
+    
+    $("#played-parts .option span").removeClass('selected');
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.uid === partAdi) {
+        window.lastpartUID = this.uid;
+        window.partSequencer = []; // .empty();
+        window.partSequencer.push(this);
+        //console.log('something happened', this);
+      } else {
+        //delete window.partSequencer[this];
+      }
+    });  
+
+    window.asservissement = 0;
+
+    console.log('something happened', window.partSequencer, window.asservissement);
+  
+  }
+
+
+}); 
+
+
+
+
+  window.partSequencerPB = JSON.parse(JSON.stringify(window.partSequencer));
 
 
          
@@ -1364,10 +1719,23 @@ $(".barloopnb").on("change paste keyup", function() {
     }
   });
 
+
+  if ( typeof window.partSequencerPB !== 'undefined' ) {
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.id === adi && this.uid === adi1) {
+        this.barloop = barlpbn;
+      }
+    });
+
+  }  
+
+
 }); 
 
 
-
+window.partSequencerPB = JSON.parse(JSON.stringify(window.partSequencer));
 
       
   });  
@@ -1466,7 +1834,7 @@ $(".barloopnb").on("change paste keyup", function() {
       part.uid = uuadi;
 
 
-      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
+      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
       $option2.appendTo('#played-parts');
 
       window.partSequencer[i] = part;
@@ -1487,7 +1855,31 @@ $(".barloopnb").on("change paste keyup", function() {
     }
   });
 
+  if ( typeof window.partSequencerPB !== 'undefined' ) {
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.id === adi && this.uid === adi1) {
+        this.barloop = barlpbn;
+      }
+    });
+
+  }  
+
+
+
 }); 
+
+
+
+$("input[name='loop']").on("change", function(e) {
+  console.log('radio button clicked');
+  e.stopImmediatePropagation();
+  var partAdi = $(this).val();
+  onRadioButtonLoopChange(partAdi);
+});
+
+
 
 
 
@@ -1578,7 +1970,7 @@ $(".barloopnb").on("change paste keyup", function() {
       var uuadi = uuid.v1();
       part.uid = uuadi;
 
-      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div></div>');
+      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
       $option2.appendTo('#played-parts');
 
       window.partSequencer[i] = part;
@@ -1602,7 +1994,31 @@ $(".barloopnb").on("change paste keyup", function() {
     }
   });
 
+
+  if ( typeof window.partSequencerPB !== 'undefined' ) {
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.id === adi && this.uid === adi1) {
+        this.barloop = barlpbn;
+      }
+    });
+
+  }  
+
+
 }); 
+
+
+
+$("input[name='loop']").on("change", function(e) {
+  console.log('radio button clicked');
+  e.stopImmediatePropagation();
+  var partAdi = $(this).val();
+  onRadioButtonLoopChange(partAdi);
+});
+
+
 
            
     });  
@@ -1664,6 +2080,19 @@ $(".barloopnb").on("change paste keyup", function() {
       this.barloop = barlpbn;
     }
   });
+
+  if ( typeof window.partSequencerPB !== 'undefined' ) {
+
+    $.each(window.partSequencerPB, function() {
+      //console.log(this, window.partSequencer); 
+      if (this.id === adi && this.uid === adi1) {
+        this.barloop = barlpbn;
+      }
+    });
+
+  }  
+
+
 
 });  
 

@@ -77,6 +77,11 @@
           var classs = $('#patterns').find(":selected").attr('class'); // 'user'; // 
           var patternId = $('#patterns').find(":selected").val();
 
+            /* should only be processed if manual action happened not automated triggering 
+            // user action takes precedence over puppet master slavery/control over user's ptnSeq
+            window.asserv = 0;   
+            */           
+
           _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString, channelId: window.channelId}); // presetId
 
         } else if ($container.context.id=='patterns' || $container.attr("class")=='pttns') { 
@@ -216,6 +221,8 @@
               // than fill grid with corresponding data
               for (var n = 0, len = availTrackNumber; n < len; n += 1) { // trackNumber
 
+                if (typeof result[0] !== 'undefined') {
+
                 if (typeof result[0].tracks[n] !== 'undefined') {
                   
                   var notesNumber = result[0].tracks[n].length;
@@ -251,6 +258,8 @@
 
                   }  
                 }
+
+                }
               } 
             }    
           }
@@ -259,6 +268,11 @@
 
 
         } else if ($container.context.id=='presets') { 
+
+            /* should only be processed if manual action happened not automated triggering 
+            // user action takes precedence over puppet master slavery/control over user's ptnSeq
+            window.asserv = 0;   
+            */       
       
           // remove [unsaved preset] option
           if ($('#presets option[value="0"]').length>0 ) {
@@ -275,13 +289,36 @@
           var taarget = presetId;
           var taarget = taarget.toString();
 
-          var preset = window.allPresets.filter(function( obj ) { // _model.instrument.channelInfo.presets
+          
+
+          window.allpresetTempProcess = JSON.parse(JSON.stringify(window.allPresets));
+
+          window.preset2 = null;
+          //
+          Object.keys(window.allpresetTempProcess).forEach(function(k, i) {
+
+            //console.log(window.allpresetTempProcess[k].id, taarget); // ,i
+            if (typeof window.allpresetTempProcess[k].id !== 'undefined') {
+              if (window.allpresetTempProcess[k].id.toString() == taarget) {
+                window.preset2 = JSON.parse(JSON.stringify(window.allpresetTempProcess[k]));
+              }
+            }
+
+          });  
+          // */
+
+
+
+          /*
+          var preset = window.allpresetTempProcess.filter(function( obj ) { // _model.instrument.channelInfo.presets
             return obj.id == taarget // "2fbdd99d0000";  //
-          });
+          }); //*/
+
+          //console.log(presetId, window.allpresetTempProcess);/*, window.preset2, preset/*); //,preset2 window.allPresets, window.allPresets /*
 
           //console.log(preset, preset[0].controls[1]);
 
-          if ( controls != 0 && preset[0] !=0 && typeof preset[0] !== 'undefined') {
+          /*if ( controls != 0 && preset[0] !=0 && typeof preset[0] !== 'undefined') {
 
             for ( var j = 0; j < controls.length; j++ ) {
               var input = input + j;
@@ -295,7 +332,27 @@
                 keypressSlider.noUiSlider.set(preset[0].controls[controls[j].id]);
               } 
             } // end for loop
+          } */
+
+          window.presetTrigger = 'auto';
+
+          if ( controls != 0 && window.preset2 !=0 && typeof window.preset2 !== 'undefined' && window.preset2 != null ) {
+
+            for ( var j = 0; j < controls.length; j++ ) {
+              var input = input + j;
+
+              if (controls[j].type=='ddmenu') {
+                var valll = window.preset2.controls[controls[j].id];
+                $('#selectid'+controls[j].id+' option[value='+valll+']').prop('selected',true);
+
+              } else if (controls[j].type=='slider') {
+                var keypressSlider = document.getElementById('slider'+controls[j].id);
+                keypressSlider.noUiSlider.set(window.preset2.controls[controls[j].id]);
+              } 
+            } // end for loop
           }
+
+          window.presetTrigger = 'manual';
 
           _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id,/*, x: 0, y: 0,*/ preset: 1, pattern: 1, classs: presetClass/*patternClass*/, kitNumber: kitId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString, channelId: window.channelId}); 
 
