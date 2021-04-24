@@ -811,8 +811,9 @@ body.control #thesessions {
     margin-bottom: 0;
 }
 
-
-
+.syncs,
+.sets,
+.pats,
 .mutes, .solos, .autoinc {
   width: 40px;
   height: 40px;
@@ -930,6 +931,15 @@ select#patterns option[selected]*/ {
   /*display:none;*/
 }
 
+.syncs,
+.sets,
+.pats {
+  background: red !important;
+}
+
+.syncs.active,
+.sets.active,
+.pats.active,
 .ctrlchange.slider.noui span.autoinc.active,
 .ctrlchange.slider.noui span.solos.active {
   background: green !important;
@@ -1623,16 +1633,18 @@ body.session10/*.edt*/ #pattern-editor {
 
 /* Hide some params of fspa synth */
 
-.session16 #ctrl2 /* voice number */  
-/*,.session16 #ctrl16 /*master amp */
-,.session16 #id699 /* rotation bars, on conductor channel */
-,.session16 #inc999 /* bpm incrementer on tempo param */
-,.session16 #left /* hide left "mobile browsing" menu */
+.session15 #ctrl2 /* voice number */  
+/*,.session15 #ctrl16 /*master amp */
+,.session15 #id699 /* rotation bars, on conductor channel */
+,.session15 #inc999 /* bpm incrementer on tempo param */
+,.session15 #left /* hide left "mobile browsing" menu */
+/*,.session15 #song-sequencer  hide conductor's add/remove saved songs */
+,.session15 #midiIn /* hide conductor's midi port selector */
 {
   display:none !important;
 }
 
-.session16 #right {
+.session15 #right {
   float:none !important;
 }
 
@@ -1649,3 +1661,13 @@ input[type="radio" ] {
   z-index: 999;
   float: right;
 }
+
+/* song editor mode */
+.session15 .ctrlchange select.multi {
+    height: 200px;
+    width: 150px;
+}
+
+.session15 #pattern-sequencer {
+    width: 300px;
+}    

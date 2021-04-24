@@ -1131,8 +1131,87 @@ if ( window.childRoom == 2 || window.nocmult == 1) {
 
         // remove rate limits on conductor volume controls for snappy channel mutes,...
         if (data.args.id<=900 && data.args.id>=800) {
-        	console.log('data', data);
+        	//console.log('data', data);
           _sequencer.updateFxParam(data.args, data.client);
+
+
+
+
+
+
+
+
+        } else if ( data.args.id == 599 ) {
+
+
+        	console.log(data.args);
+
+              var claients = Object.keys(_clients);
+              var clientCount = 0;
+
+              for ( var i = 0; i < claients.length; i++ ) {
+                var caydi = claients[i];
+                                               
+                  obj = {};
+
+		          obj.syncptn = 1;
+		          obj.syncset = 1;
+
+
+                  console.log(_instruments[caydi].id, obj);
+
+                  //if (window.childRoom==0) { // child rooms should not receive bpm change as they are following main room via sequencer beats/clock info
+                    _conn.execute(mixr.enums.Events.INSTRUMENT, { receiver: caydi, instrument: obj }); //
+                  //}     
+                
+              }
+
+
+
+
+
+        // ptn & set states  
+        } else if ( data.args.id < 800 && data.args.id >= 600 ) {
+
+
+        	console.log(data.args);
+
+              var claients = Object.keys(_clients);
+              var clientCount = 0;
+
+              for ( var i = 0; i < claients.length; i++ ) {
+                var caydi = claients[i];
+
+                
+                
+                if ( _instruments[caydi].id == data.args.channelId ) {
+                  obj = {};
+
+                  if ( data.args.id >= 700 ) {
+			          obj.syncptn = data.args.x;
+			          obj.syncptnch = data.args.id;
+	              } else {
+			          obj.syncset = data.args.x;
+			          obj.syncsetch = data.args.id;
+	              }
+
+                  console.log(_instruments[caydi].id, obj);
+
+                  //if (window.childRoom==0) { // child rooms should not receive bpm change as they are following main room via sequencer beats/clock info
+                    _conn.execute(mixr.enums.Events.INSTRUMENT, { receiver: caydi, instrument: obj }); //
+                  //}     
+                } 
+              }
+
+
+
+
+
+
+
+
+
+
         } else {
 
           //if (typeof window['clockStarted'] !== 'undefined') { // this uncommented prevents childroom from getting necessary info
@@ -1556,30 +1635,84 @@ window.nocmult = 1;
 
 
 
-          // it is useful to send 'change pattern' message in advance (at 4th '16th step'/beat instead of at 15th one) vs. so that next pattern is smoothly quantizely played at next bar
-          if ( beat == 3 ) { // 7
 
-            // send bar pulse to all channels    
+
+
+
+          if ( beat == 4 ) { 
+
+            // send bar pulse to conductor   
             var claients = Object.keys(_clients);
             var clientCount = 0;
 
             for ( var i = 0; i < claients.length; i++ ) {
               var caydi = claients[i];
+
+              //console.log(_instruments[caydi].instrumentName);
               
               if ( typeof _instruments[caydi] !== 'undefined' ) {
 
-                obj = {};
-                obj.bpm = window.lastrecedbpm; 
-                obj.bar = window.barcount;
+              	if ( _instruments[caydi].instrumentName === 'Conductor' ) {
 
 
-                //if (window.childRoom==0) { // ? cond. filtering detrimental to childroom
-                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+	                obj = {};
+	                obj.bpm = window.lastrecedbpm; 
+	                obj.bar = window.barcount;
 
-                //}      
+
+	                //if (window.childRoom==0) { // ? cond. filtering detrimental to childroom
+	                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+
+	                //}   
+
+
+	              	}
+
+   
               } 
             }
           }  
+
+
+
+
+          // it is useful to send 'change pattern' message in advance (at 4th '16th step'/beat instead of at 15th one) vs. so that next pattern is smoothly quantizely played at next bar
+          if ( beat == 9 ) { // 7 _ 3 _
+
+            // send bar pulse to all channels (except conductor)   
+            var claients = Object.keys(_clients);
+            var clientCount = 0;
+
+            for ( var i = 0; i < claients.length; i++ ) {
+              var caydi = claients[i];
+
+              //console.log(_instruments[caydi].instrumentName);
+              
+              if ( typeof _instruments[caydi] !== 'undefined' ) {
+
+              	if ( _instruments[caydi].instrumentName !== 'Conductor' ) {
+
+
+	                obj = {};
+	                obj.bpm = window.lastrecedbpm; 
+	                obj.bar = window.barcount;
+
+
+	                //if (window.childRoom==0) { // ? cond. filtering detrimental to childroom
+	                  _conn.execute(mixr.enums.Events.INSTRUMENT, {receiver: caydi, instrument: obj }); //
+
+	                //}   
+
+
+	              	}
+
+   
+              } 
+            }
+          }  
+
+
+
 
 
 
@@ -1602,7 +1735,7 @@ window.nocmult = 1;
 
 
 
-          if ( beat == 15 ) {  
+          if ( beat == 0 ) {  // _15_
             if ( typeof window.presetBuffer !== 'undefined' ) {
               if ( window.presetBuffer.length > 0 ) {
                 for ( var j = 0; j < window.presetBuffer.length; j++ ) {

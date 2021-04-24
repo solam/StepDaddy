@@ -130,7 +130,7 @@
 </div><!-- ARTISTES-RESIDENTS - A8MN13mPde  / pwd: <span></span> -->
 
 
-<button id='start_rec'>Start Rec</button>
+<button title="audio recorder (uncompressed wave file as output when stop pressed)" id='start_rec'>Start Rec</button>
 
   <div id="audio-server-status" class="greenborder">
     <div style="display:none;" id="audio-server-ready"></div>
@@ -348,7 +348,7 @@
         alert('The page was reloaded more than twice!');
     } */
 
-    console.log('reloadCount, window.sessionId : ', reloadCount, window.sessionid );
+    //console.log('reloadCount, window.sessionId : ', reloadCount, window.sessionid );
 
 
     var relo = localStorage.getItem('rreellooaadd');  
@@ -505,7 +505,8 @@
         $("#soundicon").attr("src","../common/images/sound_off.jpg");
         //location.reload(true); // (under Song editor on main page) 
         //alert('Please refresh page (ctrl + r / F5) AND quickly click "play music" button while page is loading');
-        alert('Click play music button (inside sound generator tab in song editor context) to start music');
+        //alert('Click play music button (inside sound generator tab in song editor context) to start music');
+        alert('Click speaker icon to enable audio output (inside sound generator tab in song editor context)');
         //window.rreellooaadd = 0;    
       }      
 

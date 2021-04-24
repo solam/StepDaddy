@@ -105,7 +105,7 @@
     99: test
     */
 
-      this._sessionNumber = 99; // 13
+      this._sessionNumber = 12; // 13
     }
 /*
     if (window.childRoom == 2 || typeof window.childRoom == 'undefined' ) { 
@@ -185,7 +185,7 @@
 
 
   // Defining default channel volumes at app startup
-  // this code block might only be able to set default voluem for sampler channels not other synth types!
+  // this code block might only be able to set default volume for sampler channels not other synth types!
 
 		var insVol0X = window.findObjectById(this._instrumentsConfig, 800).x; // this._instrumentsConfig[1].conf[this._instrumentsConfig[1].trackSet].controls[0].x; // ! hardcoded value: conductor channel + control id may change !
 		
@@ -445,6 +445,7 @@
 			}
 		}
 
+		//console.log(this._sessionList);
 
   // Various default general/main Web Audio renderer settings
 
@@ -472,7 +473,7 @@
 		this.initialize = function()
 		{
 			// Create context.
-			_context = new AudioContext({ latencyHint: 0.025 }); // 00.3 0.05
+			_context = new AudioContext({ latencyHint: 0.040 }); // 0.3 0.05 0.025 0.1
 
 			//_context = new AudioContext(); // if uncommented will render audio cracks
 
@@ -1468,12 +1469,12 @@
       if ( typeof data.clientsFromMainRoom !== 'undefined' ) { 
 
         _clients2 = data.clientsFromMainRoom;
-        console.log('this.updatePreset at late coming childroom event', data, clientId ,_clients ); // 
+        //console.log('this.updatePreset at late coming childroom event', data, clientId ,_clients ); // 
 
       } else {
         
         _clients2 = _clients;
-        console.log('normal preset change event', data, clientId, _clients2);
+        //console.log('normal preset change event', data, clientId, _clients2);
       }
 
       
@@ -1638,7 +1639,7 @@ console.log('_clients2', _clients2, _clients2[clientId]);
 			
       //if ( typeof anextInstrument !== 'undefined' ) {
 
-      console.log('anextInstrument', anextInstrument);
+      //console.log('anextInstrument', anextInstrument);
 
 			if (anextInstrument.tracks.length > _clients2[clientId].tracks.length) {
 				var trackNumber = _clients2[clientId].tracks.length;
@@ -1684,9 +1685,9 @@ console.log('_clients2', _clients2, _clients2[clientId]);
 
       //*
       if ( typeof data.clientsFromMainRoom !== 'undefined' ) { 
-        console.log('this.updatePreset at late coming childroom event'); // 
+        //console.log('this.updatePreset at late coming childroom event'); // 
       } else {
-        console.log('normal preset change event');
+        //console.log('normal preset change event');
         //_clients[clientId] = anextInstrument;
       } //*/
 
@@ -2111,7 +2112,7 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                 if (controls[j].x.param!='[external]') {
                   switch (_clients[clientId].instrumentName) {
                   case 'CWilsoWAMidiSynth':
-                    if (valueX==0) { var valueX=1; }
+                    if (valueX==0) { var valueX=0.0000000000000000000001; } // var valueX=0
                     eval(synthInstance2+'.'+controls[j].x.param+'('+valueX+')');    //  +0.1 always add+1 to avoid sound crack bugs when value ==0                 
                     break;                       
                   case 'AikeWebsynth1':
@@ -2141,9 +2142,27 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
 		                  
 	                  } else {
 	                  	if ( controls[j].x.ramp == true ) {
-	                  	eval(synthInstance2+'.processor'+chNumber+'.parameters.get("'+controls[j].x.param+'").linearRampToValueAtTime('+valueX+', '+window['audio_context_origin'].currentTime+' + 0.1)');
+
+
+var siiii = eval(synthInstance2+'.processor'+chNumber);	                  		
+
+if ( typeof siiii !== 'undefined' ) {
+	eval(synthInstance2+'.processor'+chNumber+'.parameters.get("'+controls[j].x.param+'").linearRampToValueAtTime('+valueX+', '+window['audio_context_origin'].currentTime+' + 0.1)');
+}
+
+
+	                  	
 	                  	} else {
-	                  		eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+', minValue: '+controls[j].x.minValue+', maxValue: '+controls[j].x.maxValue+'})');
+
+
+var siiii = eval(synthInstance2+'.processor'+chNumber);	                  		
+
+if ( typeof siiii !== 'undefined' ) {
+	eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "'+controls[j].x.param+'", value: '+valueX+', minValue: '+controls[j].x.minValue+', maxValue: '+controls[j].x.maxValue+'})');
+}	                  	
+
+
+
 	                  	}
               	
 	                  }	
@@ -2204,7 +2223,7 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
 
 		                  	eval(synthInstance2+'.processor'+chNumber+'.port.postMessage({ id: "masterAmp", value: '+valueX+', minValue: 0, maxValue: 1})');
 
-		                  	console.log(valueX);
+		                  	//console.log(valueX);
 	                  	break;  
 
 
@@ -2216,7 +2235,7 @@ _self.updatePreset(data[i],  currClt /*data[i].id i*/); // clientsFromMainRoom[ 
                           break;
                         case 'Sampler':
                           this[controls[j].x.param] = valueX;
-                          console.log('sampler vol:', this[controls[j].x.param]);
+                          //console.log('sampler vol:', this[controls[j].x.param]);
                           break; 
                         }
                       } 

@@ -1010,6 +1010,36 @@ if (typeof window.kits  !== 'undefined') { // kits
                 }
 
 
+                //console.log(controls[j].x.ptn);
+
+                if ( controls[j].x.sync !== 'undefined' ) {
+
+                  if ( controls[j].x.sync == 1 ) {
+
+                    var sync = '1';
+
+                    if ( controls[j].x.ptn == 1 ) {
+                       sync += '1'
+                    } else {
+                       sync += '0';
+                    }
+
+                    if ( controls[j].x.set == 1 ) {
+                       sync += '1'
+                    } else {
+                       sync += '0';
+                    }     
+
+                  } else {
+                    var sync = 0;
+                  }
+
+
+                } else {
+                  var sync = 0;
+                }
+
+
                 //console.log('mute', mute);
 
                 var displayedRange = [];
@@ -1045,10 +1075,10 @@ if (typeof window.kits  !== 'undefined') { // kits
                 // if HTML5 canvas blend mode property 'multiply' browser not supported : load simple inputs instead of sliders
                 if( gcoCheck==false /*/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)*/ ) {
                   //window['ctrl'+input] = new mixr.ui.Input(controls[j].id, controls[j].x.name, container, controls[j].x.value, controls[j], channelId).initialize();
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo, sync).initialize(); // NexusUI
 
                 } else { 
-                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo).initialize(); // NexusUI
+                  window['ctrl'+input] = new mixr.ui.Slider(controls[j].id, controls[j].x.name, container, value, controls[j], channelId, usedLibrary, orientation, mute, controls[j].x.midicc, muteNote, displayedRange, solo, sync).initialize(); // NexusUI
                 }
                 
                 window['ctrl'+input].on(mixr.enums.Events.MODIFIER_CHANGE, _model.onModifierChange);
@@ -1138,16 +1168,19 @@ if (controls[j].id==9920) {
       var patternSeqStateValue = controls[j].x.value;
     }      
 
-
+console.log('patternSeqStateValue, controls[j].x.value: ', patternSeqStateValue, controls[j].x.value);
 
 var url2 = mixr.Utils.parseURL(location.href);
 paraam2 = url2.url.split('/');
 
+console.log('paraam2, paraam2[6]: ', paraam2, paraam2[6]);
 
 //*
 if ( typeof paraam2[6] !== 'undefined' ) {
   if ( paraam2[6] === 'noptnseq' || paraam2[6] === 'npsmulti' || paraam2[6] === 'npsmultiedt' ) {
     patternSeqStateValue=0;
+
+    console.log('patternSeqStateValue, controls[j].x.value: ', patternSeqStateValue, controls[j].x.value);
 
     // remove param from url so that kit change on drums (channel 2) does not automatically turn ptnSeq off
     // which is troublesome when in puppet master mode aka part sequencer sending info to such channel
@@ -1155,9 +1188,9 @@ if ( typeof paraam2[6] !== 'undefined' ) {
     window.location = window.location.href.replace('/' + paraam2[6], '');
 
 
-    /*if ( paraam2[6] == 'noptnseq' ) { //  - patternSeqStateValue == 0 
-      window.location = window.location.href.replace('/noptnseq', '');
-    }  */
+    //if ( paraam2[6] == 'noptnseq' ) { //  - patternSeqStateValue == 0 
+    //  window.location = window.location.href.replace('/noptnseq', '');
+    //}  
 
 
 
@@ -1184,7 +1217,7 @@ if ( top !== self ) { // we are in the iframe
   window.inIframe = 0;
 }    
 
-
+console.log('paraam2, paraam2[6]: ', paraam2, paraam2[6]);
 
     if (patternSeqStateValue==1) {
       window.stepSeq=1;
@@ -1228,11 +1261,17 @@ if ( top !== self ) { // we are in the iframe
       }).toggleClass('off');
 
      // user action takes precedence over puppet master slavery/control over user's ptnSeq
-     window.asserv = 0;        
+     //window.asserv = 0;  // pre  april 12th '21 param position in code      
 
     if ( $(this).hasClass("off") ) {    
       window.stepSeq = 0;
       _model.onModifierChange({id: 201, ptnSeqState: 0});
+
+     // user action takes precedence over puppet master slavery/control over user's ptnSeq
+     window.asserv = 0;      
+
+var channelNumb = 700 + Number(window.channelNumber) -1;            
+_model.onModifierChange({ id: channelNumb, x: 0, channelId: 1 });
 
       //console.log(window.stepSeq);
 
@@ -1311,6 +1350,9 @@ if ( top !== self ) { // we are in the iframe
 
      // user action takes precedence over puppet master slavery/control over user's ptnSeq
      window.asserv = 0;
+
+var channelNumb = 700 + Number(window.channelNumber) -1;            
+_model.onModifierChange({ id: channelNumb, x: 0, channelId: 1 });     
     
      
    });  
@@ -1343,7 +1385,10 @@ _model.onModifierChange({id: 204, currentPtnSeq: ptnSeqString});
     }, 1); 
 
      // user action takes precedence over puppet master slavery/control over user's ptnSeq
-     window.asserv = 0;       
+     window.asserv = 0;    
+
+var channelNumb = 700 + Number(window.channelNumber) -1;            
+_model.onModifierChange({ id: channelNumb, x: 0, channelId: 1 });        
       
    });  
 
@@ -1411,7 +1456,7 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
           var uuadi = uuid.v1();
 
           if (typeof input !== 'undefined') { // 
-            $option = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
+            $option = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input title="Loop this part" type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
             $option.appendTo(containerparts);
           }        
         } // end of for loop
@@ -1420,7 +1465,7 @@ var channelPartSeq = _model.instrument.channelInfo.channelParts; // channelPartS
       } // end of if (channelPartSeq.length!=0) {
     } // end of if (typeof channelPartSeq !== 'undefined') { 
 
-$label = $('<label>played parts</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a><input type="radio" id="restpb" name="loop" value="restpb">');
+$label = $('<label>played parts</label><a href="javascript:void(null);" id="remove" class="trigger-button">< Remove</a><input title="Continue playback where it left off" type="radio" id="restpb" name="loop" value="restpb">');
 $label.appendTo(playedpars); // $item playedpars
 
 
@@ -1440,7 +1485,7 @@ $label.appendTo(playedpars); // $item playedpars
       part.id = $(this).attr('value');
       var uuadi = uuid.v1();
 
-            $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
+            $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="1"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input title="Loop this part" type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
             $option2.appendTo('#played-parts');
     });
     
@@ -1539,6 +1584,7 @@ $("input[name='loop']").on("change", function(e) { // loopINVALIDATED loop
 
       if ( typeof partSeqIndeks !== 'undefined' ) {
         partSeqIndeks = 0;
+        var partSeqIndeks = 0;
       }  
 
 
@@ -1834,7 +1880,7 @@ window.partSequencerPB = JSON.parse(JSON.stringify(window.partSequencer));
       part.uid = uuadi;
 
 
-      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
+      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input title="Loop this part" type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
       $option2.appendTo('#played-parts');
 
       window.partSequencer[i] = part;
@@ -1896,6 +1942,10 @@ $("input[name='loop']").on("change", function(e) {
     $('#add-song').click(function(e) { 
 
       e.preventDefault(); // prevent browser from scrolling to the top of the screen and adding hash to url - https://stackoverflow.com/questions/20215248/prevent-href-link-from-changing-the-url-hash https://stackoverflow.com/questions/20571757/using-javascript-prevent-scroll-on-empty-url-hash-change 
+
+
+// loading song from webstorage import ui > clicks sync button as to set ptnSeq "on" authoritavely on each channel
+$('#pat599').trigger('click');
 
       window.songSequencer = [];
 
@@ -1970,7 +2020,7 @@ $("input[name='loop']").on("change", function(e) {
       var uuadi = uuid.v1();
       part.uid = uuadi;
 
-      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
+      $option2 = $('<div class="option" id="op_'+uuadi+'"><span value="'+part.id+'">'+part.name+'</span><input class="barloopnb" type="text" id="bl_'+uuadi+'" value="'+part.barloop+'"/><div class="roundedTwo"><input type="checkbox" value="None" class="roonded parsel" id="ps_'+uuadi+'" name="partsel" /><label for="ps_'+uuadi+'"></label></div><input title="Loop this part" type="radio" id="lp_'+uuadi+'" name="loop" value="'+uuadi+'"></div>');
       $option2.appendTo('#played-parts');
 
       window.partSequencer[i] = part;
@@ -2017,6 +2067,7 @@ $("input[name='loop']").on("change", function(e) {
   var partAdi = $(this).val();
   onRadioButtonLoopChange(partAdi);
 });
+
 
 
 

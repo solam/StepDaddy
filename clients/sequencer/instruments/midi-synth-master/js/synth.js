@@ -1,5 +1,260 @@
 var CWilsoWAMidiSynth = function(context) {
 
+
+
+// slidFreq
+this.sf = new Array( 101 );
+
+
+/*
+
+this.sf[0] = 20;
+this.sf[1] = 40;
+this.sf[2] = 80;
+this.sf[3] = 120;
+this.sf[4] = 160;
+this.sf[5] = 200;
+this.sf[6] = 260;
+this.sf[7] = 350;
+this.sf[8] = 460;
+this.sf[9] = 550;
+
+this.sf[10] = 700;
+this.sf[11] = 800;
+this.sf[12] = 900;
+this.sf[13] = 1100;
+this.sf[14] = 1300;
+this.sf[15] = 1600;
+this.sf[16] = 1800;
+this.sf[17] = 2200;
+this.sf[18] = 2500;
+this.sf[19] = 2800;
+
+this.sf[20] = 3400;
+this.sf[21] = 3800;
+this.sf[22] = 4300;
+this.sf[23] = 4700;
+this.sf[24] = 4900;
+this.sf[25] = 5100;
+this.sf[26] = 5300;
+this.sf[27] = 5600;
+this.sf[28] = 5800;
+this.sf[29] = 6000;
+
+this.sf[30] = 6300;
+this.sf[31] = 6700;
+this.sf[32] = 7000;
+this.sf[33] = 7400;
+this.sf[34] = 7800;
+this.sf[35] = 8000;
+this.sf[36] = 8200;
+this.sf[37] = 8500;
+this.sf[38] = 8800;
+this.sf[39] = 9000;
+
+this.sf[40] = 9100;
+this.sf[41] = 9200;
+this.sf[42] = 9300;
+this.sf[43] = 9400;
+this.sf[44] = 9500;
+this.sf[45] = 9600;
+this.sf[46] = 9700;
+this.sf[47] = 9800;
+this.sf[48] = 9900;
+this.sf[49] = 10000;
+
+this.sf[50] = 10100;
+this.sf[51] = 10200;
+this.sf[52] = 10300;
+this.sf[53] = 10400;
+this.sf[54] = 10500;
+this.sf[55] = 10600;
+this.sf[56] = 10700;
+this.sf[57] = 10800;
+this.sf[58] = 10900;
+this.sf[59] = 11000;
+
+this.sf[60] = 11200;
+this.sf[61] = 11400;
+this.sf[62] = 11600;
+this.sf[63] = 11800;
+this.sf[64] = 12000;
+this.sf[65] = 12200;
+this.sf[66] = 12400;
+this.sf[67] = 12600;
+this.sf[68] = 12800;
+this.sf[69] = 13000;
+
+this.sf[70] = 13000;
+this.sf[71] = 13600;
+this.sf[72] = 13900;
+this.sf[73] = 14200;
+this.sf[74] = 14500;
+this.sf[75] = 14800;
+this.sf[76] = 15000;
+this.sf[77] = 15200;
+this.sf[78] = 15400;
+this.sf[79] = 15600;
+
+this.sf[80] = 15800;
+this.sf[81] = 16000;
+this.sf[82] = 16300;
+this.sf[83] = 16600;
+this.sf[84] = 16900;
+this.sf[85] = 17200;
+this.sf[86] = 17500;
+this.sf[87] = 17800;
+this.sf[88] = 18100;
+this.sf[89] = 18400;
+
+this.sf[90] = 18700;
+this.sf[91] = 18800;
+this.sf[92] = 18900;
+this.sf[93] = 19000;
+this.sf[94] = 19100;
+this.sf[95] = 19300;
+this.sf[96] = 19400;
+this.sf[97] = 19600;
+this.sf[98] = 19800;
+this.sf[99] = 19900;
+
+this.sf[100] = 20000;
+
+*/
+
+
+// set that 
+/*
+0 > 50 : 5000 hz
+
+51 > 89 : 12 khz
+
+90 > 98 : 14 khz
+99 & 100: 16 18
+
+finishes 12000 till 89
+
+*/
+
+
+
+this.sf[0] = 20;
+this.sf[1] = 25;
+this.sf[2] = 30;
+this.sf[3] = 40;
+this.sf[4] = 60;
+this.sf[5] = 80;
+this.sf[6] = 100;
+this.sf[7] = 140;
+this.sf[8] = 180;
+this.sf[9] = 240;
+
+this.sf[10] = 320;
+this.sf[11] = 380;
+this.sf[12] = 440;
+this.sf[13] = 500;
+this.sf[14] = 580;
+this.sf[15] = 660;
+this.sf[16] = 760;
+this.sf[17] = 880;
+this.sf[18] = 1000;
+this.sf[19] = 1100;
+
+this.sf[20] = 1200;
+this.sf[21] = 1300;
+this.sf[22] = 1400;
+this.sf[23] = 1500;
+this.sf[24] = 1600;
+this.sf[25] = 1700;
+this.sf[26] = 1800;
+this.sf[27] = 1850;
+this.sf[28] = 1900;
+this.sf[29] = 1950;
+
+this.sf[30] = 2000;
+this.sf[31] = 2050;
+this.sf[32] = 2125;
+this.sf[33] = 2150;
+this.sf[34] = 2175;
+this.sf[35] = 2200;
+this.sf[36] = 2300;
+this.sf[37] = 2400;
+this.sf[38] = 2500;
+this.sf[39] = 2600;
+
+this.sf[40] = 2700;
+this.sf[41] = 2800;
+this.sf[42] = 2900;
+this.sf[43] = 3000;
+this.sf[44] = 3200;
+this.sf[45] = 3400;
+this.sf[46] = 3600;
+this.sf[47] = 3800;
+this.sf[48] = 4200;
+this.sf[49] = 4600;
+
+this.sf[50] = 5000;
+
+this.sf[51] = 5100;
+this.sf[52] = 5200;
+this.sf[53] = 5300;
+this.sf[54] = 5400;
+this.sf[55] = 5500;
+this.sf[56] = 5600;
+this.sf[57] = 5700;
+this.sf[58] = 5800;
+this.sf[59] = 5900;
+
+this.sf[60] = 6100;
+this.sf[61] = 6300;
+this.sf[62] = 6500;
+this.sf[63] = 6700;
+this.sf[64] = 6900;
+this.sf[65] = 7100;
+this.sf[66] = 7300;
+this.sf[67] = 7500;
+this.sf[68] = 7800;
+this.sf[69] = 8100;
+
+this.sf[70] = 8400;
+this.sf[71] = 8800;
+this.sf[72] = 9100;
+this.sf[73] = 9400;
+this.sf[74] = 9700;
+this.sf[75] = 10000;
+this.sf[76] = 10300;
+this.sf[77] = 10600;
+this.sf[78] = 10900;
+this.sf[79] = 11200;
+
+this.sf[80] = 11300;
+this.sf[81] = 11400;
+this.sf[82] = 11500;
+this.sf[83] = 11600;
+this.sf[84] = 11700;
+this.sf[85] = 11800;
+this.sf[86] = 11900;
+this.sf[87] = 12000;
+this.sf[88] = 12300;
+this.sf[89] = 12500;
+
+this.sf[90] = 12800;
+this.sf[91] = 13000;
+this.sf[92] = 13200;
+this.sf[93] = 13400;
+this.sf[94] = 13700;
+this.sf[95] = 14000;
+this.sf[96] = 15000;
+this.sf[97] = 16000;
+this.sf[98] = 17000;
+this.sf[99] = 18000;
+
+this.sf[100] = 20000;
+
+
+
+
+
   // This is the "initial patch"
 
   // modulation lfo
@@ -115,7 +370,7 @@ var CWilsoWAMidiSynth = function(context) {
 
 function frequencyFromNoteNumber( note ) {
   var frekk = 440 * Math.pow(2,(note-28)/12);
-  console.log(frekk);
+  //console.log(frekk);
   return frekk;
 }
 
@@ -294,6 +549,11 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterCutoff = function(ev) {
 
   	var value = ev.currentTarget ? ev.currentTarget.value : ev;
   //	console.log( "currentFilterCutoff= " + currentFilterCutoff + "new cutoff= " + value );
+
+
+  	//var value = value / 10;
+  	//var value = 2000;
+
   	this.currentFilterCutoff = value;
 
     //console.log('onUpdateFilterCutoff', ev, value, this.voices);
@@ -311,6 +571,9 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterQ = function(ev) {
 
   if ( typeof ev !== 'undefined' ) {  
   	var value = ev.currentTarget ? ev.currentTarget.value : ev;
+
+  	var value = value / 5;
+
   	this.currentFilterQ = value;
   	for (var i=0; i<255; i++) {
   		if (this.voices[i] != null) {
@@ -339,7 +602,10 @@ CWilsoWAMidiSynth.prototype.onUpdateFilterEnv = function(ev) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc1Wave = function(ev) {
-	this.currentOsc1Waveform = ev; //ev.target.selectedIndex;
+	this.currentOsc1Waveform = Math.round(ev); //ev.target.selectedIndex;
+
+	//console.log('onUpdateOsc1Wave', ev, waveforms[this.currentOsc1Waveform]);
+
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
 			this.voices[i].setOsc1Waveform( waveforms[this.currentOsc1Waveform] );
@@ -383,7 +649,7 @@ CWilsoWAMidiSynth.prototype.onUpdateOsc1Mix = function(value) {
 
 
 CWilsoWAMidiSynth.prototype.onUpdateOsc2Wave = function(ev) {
-	this.currentOsc2Waveform = ev; // ev.target.selectedIndex;
+	this.currentOsc2Waveform = Math.round(ev); // ev.target.selectedIndex;
 	for (var i=0; i<255; i++) {
 		if (this.voices[i] != null) {
 			this.voices[i].setOsc2Waveform( waveforms[this.currentOsc2Waveform] );
@@ -606,13 +872,25 @@ var Voice = function(note, velocity, channelId) { // CWilsoWAMidiSynth.prototype
 	this.filter1 = audioContext.createBiquadFilter();
 	this.filter1.type = "lowpass";
 	this.filter1.Q.value = this.instance.currentFilterQ;
-	this.filter1.frequency.value = Math.pow(2, this.instance.currentFilterCutoff); 
+
+
+	//this.filter1.frequency.value = Math.pow(2, this.instance.currentFilterCutoff); 
+	this.filter1.frequency.value = this.instance.currentFilterCutoff * 140; 
+	this.filter1.frequency.value = this.instance.sf[this.instance.currentFilterCutoff];
+	// use linear slider step 100 to logarythmic 20 hz 15khz range conversion formula instead
+	// or use map 0: 20hz 100: 14000hz
+
+
 	// filterFrequencyFromCutoff( this.originalFrequency, currentFilterCutoff );
   //	console.log( "filter frequency: " + this.filter1.frequency.value);
 	this.filter2 = audioContext.createBiquadFilter();
 	this.filter2.type = "lowpass";
 	this.filter2.Q.value = this.instance.currentFilterQ;
-	this.filter2.frequency.value = Math.pow(2, this.instance.currentFilterCutoff); 
+
+
+	//this.filter2.frequency.value = Math.pow(2, this.instance.currentFilterCutoff); 
+	//this.filter2.frequency.value = this.instance.currentFilterCutoff * 140;
+	this.filter2.frequency.value = this.instance.sf[this.instance.currentFilterCutoff];
 
 	this.osc1Gain.connect( this.filter1 );
 	this.osc2Gain.connect( this.filter1 );
@@ -761,6 +1039,9 @@ Voice.prototype.setOsc2Waveform = function( value ) {
 Voice.prototype.updateOsc2Frequency = function( value ) {
 	this.osc2.frequency.value = (this.originalFrequency*Math.pow(2,this.instance.currentOsc2Octave-1));
 
+
+  //console.log('osc2 detune val: ', this.instance.currentOsc2Detune, currentPitchWheel, this.osc2.detune.value, this.osc2.frequency.value); // this.osc1.frequency.value, this.osc2.frequency.value, 		
+
   var detVaal = this.instance.currentOsc2Detune + currentPitchWheel * 500;
 
   let valCheckkk = parseFloat(detVaal);
@@ -768,7 +1049,7 @@ Voice.prototype.updateOsc2Frequency = function( value ) {
   //console.log('currentOsc2Detune + currentPitchWheel * 500: ', detVaal);
 
   if ( isFinite(valCheckkk) ) {
-    this.osc2.detune.value = detVaal;
+    this.osc2.detune.value = detVaal * 12; // adds a not per '10' value step
   } else {    
     this.osc2.detune.value = 0; // default preset param
   }
@@ -783,8 +1064,15 @@ Voice.prototype.updateOsc2Mix = function( value ) {
 Voice.prototype.setFilterCutoff = function( value ) {
   //console.log('setFilterCutoff', value);
 	var now =  audioContext.currentTime;
-	var filterFrequency = Math.pow(2, value);
-//	console.log("Filter cutoff: orig:" + this.filter1.frequency.value + " new:" + filterFrequency + " value: " + value );
+
+	//var value = value /1000;
+
+	//var filterFrequency = Math.pow(2, value);
+	//var filterFrequency = value * 140; // 
+	var filterFrequency = this.instance.sf[value];
+
+//console.log("Filter cutoff: orig:" + this.filter1.frequency.value + " new:" + filterFrequency + " value: " + value );
+
 	this.filter1.frequency.value = filterFrequency;
 	this.filter2.frequency.value = filterFrequency;
 }
@@ -802,7 +1090,10 @@ Voice.prototype.setFilterMod = function( value ) {
 Voice.prototype.noteOff = function() {
 	var now =  audioContext.currentTime;
 	var release = now + (this.instance.currentEnvR/10.0);	
-    var initFilter = filterFrequencyFromCutoff( this.originalFrequency, this.instance.currentFilterCutoff/100 * (1.0-(this.instance.currentFilterEnv/100.0)) );
+    var initFilter = filterFrequencyFromCutoff( this.originalFrequency, this.instance.currentFilterCutoff/100 * (1.0-(this.instance.currentFilterEnv/100)) );
+
+    // ori april 5th '21:
+    //var initFilter = filterFrequencyFromCutoff( this.originalFrequency, this.instance.currentFilterCutoff/100 * (1.0-(this.instance.currentFilterEnv/100.0)) );
 
 //    console.log("noteoff: now: " + now + " val: " + this.filter1.frequency.value + " initF: " + initFilter + " fR: " + currentFilterEnvR/100 );
 	this.envelope.gain.cancelScheduledValues(now);

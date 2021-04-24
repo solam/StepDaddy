@@ -493,6 +493,10 @@ window.ratelimitPresetChange = new RateLimit(1, 100, false); // [1 : 400] - 1, 1
 
 
 
+window.ratelimit2 = new RateLimit(10000, 1, true);
+
+
+
 window.sleep = function (milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {

@@ -82,6 +82,37 @@
             window.asserv = 0;   
             */           
 
+
+       /* if ( window.asservSet != 0 ) {
+          console.log('user changed kit');
+          window.asservSet = 0;    
+          var channelNumb = 600 + Number(window.channelNumber) -1;            
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 } );     
+        } */
+
+
+      var e = event;
+      
+      //console.log('e.isTrusted', e.originalEvent);
+
+      // check if human (or programmatically) triggered event
+      if ( typeof e.originalEvent !== 'undefined' ) {
+
+        // only send msg if window.asservSet no set aka first trigger of slider event (if asservSet not set or equal to 1)
+        // aka prevent sending at subsequent slider events after "first" slider event
+        if ( window.asservSet != 0 ) {
+          
+          window.asservSet = 0;    
+          window.asservFromCond = 0;
+          var channelNumb = 600 + Number(window.channelNumber) -1;            
+          console.log('user changed kit & sends set sync off event to conductor', channelNumb);
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 } );     
+        }
+       }   
+
+
+
+
           _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: elementId, y: 0, /*pattern: 1,*/ classs: classs, kitNumber: elementId, patternId: patternId, presetId: presetId, ptnSeq: ptnSeqString, channelId: window.channelId}); // presetId
 
         } else if ($container.context.id=='patterns' || $container.attr("class")=='pttns') { 
@@ -274,6 +305,27 @@
             window.asserv = 0;   
             */       
       
+
+
+      var e = event;
+      
+      console.log('e.isTrusted', e.originalEvent);
+
+      // check if human (or programmatically) triggered event
+      if ( typeof e.originalEvent !== 'undefined' ) {
+
+        // only send msg if window.asservSet no set aka first trigger of slider event (if asservSet not set or equal to 1)
+        // aka prevent sending at subsequent slider events after "first" slider event
+        if ( window.asservSet != 0 ) {
+          console.log('user changed preset (via dd menu)');
+          window.asservSet = 0;    
+          var channelNumb = 600 + Number(window.channelNumber) -1;            
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 } );     
+        }
+       }   
+
+
+
           // remove [unsaved preset] option
           if ($('#presets option[value="0"]').length>0 ) {
             $('#presets option[value="0"]').remove();

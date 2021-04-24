@@ -673,9 +673,9 @@ if ( typeof $_GET['session'] !== 'undefined' ) {
     $("#ptnmode").hide();
     
     
-  } else if ( sess == '/session11' ) {
+  } else if ( sess == '/session11' || sess == '/session16') {
     $('ul#list li').slice(6, 16).hide();
-    $("#ptnmode").hide();
+    //$("#ptnmode").hide();
     document.title = 'Giorgio Moroder - The Chase (...Loops song editor)';
 
 
@@ -689,15 +689,15 @@ if ( typeof $_GET['session'] !== 'undefined' ) {
     document.title = 'Blank song template (...Loops song editor)';    
     /*var */opt01 = 'npsmultiedt';
 
-  } else if ( sess == '/session16' ) {
+  } else if ( sess == '/session15' ) {
     $('ul#list li').slice(6, 16).hide();
     $('body').css("background-image", "none");  
     $('body').css("background-color", "rgba(200, 200, 200, 0.4)");
     //$("#trackauthor").attr("href", "").html('&nbsp;');
     $("#trackauthor").hide();
-    $("#ptnmode").hide();    
-    document.title = 'Blank song template fspa (...Loops song editor)';    
-    /*var */opt01 = 'npsmultiedt';    
+    //$("#ptnmode").hide();    
+    document.title = 'Blank song template (...Loops song editor)'; // fspa   
+    /*var */ opt01 = 'npsmulti';  // 'npsmultiedt'  'noptnseq'
 
 
   } else if ( sess == '/session10' ) {

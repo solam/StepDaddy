@@ -45,7 +45,7 @@
 
       window.instrumentdata = data;
 
-      //console.log('data', data); // data.channelInfo
+//console.log('data', data); // data.channelInfo
 
       if ( data == 'kickOut' ) { // kickOut = send to waiting-room -  TEMPORARILY DISABLED    
         //window.location.replace("waiting-room.html");          
@@ -275,6 +275,84 @@ console.log(window.patternSequencer);
         //*/
 
 
+        //*
+        if ( typeof data.syncptn !== 'undefined' ) {            
+          console.log('data', data);
+
+          if ( /*typeof data[0].channelId !== 'undefined' &&*/ $('body').hasClass('control') ) {
+
+
+          if ( typeof data.syncptnch !== 'undefined' ) {  
+            if ( data.syncptn == 0 ) {
+              $('#pat'+ data.syncptnch).removeClass('active');
+              $('#pat599').removeClass('active');
+            }
+          } /*else {
+            if ( data.syncptn == 0 ) {  
+              $('#pat599').removeClass('active');
+            }
+          } */ 
+
+
+          } else {
+
+          console.log('sync to conductor\'s (pattern) parts command arrived');  
+
+          window.asserv = 1;
+
+          // force re enabling ptnSeq
+          if ( window.stepSeq == 0 ) {
+            console.log('re enabling ptnSeq');
+            $( '#ptnseq' ).click ();
+          }
+
+                  /*
+                  var overridePtnSeqList = 1;
+                  window.asserv = 1;
+                  window.asservFromCond = 1;     
+                  */       
+
+            /*
+            var channelNumb = 700 + Number(window.channelNumber) -1;
+            _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 });
+            */
+          }  
+
+
+          
+
+
+        }  
+        //*/
+
+
+
+
+        if ( typeof data.syncset !== 'undefined' ) {            
+          console.log('data', data);
+
+          if ( $('body').hasClass('control') ) {
+
+            if ( typeof data.syncsetch !== 'undefined' ) {
+              if ( data.syncset == 0 ) {
+                $('#set'+ data.syncsetch).removeClass('active');
+                $('#pat599').removeClass('active');
+              }
+            } /*else {
+              if ( data.syncset == 0 ) {
+                $('#pat599').removeClass('active');
+              }
+            }  */  
+
+          } else {
+            console.log('sync to conductor\'s (preset) parts command arrived');  
+            window.asservSet = 1;
+          }  
+        
+        }  
+
+
+
 
       if ( typeof data[0] !== 'undefined' ) {
 
@@ -337,7 +415,7 @@ console.log(window.patternSequencer);
                   if ( typeof window.asserv !== 'undefined' ) {
 
                     if ( window.asserv == 0 ) {
-                      window.asservFromCond = 0;
+                      //window.asservFromCond = 0;
                       var overridePtnSeqList = 0;
                     } 
 
@@ -362,18 +440,43 @@ console.log(window.patternSequencer);
                   window.asservFromCond = 1;
                 }
               } else {
-                var overridePtnSeqList = 1;
+
+                //old params:
+                /*var overridePtnSeqList = 1;
                 window.asserv = 1;
-                window.asservFromCond = 1;                
+                window.asservFromCond = 1;  */   
+
+                if ( window.asserv == 0 ) {
+                  //window.asservFromCond = 0;
+                  var overridePtnSeqList = 0;
+                } else {
+                  var overridePtnSeqList = 1;
+                  window.asserv = 1;
+                  //window.asservFromCond = 1;                  
+                }
+
+                if ( window.asservSet == 0 ) {
+                  window.asservFromCond = 0;
+                  //var overridePtnSeqList = 0;
+                } else {
+                  //var overridePtnSeqList = 1;
+                  window.asservSet = 1;
+                  window.asservFromCond = 1;                  
+                }                
+
+
+
               }         
 
-          //console.log('window.step: ', data.asserv, overridePtnSeqList); // window.step,     
+          console.log('data.asserv, window.asserv, window.asservSet, overridePtnSeqList, window.asservFromCond: ', data.asserv, window.asserv, window.asservSet, overridePtnSeqList, window.asservFromCond); // window.step,     
 
           if ( overridePtnSeqList == 1 ) {    
           //if ( window.step == 14 ) {
             // puppy mastah changes "played patterns" from pattern sequencer
             var containerpatterns = document.getElementById('played-patterns'); 
-            $('#played-patterns').empty(); // find('option').remove().end()     
+            $('#played-patterns').empty(); // find('option').remove().end()  
+
+            window.puppetImpulse = 1;   
 
             window.patternSequencer = [];
 
@@ -390,6 +493,8 @@ console.log(window.patternSequencer);
               }
             }  
           //}
+
+          //console.log(window.patternSequencer);
 
 
             // update currentPtnSeq (per channel) var so when making variations of a part, the difference not made from blank state but from chosen part
@@ -696,7 +801,7 @@ console.log(window.patternSequencer);
         if ( typeof data.channelInfo !== 'undefined') {    
           var uuidVar = uuid.v1(); // this var is only generated after 1 get instrument event
           window['userPattern'].id=uuidVar; 
-          window['userPattern']._name_=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0); - traacksLength + 'n_' + 
+          window['userPattern']._name_= data.channelInfo.channelName.substring(0, 2) + '_' +uuidVar.substring(0, 4); // uuidVar.charAt(0); - traacksLength + 'n_' + 
           window['userPattern'].classs='user';
         }
 
@@ -718,12 +823,41 @@ console.log(window.patternSequencer);
 
           var uuidVar = uuid.v1(); 
           window['userPreset'].id=uuidVar; 
-          window['userPreset']._name_=data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); 
-          window['userPreset'].iplname = data.channelInfo.channelName + '_' +uuidVar.substring(0, 4); // initial page loading preset name
-          window['userPreset'].classs='user';
+
+
+//console.log(data.channelInfo.channelKits[data.kitNumber]);          
+
+var kitPrefix = $( "#kits option:selected" ).text().substring(9, 5);
+
+//console.log(kitPrefix);
+
+if ( typeof kitPrefix !== 'undefined' && kitPrefix.length > 1 ) {
+
+
+} else {
+
+   var kitPrefix = ''; 
+   var kitPrefix = data.channelInfo.channelKits[data.kitNumber].substring(0, 4);
+   window.channelNumber = Number(data.channelInfo.channelNumber)+1;
+
+   //console.log(kitPrefix);
+
+}  
+
+
+       //console.log('channelId: ', window.channelNumber, window.channelId);
+       window['userPreset']._name_= window.channelNumber  + '_' +/*data.channelInfo.channelName.substring(0, 2) + '_' + */kitPrefix + '_' +uuidVar.substring(0, 4); 
+       window['userPreset'].iplname = window.channelNumber  + '_' + /*data.channelInfo.channelName.substring(0, 2) + '_' + */kitPrefix + '_' +uuidVar.substring(0, 4); // initial page loading preset name
+       window['userPreset'].classs='user';
+
+
 
           _self.instrument = new mixr.models.Instrument(data.id, data.name, data.tracks, data.volume, data.type, data.color, data.kitNumber, data.controls, data.instrumentName, data.channelInfo); // data.id - 1
           _self.emit(mixr.enums.Events.INSTRUMENT, _self.instrument);
+
+
+
+
 
         }
 
@@ -804,7 +938,7 @@ console.log(window.patternSequencer);
 
             if (window.presetId==0) {
 
-              $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved sound]</option>');
+              $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved preset]</option>'); // unsaved sound timbre preset
               $itemOptionUnsaved.appendTo(document.getElementById('presets'));
               $('#presets option[value="0"]').prop('selected',true);
 
@@ -888,6 +1022,8 @@ console.log(window.patternSequencer);
           } else {
             var inputMode = '';
           } 
+
+          //console.log('data.channelInfo: ', data.channelInfo);
 
           $("#sessionname").html('sess: '+data.channelInfo.sessionList[data.channelInfo.sessionName]); // session
           var sessionNumber = Number(data.channelInfo.sessionName)+1;
@@ -1056,7 +1192,7 @@ console.log(window.patternSequencer);
 
 
 
-
+    // !! in song editor mode only bar pulse is sent not per beat signal !!
     var _onSequenceBeat = function(data) {
 
       if ( window.inIframe == 0) {
@@ -1161,6 +1297,8 @@ console.log(window.patternSequencer);
 
       if ($('body').hasClass('control') && data.beat==15 /* && data.bar==8*/) {
 
+      console.log('stuff happens');  
+
       /*
       window['autoinc'].forEach(function(element) {
         console.log(element);
@@ -1232,6 +1370,8 @@ console.log(window.patternSequencer);
       $('#id999').trigger("change");*/
 
       }
+
+      console.log(data.beat);
 
 
       if (data.beat==90 && window.stepSeq==1) { // data.beat==15     
@@ -1609,7 +1749,7 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
 
 
 
-    var _loClockConductor = function() {
+    var _loClockConductorINVALIDATED = function() {
 
       if ( typeof window.partSequencer !== 'undefined' ) {
 
@@ -1706,7 +1846,7 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
 
               if ( typeof window.asservissement !== 'undefined' ) {
                 aValueObj.asserv = window.asservissement;
-                console.log(window.asservissement);
+                //console.log(window.asservissement);
               }
 
 
@@ -1748,6 +1888,135 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
         }            
       }   
     };
+
+
+
+
+
+
+
+
+
+
+    var _loClockConductor = function() {
+
+      if ( typeof window.partSequencer !== 'undefined' ) {
+
+        /*if ( typeof window.playedPartOrder !== 'undefined') {
+        } else {
+          window.playedPartOrder = 0;
+        } */ 
+
+        if ( typeof window.partSequencer[0] !== 'undefined') {
+          
+          var baarElpsed = JSON.parse(JSON.stringify(window.partSequencer[0].barelapsed));
+          var currPartBaarLp = JSON.parse(JSON.stringify(window.partSequencer[0].barloop));
+          var baarElpsed = Number(baarElpsed) + 1;
+          var currPartBaarLp = Number(currPartBaarLp) + 1;
+
+          window.partSequencer[0].barelapsed = baarElpsed;
+
+          
+
+          if (window.barcount == 64) {
+            window.barcount = 0;
+          }
+
+          window.barcount++;
+
+          //console.log(baarElpsed); // window.barcount
+
+
+
+          if ( baarElpsed >= currPartBaarLp-1 ) {
+
+
+$("#op_"+window.partSequencer[0].uid+" span").removeClass('selected');
+
+            // previous part's bar loop counter is reset
+            window.partSequencer[0].barelapsed = 0;  
+
+        //console.log('before: ', window.partSequencer[0].barelapsed);  
+
+            rotate(window.partSequencer,1);
+
+        //console.log('after: ', window.partSequencer[0].barelapsed);
+
+          
+
+$("#op_"+window.partSequencer[0].uid+" span").addClass('selected');
+
+
+
+
+            var aValue = localStorage.getItem('Loops-par_' + window.partSequencer[0].id); 
+
+            //console.log(eIwC);
+
+            if ( aValue ) {
+              var aValueObj = JSON.parse(aValue);
+              aValueObj.bar = window.barcount;
+              aValueObj.clockts = Date.now();
+
+              if ( typeof window.asservissement !== 'undefined' ) {
+                aValueObj.asserv = window.asservissement;
+                //console.log(window.asservissement);
+              }
+
+              var aValue = JSON.stringify(aValueObj);
+            }
+
+            // if not in local webstorage get part content from -system- elsewhere
+            if ( typeof aValue === 'undefined' || aValue === null) {
+              if (typeof window.channelParts !== 'undefined' ) {
+                for (var i = 0; i < window.channelParts.length; i++) {
+                  var result = $.grep(window.channelParts, function(e){ return e.id == window.partSequencer[0].id; });
+
+                  if ( typeof result[0] !== 'undefined' ) {
+                    result[0].bar = window.barcount;
+                    result[0].clockts = Date.now();
+
+                  if ( typeof window.asservissement !== 'undefined' ) {
+                    result[0].asserv = window.asservissement;
+                    //console.log(window.asservissement);
+                  }
+
+                  //console.log(result[0]);
+                  var aValue = JSON.stringify(result[0]);
+                  }
+                }  
+              }   
+            }  
+
+            //console.log(window.partSequencer[window.playedPartOrder].name, aValue, window.step);
+            _connection.execute(mixr.enums.Events.MODIFIER_CHANGE, {id: 986, part: aValue});           
+
+          }
+
+
+
+
+
+
+        }            
+      }   
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1815,7 +2084,7 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
 
         
 
-        if ( typeof window.nextKit !== 'undefined' && $('#kits').length > 0 && window.asservFromCond == 1 ) {
+        if ( typeof window.nextKit !== 'undefined' && $('#kits').length > 0 && window.asservFromCond == 1 && window.asservSet !== 0 ) {
           // beware changing kit means re-rendering instrument object which causes audio griches/slowdowns : try to change this param as less ass possible
           if ( KitNumber != window.nextKit ) {    
             //console.log('puppet master changes kit to: ', window.nextKit);
@@ -1824,7 +2093,7 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
         }  
 
 
-        if ( typeof window.nextPreset !== 'undefined' && $('#presets').length > 0 && window.asservFromCond == 1 ) {
+        if ( typeof window.nextPreset !== 'undefined' && $('#presets').length > 0 && window.asservFromCond == 1 && window.asservSet !== 0 ) {
 
           window.loadedPresets = [];
 
@@ -1863,11 +2132,23 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
           }
 
 
+
+
+
+
+
           if ( typeof window.patternSequencer !== 'undefined' ) {
 
             if ( typeof window.ptnindex == 'undefined' ) {
               window.ptnindex = 0;
             }
+
+
+if ( typeof window.puppetImpulse !== 'undefined' ) {
+  //console.log(window.puppetImpulse);
+}
+
+
 
 
             if ( window.oddeven == 0 && window.ptnindex == 0) {
@@ -1888,9 +2169,37 @@ if (typeof window.patternSequencer[window.playedPatternOrder] !== 'undefined') {
               nextPlayedPattern = 0;
             }
 
+
+if ( typeof window.puppetImpulse !== 'undefined' ) {
+  if ( window.puppetImpulse == 1 ) {
+    nextPlayedPattern = 0;
+    window.ptnindex = 0;
+    window.oddeven = 0;
+    //console.log('play first bar after puppetImpulse! Shaboom!');
+  }  
+}
+
+
+if ( typeof window.puppetImpulse !== 'undefined' ) {
+  window.puppetImpulse = 0;
+}
+
+
+
+
+
+
             //console.log('next pattern index, window.ptnindex, ptnSeq length: ', nextPlayedPattern, window.ptnindex, window.patternSequencer.length, window.patternSequencer, window.patternSequencerOri, window.oddeven);
+          
+            //nextPlayedPattern, window.ptnindex, window.oddeven, ptnSeq, ptnSeqOri: 
+
+            //console.log('nextPtn, ptnind, oddeven: ', nextPlayedPattern, window.ptnindex, window.oddeven/*, window.patternSequencer, window.patternSequencerOri*/);
 
           }
+
+
+
+
 
           window.playedPatternOrder = nextPlayedPattern;
 

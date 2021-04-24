@@ -179,8 +179,8 @@
 
     //*
     if ( aaddii2.substring(0,5) == 'input' ) {
-      //mixerInfoMatrix[aaddii2] = $(this).val();
-      mixerInfoMatrix.aaddii2 = $(this).val();
+      mixerInfoMatrix[aaddii2] = $(this).val();
+      //mixerInfoMatrix.aaddii2 = $(this).val();
     } 
     //*/
 
@@ -194,7 +194,7 @@
 
   window['song_'+currts].mixerInfo = mixerInfoMatrix;
 
-  console.log(mixerInfoMatrix); // partOrderMatrix
+  //console.log(mixerInfoMatrix); // partOrderMatrix
 
 
   //partCounter = 0;      

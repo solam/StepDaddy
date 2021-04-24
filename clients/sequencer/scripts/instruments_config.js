@@ -531,7 +531,7 @@ change_ptn_change_kit2:
     [           
 
 //*
-      { name: 'Choose pattern', 
+      { name: 'Change pattern', // Choose
         id: 994,
         type: 'ddmenu', 
         x: {
@@ -586,23 +586,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
       },  
 
 
-//*
-      { name: 'Change note range/pitch', // Choose
-        id: 998,
-        type: 'ddmenu', 
-        x: {
-          name: 'Instrument/Octave',
-          param: '[external]', 
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0, // 0: off | 1: on                   
-          displayedRangeMin: 0,
-          displayedRangeMax: '[calc]',
-          min: 0,
-          max: '[calc]'
-        }                 
-      },       
-//*/
+
 
 
 
@@ -806,7 +790,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
 
 
 
-      { name: 'Choose preset', 
+      { name: 'Change preset', 
         id: 992,
         type: 'ddmenu', 
         x: {
@@ -838,7 +822,26 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
           stepSize: 0, 
           interpolate: 0 
         }                 
-      },           
+      }           
+
+
+//*
+      ,{ name: 'Change kit', // Choose
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      }       
+//*/
 
 
 /*
@@ -915,7 +918,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
     [           
 
 //*
-      { name: 'Choose pattern', 
+      { name: 'Change pattern', 
         id: 994,
         type: 'ddmenu', 
         x: {
@@ -971,7 +974,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
 
 
 //*
-      { name: 'Choose drumkit', // Choose - Change note range/pitch
+      { name: 'Change drumkit', // Choose - Change note range/pitch
         id: 998,
         type: 'ddmenu', 
         x: {
@@ -1298,7 +1301,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
     [           
 
 //*
-      { name: 'Choose pattern', 
+      { name: 'Change pattern', // Choose
         id: 994,
         type: 'ddmenu', 
         x: {
@@ -1353,24 +1356,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
       },  
 
 
-//*
-      { name: 'Choose input mode', // Choose - Change note range/pitch
-        id: 998,
-        type: 'ddmenu', 
-        x: {
-          name: 'Instrument/Octave',
-          param: '[external]', 
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0, // 0: off | 1: on                   
-          displayedRangeMin: 0,
-          displayedRangeMax: '[calc]',
-          min: 0,
-          max: '[calc]'
-        }                 
-      },       
-//*/
-      
+
 
 { 
             name: 'osc1 vol',
@@ -1574,7 +1560,7 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
 
 
 
-      { name: 'Choose preset', 
+      { name: 'Change preset', 
         id: 992,
         type: 'ddmenu', 
         x: {
@@ -1606,7 +1592,28 @@ value: 1, // pattern Seq enable or disable at startup = 0: off | 1: On
           stepSize: 0, 
           interpolate: 0 
         }                 
-      },           
+      }          
+
+
+//*
+      ,{ name: 'Change kit', // Choose - Change note range/pitch Choose input mode
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      }       
+//*/
+      
+
 
 
 /*
@@ -2143,24 +2150,6 @@ fspaAudioWorkletPolySynth: [
 
 
 
-/*
-
-      { name: 'Change note range/pitch', // Choose
-        id: 998,
-        type: 'ddmenu', 
-        x: {
-          name: 'Instrument/Octave',
-          param: '[external]', 
-          value: 0,
-          stepSize: 0, 
-          interpolate: 0, // 0: off | 1: on                   
-          displayedRangeMin: 0,
-          displayedRangeMax: '[calc]',
-          min: 0,
-          max: '[calc]'
-        }                 
-      },         
-*/
 
 
       
@@ -2442,7 +2431,7 @@ fspaAudioWorkletPolySynth: [
 
 
     // fspa main vol should be detached from preset save as part playing would force channel volume (preset overrides manual parameters on ch mixer of conductor role)                              
-    //*                          
+    /*                          
       ,{ 
     name: 'masterAmp',
     id: 16,
@@ -2617,6 +2606,24 @@ fspaAudioWorkletPolySynth: [
       }     
 
 
+//*
+
+      ,{ name: 'Change kit', // Choose note range/pitch instrument kit
+        id: 998,
+        type: 'ddmenu', 
+        x: {
+          name: 'Instrument/Octave',
+          param: '[external]', 
+          value: 0,
+          stepSize: 0, 
+          interpolate: 0, // 0: off | 1: on                   
+          displayedRangeMin: 0,
+          displayedRangeMax: '[calc]',
+          min: 0,
+          max: '[calc]'
+        }                 
+      }        
+//*/
 
 
 
@@ -4710,7 +4717,7 @@ conductor4: [ //
               }, 
 
               midicc: 7,  // 74                    
-              value: 30, //
+              value: 22, // 30
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               mute: 1, // 0: off | 1: on  
@@ -4802,7 +4809,7 @@ conductor4: [ //
                 CWilsoWAMidiSynth: 'onUpdateVolume', 
                 JoeSullivanDrumSynth: 'jsDrumMainvolume'  
               },                   
-              value: 16, // 23
+              value: 18, // 23
               stepSize: 0, 
               interpolate: 1, 
               midicc: 13,
@@ -5165,13 +5172,16 @@ conductor4: [ //
               }, 
 
               midicc: 7,  // 74                    
-              value: 30, //
+              value: 20, // 30
               stepSize: 0, // crénelage   
               interpolate: 1, // 0: off | 1: on                   
               mute: 1, // 0: off | 1: on  
               muteKey: 49, // beware fr,fr azerty keyboard
               muteNote: 48,
-              solo: 1,               
+              solo: 1,  
+sync: 1,             
+ptn: 1,
+set: 1,
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -5209,6 +5219,9 @@ conductor4: [ //
               muteKey: 50,    
               muteNote: 50,   
               solo: 1,   
+              sync: 1,             
+              ptn: 1,
+              set: 1,              
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -5238,6 +5251,9 @@ conductor4: [ //
               muteKey: 51,                
               muteNote: 52,
               solo: 1,
+              sync: 1,             
+              ptn: 1,
+              set: 1,                 
               displayedRangeMax: 100,
               min: 0,
               max: 1
@@ -5265,6 +5281,9 @@ conductor4: [ //
               muteKey: 52,  
               muteNote: 53,
               solo: 1,
+              sync: 1,             
+              ptn: 1,
+              set: 1,                 
               displayedRangeMin: 0,
               displayedRangeMax: 100,
               min: 0,
@@ -5296,6 +5315,9 @@ conductor4: [ //
               muteKey: 53,                
               muteNote: 55,
               solo: 1,
+              sync: 1,             
+              ptn: 1,
+              set: 1,                 
               min: 0,
               max: 1
           }                
@@ -5324,6 +5346,9 @@ conductor4: [ //
               muteKey: 54,                
               muteNote: 57,
               solo: 1,
+              sync: 1,             
+              ptn: 1,
+              set: 1,                 
               min: 0,
               max: 1
           }                
@@ -5352,6 +5377,9 @@ conductor4: [ //
               autoValIncMode: 0, // 0: off | 1: on 
               autoValIncBy: 4, // -1 - 1
               autoValIncTime: 8,
+              sync: 1,
+              //ptn: 1, // alow sync button initial state to be active (aka green color) ? = no
+              //set: 0,                
           }               
         },
 

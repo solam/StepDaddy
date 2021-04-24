@@ -1,6 +1,6 @@
 (function() {
 
-  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote, displayedRange, solo) {
+  mixr.ui.Slider = function(id, name, container, value, controlObject, channelId, usedLibrary, orientation, mute, midicc, muteNote, displayedRange, solo, sync) {
 
     /**
      * Mixins
@@ -27,6 +27,7 @@
     var _muteNote = muteNote;
 
     var _solo = solo;
+    var _sync = sync;
     var _displayedRange = displayedRange;
         
     var $container = $(container);
@@ -82,6 +83,58 @@
 
 
         window['oldSliVal'+_id] = _value;
+
+//* // beware for perf mode this does not work on mobile !!!! 15 april '21
+
+/*
+? replace with
+
+
+      touchClick("#button"+_id+" a.trigger-button", 'touchstart mousedown', function(e) {
+        e.preventDefault();
+        _onMouseDown();      
+      }) 
+*/
+
+   keypressSlider.addEventListener('click', function(e) { //  touchstart click
+
+
+      if ( e.screenX && e.screenX != 0 && e.screenY && e.screenY != 0 ) { // https://stackoverflow.com/questions/29798010/detect-whether-an-event-is-triggered-by-user-and-not-programmatically - all the solutions I tried, e.isTrusted or e.originalEvent or 'e.which' which all fail when we fire a DOM click like $("#button")[0].click(); Your's is the only solution which works across all scenarios and combination of clicks. But unfortunately it doesn't work for keyboard clicks.
+         console.log("real button click", e.isTrusted, e.originalEvent);
+
+        // only send msg if window.asservSet no set aka first trigger of slider event (if asservSet not set or equal to 1)
+        // aka prevent sending at subsequent slider events after "first" slider event
+        if ( window.asservSet != 0 ) {
+
+          if ( $('body').hasClass('control') ) {
+
+          } else {  
+
+          console.log('user modified preset');
+          window.asservSet = 0;    
+          window.asservFromCond = 0;
+          var channelNumb = 600 + Number(window.channelNumber) -1;            
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 } );     
+
+          }
+        }
+       }   
+
+
+   });
+//*/
+/*
+$(document).on('touchstart click', 'slider'+_id, function(event) {
+        if(event.handled === false) return
+        event.stopPropagation();
+        event.preventDefault();
+        event.handled = true;
+
+
+
+});
+*/
+
 
 
         keypressSlider.noUiSlider.on('update', function( values, handle ) {
@@ -304,7 +357,7 @@ if (typeof _ctrlObj.x.minValue !== 'undefined') {
 
 }
 
-
+//console.log('pT: ', window.presetTrigger);
 
         if (typeof window.presetTrigger !== 'undefined') {
 
@@ -317,6 +370,7 @@ if (typeof _ctrlObj.x.minValue !== 'undefined') {
             $itemOptionUnsaved = $('<option class="user unsaved" id="option00001" value="0">[unsaved preset]</option>');
             $itemOptionUnsaved.appendTo(document.getElementById('presets'));
             $('#presets option[value="0"]').prop('selected',true);
+
 
           }
 
@@ -339,6 +393,25 @@ if (typeof _ctrlObj.x.minValue !== 'undefined') {
 
             // ir would be good to send slider values at conductor role page load ( so that channel volumes are set whatever channel instrument is loaded)
             //console.log(skwerotedValue, _id);
+
+
+/* // when uncommented creates huge fuckup for loading expected synth presets
+// !! need of thorough check of humain interaction to allow event to be emitted !!
+        if ( window.asservSet != 0 ) {
+
+          if ( $('body').hasClass('control') ) {
+
+          } else {  
+
+          console.log('user move slider, slider change not click event');
+          window.asservSet = 0;    
+          var channelNumb = 600 + Number(window.channelNumber) -1;            
+          _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: channelNumb, x: 0, channelId: 1 } );     
+
+          }
+        }
+//*/
+
 
             _self.emit(mixr.enums.Events.MODIFIER_CHANGE, {id: _id, x: skwerotedValue, y: 0, presetId: presetId, preset: preString, channelId: window.channelId});    
           }    
@@ -535,6 +608,106 @@ if (typeof _ctrlObj.x.minValue !== 'undefined') {
       }
 
 
+        if ( _sync != 0 ) { 
+
+          
+
+          var addii = _id - 100;
+
+          if ( _id == 999 ) {
+            var addii = 599;
+            //$('#pat599').addClass('active');
+          }  
+
+          console.log('_sync', _sync, addii);
+
+          var ptn = document.getElementById('pat'+addii);          
+
+          if ( _sync.substring(0,1) == '1' ) {
+            //ptn.addClass('active');
+            $('#pat'+ addii).addClass('active');
+          }           
+
+          ptn.addEventListener('click', function() {
+
+            $('#pat'+ addii).addClass('active');
+
+
+          if ( _id == 999 ) {
+            $('.pats').addClass('active');
+            $('.sets').addClass('active');
+            $('#pat599').addClass('active');
+          }  
+
+            
+
+if ( $(".pats").not(".active").length > 0 || $(".sets").not(".active").length > 0 ) {
+  $('#pat599').removeClass('active');
+} 
+
+if ( $(".pats").not(".active").length == 0 && $(".sets").not(".active").length == 0 ) {
+  $('#pat599').addClass('active');
+}
+
+
+
+            skwerotedValue = 1;
+
+            var chid = +addii.toString().split('').pop(); // i.e 700 to 0 for channel 1 
+
+            console.log('-', addii, chid, _sync.substring(1,1));
+
+
+
+
+            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: addii, x: skwerotedValue, /*y: 0, presetId: presetId, preset: preString, */channelId: chid });
+
+          });
+
+
+
+
+
+          var addiiSet = _id - 200;
+          var set = document.getElementById('set' + addiiSet);    
+
+        if ( set !== null ) {       
+
+          if ( _sync.substring(2,1) == '1' ) {
+            $('#set' + addiiSet).addClass('active');
+          }           
+
+          set.addEventListener('click', function() {
+            $('#set' + addiiSet).addClass('active');
+            
+if ( $(".pats").not(".active").length > 0 || $(".sets").not(".active").length > 0 ) {
+  $('#pat599').removeClass('active');
+} else {
+  $('#pat599').addClass('active');
+}
+
+            skwerotedValue = 1;
+
+            var chid = +addiiSet.toString().split('').pop(); // i.e 700 to 0 for channel 1 
+
+            console.log('-', addii, chid, _sync.substring(2,1));
+
+            _self.emit(mixr.enums.Events.MODIFIER_CHANGE, { id: addiiSet, x: skwerotedValue, channelId: chid });
+
+          });
+
+
+        }
+
+
+
+        }  
+
+
+
+
+
+
       } else if (usedLibrary=='Interface') {
 
       } else {
@@ -588,6 +761,30 @@ if (typeof _ctrlObj.x.minValue !== 'undefined') {
           $mute = $('</div>');
           $mute.appendTo($item);
         }
+
+        if (_sync != 0) { 
+
+
+          if ( _id == 999 ) {
+
+            $sync = $('<span class="syncs" id="pat599" title="resync all channels\' patterns, presets, kits according to currently played part">Sync</span></div>'); 
+
+          } else {
+
+          var addddddi = _id - 100;
+          var addddddiSet = _id - 200;
+
+          $sync = $('<span class="pats" id="pat'+ addddddi +'" title="green: user\'s pattern list is synced to conductor\'s part sequencer">Ptn</span><span title="red: user allowed to change preset and kit on the fly" class="sets" id="set'+ addddddiSet +'">Set</span></div>'); // patterns: freestyle (red) vs. synchronized to conductor\'s part sequencer (green)
+          
+          }
+
+
+          $sync.appendTo($item);
+        } else {
+          $sync = $('</div>');
+          $sync.appendTo($item);
+        }
+
 
         $item.append('<div class="infoContainer"><span title="'+_ctrlObj.name+'">'+name+'</span></div>');
         $item.appendTo($container);
